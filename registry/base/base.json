@@ -1,0 +1,121 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "base",
+  "type": "registry:style",
+  "title": "GameScience Base",
+  "description": "Provider, token foundations, utilities, and shared types.",
+  "dependencies": [
+    "class-variance-authority",
+    "clsx",
+    "tailwind-merge",
+    "sonner",
+    "lucide-react",
+    "@radix-ui/react-slot",
+    "@radix-ui/react-label",
+    "@radix-ui/react-progress"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/foundations/tokens.css",
+      "type": "registry:file",
+      "target": "src/foundations/tokens.css",
+      "content": "/**\n * GameScience semantic token contract.\n * Themes must implement every custom property listed here.\n * Values here are structural fallbacks only; visual identity lives in theme CSS.\n */\n\n:root {\n  /* Colour */\n  --background: 0 0% 100%;\n  --foreground: 222 47% 11%;\n\n  --surface: 0 0% 100%;\n  --surface-subtle: 210 40% 98%;\n  --surface-raised: 0 0% 100%;\n  --surface-overlay: 0 0% 100%;\n\n  --border: 214 32% 91%;\n  --border-strong: 215 20% 65%;\n  --focus-ring: 221 83% 53%;\n\n  --primary: 221 83% 53%;\n  --primary-hover: 221 83% 47%;\n  --primary-active: 221 83% 41%;\n  --primary-foreground: 0 0% 100%;\n\n  --secondary: 210 40% 96%;\n  --secondary-hover: 214 32% 91%;\n  --secondary-active: 213 27% 84%;\n  --secondary-foreground: 222 47% 11%;\n\n  --accent: 199 89% 48%;\n  --accent-foreground: 0 0% 100%;\n\n  --muted: 210 40% 96%;\n  --muted-foreground: 215 16% 47%;\n\n  --success: 142 71% 35%;\n  --success-foreground: 0 0% 100%;\n  --warning: 38 92% 50%;\n  --warning-foreground: 26 83% 14%;\n  --danger: 0 72% 51%;\n  --danger-foreground: 0 0% 100%;\n  --information: 199 89% 48%;\n  --information-foreground: 0 0% 100%;\n\n  /* Shape */\n  --radius-control: 0.5rem;\n  --radius-card: 0.75rem;\n  --radius-panel: 1rem;\n  --radius-overlay: 1rem;\n  --radius-pill: 9999px;\n\n  --border-width-control: 1px;\n  --border-width-panel: 1px;\n\n  /* Typography */\n  --font-display: \"Source Sans 3\", \"Segoe UI\", sans-serif;\n  --font-body: \"Source Sans 3\", \"Segoe UI\", sans-serif;\n  --font-mono: \"IBM Plex Mono\", ui-monospace, monospace;\n\n  --font-weight-heading: 700;\n  --font-weight-label: 600;\n  --font-weight-body: 400;\n\n  --tracking-heading: -0.02em;\n  --tracking-label: 0.02em;\n  --text-transform-label: none;\n\n  /* Sizing and density */\n  --control-height-sm: 2rem;\n  --control-height-md: 2.5rem;\n  --control-height-lg: 3rem;\n\n  --control-padding-inline-sm: 0.75rem;\n  --control-padding-inline-md: 1rem;\n  --control-padding-inline-lg: 1.25rem;\n\n  --panel-padding-sm: 0.75rem;\n  --panel-padding-md: 1.25rem;\n  --panel-padding-lg: 1.75rem;\n\n  --section-gap: 1.5rem;\n  --content-max-width: 42rem;\n\n  /* Depth */\n  --shadow-control: 0 1px 2px rgb(15 23 42 / 0.06);\n  --shadow-card: 0 4px 16px rgb(15 23 42 / 0.08);\n  --shadow-overlay: 0 16px 40px rgb(15 23 42 / 0.16);\n  --shadow-focus: 0 0 0 3px hsl(var(--focus-ring) / 0.35);\n\n  /* Motion */\n  --duration-fast: 120ms;\n  --duration-standard: 200ms;\n  --duration-emphasis: 320ms;\n\n  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);\n  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);\n\n  --press-scale: 0.98;\n  --hover-translate: -1px;\n\n  /* Context-tunable type scale */\n  --type-scale-display: clamp(1.75rem, 2vw + 1rem, 2.5rem);\n  --type-scale-title: clamp(1.25rem, 1vw + 1rem, 1.75rem);\n  --type-scale-body: 1rem;\n  --type-scale-label: 0.875rem;\n  --type-scale-code: 1.125rem;\n}\n"
+    },
+    {
+      "path": "src/foundations/typography.css",
+      "type": "registry:file",
+      "target": "src/foundations/typography.css",
+      "content": "@layer base {\n  html {\n    font-family: var(--font-body);\n    font-weight: var(--font-weight-body);\n    line-height: 1.5;\n    text-rendering: optimizeLegibility;\n    -webkit-font-smoothing: antialiased;\n  }\n\n  h1,\n  h2,\n  h3,\n  .gs-display {\n    font-family: var(--font-display);\n    font-weight: var(--font-weight-heading);\n    letter-spacing: var(--tracking-heading);\n    line-height: 1.15;\n  }\n\n  h1,\n  .gs-display {\n    font-size: var(--type-scale-display);\n  }\n\n  h2,\n  .gs-title {\n    font-size: var(--type-scale-title);\n  }\n\n  p,\n  .gs-body {\n    font-size: var(--type-scale-body);\n  }\n\n  label,\n  .gs-label {\n    font-size: var(--type-scale-label);\n    font-weight: var(--font-weight-label);\n    letter-spacing: var(--tracking-label);\n    text-transform: var(--text-transform-label);\n  }\n\n  code,\n  kbd,\n  .gs-mono {\n    font-family: var(--font-mono);\n    font-size: var(--type-scale-code);\n  }\n}\n"
+    },
+    {
+      "path": "src/foundations/motion.css",
+      "type": "registry:file",
+      "target": "src/foundations/motion.css",
+      "content": "@media (prefers-reduced-motion: reduce) {\n  :root {\n    --duration-fast: 0ms;\n    --duration-standard: 0ms;\n    --duration-emphasis: 0ms;\n    --press-scale: 1;\n    --hover-translate: 0px;\n  }\n\n  *,\n  *::before,\n  *::after {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}\n\n.gs-pressable:active:not(:disabled) {\n  transform: scale(var(--press-scale));\n}\n"
+    },
+    {
+      "path": "src/foundations/responsive.css",
+      "type": "registry:file",
+      "target": "src/foundations/responsive.css",
+      "content": "/**\n * Experience-context density and scale.\n * Applied via [data-context] on GameScienceProvider.\n */\n\n[data-context=\"participant\"] {\n  --control-height-sm: 2.5rem;\n  --control-height-md: 2.75rem;\n  --control-height-lg: 3.25rem;\n  --control-padding-inline-sm: 1rem;\n  --control-padding-inline-md: 1.25rem;\n  --control-padding-inline-lg: 1.5rem;\n  --panel-padding-sm: 1rem;\n  --panel-padding-md: 1.5rem;\n  --panel-padding-lg: 2rem;\n  --section-gap: 1.25rem;\n  --content-max-width: 28rem;\n  --type-scale-display: clamp(1.75rem, 4vw + 1rem, 2.25rem);\n  --type-scale-title: clamp(1.25rem, 2vw + 1rem, 1.5rem);\n  --type-scale-body: 1.0625rem;\n  --type-scale-label: 0.9375rem;\n  --type-scale-code: 1.25rem;\n}\n\n[data-context=\"facilitator\"] {\n  --control-height-sm: 2rem;\n  --control-height-md: 2.25rem;\n  --control-height-lg: 2.75rem;\n  --control-padding-inline-sm: 0.75rem;\n  --control-padding-inline-md: 0.875rem;\n  --control-padding-inline-lg: 1.125rem;\n  --panel-padding-sm: 0.75rem;\n  --panel-padding-md: 1rem;\n  --panel-padding-lg: 1.25rem;\n  --section-gap: 1rem;\n  --content-max-width: 72rem;\n  --type-scale-display: clamp(1.5rem, 1vw + 1rem, 2rem);\n  --type-scale-title: 1.25rem;\n  --type-scale-body: 0.9375rem;\n  --type-scale-label: 0.8125rem;\n  --type-scale-code: 1rem;\n}\n\n[data-context=\"shared-display\"] {\n  --control-height-sm: 3rem;\n  --control-height-md: 3.5rem;\n  --control-height-lg: 4rem;\n  --panel-padding-sm: 1.5rem;\n  --panel-padding-md: 2.5rem;\n  --panel-padding-lg: 3.5rem;\n  --section-gap: 2.5rem;\n  --content-max-width: 90rem;\n  --type-scale-display: clamp(3rem, 5vw + 1rem, 5.5rem);\n  --type-scale-title: clamp(2rem, 3vw + 1rem, 3.5rem);\n  --type-scale-body: clamp(1.25rem, 1.2vw + 1rem, 1.75rem);\n  --type-scale-label: clamp(1rem, 0.8vw + 0.75rem, 1.25rem);\n  --type-scale-code: clamp(2.5rem, 4vw + 1rem, 4.5rem);\n  --radius-panel: 1.25rem;\n}\n\n[data-context=\"participant\"] .gs-touch-target {\n  min-height: 44px;\n  min-width: 44px;\n}\n\n[data-context=\"shared-display\"] .gs-interactive-only {\n  display: none !important;\n}\n"
+    },
+    {
+      "path": "src/foundations/index.css",
+      "type": "registry:file",
+      "target": "src/foundations/index.css",
+      "content": "@import url(\"https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap\");\n\n@import \"./tokens.css\";\n@import \"./typography.css\";\n@import \"./motion.css\";\n@import \"./responsive.css\";\n\n@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n@layer base {\n  *,\n  *::before,\n  *::after {\n    @apply border-border;\n  }\n\n  body {\n    @apply bg-background font-body text-foreground antialiased;\n    margin: 0;\n    min-height: 100vh;\n  }\n\n  :focus-visible {\n    outline: none;\n    box-shadow: var(--shadow-focus);\n  }\n}\n"
+    },
+    {
+      "path": "src/themes/theme-contract.ts",
+      "type": "registry:lib",
+      "target": "src/themes/theme-contract.ts",
+      "content": "/**\n * Machine-checkable semantic token contract for GameScience themes.\n * Both gamescience and citadel CSS files must declare every token.\n */\n\nexport const REQUIRED_THEME_TOKENS = [\n  // Colour\n  \"--background\",\n  \"--foreground\",\n  \"--surface\",\n  \"--surface-subtle\",\n  \"--surface-raised\",\n  \"--surface-overlay\",\n  \"--border\",\n  \"--border-strong\",\n  \"--focus-ring\",\n  \"--primary\",\n  \"--primary-hover\",\n  \"--primary-active\",\n  \"--primary-foreground\",\n  \"--secondary\",\n  \"--secondary-hover\",\n  \"--secondary-active\",\n  \"--secondary-foreground\",\n  \"--accent\",\n  \"--accent-foreground\",\n  \"--muted\",\n  \"--muted-foreground\",\n  \"--success\",\n  \"--success-foreground\",\n  \"--warning\",\n  \"--warning-foreground\",\n  \"--danger\",\n  \"--danger-foreground\",\n  \"--information\",\n  \"--information-foreground\",\n  // Shape\n  \"--radius-control\",\n  \"--radius-card\",\n  \"--radius-panel\",\n  \"--radius-overlay\",\n  \"--radius-pill\",\n  \"--border-width-control\",\n  \"--border-width-panel\",\n  // Typography\n  \"--font-display\",\n  \"--font-body\",\n  \"--font-mono\",\n  \"--font-weight-heading\",\n  \"--font-weight-label\",\n  \"--font-weight-body\",\n  \"--tracking-heading\",\n  \"--tracking-label\",\n  \"--text-transform-label\",\n  // Sizing and density\n  \"--control-height-sm\",\n  \"--control-height-md\",\n  \"--control-height-lg\",\n  \"--control-padding-inline-sm\",\n  \"--control-padding-inline-md\",\n  \"--control-padding-inline-lg\",\n  \"--panel-padding-sm\",\n  \"--panel-padding-md\",\n  \"--panel-padding-lg\",\n  \"--section-gap\",\n  \"--content-max-width\",\n  // Depth\n  \"--shadow-control\",\n  \"--shadow-card\",\n  \"--shadow-overlay\",\n  \"--shadow-focus\",\n  // Motion\n  \"--duration-fast\",\n  \"--duration-standard\",\n  \"--duration-emphasis\",\n  \"--ease-standard\",\n  \"--ease-emphasis\",\n  \"--press-scale\",\n  \"--hover-translate\",\n] as const;\n\nexport type ThemeToken = (typeof REQUIRED_THEME_TOKENS)[number];\n\nexport const SUPPORTED_THEMES = [\"gamescience\", \"citadel\"] as const;\nexport type GameTheme = (typeof SUPPORTED_THEMES)[number];\n\nexport const SUPPORTED_CONTEXTS = [\"participant\", \"facilitator\", \"shared-display\"] as const;\nexport type ExperienceContext = (typeof SUPPORTED_CONTEXTS)[number];\n"
+    },
+    {
+      "path": "src/themes/index.ts",
+      "type": "registry:lib",
+      "target": "src/themes/index.ts",
+      "content": "export {\n  REQUIRED_THEME_TOKENS,\n  SUPPORTED_CONTEXTS,\n  SUPPORTED_THEMES,\n  type ExperienceContext,\n  type GameTheme,\n  type ThemeToken,\n} from \"./theme-contract\";\n"
+    },
+    {
+      "path": "src/lib/cn.ts",
+      "type": "registry:lib",
+      "target": "src/lib/cn.ts",
+      "content": "import { type ClassValue, clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    },
+    {
+      "path": "src/lib/accessibility.ts",
+      "type": "registry:lib",
+      "target": "src/lib/accessibility.ts",
+      "content": "/** Shared accessibility helpers for GameScience components. */\n\nexport function announcePoliteness(\n  state: \"idle\" | \"busy\" | \"assertive\",\n): \"off\" | \"polite\" | \"assertive\" {\n  if (state === \"assertive\") return \"assertive\";\n  if (state === \"busy\") return \"polite\";\n  return \"off\";\n}\n\nexport function statusLabel(status: string, fallbackMap: Record<string, string>): string {\n  return fallbackMap[status] ?? status.replace(/-/g, \" \");\n}\n"
+    },
+    {
+      "path": "src/lib/version.ts",
+      "type": "registry:lib",
+      "target": "src/lib/version.ts",
+      "content": "/** Installed GameScience UI library version metadata. */\nexport const GAMESCIENCE_UI_VERSION = \"0.1.0\";\n"
+    },
+    {
+      "path": "src/providers/game-theme-context.ts",
+      "type": "registry:lib",
+      "target": "src/providers/game-theme-context.ts",
+      "content": "import { createContext, useContext } from \"react\";\nimport type { GameTheme } from \"@/themes/theme-contract\";\n\nexport interface GameThemeContextValue {\n  theme: GameTheme;\n}\n\nexport const GameThemeContext = createContext<GameThemeContextValue | null>(null);\n\nexport function useGameTheme(): GameThemeContextValue {\n  const value = useContext(GameThemeContext);\n  if (!value) {\n    throw new Error(\"useGameTheme must be used within GameScienceProvider\");\n  }\n  return value;\n}\n"
+    },
+    {
+      "path": "src/providers/experience-context.ts",
+      "type": "registry:lib",
+      "target": "src/providers/experience-context.ts",
+      "content": "import { createContext, useContext } from \"react\";\nimport type { ExperienceContext } from \"@/themes/theme-contract\";\n\nexport interface ExperienceContextValue {\n  context: ExperienceContext;\n}\n\nexport const ExperienceReactContext = createContext<ExperienceContextValue | null>(null);\n\nexport function useExperienceContext(): ExperienceContextValue {\n  const value = useContext(ExperienceReactContext);\n  if (!value) {\n    throw new Error(\"useExperienceContext must be used within GameScienceProvider\");\n  }\n  return value;\n}\n"
+    },
+    {
+      "path": "src/providers/gamescience-provider.tsx",
+      "type": "registry:component",
+      "target": "src/providers/gamescience-provider.tsx",
+      "content": "import type { ReactNode } from \"react\";\nimport { cn } from \"@/lib/cn\";\nimport {\n  SUPPORTED_CONTEXTS,\n  SUPPORTED_THEMES,\n  type ExperienceContext,\n  type GameTheme,\n} from \"@/themes/theme-contract\";\nimport { ExperienceReactContext } from \"./experience-context\";\nimport { GameThemeContext } from \"./game-theme-context\";\n\nexport interface GameScienceProviderProps {\n  theme: GameTheme;\n  context: ExperienceContext;\n  children: ReactNode;\n  className?: string;\n}\n\nfunction assertTheme(theme: string): asserts theme is GameTheme {\n  if (!(SUPPORTED_THEMES as readonly string[]).includes(theme)) {\n    throw new Error(\n      `Unsupported GameScience theme \"${theme}\". Supported themes: ${SUPPORTED_THEMES.join(\", \")}`,\n    );\n  }\n}\n\nfunction assertContext(context: string): asserts context is ExperienceContext {\n  if (!(SUPPORTED_CONTEXTS as readonly string[]).includes(context)) {\n    throw new Error(\n      `Unsupported experience context \"${context}\". Supported contexts: ${SUPPORTED_CONTEXTS.join(\", \")}`,\n    );\n  }\n}\n\nexport function GameScienceProvider({\n  theme,\n  context,\n  children,\n  className,\n}: GameScienceProviderProps) {\n  assertTheme(theme);\n  assertContext(context);\n\n  return (\n    <GameThemeContext.Provider value={{ theme }}>\n      <ExperienceReactContext.Provider value={{ context }}>\n        <div\n          data-theme={theme}\n          data-context={context}\n          data-gamescience-ui\n          className={cn(\"min-h-screen bg-background font-body text-foreground\", className)}\n        >\n          {children}\n        </div>\n      </ExperienceReactContext.Provider>\n    </GameThemeContext.Provider>\n  );\n}\n\nGameScienceProvider.displayName = \"GameScienceProvider\";\n"
+    },
+    {
+      "path": "src/providers/index.ts",
+      "type": "registry:lib",
+      "target": "src/providers/index.ts",
+      "content": "export { GameScienceProvider, type GameScienceProviderProps } from \"./gamescience-provider\";\nexport { useGameTheme, type GameThemeContextValue } from \"./game-theme-context\";\nexport { useExperienceContext, type ExperienceContextValue } from \"./experience-context\";\n"
+    },
+    {
+      "path": "src/types/game.ts",
+      "type": "registry:lib",
+      "target": "src/types/game.ts",
+      "content": "export type GameStage =\n  | \"join\"\n  | \"lobby\"\n  | \"role-allocation\"\n  | \"briefing\"\n  | \"information\"\n  | \"discussion\"\n  | \"decision\"\n  | \"vote\"\n  | \"event\"\n  | \"results\"\n  | \"debrief\";\n\nexport type StageStatus = \"not-started\" | \"ready\" | \"active\" | \"paused\" | \"complete\" | \"locked\";\n\nexport type ConnectionState = \"connected\" | \"reconnecting\" | \"offline\";\n\nexport type ReadinessState = \"not-ready\" | \"ready\" | \"submitted\" | \"waiting\";\n\nexport interface ParticipantSummary {\n  id: string;\n  displayName: string;\n  connection: ConnectionState;\n  readiness: ReadinessState;\n}\n\nexport interface SessionSummary {\n  code: string;\n  title?: string;\n  participantCount: number;\n  expectedParticipantCount?: number;\n  stage: GameStage;\n  status: StageStatus;\n}\n"
+    },
+    {
+      "path": "src/components/ui/sonner.tsx",
+      "type": "registry:ui",
+      "target": "src/components/ui/sonner.tsx",
+      "content": "import { Toaster as Sonner, type ToasterProps } from \"sonner\";\n\n/**\n * Sonner is the only approved transient notification system.\n * Do not add legacy toast/toaster/use-toast implementations.\n */\nfunction Toaster(props: ToasterProps) {\n  return (\n    <Sonner\n      theme=\"system\"\n      className=\"toaster group\"\n      toastOptions={{\n        classNames: {\n          toast:\n            \"group toast group-[.toaster]:bg-surface group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-overlay\",\n          description: \"group-[.toast]:text-muted-foreground\",\n          actionButton: \"group-[.toast]:bg-primary group-[.toast]:text-primary-foreground\",\n          cancelButton: \"group-[.toast]:bg-muted group-[.toast]:text-muted-foreground\",\n        },\n      }}\n      {...props}\n    />\n  );\n}\n\nToaster.displayName = \"Toaster\";\n\nexport { Toaster };\nexport { toast } from \"sonner\";\n"
+    }
+  ],
+  "meta": {
+    "category": "base",
+    "version": "0.1.0",
+    "namespace": "@gamescience"
+  }
+}

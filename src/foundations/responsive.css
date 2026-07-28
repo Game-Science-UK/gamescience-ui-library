@@ -1,0 +1,68 @@
+/**
+ * Experience-context density and scale.
+ * Applied via [data-context] on GameScienceProvider.
+ */
+
+[data-context="participant"] {
+  --control-height-sm: 2.5rem;
+  --control-height-md: 2.75rem;
+  --control-height-lg: 3.25rem;
+  --control-padding-inline-sm: 1rem;
+  --control-padding-inline-md: 1.25rem;
+  --control-padding-inline-lg: 1.5rem;
+  --panel-padding-sm: 1rem;
+  --panel-padding-md: 1.5rem;
+  --panel-padding-lg: 2rem;
+  --section-gap: 1.25rem;
+  --content-max-width: 28rem;
+  --type-scale-display: clamp(1.75rem, 4vw + 1rem, 2.25rem);
+  --type-scale-title: clamp(1.25rem, 2vw + 1rem, 1.5rem);
+  --type-scale-body: 1.0625rem;
+  --type-scale-label: 0.9375rem;
+  --type-scale-code: 1.25rem;
+}
+
+[data-context="facilitator"] {
+  --control-height-sm: 2rem;
+  --control-height-md: 2.25rem;
+  --control-height-lg: 2.75rem;
+  --control-padding-inline-sm: 0.75rem;
+  --control-padding-inline-md: 0.875rem;
+  --control-padding-inline-lg: 1.125rem;
+  --panel-padding-sm: 0.75rem;
+  --panel-padding-md: 1rem;
+  --panel-padding-lg: 1.25rem;
+  --section-gap: 1rem;
+  --content-max-width: 72rem;
+  --type-scale-display: clamp(1.5rem, 1vw + 1rem, 2rem);
+  --type-scale-title: 1.25rem;
+  --type-scale-body: 0.9375rem;
+  --type-scale-label: 0.8125rem;
+  --type-scale-code: 1rem;
+}
+
+[data-context="shared-display"] {
+  --control-height-sm: 3rem;
+  --control-height-md: 3.5rem;
+  --control-height-lg: 4rem;
+  --panel-padding-sm: 1.5rem;
+  --panel-padding-md: 2.5rem;
+  --panel-padding-lg: 3.5rem;
+  --section-gap: 2.5rem;
+  --content-max-width: 90rem;
+  --type-scale-display: clamp(3rem, 5vw + 1rem, 5.5rem);
+  --type-scale-title: clamp(2rem, 3vw + 1rem, 3.5rem);
+  --type-scale-body: clamp(1.25rem, 1.2vw + 1rem, 1.75rem);
+  --type-scale-label: clamp(1rem, 0.8vw + 0.75rem, 1.25rem);
+  --type-scale-code: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+  --radius-panel: 1.25rem;
+}
+
+[data-context="participant"] .gs-touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+[data-context="shared-display"] .gs-interactive-only {
+  display: none !important;
+}

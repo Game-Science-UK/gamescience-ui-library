@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "description": "Compact status and metadata label.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/badge.tsx",
+      "type": "registry:ui",
+      "target": "src/components/ui/badge.tsx",
+      "content": "import { cva, type VariantProps } from \"class-variance-authority\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nconst badgeVariants = cva(\n  \"inline-flex items-center rounded-pill border px-2.5 py-0.5 font-label text-[length:var(--type-scale-label)]\",\n  {\n    variants: {\n      intent: {\n        default: \"border-transparent bg-secondary text-secondary-foreground\",\n        primary: \"border-transparent bg-primary text-primary-foreground\",\n        success: \"border-transparent bg-success text-success-foreground\",\n        warning: \"border-transparent bg-warning text-warning-foreground\",\n        danger: \"border-transparent bg-danger text-danger-foreground\",\n        information: \"border-transparent bg-information text-information-foreground\",\n        outline: \"border-border-strong bg-transparent text-foreground\",\n      },\n    },\n    defaultVariants: {\n      intent: \"default\",\n    },\n  },\n);\n\nexport interface BadgeProps\n  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}\n\nfunction Badge({ className, intent, ...props }: BadgeProps) {\n  return <div className={cn(badgeVariants({ intent }), className)} {...props} />;\n}\n\nBadge.displayName = \"Badge\";\n\nexport { Badge, badgeVariants };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.1.0",
+    "namespace": "@gamescience"
+  }
+}

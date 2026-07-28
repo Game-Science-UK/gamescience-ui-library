@@ -1,0 +1,8 @@
+dist
+storybook-static
+public/registry
+registry/**/*.json
+node_modules
+coverage
+tmp
+package-lock.json

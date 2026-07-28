@@ -1,0 +1,108 @@
+/**
+ * Citadel theme — tactical, luminous, HUD-inspired.
+ * Visual identity only; no Citadel-specific component forks.
+ */
+
+[data-theme="citadel"] {
+  --background: 220 28% 7%;
+  --foreground: 190 40% 94%;
+
+  --surface: 220 24% 11%;
+  --surface-subtle: 220 22% 14%;
+  --surface-raised: 220 26% 13%;
+  --surface-overlay: 220 30% 10%;
+
+  --border: 190 35% 28%;
+  --border-strong: 186 72% 48%;
+  --focus-ring: 186 90% 52%;
+
+  --primary: 186 90% 46%;
+  --primary-hover: 186 90% 40%;
+  --primary-active: 186 88% 34%;
+  --primary-foreground: 220 40% 6%;
+
+  --secondary: 220 22% 16%;
+  --secondary-hover: 220 22% 20%;
+  --secondary-active: 220 24% 24%;
+  --secondary-foreground: 190 35% 90%;
+
+  --accent: 28 95% 55%;
+  --accent-foreground: 220 40% 6%;
+
+  --muted: 220 18% 16%;
+  --muted-foreground: 200 15% 68%;
+
+  --success: 152 70% 42%;
+  --success-foreground: 220 40% 6%;
+  --warning: 38 95% 52%;
+  --warning-foreground: 220 40% 6%;
+  --danger: 350 85% 55%;
+  --danger-foreground: 0 0% 100%;
+  --information: 205 90% 55%;
+  --information-foreground: 220 40% 6%;
+
+  --radius-control: 0.25rem;
+  --radius-card: 0.375rem;
+  --radius-panel: 0.375rem;
+  --radius-overlay: 0.5rem;
+  --radius-pill: 0.25rem;
+
+  --border-width-control: 1px;
+  --border-width-panel: 1px;
+
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --font-weight-heading: 700;
+  --font-weight-label: 600;
+  --font-weight-body: 400;
+
+  --tracking-heading: 0.02em;
+  --tracking-label: 0.08em;
+  --text-transform-label: uppercase;
+
+  --control-height-sm: 2rem;
+  --control-height-md: 2.5rem;
+  --control-height-lg: 3rem;
+
+  --control-padding-inline-sm: 0.75rem;
+  --control-padding-inline-md: 1rem;
+  --control-padding-inline-lg: 1.25rem;
+
+  --panel-padding-sm: 0.75rem;
+  --panel-padding-md: 1.25rem;
+  --panel-padding-lg: 1.75rem;
+
+  --section-gap: 1.5rem;
+  --content-max-width: 42rem;
+
+  --shadow-control: 0 0 0 1px hsl(190 40% 30% / 0.35), 0 2px 8px rgb(0 0 0 / 0.35);
+  --shadow-card: 0 0 0 1px hsl(190 50% 40% / 0.25), 0 12px 32px rgb(0 0 0 / 0.45);
+  --shadow-overlay: 0 0 0 1px hsl(186 70% 45% / 0.35), 0 24px 64px rgb(0 0 0 / 0.55);
+  --shadow-focus: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--focus-ring) / 0.75);
+
+  --duration-fast: 100ms;
+  --duration-standard: 180ms;
+  --duration-emphasis: 280ms;
+
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --press-scale: 0.98;
+  --hover-translate: 0px;
+
+  --gs-shell-gradient:
+    radial-gradient(ellipse at 50% -10%, hsl(186 80% 30% / 0.28), transparent 45%),
+    radial-gradient(ellipse at 100% 100%, hsl(28 90% 40% / 0.12), transparent 40%),
+    linear-gradient(180deg, hsl(220 28% 8%), hsl(220 30% 5%));
+}
+
+[data-theme="citadel"] [data-elevation="raised"],
+[data-theme="citadel"] .gs-panel[data-elevation="raised"] {
+  background: linear-gradient(145deg, hsl(220 26% 14% / 0.92), hsl(220 28% 10% / 0.88));
+  backdrop-filter: blur(12px);
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 hsl(190 60% 70% / 0.08);
+}

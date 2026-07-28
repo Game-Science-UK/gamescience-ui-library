@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shared-display-shell",
+  "type": "registry:block",
+  "title": "Shared Display Shell",
+  "description": "Landscape non-interactive shared display shell.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/templates/shared-display-shell/shared-display-shell.tsx",
+      "type": "registry:block",
+      "target": "src/templates/shared-display-shell/shared-display-shell.tsx",
+      "content": "import type { ReactNode } from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface SharedDisplayShellProps {\n  children: ReactNode;\n  className?: string;\n}\n\n/**\n * Landscape-first shell for non-interactive shared displays.\n * Avoid placing private participant information in this shell.\n */\nfunction SharedDisplayShell({ children, className }: SharedDisplayShellProps) {\n  return (\n    <div\n      className={cn(\n        \"relative min-h-screen overflow-hidden bg-[image:var(--gs-shell-gradient)] text-foreground\",\n        className,\n      )}\n      data-interactive=\"false\"\n    >\n      <div\n        aria-hidden=\"true\"\n        className=\"pointer-events-none absolute inset-0 opacity-40\"\n        style={{\n          backgroundImage:\n            \"radial-gradient(circle at 1px 1px, hsl(var(--border) / 0.35) 1px, transparent 0)\",\n          backgroundSize: \"32px 32px\",\n        }}\n      />\n      <main className=\"relative z-10 flex min-h-screen items-center justify-center p-8\">\n        {children}\n      </main>\n    </div>\n  );\n}\n\nSharedDisplayShell.displayName = \"SharedDisplayShell\";\n\nexport { SharedDisplayShell };\n"
+    }
+  ],
+  "meta": {
+    "category": "template",
+    "version": "0.1.0",
+    "namespace": "@gamescience"
+  }
+}

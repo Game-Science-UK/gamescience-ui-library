@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "room-code-display",
+  "type": "registry:component",
+  "title": "Room Code Display",
+  "description": "Large privacy-safe room code presentation.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/display/room-code-display.tsx",
+      "type": "registry:component",
+      "target": "src/components/display/room-code-display.tsx",
+      "content": "import { cn } from \"@/lib/cn\";\n\nexport interface RoomCodeDisplayProps {\n  code: string;\n  label?: string;\n  className?: string;\n}\n\nfunction RoomCodeDisplay({ code, label = \"Join with code\", className }: RoomCodeDisplayProps) {\n  return (\n    <div className={cn(\"text-center\", className)}>\n      <p className=\"gs-label text-muted-foreground\">{label}</p>\n      <p\n        className=\"gs-mono mt-2 font-mono tracking-[0.4em] text-foreground\"\n        aria-label={`Room code ${code.split(\"\").join(\" \")}`}\n      >\n        {code}\n      </p>\n    </div>\n  );\n}\n\nRoomCodeDisplay.displayName = \"RoomCodeDisplay\";\n\nexport { RoomCodeDisplay };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.1.0",
+    "namespace": "@gamescience"
+  }
+}

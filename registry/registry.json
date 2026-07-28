@@ -1,0 +1,520 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "gamescience",
+  "homepage": "https://gamescience.ai",
+  "version": "0.1.0",
+  "items": [
+    {
+      "name": "base",
+      "type": "registry:style",
+      "title": "GameScience Base",
+      "description": "Provider, token foundations, utilities, and shared types.",
+      "registryDependencies": [],
+      "dependencies": [
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge",
+        "sonner",
+        "lucide-react",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-label",
+        "@radix-ui/react-progress"
+      ],
+      "files": [
+        {
+          "path": "src/foundations/tokens.css",
+          "type": "registry:file",
+          "target": "src/foundations/tokens.css"
+        },
+        {
+          "path": "src/foundations/typography.css",
+          "type": "registry:file",
+          "target": "src/foundations/typography.css"
+        },
+        {
+          "path": "src/foundations/motion.css",
+          "type": "registry:file",
+          "target": "src/foundations/motion.css"
+        },
+        {
+          "path": "src/foundations/responsive.css",
+          "type": "registry:file",
+          "target": "src/foundations/responsive.css"
+        },
+        {
+          "path": "src/foundations/index.css",
+          "type": "registry:file",
+          "target": "src/foundations/index.css"
+        },
+        {
+          "path": "src/themes/theme-contract.ts",
+          "type": "registry:lib",
+          "target": "src/themes/theme-contract.ts"
+        },
+        {
+          "path": "src/themes/index.ts",
+          "type": "registry:lib",
+          "target": "src/themes/index.ts"
+        },
+        {
+          "path": "src/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "src/lib/cn.ts"
+        },
+        {
+          "path": "src/lib/accessibility.ts",
+          "type": "registry:lib",
+          "target": "src/lib/accessibility.ts"
+        },
+        {
+          "path": "src/lib/version.ts",
+          "type": "registry:lib",
+          "target": "src/lib/version.ts"
+        },
+        {
+          "path": "src/providers/game-theme-context.ts",
+          "type": "registry:lib",
+          "target": "src/providers/game-theme-context.ts"
+        },
+        {
+          "path": "src/providers/experience-context.ts",
+          "type": "registry:lib",
+          "target": "src/providers/experience-context.ts"
+        },
+        {
+          "path": "src/providers/gamescience-provider.tsx",
+          "type": "registry:component",
+          "target": "src/providers/gamescience-provider.tsx"
+        },
+        {
+          "path": "src/providers/index.ts",
+          "type": "registry:lib",
+          "target": "src/providers/index.ts"
+        },
+        {
+          "path": "src/types/game.ts",
+          "type": "registry:lib",
+          "target": "src/types/game.ts"
+        },
+        {
+          "path": "src/components/ui/sonner.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/sonner.tsx"
+        }
+      ]
+    },
+    {
+      "name": "theme-gamescience",
+      "type": "registry:theme",
+      "title": "GameScience Theme",
+      "description": "House theme CSS for GameScience applications.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/themes/gamescience.css",
+          "type": "registry:file",
+          "target": "src/themes/gamescience.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-citadel",
+      "type": "registry:theme",
+      "title": "Citadel Theme",
+      "description": "Expressive Citadel theme CSS — no component forks.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/themes/citadel.css",
+          "type": "registry:file",
+          "target": "src/themes/citadel.css"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Semantic button primitive with intent, size, and loading states.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/button.tsx"
+        },
+        {
+          "path": "src/components/ui/button-group.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/button-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Text input primitive with invalid-state support.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/input.tsx"
+        },
+        {
+          "path": "src/components/ui/label.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/label.tsx"
+        }
+      ]
+    },
+    {
+      "name": "panel",
+      "type": "registry:ui",
+      "title": "Panel",
+      "description": "Surface container with semantic elevation.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/panel.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/panel.tsx"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Compact status and metadata label.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/badge.tsx"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Inline status messaging with icons and titles.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/alert.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/alert.tsx"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Determinate progress indicator.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [
+        "@radix-ui/react-progress"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/progress.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/progress.tsx"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Loading placeholder surface.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/skeleton.tsx",
+          "type": "registry:ui",
+          "target": "src/components/ui/skeleton.tsx"
+        }
+      ]
+    },
+    {
+      "name": "game-code-input",
+      "type": "registry:component",
+      "title": "Game Code Input",
+      "description": "Room/session code field with validation messaging.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/input"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/game-code-input.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/game-code-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "connection-status",
+      "type": "registry:component",
+      "title": "Connection Status",
+      "description": "Accessible connection state presentation.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/badge",
+        "@gamescience/button"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/connection-status.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/connection-status.tsx"
+        }
+      ]
+    },
+    {
+      "name": "participant-identity",
+      "type": "registry:component",
+      "title": "Participant Identity",
+      "description": "Display-name capture for join flows.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/input"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/participant-identity.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/participant-identity.tsx"
+        }
+      ]
+    },
+    {
+      "name": "participant-status",
+      "type": "registry:component",
+      "title": "Participant Status",
+      "description": "Connection and readiness summary for a participant.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/badge",
+        "@gamescience/connection-status"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/participant-status.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/participant-status.tsx"
+        }
+      ]
+    },
+    {
+      "name": "waiting-state",
+      "type": "registry:component",
+      "title": "Waiting State",
+      "description": "Centered waiting/idle messaging.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/waiting-state.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/waiting-state.tsx"
+        }
+      ]
+    },
+    {
+      "name": "room-code-display",
+      "type": "registry:component",
+      "title": "Room Code Display",
+      "description": "Large privacy-safe room code presentation.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/display/room-code-display.tsx",
+          "type": "registry:component",
+          "target": "src/components/display/room-code-display.tsx"
+        }
+      ]
+    },
+    {
+      "name": "join-flow",
+      "type": "registry:block",
+      "title": "Participant Join Flow",
+      "description": "Participant code entry, identity, waiting, and reconnect states.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/button",
+        "@gamescience/input",
+        "@gamescience/panel",
+        "@gamescience/alert",
+        "@gamescience/game-code-input",
+        "@gamescience/participant-identity",
+        "@gamescience/connection-status",
+        "@gamescience/waiting-state",
+        "@gamescience/participant-shell"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/join/participant-join-flow.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/join/participant-join-flow.tsx"
+        },
+        {
+          "path": "src/patterns/join/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/join/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "lobby",
+      "type": "registry:block",
+      "title": "Lobby Patterns",
+      "description": "Facilitator and shared-display lobby compositions.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/button",
+        "@gamescience/panel",
+        "@gamescience/badge",
+        "@gamescience/alert",
+        "@gamescience/progress",
+        "@gamescience/participant-status",
+        "@gamescience/waiting-state",
+        "@gamescience/room-code-display",
+        "@gamescience/facilitator-shell",
+        "@gamescience/shared-display-shell"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/lobby/facilitator-lobby.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/lobby/facilitator-lobby.tsx"
+        },
+        {
+          "path": "src/patterns/lobby/shared-display-lobby.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/lobby/shared-display-lobby.tsx"
+        },
+        {
+          "path": "src/patterns/lobby/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/lobby/index.ts"
+        },
+        {
+          "path": "src/components/display/display-heading.tsx",
+          "type": "registry:component",
+          "target": "src/components/display/display-heading.tsx"
+        },
+        {
+          "path": "src/components/display/participant-count-display.tsx",
+          "type": "registry:component",
+          "target": "src/components/display/participant-count-display.tsx"
+        },
+        {
+          "path": "src/components/display/index.ts",
+          "type": "registry:lib",
+          "target": "src/components/display/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "participant-shell",
+      "type": "registry:block",
+      "title": "Participant Shell",
+      "description": "Mobile-first participant layout shell.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/templates/participant-shell/participant-shell.tsx",
+          "type": "registry:block",
+          "target": "src/templates/participant-shell/participant-shell.tsx"
+        }
+      ]
+    },
+    {
+      "name": "facilitator-shell",
+      "type": "registry:block",
+      "title": "Facilitator Shell",
+      "description": "Desktop facilitator console layout shell.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/templates/facilitator-shell/facilitator-shell.tsx",
+          "type": "registry:block",
+          "target": "src/templates/facilitator-shell/facilitator-shell.tsx"
+        }
+      ]
+    },
+    {
+      "name": "shared-display-shell",
+      "type": "registry:block",
+      "title": "Shared Display Shell",
+      "description": "Landscape non-interactive shared display shell.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/templates/shared-display-shell/shared-display-shell.tsx",
+          "type": "registry:block",
+          "target": "src/templates/shared-display-shell/shared-display-shell.tsx"
+        }
+      ]
+    }
+  ]
+}

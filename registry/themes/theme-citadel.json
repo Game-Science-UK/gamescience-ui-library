@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-citadel",
+  "type": "registry:theme",
+  "title": "Citadel Theme",
+  "description": "Expressive Citadel theme CSS — no component forks.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/themes/citadel.css",
+      "type": "registry:file",
+      "target": "src/themes/citadel.css",
+      "content": "/**\n * Citadel theme — tactical, luminous, HUD-inspired.\n * Visual identity only; no Citadel-specific component forks.\n */\n\n[data-theme=\"citadel\"] {\n  --background: 220 28% 7%;\n  --foreground: 190 40% 94%;\n\n  --surface: 220 24% 11%;\n  --surface-subtle: 220 22% 14%;\n  --surface-raised: 220 26% 13%;\n  --surface-overlay: 220 30% 10%;\n\n  --border: 190 35% 28%;\n  --border-strong: 186 72% 48%;\n  --focus-ring: 186 90% 52%;\n\n  --primary: 186 90% 46%;\n  --primary-hover: 186 90% 40%;\n  --primary-active: 186 88% 34%;\n  --primary-foreground: 220 40% 6%;\n\n  --secondary: 220 22% 16%;\n  --secondary-hover: 220 22% 20%;\n  --secondary-active: 220 24% 24%;\n  --secondary-foreground: 190 35% 90%;\n\n  --accent: 28 95% 55%;\n  --accent-foreground: 220 40% 6%;\n\n  --muted: 220 18% 16%;\n  --muted-foreground: 200 15% 68%;\n\n  --success: 152 70% 42%;\n  --success-foreground: 220 40% 6%;\n  --warning: 38 95% 52%;\n  --warning-foreground: 220 40% 6%;\n  --danger: 350 85% 55%;\n  --danger-foreground: 0 0% 100%;\n  --information: 205 90% 55%;\n  --information-foreground: 220 40% 6%;\n\n  --radius-control: 0.25rem;\n  --radius-card: 0.375rem;\n  --radius-panel: 0.375rem;\n  --radius-overlay: 0.5rem;\n  --radius-pill: 0.25rem;\n\n  --border-width-control: 1px;\n  --border-width-panel: 1px;\n\n  --font-display: \"Space Grotesk\", \"Segoe UI\", sans-serif;\n  --font-body: \"Source Sans 3\", \"Segoe UI\", sans-serif;\n  --font-mono: \"IBM Plex Mono\", ui-monospace, monospace;\n\n  --font-weight-heading: 700;\n  --font-weight-label: 600;\n  --font-weight-body: 400;\n\n  --tracking-heading: 0.02em;\n  --tracking-label: 0.08em;\n  --text-transform-label: uppercase;\n\n  --control-height-sm: 2rem;\n  --control-height-md: 2.5rem;\n  --control-height-lg: 3rem;\n\n  --control-padding-inline-sm: 0.75rem;\n  --control-padding-inline-md: 1rem;\n  --control-padding-inline-lg: 1.25rem;\n\n  --panel-padding-sm: 0.75rem;\n  --panel-padding-md: 1.25rem;\n  --panel-padding-lg: 1.75rem;\n\n  --section-gap: 1.5rem;\n  --content-max-width: 42rem;\n\n  --shadow-control: 0 0 0 1px hsl(190 40% 30% / 0.35), 0 2px 8px rgb(0 0 0 / 0.35);\n  --shadow-card: 0 0 0 1px hsl(190 50% 40% / 0.25), 0 12px 32px rgb(0 0 0 / 0.45);\n  --shadow-overlay: 0 0 0 1px hsl(186 70% 45% / 0.35), 0 24px 64px rgb(0 0 0 / 0.55);\n  --shadow-focus: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--focus-ring) / 0.75);\n\n  --duration-fast: 100ms;\n  --duration-standard: 180ms;\n  --duration-emphasis: 280ms;\n\n  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);\n  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);\n\n  --press-scale: 0.98;\n  --hover-translate: 0px;\n\n  --gs-shell-gradient:\n    radial-gradient(ellipse at 50% -10%, hsl(186 80% 30% / 0.28), transparent 45%),\n    radial-gradient(ellipse at 100% 100%, hsl(28 90% 40% / 0.12), transparent 40%),\n    linear-gradient(180deg, hsl(220 28% 8%), hsl(220 30% 5%));\n}\n\n[data-theme=\"citadel\"] [data-elevation=\"raised\"],\n[data-theme=\"citadel\"] .gs-panel[data-elevation=\"raised\"] {\n  background: linear-gradient(145deg, hsl(220 26% 14% / 0.92), hsl(220 28% 10% / 0.88));\n  backdrop-filter: blur(12px);\n  box-shadow:\n    var(--shadow-card),\n    inset 0 1px 0 hsl(190 60% 70% / 0.08);\n}\n"
+    }
+  ],
+  "meta": {
+    "category": "theme",
+    "version": "0.1.0",
+    "namespace": "@gamescience"
+  }
+}

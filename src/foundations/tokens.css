@@ -1,0 +1,108 @@
+/**
+ * GameScience semantic token contract.
+ * Themes must implement every custom property listed here.
+ * Values here are structural fallbacks only; visual identity lives in theme CSS.
+ */
+
+:root {
+  /* Colour */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+
+  --surface: 0 0% 100%;
+  --surface-subtle: 210 40% 98%;
+  --surface-raised: 0 0% 100%;
+  --surface-overlay: 0 0% 100%;
+
+  --border: 214 32% 91%;
+  --border-strong: 215 20% 65%;
+  --focus-ring: 221 83% 53%;
+
+  --primary: 221 83% 53%;
+  --primary-hover: 221 83% 47%;
+  --primary-active: 221 83% 41%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 210 40% 96%;
+  --secondary-hover: 214 32% 91%;
+  --secondary-active: 213 27% 84%;
+  --secondary-foreground: 222 47% 11%;
+
+  --accent: 199 89% 48%;
+  --accent-foreground: 0 0% 100%;
+
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+
+  --success: 142 71% 35%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 26 83% 14%;
+  --danger: 0 72% 51%;
+  --danger-foreground: 0 0% 100%;
+  --information: 199 89% 48%;
+  --information-foreground: 0 0% 100%;
+
+  /* Shape */
+  --radius-control: 0.5rem;
+  --radius-card: 0.75rem;
+  --radius-panel: 1rem;
+  --radius-overlay: 1rem;
+  --radius-pill: 9999px;
+
+  --border-width-control: 1px;
+  --border-width-panel: 1px;
+
+  /* Typography */
+  --font-display: "Source Sans 3", "Segoe UI", sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --font-weight-heading: 700;
+  --font-weight-label: 600;
+  --font-weight-body: 400;
+
+  --tracking-heading: -0.02em;
+  --tracking-label: 0.02em;
+  --text-transform-label: none;
+
+  /* Sizing and density */
+  --control-height-sm: 2rem;
+  --control-height-md: 2.5rem;
+  --control-height-lg: 3rem;
+
+  --control-padding-inline-sm: 0.75rem;
+  --control-padding-inline-md: 1rem;
+  --control-padding-inline-lg: 1.25rem;
+
+  --panel-padding-sm: 0.75rem;
+  --panel-padding-md: 1.25rem;
+  --panel-padding-lg: 1.75rem;
+
+  --section-gap: 1.5rem;
+  --content-max-width: 42rem;
+
+  /* Depth */
+  --shadow-control: 0 1px 2px rgb(15 23 42 / 0.06);
+  --shadow-card: 0 4px 16px rgb(15 23 42 / 0.08);
+  --shadow-overlay: 0 16px 40px rgb(15 23 42 / 0.16);
+  --shadow-focus: 0 0 0 3px hsl(var(--focus-ring) / 0.35);
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-standard: 200ms;
+  --duration-emphasis: 320ms;
+
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --press-scale: 0.98;
+  --hover-translate: -1px;
+
+  /* Context-tunable type scale */
+  --type-scale-display: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+  --type-scale-title: clamp(1.25rem, 1vw + 1rem, 1.75rem);
+  --type-scale-body: 1rem;
+  --type-scale-label: 0.875rem;
+  --type-scale-code: 1.125rem;
+}
