@@ -16,12 +16,11 @@ import {
   PAGES_VERSION,
   PUBLIC_PAGES_BRIDGE_CSS,
   PUBLIC_PAGES_DOCS,
-  PUBLIC_PAGES_DOC_MARKERS,
   buildVersionJson,
   latestRegistryTemplate,
-  versionedCatalogueUrl,
   versionedRegistryTemplate,
 } from "./pages-config.ts";
+import { writeSitePages } from "./write-site-pages.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const registrySource = path.join(root, "public/registry");
@@ -71,49 +70,7 @@ function copyRegistryTree(targetRoot: string) {
   }
 }
 
-function writeIndexHtml(targetPath: string, versionJson: ReturnType<typeof buildVersionJson>) {
-  const html = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GameScience UI Registry</title>
-    <style>
-      :root { color-scheme: light dark; font-family: ui-sans-serif, system-ui, sans-serif; }
-      body { margin: 0; padding: 2rem; line-height: 1.5; max-width: 48rem; }
-      code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-      pre { padding: 1rem; overflow: auto; background: color-mix(in srgb, CanvasText 8%, Canvas); border-radius: 0.5rem; }
-      a { color: inherit; }
-    </style>
-  </head>
-  <body>
-    <h1>GameScience UI Registry</h1>
-    <p>Current version: <strong>${versionJson.version}</strong></p>
-    <ul>
-      <li>Latest registry base: <code>${versionJson.latestRegistryBase}</code></li>
-      <li>Versioned registry base: <code>${versionJson.registryBase}</code></li>
-      <li>Agent catalogue: <a href="./versions/${versionJson.version}/agent-catalogue.json"><code>${versionedCatalogueUrl(versionJson.version)}</code></a></li>
-      <li>Version metadata: <a href="./version.json"><code>./version.json</code></a></li>
-    </ul>
-    <h2>Install example</h2>
-    <pre>// components.json
-{
-  "registries": {
-    "@gamescience": "${versionJson.registryBase}"
-  }
-}
-
-npx shadcn@latest add @gamescience/base
-npx shadcn@latest add @gamescience/theme-gamescience
-npx shadcn@latest add @gamescience/join-flow</pre>
-    <p>Prefer the versioned registry URL in production consumers. See repository docs for Lovable setup.</p>
-  </body>
-</html>
-`;
-  writeFileSync(targetPath, html);
-}
-
-function writePublicDocs() {
+function writePublicDocs(writeDocsIndex: (docsOut: string, extraDocs: string[]) => void) {
   const docsOut = path.join(pagesDist, "docs");
   mkdirSync(docsOut, { recursive: true });
 
@@ -138,39 +95,7 @@ function writePublicDocs() {
     throw new Error("Missing consumer/tailwind-v4-bridge.css");
   }
   cpSync(bridgeSource, path.join(docsOut, PUBLIC_PAGES_BRIDGE_CSS));
-
-  const listItems = PUBLIC_PAGES_DOCS.map((name) => {
-    const title = PUBLIC_PAGES_DOC_MARKERS[name];
-    return `      <li><a href="./${name}"><code>${name}</code></a> — ${title}</li>`;
-  }).join("\n");
-
-  writeFileSync(
-    path.join(docsOut, "index.html"),
-    `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GameScience UI documentation</title>
-    <style>
-      :root { color-scheme: light dark; font-family: ui-sans-serif, system-ui, sans-serif; }
-      body { margin: 0; padding: 2rem; line-height: 1.5; max-width: 48rem; }
-      code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-      a { color: inherit; }
-    </style>
-  </head>
-  <body>
-    <h1>GameScience UI documentation</h1>
-    <p>Public consumer documentation for the GameScience registry on GitHub Pages.</p>
-    <ul>
-${listItems}
-      <li><a href="./${PUBLIC_PAGES_BRIDGE_CSS}"><code>${PUBLIC_PAGES_BRIDGE_CSS}</code></a> — approved Tailwind 4 bridge</li>
-    </ul>
-    <p><a href="../">Back to registry index</a></p>
-  </body>
-</html>
-`,
-  );
+  writeDocsIndex(docsOut, []);
 
   console.log(
     `[pages:build] published ${PUBLIC_PAGES_DOCS.length} docs + ${PUBLIC_PAGES_BRIDGE_CSS}`,
@@ -312,10 +237,16 @@ function promoteLatestFromVersioned() {
   rmSync(path.join(pagesDist, "r"), { recursive: true, force: true });
   copyRegistryTree(pagesDist);
   writeFileSync(path.join(pagesDist, "version.json"), JSON.stringify(versionJson, null, 2));
-  writeIndexHtml(path.join(pagesDist, "index.html"), versionJson);
-  // Replace any prior docs tree so stale stubs cannot linger.
+  // Replace any prior docs/site tree so stale stubs cannot linger.
   rmSync(path.join(pagesDist, "docs"), { recursive: true, force: true });
-  writePublicDocs();
+  rmSync(path.join(pagesDist, "catalogue"), { recursive: true, force: true });
+  rmSync(path.join(pagesDist, "start"), { recursive: true, force: true });
+  rmSync(path.join(pagesDist, "upgrade"), { recursive: true, force: true });
+  rmSync(path.join(pagesDist, "migrate"), { recursive: true, force: true });
+  rmSync(path.join(pagesDist, "assets"), { recursive: true, force: true });
+
+  const { writeDocsIndex } = writeSitePages(pagesDist);
+  writePublicDocs(writeDocsIndex);
   writeFileSync(path.join(pagesDist, ".nojekyll"), "");
 
   console.log(`[pages:build] stage=latest promoted unversioned /r from versions/${PAGES_VERSION}`);

@@ -210,6 +210,142 @@ function validateRelativeDocLinks(fileName: string, content: string) {
   }
 }
 
+function validateSitePages() {
+  const requiredPages = [
+    "index.html",
+    "catalogue/index.html",
+    "start/index.html",
+    "upgrade/index.html",
+    "migrate/index.html",
+    "site-data.json",
+    "docs/migration-config.json",
+    "assets/compose-markdown-core.js",
+    "assets/site.css",
+  ];
+  for (const relative of requiredPages) {
+    assertExists(path.join(pagesDist, relative), relative);
+  }
+
+  const indexHtml = readFileSync(path.join(pagesDist, "index.html"), "utf8");
+  if (!indexHtml.includes("What is a registry?") || !indexHtml.includes("Choose a workflow")) {
+    fail("homepage appears to be the old registry-only stub");
+  }
+  if (!indexHtml.includes(PAGES_VERSION)) {
+    fail("homepage missing current PAGES_VERSION");
+  }
+
+  const siteData = assertJson(path.join(pagesDist, "site-data.json"), "site-data.json") as {
+    version?: string;
+    itemCount?: number;
+    catalogue?: Array<Record<string, unknown>>;
+  } | null;
+  if (siteData) {
+    if (siteData.version !== PAGES_VERSION) {
+      fail(`site-data.json version mismatch: ${String(siteData.version)}`);
+    }
+    if (
+      siteData.itemCount !== 24 ||
+      !Array.isArray(siteData.catalogue) ||
+      siteData.catalogue.length !== 24
+    ) {
+      fail("site-data.json must contain exactly 24 normalized catalogue items");
+    }
+    for (const item of siteData.catalogue ?? []) {
+      for (const field of [
+        "name",
+        "category",
+        "scope",
+        "description",
+        "contexts",
+        "dependencies",
+        "rawRegistryUrl",
+        "versionedRegistryUrl",
+      ]) {
+        if (item[field] === undefined || item[field] === null || item[field] === "") {
+          fail(`site-data catalogue item missing ${field}`);
+          break;
+        }
+      }
+      const rawUrl = String(item.rawRegistryUrl ?? "");
+      const versionedUrl = String(item.versionedRegistryUrl ?? "");
+      if (!rawUrl.startsWith(`${PAGES_SITE_PATH}/r/`)) {
+        fail(`rawRegistryUrl must use Pages base path, got ${rawUrl}`);
+      }
+      if (!versionedUrl.startsWith(`${PAGES_SITE_PATH}/versions/`)) {
+        fail(`versionedRegistryUrl must use Pages base path, got ${versionedUrl}`);
+      }
+      if (rawUrl.includes("..") || versionedUrl.includes("..")) {
+        fail("catalogue URLs must not use path traversal");
+      }
+    }
+  }
+
+  const migrationConfig = assertJson(
+    path.join(pagesDist, "docs/migration-config.json"),
+    "docs/migration-config.json",
+  ) as { version?: string; modules?: Record<string, unknown> } | null;
+  if (migrationConfig) {
+    if (migrationConfig.version !== PAGES_VERSION) {
+      fail("migration-config.json version mismatch");
+    }
+    const modules = migrationConfig.modules ?? {};
+    for (const key of [
+      "core",
+      "architectureRules",
+      "fileOwnership",
+      "modes",
+      "themes",
+      "stacks",
+      "contexts",
+      "overwritePolicy",
+      "finalReport",
+      "start",
+      "upgrade",
+    ]) {
+      if (!(key in modules)) fail(`migration-config.json missing modules.${key}`);
+    }
+  }
+
+  // Generator scripts must not use raw innerHTML.
+  const assetsDir = path.join(pagesDist, "assets");
+  if (existsSync(assetsDir)) {
+    for (const entry of readdirSync(assetsDir)) {
+      if (!entry.endsWith(".js")) continue;
+      const source = readFileSync(path.join(assetsDir, entry), "utf8");
+      if (/\.innerHTML\s*=/.test(source) && !source.includes("escapeHtml")) {
+        fail(`assets/${entry} assigns innerHTML without approved escape helper usage`);
+      }
+    }
+  }
+
+  // First-party absolute Pages links in HTML must resolve under pages-dist.
+  for (const relative of [
+    "index.html",
+    "catalogue/index.html",
+    "start/index.html",
+    "upgrade/index.html",
+    "migrate/index.html",
+    "docs/index.html",
+  ]) {
+    const full = path.join(pagesDist, relative);
+    if (!existsSync(full)) continue;
+    const html = readFileSync(full, "utf8");
+    for (const match of html.matchAll(/href="(\/gamescience-ui-library\/[^"]+)"/g)) {
+      const href = match[1]!;
+      if (href.includes("..")) {
+        fail(`${relative} has traversal href ${href}`);
+        continue;
+      }
+      const mapped = href.replace(PAGES_SITE_PATH, "");
+      const target = path.join(pagesDist, mapped.replace(/^\//, ""));
+      const asFile = target.endsWith("/") ? path.join(target, "index.html") : target;
+      if (!existsSync(asFile) && !existsSync(target)) {
+        fail(`${relative} links to missing Pages path ${href}`);
+      }
+    }
+  }
+}
+
 function validatePublicDocumentation() {
   if (!existsSync(docsRoot)) {
     fail(
@@ -464,6 +600,7 @@ function main() {
     }
 
     validatePublicDocumentation();
+    validateSitePages();
   }
 
   if (failed) process.exit(1);

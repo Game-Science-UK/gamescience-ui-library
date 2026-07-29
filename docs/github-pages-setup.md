@@ -31,6 +31,29 @@ Public consumer documentation is published at unversioned `/docs/*.md` (and
 `/docs/tailwind-v4-bridge.css`). Those files must return Markdown text, not the
 GitHub Pages HTML 404 page.
 
+Onboarding site routes (also unversioned latest):
+
+```text
+/
+/catalogue/
+/start/
+/upgrade/
+/migrate/
+/docs/migration-config.json
+```
+
+Local preview after a full Pages build:
+
+```bash
+npm run pages:build
+npm run pages:serve
+```
+
+Open `http://localhost:4177/gamescience-ui-library/` only if your static server
+rewrites the repo base path; otherwise open `http://localhost:4177/` because
+`pages-dist` is already the site root while links inside HTML use
+`/gamescience-ui-library/...`. For local link checks, prefer `npm run smoke:pages`.
+
 ## Local preview
 
 ```bash

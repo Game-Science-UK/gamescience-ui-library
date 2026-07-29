@@ -8,7 +8,15 @@
 
 import { spawn } from "node:child_process";
 import { createServer, type Server } from "node:http";
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { registryItems } from "./registry-manifest.ts";
@@ -81,9 +89,13 @@ function runCapture(
 function startStaticServer(dir: string): Promise<{ port: number; server: Server }> {
   const server = createServer((req, res) => {
     const urlPath = decodeURIComponent((req.url ?? "/").split("?")[0] ?? "/");
-    const relative = urlPath === "/" ? "/index.html" : urlPath;
-    const filePath = path.join(dir, relative.replace(/^\//, ""));
-    if (!filePath.startsWith(dir) || !existsSync(filePath)) {
+    let relative = urlPath === "/" ? "/index.html" : urlPath;
+    let filePath = path.join(dir, relative.replace(/^\//, ""));
+    if (existsSync(filePath) && statSync(filePath).isDirectory()) {
+      filePath = path.join(filePath, "index.html");
+      relative = `${relative.replace(/\/$/, "")}/index.html`;
+    }
+    if (!filePath.startsWith(dir) || !existsSync(filePath) || statSync(filePath).isDirectory()) {
       res.writeHead(404, { "Content-Type": "text/plain" });
       res.end("not found");
       return;
@@ -98,7 +110,9 @@ function startStaticServer(dir: string): Promise<{ port: number; server: Server 
             ? "text/markdown; charset=utf-8"
             : ext === ".css"
               ? "text/css; charset=utf-8"
-              : "application/octet-stream";
+              : ext === ".js"
+                ? "text/javascript; charset=utf-8"
+                : "application/octet-stream";
     res.writeHead(200, { "Content-Type": type });
     res.end(readFileSync(filePath));
   });
@@ -413,7 +427,17 @@ function assertCleanInstall(dir: string, scenario: Scenario) {
 }
 
 async function assertPublicDocs(siteBase: string) {
-  const checks: Array<{ path: string; marker: string }> = [
+  const checks: Array<{ path: string; marker: string; allowHtml?: boolean }> = [
+    { path: "/", marker: "What is a registry?", allowHtml: true },
+    { path: "/catalogue/", marker: "Component catalogue", allowHtml: true },
+    { path: "/start/", marker: "Start a new Lovable project", allowHtml: true },
+    { path: "/upgrade/", marker: "Upgrade a registry project", allowHtml: true },
+    { path: "/migrate/", marker: "Migrate an existing Lovable project", allowHtml: true },
+    { path: "/docs/", marker: "GameScience UI documentation", allowHtml: true },
+    { path: "/version.json", marker: `"version"`, allowHtml: true },
+    { path: "/agent-catalogue.json", marker: "theme-citadel", allowHtml: true },
+    { path: "/r/base.json", marker: "GameScience Base", allowHtml: true },
+    { path: "/docs/migration-config.json", marker: "architectureRules", allowHtml: true },
     {
       path: "/docs/tailwind-v4-integration.md",
       marker: PUBLIC_PAGES_DOC_MARKERS["tailwind-v4-integration.md"],
@@ -435,17 +459,17 @@ async function assertPublicDocs(siteBase: string) {
     }
     const body = await response.text();
     const head = body.slice(0, 400).toLowerCase();
-    if (
-      head.includes("<!doctype html") ||
-      head.includes("<html") ||
-      head.includes("file not found")
-    ) {
-      throw new Error(`[smoke:pages] ${check.path} returned an HTML error/fallback document`);
+    if (!check.allowHtml) {
+      if (
+        head.includes("<!doctype html") ||
+        head.includes("<html") ||
+        head.includes("file not found")
+      ) {
+        throw new Error(`[smoke:pages] ${check.path} returned an HTML error/fallback document`);
+      }
     }
     if (!body.includes(check.marker)) {
-      throw new Error(
-        `[smoke:pages] ${check.path} missing expected title fragment "${check.marker}"`,
-      );
+      throw new Error(`[smoke:pages] ${check.path} missing expected marker "${check.marker}"`);
     }
     console.log(`[smoke:pages] docs OK ${check.path}`);
   }

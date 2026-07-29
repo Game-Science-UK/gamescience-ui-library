@@ -17,6 +17,11 @@ export const PUBLIC_PAGES_DOCS = [
   "theming.md",
   "migration-notes.md",
   "github-pages-setup.md",
+  "registry-homepage.md",
+  "migration-workflow.md",
+  "start-project-workflow.md",
+  "upgrade-workflow.md",
+  "public-pages-policy.md",
 ] as const;
 
 export type PublicPagesDoc = (typeof PUBLIC_PAGES_DOCS)[number];
@@ -31,6 +36,11 @@ export const PUBLIC_PAGES_DOC_MARKERS: Record<PublicPagesDoc, string> = {
   "theming.md": "Theming",
   "migration-notes.md": "Migration notes",
   "github-pages-setup.md": "GitHub Pages setup checklist",
+  "registry-homepage.md": "Registry homepage",
+  "migration-workflow.md": "Migration workflow",
+  "start-project-workflow.md": "Start project workflow",
+  "upgrade-workflow.md": "Upgrade workflow",
+  "public-pages-policy.md": "Public Pages policy",
 };
 
 /** Companion CSS published beside the Tailwind 4 integration guide. */
