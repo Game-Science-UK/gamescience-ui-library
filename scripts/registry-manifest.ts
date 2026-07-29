@@ -38,8 +38,15 @@ export interface RegistryItemDefinition {
 export const REGISTRY_NAMESPACE = "@gamescience";
 export const REGISTRY_VERSION = GAMESCIENCE_UI_VERSION;
 
-/** Configurable public base URL for the static registry. */
+/**
+ * Configurable registry base for local development docs/install examples.
+ * Production consumers should pin the GitHub Pages versioned URL — see scripts/pages-config.ts.
+ */
 export const REGISTRY_BASE_URL = process.env.GAMESCIENCE_REGISTRY_URL ?? "http://localhost:4343";
+
+/** Public GitHub Pages site used in published consumer metadata and docs. */
+export const PUBLIC_PAGES_SITE_URL =
+  process.env.GAMESCIENCE_PAGES_URL ?? "https://game-science-uk.github.io/gamescience-ui-library";
 
 export const registryItems: RegistryItemDefinition[] = [
   {
@@ -118,6 +125,17 @@ export const registryItems: RegistryItemDefinition[] = [
         path: "src/components/ui/sonner.tsx",
         type: "registry:ui",
         target: "src/components/ui/sonner.tsx",
+      },
+      {
+        path: "consumer/gamescience-ui.json",
+        type: "registry:file",
+        // shadcn CLI resolves registry:file under src/; keep a stable agent-readable path.
+        target: "src/docs/gamescience-ui.json",
+      },
+      {
+        path: "consumer/gamescience-ui-guidance.md",
+        type: "registry:file",
+        target: "src/docs/gamescience-ui-guidance.md",
       },
     ],
     catalogue: {
@@ -472,6 +490,50 @@ export const registryItems: RegistryItemDefinition[] = [
     },
   },
   {
+    name: "display-heading",
+    type: "registry:component",
+    title: "Display Heading",
+    description: "Large shared-display heading with optional eyebrow.",
+    category: "component",
+    registryDependencies: ["base"],
+    files: [
+      {
+        path: "src/components/display/display-heading.tsx",
+        type: "registry:component",
+        target: "src/components/display/display-heading.tsx",
+      },
+    ],
+    catalogue: {
+      useWhen: ["titling shared-display screens at distance-readable scale"],
+      avoid: ["using as a participant mobile page title without need"],
+      contexts: ["shared-display", "facilitator"],
+      themes: ["gamescience", "citadel"],
+      related: ["shared-display-lobby"],
+    },
+  },
+  {
+    name: "participant-count-display",
+    type: "registry:component",
+    title: "Participant Count Display",
+    description: "Privacy-safe connected participant count for shared displays.",
+    category: "component",
+    registryDependencies: ["base"],
+    files: [
+      {
+        path: "src/components/display/participant-count-display.tsx",
+        type: "registry:component",
+        target: "src/components/display/participant-count-display.tsx",
+      },
+    ],
+    catalogue: {
+      useWhen: ["showing aggregate join progress on a shared display"],
+      avoid: ["listing private participant identities on shared display"],
+      contexts: ["shared-display", "facilitator"],
+      themes: ["gamescience", "citadel"],
+      related: ["shared-display-lobby"],
+    },
+  },
+  {
     name: "join-flow",
     type: "registry:block",
     title: "Participant Join Flow",
@@ -510,14 +572,14 @@ export const registryItems: RegistryItemDefinition[] = [
       preferOver: ["manually assembling a room-code form from primitives"],
       contexts: ["participant"],
       themes: ["gamescience", "citadel"],
-      related: ["lobby", "participant-shell"],
+      related: ["lobby", "shared-display-lobby", "participant-shell"],
     },
   },
   {
     name: "lobby",
     type: "registry:block",
-    title: "Lobby Patterns",
-    description: "Facilitator and shared-display lobby compositions.",
+    title: "Facilitator Lobby",
+    description: "Facilitator lobby with room code, participant status, and start controls.",
     category: "pattern",
     registryDependencies: [
       "base",
@@ -527,10 +589,8 @@ export const registryItems: RegistryItemDefinition[] = [
       "alert",
       "progress",
       "participant-status",
-      "waiting-state",
       "room-code-display",
       "facilitator-shell",
-      "shared-display-shell",
     ],
     files: [
       {
@@ -538,38 +598,44 @@ export const registryItems: RegistryItemDefinition[] = [
         type: "registry:block",
         target: "src/patterns/lobby/facilitator-lobby.tsx",
       },
+    ],
+    catalogue: {
+      useWhen: ["operating a pre-start facilitator lobby"],
+      avoid: ["owning stage-transition authority inside the pattern"],
+      contexts: ["facilitator"],
+      themes: ["gamescience", "citadel"],
+      related: ["join-flow", "shared-display-lobby"],
+    },
+  },
+  {
+    name: "shared-display-lobby",
+    type: "registry:block",
+    title: "Shared Display Lobby",
+    description: "Privacy-safe shared-display lobby with room code and join progress.",
+    category: "pattern",
+    registryDependencies: [
+      "base",
+      "panel",
+      "badge",
+      "waiting-state",
+      "room-code-display",
+      "display-heading",
+      "participant-count-display",
+      "shared-display-shell",
+    ],
+    files: [
       {
         path: "src/patterns/lobby/shared-display-lobby.tsx",
         type: "registry:block",
         target: "src/patterns/lobby/shared-display-lobby.tsx",
       },
-      {
-        path: "src/patterns/lobby/index.ts",
-        type: "registry:lib",
-        target: "src/patterns/lobby/index.ts",
-      },
-      {
-        path: "src/components/display/display-heading.tsx",
-        type: "registry:component",
-        target: "src/components/display/display-heading.tsx",
-      },
-      {
-        path: "src/components/display/participant-count-display.tsx",
-        type: "registry:component",
-        target: "src/components/display/participant-count-display.tsx",
-      },
-      {
-        path: "src/components/display/index.ts",
-        type: "registry:lib",
-        target: "src/components/display/index.ts",
-      },
     ],
     catalogue: {
-      useWhen: ["operating or broadcasting a pre-start lobby"],
-      avoid: ["owning stage-transition authority inside the pattern"],
-      contexts: ["facilitator", "shared-display"],
+      useWhen: ["broadcasting a join/lobby state on a shared room display"],
+      avoid: ["showing participant-private information"],
+      contexts: ["shared-display"],
       themes: ["gamescience", "citadel"],
-      related: ["join-flow"],
+      related: ["join-flow", "lobby"],
     },
   },
   {

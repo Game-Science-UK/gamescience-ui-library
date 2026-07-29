@@ -81,6 +81,7 @@ Run:
 npm run typecheck
 npm run lint
 npm test
+npm run architecture:check
 npm run build
 npm run build-storybook
 npm run theme:check

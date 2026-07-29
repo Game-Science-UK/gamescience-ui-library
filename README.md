@@ -40,23 +40,29 @@ npm install
 
 ## Development commands
 
-| Command                     | Description                                     |
-| --------------------------- | ----------------------------------------------- |
-| `npm run dev`               | Vite preview app                                |
-| `npm run storybook`         | Storybook on :6006                              |
-| `npm run typecheck`         | Strict TypeScript                               |
-| `npm run lint`              | ESLint                                          |
-| `npm run format`            | Prettier write                                  |
-| `npm run format:check`      | Prettier check                                  |
-| `npm test`                  | Vitest                                          |
-| `npm run build`             | Library/app build                               |
-| `npm run build-storybook`   | Static Storybook                                |
-| `npm run theme:check`       | Theme token contract                            |
-| `npm run registry:build`    | Build static registry                           |
-| `npm run registry:validate` | Validate registry + catalogue                   |
-| `npm run registry:serve`    | Serve registry on :4343                         |
-| `npm run smoke:registry`    | Install selected items into a fixture and build |
-| `npm run validate`          | Full validation suite                           |
+| Command                            | Description                                    |
+| ---------------------------------- | ---------------------------------------------- |
+| `npm run dev`                      | Vite preview app                               |
+| `npm run storybook`                | Storybook on :6006                             |
+| `npm run typecheck`                | Strict TypeScript                              |
+| `npm run lint`                     | ESLint                                         |
+| `npm run format`                   | Prettier write                                 |
+| `npm run format:check`             | Prettier check                                 |
+| `npm test`                         | Vitest                                         |
+| `npm run build`                    | Library/app build                              |
+| `npm run build-storybook`          | Static Storybook                               |
+| `npm run theme:check`              | Theme token contract                           |
+| `npm run architecture:check`       | Architecture contract rules                    |
+| `npm run registry:build`           | Build static registry                          |
+| `npm run registry:validate`        | Validate registry + catalogue                  |
+| `npm run registry:serve`           | Serve registry on :4343                        |
+| `npm run pages:build`              | Build GitHub Pages `pages-dist`                |
+| `npm run pages:validate`           | Validate Pages output                          |
+| `npm run pages:serve`              | Serve `pages-dist` on :4177                    |
+| `npm run smoke:registry`           | Install selected items into fixtures and build |
+| `npm run smoke:registry-overwrite` | Observe shadcn reinstall/overwrite behaviour   |
+| `npm run smoke:pages`              | Install from locally served Pages output       |
+| `npm run validate`                 | Full validation suite                          |
 
 ## Storybook
 
@@ -75,27 +81,46 @@ Reference viewports:
 - Facilitator: 1440 × 900
 - Shared display: 1920 × 1080
 
-## Registry
+## Public registry (GitHub Pages)
+
+Expected production URL:
+
+```text
+https://game-science-uk.github.io/gamescience-ui-library/
+```
+
+Prefer the **versioned** consumer config:
+
+```json
+{
+  "registries": {
+    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.1.0/r/{name}.json"
+  }
+}
+```
+
+```bash
+npx shadcn@latest add @gamescience/base
+npx shadcn@latest add @gamescience/theme-gamescience
+npx shadcn@latest add @gamescience/join-flow
+```
+
+See:
+
+- [docs/github-pages-setup.md](docs/github-pages-setup.md)
+- [docs/lovable-test-project.md](docs/lovable-test-project.md)
+- [docs/registry-usage.md](docs/registry-usage.md)
+
+## Local registry
 
 ```bash
 npm run registry:build
 npm run registry:serve
 ```
 
-Example installs:
-
 ```bash
-npx shadcn@latest add http://localhost:4343/r/base.json
-npx shadcn@latest add http://localhost:4343/r/theme-citadel.json
-npx shadcn@latest add http://localhost:4343/r/join-flow.json
-```
-
-Set `GAMESCIENCE_REGISTRY_URL` to point consumers at the deployed static registry URL.
-
-Agent catalogue:
-
-```text
-public/registry/agent-catalogue.json
+npm run pages:build
+npm run pages:serve
 ```
 
 ## Adding library pieces
@@ -110,6 +135,10 @@ Current version: **0.1.0** (`GAMESCIENCE_UI_VERSION`).
 
 Installed registry components are project-local source. Updates do not automatically propagate across Lovable projects. Record the installed version in each consuming app. Prefer tagged/versioned registry URLs over unversioned `main` in production.
 
-## License
+## Licence
 
-Private GameScience design system. All rights reserved unless otherwise noted.
+See [LICENSE](LICENSE). Temporary position: Copyright GameScience.ai. All rights reserved. Requires owner review before selecting a permanent licence.
+
+## Security
+
+See [SECURITY.md](SECURITY.md).

@@ -56,6 +56,29 @@ npm run theme:check
 
 Visual treatment is inherited from the root provider through CSS variables. This keeps APIs semantic, prevents theme mixing, and allows one component implementation to serve every theme.
 
+## Document and portal scoping
+
+`GameScienceProvider` applies `data-theme` and `data-context` in two places:
+
+1. The provider root element (layout / composition boundary)
+2. `document.documentElement` (so CSS variables inherit to `body`, Sonner toasts, and Radix portals)
+
+This is required because portals mount under `document.body` by default and would otherwise sit outside a themed wrapping `<div>`.
+
+Behaviour:
+
+- Attributes sync on mount and when `theme` / `context` change
+- Previous `documentElement` attribute values are restored on unmount
+- Access to `document` is guarded for non-DOM environments
+- Optional `syncDocumentAttributes={false}` exists for specialised test hosts
+- Nested or mixed game themes remain unsupported — one provider, one theme
+
+Consumer applications should:
+
+- Import foundations CSS and exactly one theme CSS at the app entry
+- Wrap the app once with `GameScienceProvider`
+- Rely on semantic tokens for Sonner / overlay surfaces (no per-portal theme props)
+
 ## Theme assets
 
 Place decorative assets under:

@@ -100,6 +100,16 @@
           "path": "src/components/ui/sonner.tsx",
           "type": "registry:ui",
           "target": "src/components/ui/sonner.tsx"
+        },
+        {
+          "path": "consumer/gamescience-ui.json",
+          "type": "registry:file",
+          "target": "src/docs/gamescience-ui.json"
+        },
+        {
+          "path": "consumer/gamescience-ui-guidance.md",
+          "type": "registry:file",
+          "target": "src/docs/gamescience-ui-guidance.md"
         }
       ]
     },
@@ -383,6 +393,40 @@
       ]
     },
     {
+      "name": "display-heading",
+      "type": "registry:component",
+      "title": "Display Heading",
+      "description": "Large shared-display heading with optional eyebrow.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/display/display-heading.tsx",
+          "type": "registry:component",
+          "target": "src/components/display/display-heading.tsx"
+        }
+      ]
+    },
+    {
+      "name": "participant-count-display",
+      "type": "registry:component",
+      "title": "Participant Count Display",
+      "description": "Privacy-safe connected participant count for shared displays.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/display/participant-count-display.tsx",
+          "type": "registry:component",
+          "target": "src/components/display/participant-count-display.tsx"
+        }
+      ]
+    },
+    {
       "name": "join-flow",
       "type": "registry:block",
       "title": "Participant Join Flow",
@@ -416,8 +460,8 @@
     {
       "name": "lobby",
       "type": "registry:block",
-      "title": "Lobby Patterns",
-      "description": "Facilitator and shared-display lobby compositions.",
+      "title": "Facilitator Lobby",
+      "description": "Facilitator lobby with room code, participant status, and start controls.",
       "registryDependencies": [
         "@gamescience/base",
         "@gamescience/button",
@@ -426,10 +470,8 @@
         "@gamescience/alert",
         "@gamescience/progress",
         "@gamescience/participant-status",
-        "@gamescience/waiting-state",
         "@gamescience/room-code-display",
-        "@gamescience/facilitator-shell",
-        "@gamescience/shared-display-shell"
+        "@gamescience/facilitator-shell"
       ],
       "dependencies": [],
       "files": [
@@ -437,31 +479,30 @@
           "path": "src/patterns/lobby/facilitator-lobby.tsx",
           "type": "registry:block",
           "target": "src/patterns/lobby/facilitator-lobby.tsx"
-        },
+        }
+      ]
+    },
+    {
+      "name": "shared-display-lobby",
+      "type": "registry:block",
+      "title": "Shared Display Lobby",
+      "description": "Privacy-safe shared-display lobby with room code and join progress.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/panel",
+        "@gamescience/badge",
+        "@gamescience/waiting-state",
+        "@gamescience/room-code-display",
+        "@gamescience/display-heading",
+        "@gamescience/participant-count-display",
+        "@gamescience/shared-display-shell"
+      ],
+      "dependencies": [],
+      "files": [
         {
           "path": "src/patterns/lobby/shared-display-lobby.tsx",
           "type": "registry:block",
           "target": "src/patterns/lobby/shared-display-lobby.tsx"
-        },
-        {
-          "path": "src/patterns/lobby/index.ts",
-          "type": "registry:lib",
-          "target": "src/patterns/lobby/index.ts"
-        },
-        {
-          "path": "src/components/display/display-heading.tsx",
-          "type": "registry:component",
-          "target": "src/components/display/display-heading.tsx"
-        },
-        {
-          "path": "src/components/display/participant-count-display.tsx",
-          "type": "registry:component",
-          "target": "src/components/display/participant-count-display.tsx"
-        },
-        {
-          "path": "src/components/display/index.ts",
-          "type": "registry:lib",
-          "target": "src/components/display/index.ts"
         }
       ]
     },

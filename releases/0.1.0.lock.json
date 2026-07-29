@@ -1,0 +1,33 @@
+{
+  "version": "0.1.0",
+  "generatedAt": "2026-07-28T23:55:18.351Z",
+  "files": {
+    "agent-catalogue.json": "54e403b4106409c1965a06ee995b6f5dde5c1c65d1d543a297cbd16718b5ef11",
+    "r/alert.json": "a6fa975163b345b6b2bfc25f7fcf47bb49799dbecefbd430704e6ec6b3c3ffda",
+    "r/badge.json": "5b59d704ada9e9568732118b854626d165801dbb398287ee86be61c674163c37",
+    "r/base.json": "b062d973246933fd93f73571c93161ebe8b799b81f6d92a0fa4c04a0c780e318",
+    "r/button.json": "fd578a74c1f5efa0740e9bcab011ad826df7bbfab29c069348e5a1044e04a895",
+    "r/connection-status.json": "cd9ca8a124b33ccadc73ca504faaf44af44678cbfe62206786f472f510aecac1",
+    "r/display-heading.json": "e951fe4e9f110d51ed1d7921fc508baf1ffa1c7e375f84a1e7863265fcd40b58",
+    "r/facilitator-shell.json": "d0e3c88a2e3862fb2c94d570c0a5a9c5c908244866c6ca7c3775d386eaacf463",
+    "r/game-code-input.json": "f05db9188ef7b07b313f9bbcd902d60ea826a001d0d1319444e900fbcfe1ff52",
+    "r/input.json": "7144bec0609122b6401d874a9ca7a7a05c0e00f152505ebbe9b2a8e5f933387c",
+    "r/join-flow.json": "3726b2f903589a968fd23594e5c02aeb3f10d50c3ef32481340cd3bc837f0c1b",
+    "r/lobby.json": "b7ea0217330e630d7f402f42847c5b9579cf135c8959e016904c2d773872c807",
+    "r/panel.json": "8e862c3d88d19850329f685d1ed55b2d2a28f6fe13b4ea51b77abba37f7e14ad",
+    "r/participant-count-display.json": "87989b1ef64525f21a1b6fa617cf7c2a99b9fc6928f5c305a7f38ca159d121aa",
+    "r/participant-identity.json": "1a94d99364d36197c446b5b9d5c627aec54721056225b9add661fd86c74299c5",
+    "r/participant-shell.json": "6a3a94681db537ba61ecf520d57615a1bb8e4622071bc0983b3e3b663d21b7a2",
+    "r/participant-status.json": "3c5cb5dd735d6f6a76cb96644761c3c00f74413415bee835b20f1c0d66b2e150",
+    "r/progress.json": "74faccc9591f165a6514c07f759772e71ba0f6177316ea41609a723d0405599d",
+    "r/room-code-display.json": "efc00898c93dd40069aec6f6350b0550cef52d0aea23a1efa11d06a711325ba4",
+    "r/shared-display-lobby.json": "0ec931ba8d965e5c320c06f05fc953d97ea9f1831f28c657711bd2c6c8ff6ce4",
+    "r/shared-display-shell.json": "1b7c6464c5ffcd567f0bd206b21cdf59a7ac3d23e83709306444ce72764657cd",
+    "r/skeleton.json": "bdb2cea35d28b8593efa6cc22c4faa8f89252637d8e2609fdcc7a7085ee87ab1",
+    "r/theme-citadel.json": "eac5eccb6fe302b88cfacd36c4c228eb55a144c6ad768e9751d5fe665791af6e",
+    "r/theme-gamescience.json": "f342a785bb500471e292b89be116bd0575eb96da338b326647968899bc4eaf7b",
+    "r/waiting-state.json": "1b17280ba360b01b6d199c43d7330eca40bdc944a3b55ed4018dc9616548f24a",
+    "registry.json": "ebbca3865c5d6cbdc058132af0f61c64eeeab5dddee9be516fac5aac7c45e442",
+    "version.json": "e78ec7d64914e96c188f618c6c952b468400298b0453210fca7c28e79d7fdb0f"
+  }
+}

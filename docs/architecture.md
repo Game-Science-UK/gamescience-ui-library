@@ -29,7 +29,7 @@ Context adjusts scale, density, and interaction affordances without changing bra
 
 ### Provider
 
-`GameScienceProvider` applies `data-theme` and `data-context`, establishes background/foreground defaults, and exposes React context hooks.
+`GameScienceProvider` applies `data-theme` and `data-context`, establishes background/foreground defaults, exposes React context hooks, and synchronises the same attributes onto `document.documentElement` so portals (Radix, Sonner) inherit theme tokens. Nested or mixed themes are not supported.
 
 ### UI components
 

@@ -38,6 +38,12 @@ const preview: Preview = {
   },
   parameters: {
     layout: "fullscreen",
+    docs: {
+      description: {
+        component:
+          "Global Theme and Context toolbar controls wrap stories in GameScienceProvider, which syncs data-theme/data-context onto document.documentElement so portals inherit tokens.",
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

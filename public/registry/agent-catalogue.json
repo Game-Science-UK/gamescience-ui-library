@@ -496,6 +496,66 @@
     "deprecatedAlternatives": [],
     "version": "0.1.0"
   },
+  "display-heading": {
+    "registryItem": "@gamescience/display-heading",
+    "category": "component",
+    "title": "Display Heading",
+    "purpose": "Large shared-display heading with optional eyebrow.",
+    "useWhen": [
+      "titling shared-display screens at distance-readable scale"
+    ],
+    "avoid": [
+      "using as a participant mobile page title without need"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "shared-display",
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "shared-display-lobby"
+    ],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.1.0"
+  },
+  "participant-count-display": {
+    "registryItem": "@gamescience/participant-count-display",
+    "category": "component",
+    "title": "Participant Count Display",
+    "purpose": "Privacy-safe connected participant count for shared displays.",
+    "useWhen": [
+      "showing aggregate join progress on a shared display"
+    ],
+    "avoid": [
+      "listing private participant identities on shared display"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "shared-display",
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "shared-display-lobby"
+    ],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.1.0"
+  },
   "join-flow": {
     "registryItem": "@gamescience/join-flow",
     "category": "pattern",
@@ -521,6 +581,7 @@
     ],
     "related": [
       "lobby",
+      "shared-display-lobby",
       "participant-shell"
     ],
     "props": [],
@@ -544,25 +605,25 @@
   "lobby": {
     "registryItem": "@gamescience/lobby",
     "category": "pattern",
-    "title": "Lobby Patterns",
-    "purpose": "Facilitator and shared-display lobby compositions.",
+    "title": "Facilitator Lobby",
+    "purpose": "Facilitator lobby with room code, participant status, and start controls.",
     "useWhen": [
-      "operating or broadcasting a pre-start lobby"
+      "operating a pre-start facilitator lobby"
     ],
     "avoid": [
       "owning stage-transition authority inside the pattern"
     ],
     "preferOver": [],
     "contexts": [
-      "facilitator",
-      "shared-display"
+      "facilitator"
     ],
     "themes": [
       "gamescience",
       "citadel"
     ],
     "related": [
-      "join-flow"
+      "join-flow",
+      "shared-display-lobby"
     ],
     "props": [],
     "uses": [
@@ -573,9 +634,44 @@
       "alert",
       "progress",
       "participant-status",
+      "room-code-display",
+      "facilitator-shell"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.1.0"
+  },
+  "shared-display-lobby": {
+    "registryItem": "@gamescience/shared-display-lobby",
+    "category": "pattern",
+    "title": "Shared Display Lobby",
+    "purpose": "Privacy-safe shared-display lobby with room code and join progress.",
+    "useWhen": [
+      "broadcasting a join/lobby state on a shared room display"
+    ],
+    "avoid": [
+      "showing participant-private information"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "shared-display"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "join-flow",
+      "lobby"
+    ],
+    "props": [],
+    "uses": [
+      "base",
+      "panel",
+      "badge",
       "waiting-state",
       "room-code-display",
-      "facilitator-shell",
+      "display-heading",
+      "participant-count-display",
       "shared-display-shell"
     ],
     "deprecatedAlternatives": [],

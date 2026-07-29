@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "lobby",
   "type": "registry:block",
-  "title": "Lobby Patterns",
-  "description": "Facilitator and shared-display lobby compositions.",
+  "title": "Facilitator Lobby",
+  "description": "Facilitator lobby with room code, participant status, and start controls.",
   "dependencies": [],
   "registryDependencies": [
     "@gamescience/base",
@@ -13,10 +13,8 @@
     "@gamescience/alert",
     "@gamescience/progress",
     "@gamescience/participant-status",
-    "@gamescience/waiting-state",
     "@gamescience/room-code-display",
-    "@gamescience/facilitator-shell",
-    "@gamescience/shared-display-shell"
+    "@gamescience/facilitator-shell"
   ],
   "files": [
     {
@@ -24,36 +22,6 @@
       "type": "registry:block",
       "target": "src/patterns/lobby/facilitator-lobby.tsx",
       "content": "import { Alert } from \"@/components/ui/alert\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { ButtonGroup } from \"@/components/ui/button-group\";\nimport { Panel, PanelDescription, PanelHeader, PanelTitle } from \"@/components/ui/panel\";\nimport { Progress } from \"@/components/ui/progress\";\nimport { ParticipantStatus } from \"@/components/game/participant-status\";\nimport { RoomCodeDisplay } from \"@/components/display/room-code-display\";\nimport { cn } from \"@/lib/cn\";\nimport type { ParticipantSummary, SessionSummary, StageStatus } from \"@/types/game\";\n\nexport interface FacilitatorLobbyProps {\n  session: SessionSummary;\n  participants: ParticipantSummary[];\n  status: StageStatus;\n  startDisabledReason?: string;\n  showStartConfirm?: boolean;\n  onStart: () => void;\n  onCancelStart?: () => void;\n  onConfirmStart?: () => void;\n  className?: string;\n}\n\nfunction FacilitatorLobby({\n  session,\n  participants,\n  status,\n  startDisabledReason,\n  showStartConfirm = false,\n  onStart,\n  onCancelStart,\n  onConfirmStart,\n  className,\n}: FacilitatorLobbyProps) {\n  const expected = session.expectedParticipantCount ?? participants.length;\n  const readyCount = participants.filter((participant) => participant.readiness === \"ready\").length;\n  const disconnectedCount = participants.filter(\n    (participant) => participant.connection !== \"connected\",\n  ).length;\n  const progressValue = expected > 0 ? Math.round((participants.length / expected) * 100) : 0;\n  const canStart = status === \"ready\" && !startDisabledReason;\n\n  return (\n    <div className={cn(\"grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]\", className)}>\n      <Panel elevation=\"raised\" className=\"space-y-4\">\n        <PanelHeader>\n          <PanelTitle>Session control</PanelTitle>\n          <PanelDescription>\n            Participants currently see the join/lobby screens. The shared display shows the room\n            code.\n          </PanelDescription>\n        </PanelHeader>\n\n        <RoomCodeDisplay code={session.code} label=\"Room code\" />\n        <div className=\"flex flex-wrap gap-2\">\n          <Badge intent=\"information\">Stage: Lobby</Badge>\n          <Badge intent={status === \"ready\" ? \"success\" : \"default\"}>Status: {status}</Badge>\n        </div>\n\n        <Progress value={progressValue} label={`Joined ${participants.length} of ${expected}`} />\n\n        {disconnectedCount > 0 ? (\n          <Alert intent=\"warning\" title={`${disconnectedCount} participant connection issue`}>\n            Review the participant list before advancing. Disconnected participants may miss the\n            start cue.\n          </Alert>\n        ) : null}\n\n        {showStartConfirm ? (\n          <Alert intent=\"warning\" title=\"Start the session?\">\n            This advances every interface out of the lobby. Confirm only when the room is ready.\n            <ButtonGroup className=\"mt-3\">\n              <Button type=\"button\" intent=\"primary\" onClick={onConfirmStart}>\n                Confirm start\n              </Button>\n              <Button type=\"button\" intent=\"ghost\" onClick={onCancelStart}>\n                Cancel\n              </Button>\n            </ButtonGroup>\n          </Alert>\n        ) : (\n          <ButtonGroup orientation=\"vertical\">\n            <Button type=\"button\" intent=\"primary\" size=\"lg\" disabled={!canStart} onClick={onStart}>\n              Start session\n            </Button>\n            {!canStart ? (\n              <p className=\"text-[length:var(--type-scale-label)] text-muted-foreground\">\n                {startDisabledReason ?? \"Start becomes available when the lobby status is ready.\"}\n              </p>\n            ) : null}\n          </ButtonGroup>\n        )}\n      </Panel>\n\n      <Panel elevation=\"subtle\" padding=\"md\">\n        <PanelHeader>\n          <PanelTitle>Participants</PanelTitle>\n          <PanelDescription>\n            {readyCount} ready · {participants.length} joined\n          </PanelDescription>\n        </PanelHeader>\n\n        {participants.length === 0 ? (\n          <Alert intent=\"information\" title=\"No participants connected\">\n            Share the room code on the shared display. New joiners will appear here.\n          </Alert>\n        ) : (\n          <ul className=\"grid gap-2 sm:grid-cols-2 xl:grid-cols-3\">\n            {participants.map((participant) => (\n              <li key={participant.id}>\n                <ParticipantStatus\n                  displayName={participant.displayName}\n                  connection={participant.connection}\n                  readiness={participant.readiness}\n                />\n              </li>\n            ))}\n          </ul>\n        )}\n      </Panel>\n    </div>\n  );\n}\n\nFacilitatorLobby.displayName = \"FacilitatorLobby\";\n\nexport { FacilitatorLobby };\n"
-    },
-    {
-      "path": "src/patterns/lobby/shared-display-lobby.tsx",
-      "type": "registry:block",
-      "target": "src/patterns/lobby/shared-display-lobby.tsx",
-      "content": "import { Badge } from \"@/components/ui/badge\";\nimport { Panel } from \"@/components/ui/panel\";\nimport { WaitingState } from \"@/components/game/waiting-state\";\nimport { DisplayHeading } from \"@/components/display/display-heading\";\nimport { ParticipantCountDisplay } from \"@/components/display/participant-count-display\";\nimport { RoomCodeDisplay } from \"@/components/display/room-code-display\";\nimport { cn } from \"@/lib/cn\";\nimport type { SessionSummary, StageStatus } from \"@/types/game\";\n\nexport interface SharedDisplayLobbyProps {\n  session: SessionSummary;\n  status: StageStatus;\n  instruction?: string;\n  className?: string;\n}\n\nfunction SharedDisplayLobby({\n  session,\n  status,\n  instruction = \"Open the game on your phone and enter this code\",\n  className,\n}: SharedDisplayLobbyProps) {\n  const isReady = status === \"ready\";\n\n  return (\n    <div\n      className={cn(\n        \"mx-auto flex min-h-[70vh] w-full max-w-content flex-col items-center justify-center gap-[var(--section-gap)] px-8\",\n        className,\n      )}\n    >\n      <DisplayHeading eyebrow={session.title ?? \"GameScience session\"}>\n        {isReady ? \"Ready to begin\" : \"Join the session\"}\n      </DisplayHeading>\n\n      <Panel elevation=\"raised\" padding=\"lg\" className=\"w-full max-w-4xl space-y-8\">\n        <RoomCodeDisplay code={session.code} />\n        <p className=\"text-center text-[length:var(--type-scale-body)] text-muted-foreground\">\n          {instruction}\n        </p>\n        <ParticipantCountDisplay\n          count={session.participantCount}\n          expected={session.expectedParticipantCount}\n        />\n        <div className=\"flex justify-center\">\n          <Badge intent={isReady ? \"success\" : \"information\"}>\n            {isReady ? \"All participants ready\" : \"Waiting for participants\"}\n          </Badge>\n        </div>\n      </Panel>\n\n      {!isReady ? (\n        <WaitingState\n          title=\"Waiting for players\"\n          description=\"Private participant details are never shown on this display.\"\n          loading\n        />\n      ) : (\n        <WaitingState\n          title=\"Stand by for facilitator start\"\n          description=\"The shared display will advance with the room.\"\n          loading={false}\n        />\n      )}\n    </div>\n  );\n}\n\nSharedDisplayLobby.displayName = \"SharedDisplayLobby\";\n\nexport { SharedDisplayLobby };\n"
-    },
-    {
-      "path": "src/patterns/lobby/index.ts",
-      "type": "registry:lib",
-      "target": "src/patterns/lobby/index.ts",
-      "content": "export { FacilitatorLobby, type FacilitatorLobbyProps } from \"./facilitator-lobby\";\nexport { SharedDisplayLobby, type SharedDisplayLobbyProps } from \"./shared-display-lobby\";\n"
-    },
-    {
-      "path": "src/components/display/display-heading.tsx",
-      "type": "registry:component",
-      "target": "src/components/display/display-heading.tsx",
-      "content": "import type { HTMLAttributes } from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface DisplayHeadingProps extends HTMLAttributes<HTMLHeadingElement> {\n  as?: \"h1\" | \"h2\" | \"h3\";\n  eyebrow?: string;\n}\n\nfunction DisplayHeading({\n  as: Comp = \"h1\",\n  eyebrow,\n  className,\n  children,\n  ...props\n}: DisplayHeadingProps) {\n  return (\n    <div className={cn(\"space-y-2 text-center\", className)}>\n      {eyebrow ? <p className=\"gs-label text-muted-foreground\">{eyebrow}</p> : null}\n      <Comp className=\"gs-display text-foreground\" {...props}>\n        {children}\n      </Comp>\n    </div>\n  );\n}\n\nDisplayHeading.displayName = \"DisplayHeading\";\n\nexport { DisplayHeading };\n"
-    },
-    {
-      "path": "src/components/display/participant-count-display.tsx",
-      "type": "registry:component",
-      "target": "src/components/display/participant-count-display.tsx",
-      "content": "import { cn } from \"@/lib/cn\";\n\nexport interface ParticipantCountDisplayProps {\n  count: number;\n  expected?: number;\n  label?: string;\n  className?: string;\n}\n\nfunction ParticipantCountDisplay({\n  count,\n  expected,\n  label = \"Participants connected\",\n  className,\n}: ParticipantCountDisplayProps) {\n  const value = expected != null ? `${count} / ${expected}` : String(count);\n\n  return (\n    <div className={cn(\"text-center\", className)} aria-live=\"polite\">\n      <p className=\"gs-label text-muted-foreground\">{label}</p>\n      <p className=\"gs-display mt-1 font-display text-foreground\">{value}</p>\n    </div>\n  );\n}\n\nParticipantCountDisplay.displayName = \"ParticipantCountDisplay\";\n\nexport { ParticipantCountDisplay };\n"
-    },
-    {
-      "path": "src/components/display/index.ts",
-      "type": "registry:lib",
-      "target": "src/components/display/index.ts",
-      "content": "export { DisplayHeading, type DisplayHeadingProps } from \"./display-heading\";\nexport {\n  ParticipantCountDisplay,\n  type ParticipantCountDisplayProps,\n} from \"./participant-count-display\";\nexport { RoomCodeDisplay, type RoomCodeDisplayProps } from \"./room-code-display\";\n"
     }
   ],
   "meta": {

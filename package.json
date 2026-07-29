@@ -21,9 +21,15 @@
     "registry:build": "tsx scripts/build-registry.ts",
     "registry:validate": "tsx scripts/validate-registry.ts",
     "registry:serve": "npx --yes serve public/registry -p 4343",
+    "pages:build": "npm run registry:build && tsx scripts/build-pages.ts",
+    "pages:validate": "tsx scripts/validate-pages.ts",
+    "pages:serve": "npx --yes serve pages-dist -p 4177",
     "theme:check": "tsx scripts/check-theme-contract.ts",
+    "architecture:check": "tsx scripts/check-architecture.ts",
     "smoke:registry": "tsx scripts/smoke-registry-install.ts",
-    "validate": "npm run typecheck && npm run lint && npm run format:check && npm run theme:check && npm run test && npm run build && npm run build-storybook && npm run registry:build && npm run registry:validate"
+    "smoke:registry-overwrite": "tsx scripts/smoke-registry-overwrite.ts",
+    "smoke:pages": "tsx scripts/smoke-pages-install.ts",
+    "validate": "npm run typecheck && npm run lint && npm run format:check && npm run theme:check && npm run architecture:check && npm run test && npm run build && npm run build-storybook && npm run registry:build && npm run registry:validate && npm run pages:build && npm run pages:validate"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.7",

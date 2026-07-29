@@ -21,7 +21,11 @@ Consult:
 
 ## Prefer patterns
 
-If a join or lobby experience is needed, install `@gamescience/join-flow` or `@gamescience/lobby` rather than assembling primitives ad hoc.
+If a join or lobby experience is needed, install the matching pattern rather than assembling primitives ad hoc:
+
+- `@gamescience/join-flow` — participant
+- `@gamescience/lobby` — facilitator
+- `@gamescience/shared-display-lobby` — shared display
 
 ## Avoid forks
 

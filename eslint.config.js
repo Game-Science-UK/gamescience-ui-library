@@ -9,11 +9,13 @@ export default tseslint.config(
   {
     ignores: [
       "dist",
+      "pages-dist",
       "storybook-static",
       "public/registry",
       "node_modules",
       "coverage",
       "tmp",
+      "releases",
       "*.config.js",
       "*.config.cjs",
     ],

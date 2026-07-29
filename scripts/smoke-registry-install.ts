@@ -5,31 +5,56 @@ import { fileURLToPath } from "node:url";
 import { registryItems } from "./registry-manifest.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const fixtureDir = path.join(root, "tmp/registry-smoke");
+const smokeRoot = path.join(root, "tmp/registry-smoke");
 const registryDir = path.join(root, "public/registry/r");
 
-const itemsToInstall = ["base", "theme-gamescience", "button", "input", "panel", "join-flow"];
+type ThemeName = "gamescience" | "citadel";
+type PatternName = "join-flow" | "lobby" | "shared-display-lobby";
 
-function run(command: string, cwd = fixtureDir) {
+interface SmokeScenario {
+  id: string;
+  theme: ThemeName;
+  pattern: PatternName;
+}
+
+/**
+ * Independent consumer scenarios.
+ * Each pattern is installed only with its declared registry dependency graph —
+ * never with sibling patterns from the library monorepo.
+ */
+const scenarios: SmokeScenario[] = [
+  { id: "gamescience-join-flow", theme: "gamescience", pattern: "join-flow" },
+  { id: "citadel-join-flow", theme: "citadel", pattern: "join-flow" },
+  { id: "gamescience-lobby", theme: "gamescience", pattern: "lobby" },
+  { id: "citadel-lobby", theme: "citadel", pattern: "lobby" },
+  { id: "gamescience-shared-display-lobby", theme: "gamescience", pattern: "shared-display-lobby" },
+  { id: "citadel-shared-display-lobby", theme: "citadel", pattern: "shared-display-lobby" },
+];
+
+function run(command: string, cwd: string) {
   execSync(command, { cwd, stdio: "inherit" });
 }
 
-function installItem(name: string, installed: Set<string>) {
+function installItem(name: string, targetRoot: string, installed: Set<string>) {
   if (installed.has(name)) return;
   const definition = registryItems.find((item) => item.name === name);
   if (!definition) throw new Error(`Unknown registry item ${name}`);
 
   for (const dep of definition.registryDependencies ?? []) {
-    installItem(dep, installed);
+    installItem(dep, targetRoot, installed);
   }
 
-  const itemJson = JSON.parse(readFileSync(path.join(registryDir, `${name}.json`), "utf8")) as {
+  const itemPath = path.join(registryDir, `${name}.json`);
+  if (!existsSync(itemPath)) {
+    throw new Error(`Missing built registry item ${name}.json — run npm run registry:build`);
+  }
+
+  const itemJson = JSON.parse(readFileSync(itemPath, "utf8")) as {
     files: Array<{ target: string; content: string }>;
-    dependencies?: string[];
   };
 
   for (const file of itemJson.files) {
-    const target = path.join(fixtureDir, file.target);
+    const target = path.join(targetRoot, file.target);
     mkdirSync(path.dirname(target), { recursive: true });
     writeFileSync(target, file.content);
   }
@@ -37,25 +62,14 @@ function installItem(name: string, installed: Set<string>) {
   installed.add(name);
 }
 
-function main() {
-  if (!existsSync(path.join(registryDir, "base.json"))) {
-    console.error("Registry not built. Run npm run registry:build first.");
-    process.exit(1);
-  }
-
-  rmSync(fixtureDir, { recursive: true, force: true });
-  mkdirSync(fixtureDir, { recursive: true });
-
+function writeSharedTooling(dir: string) {
   writeFileSync(
-    path.join(fixtureDir, "package.json"),
+    path.join(dir, "package.json"),
     JSON.stringify(
       {
         name: "gamescience-registry-smoke",
         private: true,
         type: "module",
-        scripts: {
-          build: "tsc -b && vite build",
-        },
         dependencies: {
           react: "^19.1.0",
           "react-dom": "^19.1.0",
@@ -83,9 +97,11 @@ function main() {
       2,
     ),
   );
+}
 
+function writeScenarioTooling(dir: string) {
   writeFileSync(
-    path.join(fixtureDir, "tsconfig.json"),
+    path.join(dir, "tsconfig.json"),
     JSON.stringify(
       {
         compilerOptions: {
@@ -108,7 +124,7 @@ function main() {
   );
 
   writeFileSync(
-    path.join(fixtureDir, "vite.config.ts"),
+    path.join(dir, "vite.config.ts"),
     `import path from "node:path";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
@@ -121,38 +137,34 @@ export default defineConfig({
   );
 
   writeFileSync(
-    path.join(fixtureDir, "tailwind.config.ts"),
+    path.join(dir, "tailwind.config.ts"),
     readFileSync(path.join(root, "tailwind.config.ts"), "utf8"),
   );
   writeFileSync(
-    path.join(fixtureDir, "postcss.config.js"),
+    path.join(dir, "postcss.config.js"),
     readFileSync(path.join(root, "postcss.config.js"), "utf8"),
   );
   writeFileSync(
-    path.join(fixtureDir, "index.html"),
+    path.join(dir, "index.html"),
     `<!doctype html><html><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>`,
   );
+}
 
-  mkdirSync(path.join(fixtureDir, "src"), { recursive: true });
+function mainEntryFor(scenario: SmokeScenario): string {
+  const themeImport = `@/themes/${scenario.theme}.css`;
 
-  const installed = new Set<string>();
-  for (const name of itemsToInstall) {
-    installItem(name, installed);
-  }
-
-  writeFileSync(
-    path.join(fixtureDir, "src/main.tsx"),
-    `import { StrictMode } from "react";
+  if (scenario.pattern === "join-flow") {
+    return `import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { GameScienceProvider } from "@/providers/gamescience-provider";
 import { ParticipantJoinFlow } from "@/patterns/join/participant-join-flow";
 import { ParticipantShell } from "@/templates/participant-shell/participant-shell";
 import "@/foundations/index.css";
-import "@/themes/gamescience.css";
+import "${themeImport}";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <GameScienceProvider theme="gamescience" context="participant">
+    <GameScienceProvider theme="${scenario.theme}" context="participant">
       <ParticipantShell>
         <ParticipantJoinFlow
           step="enter-code"
@@ -167,13 +179,176 @@ createRoot(document.getElementById("root")!).render(
     </GameScienceProvider>
   </StrictMode>,
 );
-`,
-  );
+`;
+  }
 
-  console.log(`[smoke] installed items: ${[...installed].join(", ")}`);
-  run("npm install");
-  run("npx vite build");
-  console.log("[smoke] registry installation fixture built successfully");
+  if (scenario.pattern === "lobby") {
+    return `import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { GameScienceProvider } from "@/providers/gamescience-provider";
+import { FacilitatorLobby } from "@/patterns/lobby/facilitator-lobby";
+import { FacilitatorShell } from "@/templates/facilitator-shell/facilitator-shell";
+import "@/foundations/index.css";
+import "${themeImport}";
+
+const session = {
+  code: "B7K2",
+  title: "Strategy Simulation",
+  participantCount: 2,
+  expectedParticipantCount: 24,
+  stage: "lobby" as const,
+  status: "active" as const,
+};
+
+const participants = [
+  {
+    id: "p-1",
+    displayName: "Team Alpha",
+    connection: "connected" as const,
+    readiness: "ready" as const,
+  },
+  {
+    id: "p-2",
+    displayName: "Team Bravo",
+    connection: "connected" as const,
+    readiness: "not-ready" as const,
+  },
+];
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <GameScienceProvider theme="${scenario.theme}" context="facilitator">
+      <FacilitatorShell subtitle="Smoke · facilitator lobby">
+        <FacilitatorLobby
+          session={session}
+          participants={participants}
+          status="active"
+          onStart={() => undefined}
+        />
+      </FacilitatorShell>
+    </GameScienceProvider>
+  </StrictMode>,
+);
+`;
+  }
+
+  return `import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { GameScienceProvider } from "@/providers/gamescience-provider";
+import { SharedDisplayLobby } from "@/patterns/lobby/shared-display-lobby";
+import { SharedDisplayShell } from "@/templates/shared-display-shell/shared-display-shell";
+import "@/foundations/index.css";
+import "${themeImport}";
+
+const session = {
+  code: "B7K2",
+  title: "Strategy Simulation",
+  participantCount: 18,
+  expectedParticipantCount: 24,
+  stage: "lobby" as const,
+  status: "active" as const,
+};
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <GameScienceProvider theme="${scenario.theme}" context="shared-display">
+      <SharedDisplayShell>
+        <SharedDisplayLobby session={session} status="active" />
+      </SharedDisplayShell>
+    </GameScienceProvider>
+  </StrictMode>,
+);
+`;
+}
+
+function assertCleanPatternInstall(scenario: SmokeScenario, installed: Set<string>) {
+  const forbiddenByPattern: Record<PatternName, string[]> = {
+    "join-flow": ["lobby", "shared-display-lobby", "facilitator-shell", "shared-display-shell"],
+    lobby: ["join-flow", "shared-display-lobby", "participant-shell", "shared-display-shell"],
+    "shared-display-lobby": ["join-flow", "lobby", "participant-shell", "facilitator-shell"],
+  };
+
+  const forbidden = forbiddenByPattern[scenario.pattern];
+  const leaked = forbidden.filter((name) => installed.has(name));
+  if (leaked.length > 0) {
+    throw new Error(
+      `[smoke:${scenario.id}] dependency graph leaked sibling packages: ${leaked.join(", ")}`,
+    );
+  }
+
+  const themeItem = `theme-${scenario.theme}`;
+  if (!installed.has(themeItem)) {
+    throw new Error(`[smoke:${scenario.id}] expected ${themeItem} to be installed`);
+  }
+  if (!installed.has(scenario.pattern)) {
+    throw new Error(`[smoke:${scenario.id}] expected ${scenario.pattern} to be installed`);
+  }
+
+  const otherTheme = scenario.theme === "gamescience" ? "theme-citadel" : "theme-gamescience";
+  if (installed.has(otherTheme)) {
+    throw new Error(`[smoke:${scenario.id}] unexpectedly installed ${otherTheme}`);
+  }
+}
+
+function prepareScenario(scenario: SmokeScenario) {
+  const scenarioDir = path.join(smokeRoot, "scenarios", scenario.id);
+  rmSync(scenarioDir, { recursive: true, force: true });
+  mkdirSync(path.join(scenarioDir, "src"), { recursive: true });
+  writeScenarioTooling(scenarioDir);
+
+  const themeItem = `theme-${scenario.theme}`;
+  const installed = new Set<string>();
+  installItem("base", scenarioDir, installed);
+  installItem(themeItem, scenarioDir, installed);
+  installItem(scenario.pattern, scenarioDir, installed);
+
+  assertCleanPatternInstall(scenario, installed);
+  writeFileSync(path.join(scenarioDir, "src/main.tsx"), mainEntryFor(scenario));
+
+  console.log(`[smoke:${scenario.id}] installed: ${[...installed].sort().join(", ")}`);
+  return scenarioDir;
+}
+
+function main() {
+  if (!existsSync(path.join(registryDir, "base.json"))) {
+    console.error("Registry not built. Run npm run registry:build first.");
+    process.exit(1);
+  }
+
+  for (const required of ["join-flow", "lobby", "shared-display-lobby", "theme-citadel"] as const) {
+    if (!existsSync(path.join(registryDir, `${required}.json`))) {
+      console.error(`Missing registry item ${required}.json — run npm run registry:build`);
+      process.exit(1);
+    }
+  }
+
+  rmSync(smokeRoot, { recursive: true, force: true });
+  mkdirSync(smokeRoot, { recursive: true });
+  writeSharedTooling(smokeRoot);
+
+  console.log("[smoke] installing shared consumer dependencies once");
+  run("npm install", smokeRoot);
+
+  const failures: string[] = [];
+
+  for (const scenario of scenarios) {
+    const scenarioDir = prepareScenario(scenario);
+    try {
+      const viteBin = path.join(smokeRoot, "node_modules/.bin/vite");
+      run(`"${viteBin}" build`, scenarioDir);
+      console.log(`[smoke:${scenario.id}] build succeeded`);
+    } catch {
+      failures.push(scenario.id);
+      console.error(`[smoke:${scenario.id}] build FAILED`);
+    }
+  }
+
+  if (failures.length > 0) {
+    console.error(`[smoke] failed scenarios: ${failures.join(", ")}`);
+    process.exit(1);
+  }
+
+  console.log(`[smoke] all ${scenarios.length} registry installation scenarios built successfully`);
 }
 
 main();

@@ -8,9 +8,34 @@ import {
   registryItems,
   type RegistryItemDefinition,
 } from "./registry-manifest.ts";
+import {
+  PAGES_SITE_URL,
+  versionedCatalogueUrl,
+  versionedRegistryTemplate,
+  latestRegistryTemplate,
+} from "./pages-config.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(root, "public/registry");
+
+function writeConsumerMetadata() {
+  const metadata = {
+    name: "GameScience UI",
+    version: REGISTRY_VERSION,
+    registryNamespace: REGISTRY_NAMESPACE,
+    registryUrl: versionedRegistryTemplate(REGISTRY_VERSION, PAGES_SITE_URL),
+    latestRegistryUrl: latestRegistryTemplate(PAGES_SITE_URL),
+    catalogueUrl: versionedCatalogueUrl(REGISTRY_VERSION, PAGES_SITE_URL),
+    themeRule: "One active theme per application",
+    contexts: ["participant", "facilitator", "shared-display"],
+    guidanceFile: "src/docs/gamescience-ui-guidance.md",
+  };
+  mkdirSync(path.join(root, "consumer"), { recursive: true });
+  writeFileSync(
+    path.join(root, "consumer/gamescience-ui.json"),
+    `${JSON.stringify(metadata, null, 2)}\n`,
+  );
+}
 
 function ensureCleanOutput() {
   rmSync(outDir, { recursive: true, force: true });
@@ -74,6 +99,7 @@ function buildCatalogue() {
 }
 
 function main() {
+  writeConsumerMetadata();
   ensureCleanOutput();
 
   const index = {

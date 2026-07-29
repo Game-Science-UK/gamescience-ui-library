@@ -1,7 +1,11 @@
 dist
+pages-dist
 storybook-static
 public/registry
 registry/**/*.json
+releases/*.lock.json
+consumer/gamescience-ui.json
+docs/registry-overwrite-observations.md
 node_modules
 coverage
 tmp

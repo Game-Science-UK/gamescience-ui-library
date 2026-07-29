@@ -38,3 +38,15 @@
 - Include Storybook coverage for user-visible UI
 - Do not add legacy toast implementations
 - Do not introduce theme-named component forks
+- Do not commit secrets, `.env` files, private client assets, or confidential game content
+- After registry/source changes that affect a **released** version, bump `GAMESCIENCE_UI_VERSION` rather than rewriting a locked `releases/{version}.lock.json`
+- Run `npm run validate` (includes Pages build/validate) before merge when touching registry distribution
+
+## Public repository hygiene
+
+This repository is public. Never commit:
+
+- credentials or tokens
+- private client materials
+- KPMG-specific shared APIs
+- internal commercial proposals or pricing
