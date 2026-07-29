@@ -4,13 +4,22 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { GAMESCIENCE_UI_VERSION } from "../src/lib/version.ts";
 import { registryItems } from "./registry-manifest.ts";
-import { PAGES_SITE_PATH, PAGES_SITE_URL, PAGES_VERSION } from "./pages-config.ts";
+import {
+  PAGES_SITE_PATH,
+  PAGES_SITE_URL,
+  PAGES_VERSION,
+  PUBLIC_PAGES_BRIDGE_CSS,
+  PUBLIC_PAGES_DOC_MARKERS,
+  PUBLIC_PAGES_DOCS,
+} from "./pages-config.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const pagesDist = path.join(root, "pages-dist");
 const releasesDir = path.join(root, "releases");
 const versionRoot = path.join(pagesDist, "versions", PAGES_VERSION);
 const lockPath = path.join(root, "releases", `${PAGES_VERSION}.lock.json`);
+const docsRoot = path.join(pagesDist, "docs");
+const docsUrlPrefix = `${PAGES_SITE_PATH}/docs/`;
 
 /** versioned = candidate only; full = latest + all version trees (default after promote). */
 const mode = (process.env.PAGES_VALIDATE_MODE ?? "full").toLowerCase();
@@ -58,6 +67,220 @@ function scanForForbidden(content: string, fileLabel: string) {
   }
   if (/\/Users\/|\/home\/|file:\/\//i.test(content)) {
     fail(`${fileLabel} contains absolute local path`);
+  }
+}
+
+function stripCssComments(css: string) {
+  return css.replace(/\/\*[\s\S]*?\*\//g, "");
+}
+
+function isHtmlFallback(content: string) {
+  const head = content.slice(0, 400).toLowerCase();
+  return (
+    head.includes("<!doctype html") ||
+    head.includes("<html") ||
+    head.includes("file not found") ||
+    head.includes("there isn't a github pages site here")
+  );
+}
+
+function hasNearbyMarkdownHeading(content: string) {
+  const sample = content.slice(0, 1200);
+  return /^#{1,2}\s+\S+/m.test(sample);
+}
+
+function extractGuidanceDocRefs(guidance: string): string[] {
+  const refs = new Set<string>();
+  // Backtick paths and bare docs/*.md mentions from consumer guidance.
+  for (const match of guidance.matchAll(/`?(docs\/[A-Za-z0-9._\-\/]+\.md)`?/g)) {
+    refs.add(match[1]!);
+  }
+  for (const match of guidance.matchAll(/\(((\.\.\/)*docs\/[A-Za-z0-9._\-\/]+\.md)\)/g)) {
+    refs.add(match[1]!);
+  }
+  for (const match of guidance.matchAll(/\((\/docs\/[A-Za-z0-9._\-\/]+\.md)\)/g)) {
+    refs.add(match[1]!);
+  }
+  return [...refs];
+}
+
+/**
+ * Resolve a first-party docs reference as a browser would against the Pages site base.
+ * Returns the basename under pages-dist/docs when valid; otherwise fails.
+ */
+function resolveGuidanceDocRef(ref: string, label: string): string | null {
+  if (/\/\/|%2e%2e/i.test(ref)) {
+    fail(`${label}: rejected malformed docs reference ${ref}`);
+    return null;
+  }
+
+  let resolved: URL;
+  try {
+    resolved = new URL(ref, `${PAGES_SITE_URL}/`);
+  } catch {
+    fail(`${label}: could not resolve docs reference ${ref}`);
+    return null;
+  }
+
+  if (resolved.origin !== new URL(PAGES_SITE_URL).origin) {
+    // External absolute URL — ignore.
+    return null;
+  }
+
+  const pathname = resolved.pathname.replace(/\/{2,}/g, "/");
+  if (!pathname.startsWith(docsUrlPrefix)) {
+    fail(`${label}: docs reference ${ref} resolves outside ${docsUrlPrefix} (got ${pathname})`);
+    return null;
+  }
+
+  const relative = pathname.slice(docsUrlPrefix.length);
+  if (!relative || relative.includes("/") || relative.includes("..")) {
+    fail(`${label}: docs reference ${ref} targets unexpected docs path ${pathname}`);
+    return null;
+  }
+  if (!relative.endsWith(".md")) {
+    fail(`${label}: docs reference ${ref} is not a Markdown asset`);
+    return null;
+  }
+  return relative;
+}
+
+function validatePublishedMarkdown(fileName: string, content: string) {
+  const label = `docs/${fileName}`;
+  if (!content.trim()) {
+    fail(`${label} is empty`);
+    return;
+  }
+  if (isHtmlFallback(content)) {
+    fail(`${label} looks like an HTML error/fallback document`);
+    return;
+  }
+  if (!hasNearbyMarkdownHeading(content)) {
+    fail(`${label} missing level-1/2 Markdown heading near the start`);
+  }
+  const marker = PUBLIC_PAGES_DOC_MARKERS[fileName as keyof typeof PUBLIC_PAGES_DOC_MARKERS];
+  if (marker && !content.includes(marker)) {
+    fail(`${label} missing expected marker text "${marker}"`);
+  }
+}
+
+function validateRelativeDocLinks(fileName: string, content: string) {
+  const label = `docs/${fileName}`;
+  const docBaseUrl = `${PAGES_SITE_URL}/docs/${fileName}`;
+
+  for (const match of content.matchAll(/\[([^\]]*)\]\(([^)]+)\)/g)) {
+    const href = match[2]!.trim();
+    if (!href || href.startsWith("#") || href.startsWith("mailto:")) continue;
+    if (/^https?:\/\//i.test(href)) {
+      // Ignore external URLs (including intentional GitHub source links).
+      continue;
+    }
+
+    let resolved: URL;
+    try {
+      resolved = new URL(href, docBaseUrl);
+    } catch {
+      fail(`${label}: invalid relative link ${href}`);
+      continue;
+    }
+
+    if (resolved.origin !== new URL(PAGES_SITE_URL).origin) continue;
+
+    const pathname = resolved.pathname.replace(/\/{2,}/g, "/");
+    if (!pathname.startsWith(docsUrlPrefix)) {
+      fail(`${label}: relative link ${href} resolves outside ${docsUrlPrefix}`);
+      continue;
+    }
+
+    const relative = pathname.slice(docsUrlPrefix.length);
+    if (!relative || relative.includes("/") || relative.includes("..")) {
+      fail(`${label}: relative link ${href} targets unexpected path ${pathname}`);
+      continue;
+    }
+    if (!(relative.endsWith(".md") || relative.endsWith(".css"))) {
+      // index.html and other assets under docs may exist; only require md/css for now.
+      if (!existsSync(path.join(docsRoot, relative))) {
+        fail(`${label}: relative link ${href} missing target docs/${relative}`);
+      }
+      continue;
+    }
+    if (!existsSync(path.join(docsRoot, relative))) {
+      fail(`${label}: relative link ${href} missing target docs/${relative}`);
+    }
+  }
+}
+
+function validatePublicDocumentation() {
+  if (!existsSync(docsRoot)) {
+    fail(
+      "missing pages-dist/docs — deployable Pages artifacts require latest promotion to publish public docs",
+    );
+    return;
+  }
+
+  for (const name of PUBLIC_PAGES_DOCS) {
+    const full = path.join(docsRoot, name);
+    if (!existsSync(full)) {
+      fail(`missing public documentation pages-dist/docs/${name}`);
+      continue;
+    }
+    const content = readFileSync(full, "utf8");
+    validatePublishedMarkdown(name, content);
+    validateRelativeDocLinks(name, content);
+  }
+
+  const bridgePath = path.join(docsRoot, PUBLIC_PAGES_BRIDGE_CSS);
+  if (!existsSync(bridgePath)) {
+    fail(`missing pages-dist/docs/${PUBLIC_PAGES_BRIDGE_CSS}`);
+  } else {
+    const bridge = readFileSync(bridgePath, "utf8");
+    if (/@import\s+(?:url\()?["']https?:/i.test(stripCssComments(bridge))) {
+      fail(`docs/${PUBLIC_PAGES_BRIDGE_CSS} contains remote @import`);
+    }
+    if (/--([a-z0-9-]+)\s*:\s*var\(\s*--\1\s*\)/i.test(stripCssComments(bridge))) {
+      fail(`docs/${PUBLIC_PAGES_BRIDGE_CSS} contains circular custom-property mapping`);
+    }
+  }
+
+  const guidanceSources: Array<{ label: string; content: string }> = [];
+  const consumerGuidance = path.join(root, "consumer/gamescience-ui-guidance.md");
+  if (existsSync(consumerGuidance)) {
+    guidanceSources.push({
+      label: "consumer/gamescience-ui-guidance.md",
+      content: readFileSync(consumerGuidance, "utf8"),
+    });
+  }
+
+  const baseJsonPath = path.join(pagesDist, "r", "base.json");
+  if (existsSync(baseJsonPath)) {
+    try {
+      const base = JSON.parse(readFileSync(baseJsonPath, "utf8")) as {
+        files?: Array<{ target?: string; path?: string; content?: string }>;
+      };
+      const guidanceFile = base.files?.find(
+        (file) =>
+          (file.target ?? file.path ?? "").endsWith("gamescience-ui-guidance.md") &&
+          typeof file.content === "string",
+      );
+      if (guidanceFile?.content) {
+        guidanceSources.push({
+          label: "pages-dist/r/base.json guidance",
+          content: guidanceFile.content,
+        });
+      }
+    } catch {
+      fail("pages-dist/r/base.json is not valid JSON while validating guidance docs refs");
+    }
+  }
+
+  for (const source of guidanceSources) {
+    for (const ref of extractGuidanceDocRefs(source.content)) {
+      const relative = resolveGuidanceDocRef(ref, source.label);
+      if (!relative) continue;
+      if (!existsSync(path.join(docsRoot, relative))) {
+        fail(`${source.label}: resolved docs reference ${ref} missing pages-dist/docs/${relative}`);
+      }
+    }
   }
 }
 
@@ -239,6 +462,8 @@ function main() {
         fail("index.html does not reference the repository Pages subpath");
       }
     }
+
+    validatePublicDocumentation();
   }
 
   if (failed) process.exit(1);

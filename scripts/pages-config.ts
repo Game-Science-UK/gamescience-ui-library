@@ -7,6 +7,35 @@ export const PAGES_SITE_URL = `${PAGES_SITE_ORIGIN}${PAGES_SITE_PATH}`;
 
 export const PAGES_VERSION = GAMESCIENCE_UI_VERSION;
 
+/** Approved consumer-facing Markdown published at `/docs/*` (unversioned). */
+export const PUBLIC_PAGES_DOCS = [
+  "tailwind-v4-integration.md",
+  "font-loading.md",
+  "registry-usage.md",
+  "registry-update-policy.md",
+  "lovable-test-project.md",
+  "theming.md",
+  "migration-notes.md",
+  "github-pages-setup.md",
+] as const;
+
+export type PublicPagesDoc = (typeof PUBLIC_PAGES_DOCS)[number];
+
+/** Document-specific marker text used by pages:validate and smoke:pages. */
+export const PUBLIC_PAGES_DOC_MARKERS: Record<PublicPagesDoc, string> = {
+  "tailwind-v4-integration.md": "Tailwind CSS v4 integration",
+  "font-loading.md": "Font loading",
+  "registry-usage.md": "Registry usage",
+  "registry-update-policy.md": "Registry update policy",
+  "lovable-test-project.md": "Lovable test project setup",
+  "theming.md": "Theming",
+  "migration-notes.md": "Migration notes",
+  "github-pages-setup.md": "GitHub Pages setup checklist",
+};
+
+/** Companion CSS published beside the Tailwind 4 integration guide. */
+export const PUBLIC_PAGES_BRIDGE_CSS = "tailwind-v4-bridge.css";
+
 export function latestRegistryTemplate(baseUrl = PAGES_SITE_URL) {
   return `${baseUrl}/r/{name}.json`;
 }

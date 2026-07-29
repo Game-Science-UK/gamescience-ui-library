@@ -14,6 +14,9 @@ import { registryItems } from "./registry-manifest.ts";
 import {
   PAGES_SITE_URL,
   PAGES_VERSION,
+  PUBLIC_PAGES_BRIDGE_CSS,
+  PUBLIC_PAGES_DOCS,
+  PUBLIC_PAGES_DOC_MARKERS,
   buildVersionJson,
   latestRegistryTemplate,
   versionedCatalogueUrl,
@@ -110,21 +113,67 @@ npx shadcn@latest add @gamescience/join-flow</pre>
   writeFileSync(targetPath, html);
 }
 
-function writeDocsPage(targetPath: string) {
-  mkdirSync(path.dirname(targetPath), { recursive: true });
+function writePublicDocs() {
+  const docsOut = path.join(pagesDist, "docs");
+  mkdirSync(docsOut, { recursive: true });
+
+  for (const name of PUBLIC_PAGES_DOCS) {
+    const sourcePath = path.join(root, "docs", name);
+    if (!existsSync(sourcePath)) {
+      throw new Error(`Missing public doc source docs/${name}`);
+    }
+    let content = readFileSync(sourcePath, "utf8");
+    if (name === "tailwind-v4-integration.md") {
+      // Published copy resolves the bridge beside this file; source keeps the repo path.
+      content = content.replaceAll(
+        "](../consumer/tailwind-v4-bridge.css)",
+        "](./tailwind-v4-bridge.css)",
+      );
+    }
+    writeFileSync(path.join(docsOut, name), content);
+  }
+
+  const bridgeSource = path.join(root, "consumer/tailwind-v4-bridge.css");
+  if (!existsSync(bridgeSource)) {
+    throw new Error("Missing consumer/tailwind-v4-bridge.css");
+  }
+  cpSync(bridgeSource, path.join(docsOut, PUBLIC_PAGES_BRIDGE_CSS));
+
+  const listItems = PUBLIC_PAGES_DOCS.map((name) => {
+    const title = PUBLIC_PAGES_DOC_MARKERS[name];
+    return `      <li><a href="./${name}"><code>${name}</code></a> — ${title}</li>`;
+  }).join("\n");
+
   writeFileSync(
-    targetPath,
+    path.join(docsOut, "index.html"),
     `<!doctype html>
 <html lang="en">
-  <head><meta charset="utf-8" /><title>GameScience registry usage</title></head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GameScience UI documentation</title>
+    <style>
+      :root { color-scheme: light dark; font-family: ui-sans-serif, system-ui, sans-serif; }
+      body { margin: 0; padding: 2rem; line-height: 1.5; max-width: 48rem; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      a { color: inherit; }
+    </style>
+  </head>
   <body>
-    <h1>Registry usage</h1>
-    <p>Pin <code>@gamescience</code> to the versioned URL in <code>components.json</code>.</p>
-    <p>Full documentation lives in the source repository under <code>docs/</code>.</p>
+    <h1>GameScience UI documentation</h1>
+    <p>Public consumer documentation for the GameScience registry on GitHub Pages.</p>
+    <ul>
+${listItems}
+      <li><a href="./${PUBLIC_PAGES_BRIDGE_CSS}"><code>${PUBLIC_PAGES_BRIDGE_CSS}</code></a> — approved Tailwind 4 bridge</li>
+    </ul>
     <p><a href="../">Back to registry index</a></p>
   </body>
 </html>
 `,
+  );
+
+  console.log(
+    `[pages:build] published ${PUBLIC_PAGES_DOCS.length} docs + ${PUBLIC_PAGES_BRIDGE_CSS}`,
   );
 }
 
@@ -264,7 +313,9 @@ function promoteLatestFromVersioned() {
   copyRegistryTree(pagesDist);
   writeFileSync(path.join(pagesDist, "version.json"), JSON.stringify(versionJson, null, 2));
   writeIndexHtml(path.join(pagesDist, "index.html"), versionJson);
-  writeDocsPage(path.join(pagesDist, "docs/index.html"));
+  // Replace any prior docs tree so stale stubs cannot linger.
+  rmSync(path.join(pagesDist, "docs"), { recursive: true, force: true });
+  writePublicDocs();
   writeFileSync(path.join(pagesDist, ".nojekyll"), "");
 
   console.log(`[pages:build] stage=latest promoted unversioned /r from versions/${PAGES_VERSION}`);

@@ -22,7 +22,14 @@ https://game-science-uk.github.io/gamescience-ui-library/
 curl -I https://game-science-uk.github.io/gamescience-ui-library/r/base.json
 curl -s https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/r/base.json | head
 curl -s https://game-science-uk.github.io/gamescience-ui-library/version.json
+curl -s https://game-science-uk.github.io/gamescience-ui-library/docs/tailwind-v4-integration.md | head
+curl -s https://game-science-uk.github.io/gamescience-ui-library/docs/font-loading.md | head
+curl -s https://game-science-uk.github.io/gamescience-ui-library/docs/registry-usage.md | head
 ```
+
+Public consumer documentation is published at unversioned `/docs/*.md` (and
+`/docs/tailwind-v4-bridge.css`). Those files must return Markdown text, not the
+GitHub Pages HTML 404 page.
 
 ## Local preview
 

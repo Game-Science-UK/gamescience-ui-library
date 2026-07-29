@@ -12,7 +12,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } fr
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { registryItems } from "./registry-manifest.ts";
-import { PAGES_VERSION } from "./pages-config.ts";
+import { PAGES_VERSION, PUBLIC_PAGES_DOC_MARKERS } from "./pages-config.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const pagesDist = path.join(root, "pages-dist");
@@ -94,7 +94,11 @@ function startStaticServer(dir: string): Promise<{ port: number; server: Server 
         ? "application/json; charset=utf-8"
         : ext === ".html"
           ? "text/html; charset=utf-8"
-          : "application/octet-stream";
+          : ext === ".md"
+            ? "text/markdown; charset=utf-8"
+            : ext === ".css"
+              ? "text/css; charset=utf-8"
+              : "application/octet-stream";
     res.writeHead(200, { "Content-Type": type });
     res.end(readFileSync(filePath));
   });
@@ -408,6 +412,45 @@ function assertCleanInstall(dir: string, scenario: Scenario) {
   }
 }
 
+async function assertPublicDocs(siteBase: string) {
+  const checks: Array<{ path: string; marker: string }> = [
+    {
+      path: "/docs/tailwind-v4-integration.md",
+      marker: PUBLIC_PAGES_DOC_MARKERS["tailwind-v4-integration.md"],
+    },
+    {
+      path: "/docs/font-loading.md",
+      marker: PUBLIC_PAGES_DOC_MARKERS["font-loading.md"],
+    },
+    {
+      path: "/docs/registry-usage.md",
+      marker: PUBLIC_PAGES_DOC_MARKERS["registry-usage.md"],
+    },
+  ];
+
+  for (const check of checks) {
+    const response = await fetch(`${siteBase}${check.path}`);
+    if (!response.ok) {
+      throw new Error(`[smoke:pages] ${check.path} returned HTTP ${response.status}`);
+    }
+    const body = await response.text();
+    const head = body.slice(0, 400).toLowerCase();
+    if (
+      head.includes("<!doctype html") ||
+      head.includes("<html") ||
+      head.includes("file not found")
+    ) {
+      throw new Error(`[smoke:pages] ${check.path} returned an HTML error/fallback document`);
+    }
+    if (!body.includes(check.marker)) {
+      throw new Error(
+        `[smoke:pages] ${check.path} missing expected title fragment "${check.marker}"`,
+      );
+    }
+    console.log(`[smoke:pages] docs OK ${check.path}`);
+  }
+}
+
 async function runCliNamespaceProbe(port: number) {
   const registryTemplate = `http://127.0.0.1:${port}/versions/${PAGES_VERSION}/r/{name}.json`;
   const dir = prepareScenario(
@@ -464,6 +507,13 @@ async function main() {
   const failures: string[] = [];
 
   try {
+    try {
+      await assertPublicDocs(siteBase);
+    } catch (error) {
+      failures.push("public-docs");
+      console.error("[smoke:pages:public-docs] FAILED", error);
+    }
+
     for (const scenario of scenarios) {
       const dir = prepareScenario(scenario, registryTemplate);
       try {
