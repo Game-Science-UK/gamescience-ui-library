@@ -15,6 +15,7 @@ storybook-static
 coverage
 tmp
 .tmp-pages-prior-versions
+# Immutable locked trees under releases/snapshots/ are committed for CI restore.
 *.local
 .env
 .env.*

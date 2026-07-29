@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "panel",
+  "type": "registry:ui",
+  "title": "Panel",
+  "description": "Surface container with semantic elevation.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/panel.tsx",
+      "type": "registry:ui",
+      "target": "src/components/ui/panel.tsx",
+      "content": "import { cva, type VariantProps } from \"class-variance-authority\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nconst panelVariants = cva(\"gs-panel rounded-panel border text-foreground\", {\n  variants: {\n    elevation: {\n      flat: \"border-border bg-surface\",\n      subtle: \"border-border bg-surface-subtle\",\n      raised: \"border-border bg-surface-raised shadow-card\",\n      overlay: \"border-border bg-surface-overlay shadow-overlay\",\n    },\n    padding: {\n      none: \"p-0\",\n      sm: \"p-panel-sm\",\n      md: \"p-panel-md\",\n      lg: \"p-panel-lg\",\n    },\n  },\n  defaultVariants: {\n    elevation: \"raised\",\n    padding: \"md\",\n  },\n});\n\nexport interface PanelProps\n  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof panelVariants> {}\n\nconst Panel = React.forwardRef<HTMLDivElement, PanelProps>(\n  ({ className, elevation, padding, ...props }, ref) => (\n    <div\n      ref={ref}\n      data-elevation={elevation ?? \"raised\"}\n      className={cn(panelVariants({ elevation, padding }), className)}\n      {...props}\n    />\n  ),\n);\nPanel.displayName = \"Panel\";\n\nconst PanelHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(\n  ({ className, ...props }, ref) => (\n    <div ref={ref} className={cn(\"mb-3 flex flex-col gap-1\", className)} {...props} />\n  ),\n);\nPanelHeader.displayName = \"PanelHeader\";\n\nconst PanelTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(\n  ({ className, ...props }, ref) => (\n    <h2 ref={ref} className={cn(\"gs-title text-foreground\", className)} {...props} />\n  ),\n);\nPanelTitle.displayName = \"PanelTitle\";\n\nconst PanelDescription = React.forwardRef<\n  HTMLParagraphElement,\n  React.HTMLAttributes<HTMLParagraphElement>\n>(({ className, ...props }, ref) => (\n  <p ref={ref} className={cn(\"text-muted-foreground\", className)} {...props} />\n));\nPanelDescription.displayName = \"PanelDescription\";\n\nexport { Panel, PanelDescription, PanelHeader, PanelTitle, panelVariants };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.1.0",
+    "namespace": "@gamescience"
+  }
+}

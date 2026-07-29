@@ -28,10 +28,15 @@ curl -s https://game-science-uk.github.io/gamescience-ui-library/version.json
 
 ```bash
 npm run registry:build
-npm run pages:build
+npm run pages:build:versioned
+npm run pages:validate:versioned
+npm run pages:build:latest
 npm run pages:validate
 npm run pages:serve
 ```
+
+`pages-dist` is generated and gitignored. Immutable prior releases are seeded from
+committed `releases/snapshots/{version}/` trees that must match `releases/{version}.lock.json`.
 
 `pages:serve` serves `pages-dist` on port 4177 by default.
 

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "game-code-input",
+  "type": "registry:component",
+  "title": "Game Code Input",
+  "description": "Room/session code field with validation messaging.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/input"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/game-code-input.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/game-code-input.tsx",
+      "content": "import * as React from \"react\";\nimport { Input } from \"@/components/ui/input\";\nimport { Label } from \"@/components/ui/label\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface GameCodeInputProps extends Omit<\n  React.ComponentPropsWithoutRef<typeof Input>,\n  \"onChange\" | \"value\" | \"type\"\n> {\n  value: string;\n  onChange: (value: string) => void;\n  label?: string;\n  error?: string;\n  hint?: string;\n  maxLength?: number;\n}\n\nconst GameCodeInput = React.forwardRef<HTMLInputElement, GameCodeInputProps>(\n  (\n    {\n      value,\n      onChange,\n      label = \"Game code\",\n      error,\n      hint = \"Enter the room code shown on the shared display\",\n      maxLength = 6,\n      id = \"game-code\",\n      className,\n      disabled,\n      ...props\n    },\n    ref,\n  ) => {\n    const errorId = `${id}-error`;\n    const hintId = `${id}-hint`;\n\n    return (\n      <div className=\"space-y-2\">\n        <Label htmlFor={id}>{label}</Label>\n        <Input\n          ref={ref}\n          id={id}\n          value={value}\n          onChange={(event) => onChange(event.target.value.toUpperCase())}\n          invalid={Boolean(error)}\n          disabled={disabled}\n          autoCapitalize=\"characters\"\n          autoCorrect=\"off\"\n          spellCheck={false}\n          inputMode=\"text\"\n          maxLength={maxLength}\n          aria-describedby={error ? errorId : hint ? hintId : undefined}\n          className={cn(\n            \"text-center font-mono uppercase tracking-[0.35em]\",\n            \"text-[length:var(--type-scale-code)]\",\n            className,\n          )}\n          {...props}\n        />\n        {error ? (\n          <p\n            id={errorId}\n            className=\"text-[length:var(--type-scale-label)] text-danger\"\n            role=\"alert\"\n          >\n            {error}\n          </p>\n        ) : hint ? (\n          <p id={hintId} className=\"text-[length:var(--type-scale-label)] text-muted-foreground\">\n            {hint}\n          </p>\n        ) : null}\n      </div>\n    );\n  },\n);\nGameCodeInput.displayName = \"GameCodeInput\";\n\nexport { GameCodeInput };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.2.1",
+    "namespace": "@gamescience"
+  }
+}

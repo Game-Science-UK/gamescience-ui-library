@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "alert",
+  "type": "registry:ui",
+  "title": "Alert",
+  "description": "Inline status messaging with icons and titles.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/alert.tsx",
+      "type": "registry:ui",
+      "target": "src/components/ui/alert.tsx",
+      "content": "import { cva, type VariantProps } from \"class-variance-authority\";\nimport { AlertCircle, AlertTriangle, CheckCircle2, Info } from \"lucide-react\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nconst alertVariants = cva(\n  \"gs-alert relative flex w-full gap-3 rounded-card border p-panel-md text-[length:var(--type-scale-body)]\",\n  {\n    variants: {\n      intent: {\n        information: \"border-information/40 bg-information/10 text-foreground\",\n        success: \"border-success/40 bg-success/10 text-foreground\",\n        warning: \"border-warning/40 bg-warning/15 text-foreground\",\n        danger: \"border-danger/40 bg-danger/10 text-foreground\",\n      },\n    },\n    defaultVariants: {\n      intent: \"information\",\n    },\n  },\n);\n\nconst intentIcon = {\n  information: Info,\n  success: CheckCircle2,\n  warning: AlertTriangle,\n  danger: AlertCircle,\n} as const;\n\nexport interface AlertProps\n  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof alertVariants> {\n  title?: string;\n}\n\nconst Alert = React.forwardRef<HTMLDivElement, AlertProps>(\n  ({ className, intent = \"information\", title, children, ...props }, ref) => {\n    const Icon = intentIcon[intent ?? \"information\"];\n    return (\n      <div\n        ref={ref}\n        role=\"alert\"\n        data-intent={intent ?? \"information\"}\n        className={cn(alertVariants({ intent }), className)}\n        {...props}\n      >\n        <Icon className=\"mt-0.5 size-5 shrink-0\" aria-hidden=\"true\" />\n        <div className=\"min-w-0 flex-1 space-y-1\">\n          {title ? <p className=\"font-label\">{title}</p> : null}\n          {children ? <div className=\"text-muted-foreground\">{children}</div> : null}\n        </div>\n      </div>\n    );\n  },\n);\nAlert.displayName = \"Alert\";\n\nexport { Alert, alertVariants };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.2.1",
+    "namespace": "@gamescience"
+  }
+}

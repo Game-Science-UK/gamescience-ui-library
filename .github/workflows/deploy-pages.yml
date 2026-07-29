@@ -64,8 +64,15 @@ jobs:
       - name: Registry validate
         run: npm run registry:validate
 
-      - name: Pages build
-        run: npm run pages:build
+      # Staged publish: lock + revalidate prior trees before refreshing unversioned latest.
+      - name: Pages build (versioned)
+        run: npm run pages:build:versioned
+
+      - name: Pages validate (versioned)
+        run: npm run pages:validate:versioned
+
+      - name: Pages build (latest)
+        run: npm run pages:build:latest
 
       - name: Pages validate
         run: npm run pages:validate
@@ -75,6 +82,9 @@ jobs:
 
       - name: Pages smoke
         run: npm run smoke:pages
+
+      - name: Tailwind 4 smoke
+        run: npm run smoke:tailwind4
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

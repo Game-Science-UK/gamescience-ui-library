@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shared-display-lobby",
+  "type": "registry:block",
+  "title": "Shared Display Lobby",
+  "description": "Privacy-safe shared-display lobby with room code and join progress.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/panel",
+    "@gamescience/badge",
+    "@gamescience/waiting-state",
+    "@gamescience/room-code-display",
+    "@gamescience/display-heading",
+    "@gamescience/participant-count-display",
+    "@gamescience/shared-display-shell"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/lobby/shared-display-lobby.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/lobby/shared-display-lobby.tsx",
+      "content": "import { Badge } from \"@/components/ui/badge\";\nimport { Panel } from \"@/components/ui/panel\";\nimport { WaitingState } from \"@/components/game/waiting-state\";\nimport { DisplayHeading } from \"@/components/display/display-heading\";\nimport { ParticipantCountDisplay } from \"@/components/display/participant-count-display\";\nimport { RoomCodeDisplay } from \"@/components/display/room-code-display\";\nimport { cn } from \"@/lib/cn\";\nimport type { SessionSummary, StageStatus } from \"@/types/game\";\n\nexport interface SharedDisplayLobbyProps {\n  session: SessionSummary;\n  status: StageStatus;\n  instruction?: string;\n  className?: string;\n}\n\nfunction SharedDisplayLobby({\n  session,\n  status,\n  instruction = \"Open the game on your phone and enter this code\",\n  className,\n}: SharedDisplayLobbyProps) {\n  const isReady = status === \"ready\";\n\n  return (\n    <div\n      className={cn(\n        \"mx-auto flex min-h-[70vh] w-full max-w-content flex-col items-center justify-center gap-[var(--section-gap)] px-8\",\n        className,\n      )}\n    >\n      <DisplayHeading eyebrow={session.title ?? \"GameScience session\"}>\n        {isReady ? \"Ready to begin\" : \"Join the session\"}\n      </DisplayHeading>\n\n      <Panel elevation=\"raised\" padding=\"lg\" className=\"w-full max-w-4xl space-y-8\">\n        <RoomCodeDisplay code={session.code} />\n        <p className=\"text-center text-[length:var(--type-scale-body)] text-muted-foreground\">\n          {instruction}\n        </p>\n        <ParticipantCountDisplay\n          count={session.participantCount}\n          expected={session.expectedParticipantCount}\n        />\n        <div className=\"flex justify-center\">\n          <Badge intent={isReady ? \"success\" : \"information\"}>\n            {isReady ? \"All participants ready\" : \"Waiting for participants\"}\n          </Badge>\n        </div>\n      </Panel>\n\n      {!isReady ? (\n        <WaitingState\n          title=\"Waiting for players\"\n          description=\"Private participant details are never shown on this display.\"\n          loading\n        />\n      ) : (\n        <WaitingState\n          title=\"Stand by for facilitator start\"\n          description=\"The shared display will advance with the room.\"\n          loading={false}\n        />\n      )}\n    </div>\n  );\n}\n\nSharedDisplayLobby.displayName = \"SharedDisplayLobby\";\n\nexport { SharedDisplayLobby };\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "0.1.0",
+    "namespace": "@gamescience"
+  }
+}

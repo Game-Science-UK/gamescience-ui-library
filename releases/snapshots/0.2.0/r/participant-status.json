@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "participant-status",
+  "type": "registry:component",
+  "title": "Participant Status",
+  "description": "Connection and readiness summary for a participant.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/badge",
+    "@gamescience/connection-status"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/participant-status.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/participant-status.tsx",
+      "content": "import { Badge } from \"@/components/ui/badge\";\nimport { cn } from \"@/lib/cn\";\nimport type { ConnectionState, ReadinessState } from \"@/types/game\";\nimport { ConnectionStatus } from \"./connection-status\";\n\nexport interface ParticipantStatusProps {\n  displayName: string;\n  connection: ConnectionState;\n  readiness: ReadinessState;\n  className?: string;\n  compact?: boolean;\n}\n\nconst readinessIntent: Record<ReadinessState, \"default\" | \"success\" | \"warning\" | \"information\"> = {\n  \"not-ready\": \"default\",\n  ready: \"success\",\n  submitted: \"information\",\n  waiting: \"warning\",\n};\n\nconst readinessLabel: Record<ReadinessState, string> = {\n  \"not-ready\": \"Not ready\",\n  ready: \"Ready\",\n  submitted: \"Submitted\",\n  waiting: \"Waiting\",\n};\n\nfunction ParticipantStatus({\n  displayName,\n  connection,\n  readiness,\n  className,\n  compact = false,\n}: ParticipantStatusProps) {\n  return (\n    <div\n      className={cn(\n        \"flex items-center justify-between gap-3 rounded-card border border-border bg-surface-subtle p-3\",\n        compact && \"p-2\",\n        className,\n      )}\n      data-connection={connection}\n      data-readiness={readiness}\n    >\n      <div className=\"min-w-0\">\n        <p className=\"truncate font-label text-foreground\">{displayName}</p>\n        <div className=\"mt-1\">\n          {connection === \"connected\" ? <ConnectionStatus state=\"connected\" /> : null}\n          {connection === \"reconnecting\" ? <ConnectionStatus state=\"reconnecting\" /> : null}\n          {connection === \"offline\" ? <ConnectionStatus state=\"offline\" /> : null}\n        </div>\n      </div>\n      <Badge intent={readinessIntent[readiness]}>{readinessLabel[readiness]}</Badge>\n    </div>\n  );\n}\n\nParticipantStatus.displayName = \"ParticipantStatus\";\n\nexport { ParticipantStatus };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.2.0",
+    "namespace": "@gamescience"
+  }
+}

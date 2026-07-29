@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lobby",
+  "type": "registry:block",
+  "title": "Facilitator Lobby",
+  "description": "Facilitator lobby with room code, participant status, and start controls.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/button",
+    "@gamescience/panel",
+    "@gamescience/badge",
+    "@gamescience/alert",
+    "@gamescience/progress",
+    "@gamescience/participant-status",
+    "@gamescience/room-code-display",
+    "@gamescience/facilitator-shell"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/lobby/facilitator-lobby.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/lobby/facilitator-lobby.tsx",
+      "content": "import { Alert } from \"@/components/ui/alert\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { ButtonGroup } from \"@/components/ui/button-group\";\nimport { Panel, PanelDescription, PanelHeader, PanelTitle } from \"@/components/ui/panel\";\nimport { Progress } from \"@/components/ui/progress\";\nimport { ParticipantStatus } from \"@/components/game/participant-status\";\nimport { RoomCodeDisplay } from \"@/components/display/room-code-display\";\nimport { cn } from \"@/lib/cn\";\nimport type { ParticipantSummary, SessionSummary, StageStatus } from \"@/types/game\";\n\nexport interface FacilitatorLobbyProps {\n  session: SessionSummary;\n  participants: ParticipantSummary[];\n  status: StageStatus;\n  startDisabledReason?: string;\n  showStartConfirm?: boolean;\n  onStart: () => void;\n  onCancelStart?: () => void;\n  onConfirmStart?: () => void;\n  className?: string;\n}\n\nfunction FacilitatorLobby({\n  session,\n  participants,\n  status,\n  startDisabledReason,\n  showStartConfirm = false,\n  onStart,\n  onCancelStart,\n  onConfirmStart,\n  className,\n}: FacilitatorLobbyProps) {\n  const expected = session.expectedParticipantCount ?? participants.length;\n  const readyCount = participants.filter((participant) => participant.readiness === \"ready\").length;\n  const disconnectedCount = participants.filter(\n    (participant) => participant.connection !== \"connected\",\n  ).length;\n  const progressValue = expected > 0 ? Math.round((participants.length / expected) * 100) : 0;\n  const canStart = status === \"ready\" && !startDisabledReason;\n\n  return (\n    <div className={cn(\"grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]\", className)}>\n      <Panel elevation=\"raised\" className=\"space-y-4\">\n        <PanelHeader>\n          <PanelTitle>Session control</PanelTitle>\n          <PanelDescription>\n            Participants currently see the join/lobby screens. The shared display shows the room\n            code.\n          </PanelDescription>\n        </PanelHeader>\n\n        <RoomCodeDisplay code={session.code} label=\"Room code\" />\n        <div className=\"flex flex-wrap gap-2\">\n          <Badge intent=\"information\" treatment=\"outlined\">\n            Stage: Lobby\n          </Badge>\n          <Badge intent={status === \"ready\" ? \"success\" : \"default\"} treatment=\"outlined\">\n            Status: {status}\n          </Badge>\n        </div>\n\n        <Progress value={progressValue} label={`Joined ${participants.length} of ${expected}`} />\n\n        {disconnectedCount > 0 ? (\n          <Alert intent=\"warning\" title={`${disconnectedCount} participant connection issue`}>\n            Review the participant list before advancing. Disconnected participants may miss the\n            start cue.\n          </Alert>\n        ) : null}\n\n        {showStartConfirm ? (\n          <Alert intent=\"warning\" title=\"Start the session?\">\n            This advances every interface out of the lobby. Confirm only when the room is ready.\n            <ButtonGroup className=\"mt-3\">\n              <Button type=\"button\" intent=\"primary\" onClick={onConfirmStart}>\n                Confirm start\n              </Button>\n              <Button type=\"button\" intent=\"ghost\" onClick={onCancelStart}>\n                Cancel\n              </Button>\n            </ButtonGroup>\n          </Alert>\n        ) : (\n          <ButtonGroup orientation=\"vertical\">\n            <Button\n              type=\"button\"\n              intent=\"primary\"\n              emphasis=\"strong\"\n              size=\"lg\"\n              disabled={!canStart}\n              onClick={onStart}\n            >\n              Start session\n            </Button>\n            {!canStart ? (\n              <p className=\"text-[length:var(--type-scale-label)] text-muted-foreground\">\n                {startDisabledReason ?? \"Start becomes available when the lobby status is ready.\"}\n              </p>\n            ) : null}\n          </ButtonGroup>\n        )}\n      </Panel>\n\n      <Panel elevation=\"subtle\" padding=\"md\">\n        <PanelHeader>\n          <PanelTitle>Participants</PanelTitle>\n          <PanelDescription>\n            {readyCount} ready · {participants.length} joined\n          </PanelDescription>\n        </PanelHeader>\n\n        {participants.length === 0 ? (\n          <Alert intent=\"information\" title=\"No participants connected\">\n            Share the room code on the shared display. New joiners will appear here.\n          </Alert>\n        ) : (\n          <ul className=\"grid gap-2 sm:grid-cols-2 xl:grid-cols-3\">\n            {participants.map((participant) => (\n              <li key={participant.id}>\n                <ParticipantStatus\n                  displayName={participant.displayName}\n                  connection={participant.connection}\n                  readiness={participant.readiness}\n                />\n              </li>\n            ))}\n          </ul>\n        )}\n      </Panel>\n    </div>\n  );\n}\n\nFacilitatorLobby.displayName = \"FacilitatorLobby\";\n\nexport { FacilitatorLobby };\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "0.2.1",
+    "namespace": "@gamescience"
+  }
+}

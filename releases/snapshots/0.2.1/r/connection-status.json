@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "connection-status",
+  "type": "registry:component",
+  "title": "Connection Status",
+  "description": "Accessible connection state presentation.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/badge",
+    "@gamescience/button"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/connection-status.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/connection-status.tsx",
+      "content": "import { Loader2, RefreshCw, Wifi, WifiOff } from \"lucide-react\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { cn } from \"@/lib/cn\";\nimport type { ConnectionState } from \"@/types/game\";\n\ntype ConnectionStatusProps =\n  | {\n      state: \"connected\";\n      label?: string;\n      className?: string;\n    }\n  | {\n      state: \"reconnecting\";\n      label?: string;\n      attempt?: number;\n      className?: string;\n    }\n  | {\n      state: \"offline\";\n      label?: string;\n      onRetry?: () => void;\n      className?: string;\n    };\n\nconst defaultLabels: Record<ConnectionState, string> = {\n  connected: \"Connected\",\n  reconnecting: \"Reconnecting\",\n  offline: \"Disconnected\",\n};\n\nfunction ConnectionStatus(props: ConnectionStatusProps) {\n  const { state, label, className } = props;\n  const resolvedLabel = label ?? defaultLabels[state];\n\n  const intent =\n    state === \"connected\" ? \"success\" : state === \"reconnecting\" ? \"warning\" : \"danger\";\n\n  const Icon = state === \"connected\" ? Wifi : state === \"reconnecting\" ? Loader2 : WifiOff;\n\n  const detail =\n    state === \"reconnecting\" && \"attempt\" in props && props.attempt\n      ? `Attempt ${props.attempt}`\n      : null;\n\n  return (\n    <div\n      className={cn(\"inline-flex items-center gap-2\", className)}\n      role=\"status\"\n      aria-live=\"polite\"\n      data-state={state}\n    >\n      <span\n        className={cn(\n          \"gs-connection-marker shrink-0\",\n          state === \"connected\" && \"bg-success text-success\",\n          state === \"reconnecting\" && \"bg-warning text-warning\",\n          state === \"offline\" && \"bg-danger text-danger\",\n        )}\n        aria-hidden=\"true\"\n      />\n      <Badge intent={intent} treatment=\"outlined\" className=\"gap-1.5\">\n        <Icon\n          className={cn(\"size-3.5\", state === \"reconnecting\" && \"animate-spin\")}\n          aria-hidden=\"true\"\n        />\n        <span>{resolvedLabel}</span>\n        {detail ? <span className=\"opacity-80\">· {detail}</span> : null}\n      </Badge>\n      {state === \"offline\" && \"onRetry\" in props && props.onRetry ? (\n        <Button\n          type=\"button\"\n          intent=\"outline\"\n          size=\"sm\"\n          onClick={props.onRetry}\n          aria-label=\"Retry connection\"\n        >\n          <RefreshCw className=\"size-3.5\" aria-hidden=\"true\" />\n          Retry\n        </Button>\n      ) : null}\n      <span className=\"sr-only\">\n        Connection status: {resolvedLabel}\n        {detail ? `, ${detail}` : \"\"}\n      </span>\n    </div>\n  );\n}\n\nConnectionStatus.displayName = \"ConnectionStatus\";\n\nexport { ConnectionStatus, type ConnectionStatusProps };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.2.1",
+    "namespace": "@gamescience"
+  }
+}

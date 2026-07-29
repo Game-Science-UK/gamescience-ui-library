@@ -232,9 +232,12 @@ function main() {
       }
     }
 
-    const indexHtml = readFileSync(path.join(pagesDist, "index.html"), "utf8");
-    if (!indexHtml.includes(PAGES_SITE_PATH)) {
-      fail("index.html does not reference the repository Pages subpath");
+    const indexPath = path.join(pagesDist, "index.html");
+    if (existsSync(indexPath)) {
+      const indexHtml = readFileSync(indexPath, "utf8");
+      if (!indexHtml.includes(PAGES_SITE_PATH)) {
+        fail("index.html does not reference the repository Pages subpath");
+      }
     }
   }
 

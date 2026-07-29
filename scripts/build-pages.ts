@@ -24,11 +24,15 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const registrySource = path.join(root, "public/registry");
 const pagesDist = path.join(root, "pages-dist");
 const releasesDir = path.join(root, "releases");
+const snapshotsDir = path.join(releasesDir, "snapshots");
 
 /**
  * PAGES_STAGE=versioned (default) — write/restore version trees + lock; do not refresh unversioned latest.
  * PAGES_STAGE=latest — copy validated current version tree into unversioned latest + root metadata.
- * PAGES_STAGE=all — legacy one-shot (versioned then latest); prefer staged CI.
+ * PAGES_STAGE=all — versioned then latest (still requires pages:validate between stages in CI).
+ *
+ * Prior immutable trees are seeded from committed `releases/snapshots/{version}/`
+ * (pages-dist is gitignored and empty on CI).
  */
 const stage = (process.env.PAGES_STAGE ?? "versioned").toLowerCase();
 
@@ -142,67 +146,66 @@ function buildReleaseLock(versionRoot: string) {
   };
 }
 
-function preservePriorVersions() {
-  const versionsDir = path.join(pagesDist, "versions");
-  if (!existsSync(versionsDir)) {
-    return null as string | null;
-  }
-
-  const staging = path.join(root, ".tmp-pages-prior-versions");
-  rmSync(staging, { recursive: true, force: true });
-  mkdirSync(staging, { recursive: true });
-
-  for (const entry of readdirSync(versionsDir, { withFileTypes: true })) {
-    if (!entry.isDirectory() || entry.name === PAGES_VERSION) continue;
-    cpSync(path.join(versionsDir, entry.name), path.join(staging, entry.name), {
-      recursive: true,
-    });
-  }
-
-  return staging;
+function listLockedVersions() {
+  if (!existsSync(releasesDir)) return [] as string[];
+  return readdirSync(releasesDir)
+    .filter((entry) => entry.endsWith(".lock.json"))
+    .map((entry) => entry.replace(/\.lock\.json$/, ""))
+    .sort();
 }
 
-function restorePriorVersions(staging: string | null) {
-  if (!staging || !existsSync(staging)) return;
-
+/**
+ * Seed every non-current locked version from committed snapshots.
+ * Required on CI where pages-dist is empty.
+ */
+function seedPriorVersionsFromSnapshots() {
   const versionsDir = path.join(pagesDist, "versions");
   mkdirSync(versionsDir, { recursive: true });
 
-  for (const entry of readdirSync(staging, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue;
-    const target = path.join(versionsDir, entry.name);
-    const marker = path.join(target, "version.json");
-    // Restore when missing or incomplete (e.g. empty directory left after a failed fetch).
-    if (existsSync(marker)) {
-      continue;
-    }
-    rmSync(target, { recursive: true, force: true });
-    cpSync(path.join(staging, entry.name), target, { recursive: true });
-    console.log(`[pages:build] preserved prior version tree versions/${entry.name}`);
-  }
+  for (const version of listLockedVersions()) {
+    if (version === PAGES_VERSION) continue;
 
-  rmSync(staging, { recursive: true, force: true });
+    const snapshot = path.join(snapshotsDir, version);
+    const marker = path.join(snapshot, "version.json");
+    if (!existsSync(marker)) {
+      throw new Error(
+        `Missing releases/snapshots/${version} for releases/${version}.lock.json. ` +
+          `Commit the immutable version tree under releases/snapshots/${version}.`,
+      );
+    }
+
+    const target = path.join(versionsDir, version);
+    rmSync(target, { recursive: true, force: true });
+    cpSync(snapshot, target, { recursive: true });
+    console.log(`[pages:build] seeded versions/${version} from releases/snapshots/${version}`);
+  }
+}
+
+function syncCurrentSnapshot(versionRoot: string) {
+  const snapshot = path.join(snapshotsDir, PAGES_VERSION);
+  rmSync(snapshot, { recursive: true, force: true });
+  mkdirSync(snapshotsDir, { recursive: true });
+  cpSync(versionRoot, snapshot, { recursive: true });
+  console.log(`[pages:build] synced releases/snapshots/${PAGES_VERSION}`);
 }
 
 function writeVersionedCandidate() {
   ensureRegistryBuilt();
 
-  const priorVersionsStaging = preservePriorVersions();
   const versionJson = buildVersionJson();
   const versionRoot = path.join(pagesDist, "versions", PAGES_VERSION);
 
   mkdirSync(pagesDist, { recursive: true });
   mkdirSync(path.join(pagesDist, "versions"), { recursive: true });
 
-  // Replace only the current version tree; preserve others via staging.
+  // Seed priors first so empty CI checkouts still revalidate historical locks.
+  seedPriorVersionsFromSnapshots();
+
+  // Replace only the current version tree from the built registry.
   rmSync(versionRoot, { recursive: true, force: true });
   mkdirSync(versionRoot, { recursive: true });
   copyRegistryTree(versionRoot);
   writeFileSync(path.join(versionRoot, "version.json"), JSON.stringify(versionJson, null, 2));
-  restorePriorVersions(priorVersionsStaging);
-
-  // Ensure prior trees survive even if pages-dist was empty of other versions.
-  // (restore only copies from staging captured before wipe of current version)
 
   mkdirSync(releasesDir, { recursive: true });
   const lockPath = path.join(releasesDir, `${PAGES_VERSION}.lock.json`);
@@ -211,8 +214,24 @@ function writeVersionedCandidate() {
     writeFileSync(lockPath, JSON.stringify(lock, null, 2));
     console.log(`[pages:build] wrote release lock ${path.relative(root, lockPath)}`);
   } else {
+    // Current cut must still match its committed lock (no silent drift).
+    const existing = JSON.parse(readFileSync(lockPath, "utf8")) as {
+      files: Record<string, string>;
+    };
+    for (const [relative, expectedHash] of Object.entries(existing.files)) {
+      const full = path.join(versionRoot, relative);
+      if (!existsSync(full) || hashFile(full) !== expectedHash) {
+        throw new Error(
+          `versions/${PAGES_VERSION}/${relative} drifted from ${path.relative(root, lockPath)}. ` +
+            `Set UPDATE_RELEASE_LOCK=1 only when intentionally re-cutting the current lock.`,
+        );
+      }
+    }
     console.log(`[pages:build] kept existing release lock ${path.relative(root, lockPath)}`);
   }
+
+  // Keep committed snapshot aligned with the locked current tree for future CI seeds.
+  syncCurrentSnapshot(versionRoot);
 
   // Placeholder root so pages-dist is not empty before latest promotion.
   writeFileSync(path.join(pagesDist, ".nojekyll"), "");
@@ -227,7 +246,7 @@ function writeVersionedCandidate() {
   console.log(
     `[pages:build] versioned: ${versionedRegistryTemplate(PAGES_VERSION, PAGES_SITE_URL)}`,
   );
-  console.log(`[pages:build] run pages:validate then PAGES_STAGE=latest npm run pages:build`);
+  console.log(`[pages:build] run pages:validate:versioned then npm run pages:build:latest`);
 }
 
 function promoteLatestFromVersioned() {

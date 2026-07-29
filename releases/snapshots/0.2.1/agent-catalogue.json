@@ -1,0 +1,766 @@
+{
+  "base": {
+    "registryItem": "@gamescience/base",
+    "category": "base",
+    "title": "GameScience Base",
+    "purpose": "Provider, token foundations, utilities, and shared types.",
+    "useWhen": [
+      "bootstrapping a GameScience game application"
+    ],
+    "avoid": [
+      "installing without selecting a theme",
+      "nesting multiple GameScienceProvider themes"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [
+      "theme",
+      "context",
+      "className"
+    ],
+    "uses": [],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "theme-gamescience": {
+    "registryItem": "@gamescience/theme-gamescience",
+    "category": "theme",
+    "title": "GameScience Theme",
+    "purpose": "House theme CSS for GameScience applications.",
+    "useWhen": [
+      "using the default GameScience visual identity"
+    ],
+    "avoid": [
+      "mixing with citadel in the same screen"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "gamescience"
+    ],
+    "related": [
+      "theme-citadel"
+    ],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "theme-citadel": {
+    "registryItem": "@gamescience/theme-citadel",
+    "category": "theme",
+    "title": "Citadel Theme",
+    "purpose": "Citadel 4.1 HUD theme CSS with semantic tokens and theme-scoped treatments — no component forks. Font stacks only; load fonts at the application level (see docs/font-loading.md).",
+    "useWhen": [
+      "building Citadel-branded game experiences"
+    ],
+    "avoid": [
+      "creating CitadelButton or other theme-named forks",
+      "installing alongside theme-gamescience as concurrent nested themes"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "citadel"
+    ],
+    "related": [
+      "theme-gamescience"
+    ],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "button": {
+    "registryItem": "@gamescience/button",
+    "category": "component",
+    "title": "Button",
+    "purpose": "Semantic button primitive with intent, size, emphasis, and loading states.",
+    "useWhen": [
+      "primary and secondary actions across all contexts"
+    ],
+    "avoid": [
+      "passing theme or glass/neon visual props"
+    ],
+    "preferOver": [
+      "TechButton",
+      "CitadelButton"
+    ],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [
+      "intent",
+      "size",
+      "emphasis",
+      "loading",
+      "disabled"
+    ],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [
+      "TechButton",
+      "CitadelButton"
+    ],
+    "version": "0.2.1"
+  },
+  "input": {
+    "registryItem": "@gamescience/input",
+    "category": "component",
+    "title": "Input",
+    "purpose": "Text input primitive with invalid-state support.",
+    "useWhen": [
+      "collecting short text values"
+    ],
+    "avoid": [
+      "using placeholder-only labels"
+    ],
+    "preferOver": [
+      "TechInput"
+    ],
+    "contexts": [
+      "participant",
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [
+      "invalid",
+      "disabled"
+    ],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [
+      "TechInput"
+    ],
+    "version": "0.2.1"
+  },
+  "panel": {
+    "registryItem": "@gamescience/panel",
+    "category": "component",
+    "title": "Panel",
+    "purpose": "Surface container with semantic elevation and emphasis.",
+    "useWhen": [
+      "grouping related content on a surface"
+    ],
+    "avoid": [
+      "GlassCard as a core primitive"
+    ],
+    "preferOver": [
+      "GlassCard",
+      "TechPanel"
+    ],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [
+      "elevation",
+      "padding",
+      "emphasis"
+    ],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [
+      "GlassCard",
+      "TechPanel"
+    ],
+    "version": "0.2.1"
+  },
+  "badge": {
+    "registryItem": "@gamescience/badge",
+    "category": "component",
+    "title": "Badge",
+    "purpose": "Compact status and metadata label with semantic intent and treatment axes.",
+    "useWhen": [
+      "showing compact status values"
+    ],
+    "avoid": [
+      "colour-only status without text",
+      "intent=outline (deprecated — use treatment=outlined)"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [
+      "intent",
+      "treatment"
+    ],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "alert": {
+    "registryItem": "@gamescience/alert",
+    "category": "component",
+    "title": "Alert",
+    "purpose": "Inline status messaging with icons and titles.",
+    "useWhen": [
+      "surfacing form or operational warnings"
+    ],
+    "avoid": [
+      "using alerts for transient toast notifications — use Sonner"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "participant",
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [
+      "intent",
+      "title"
+    ],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "progress": {
+    "registryItem": "@gamescience/progress",
+    "category": "component",
+    "title": "Progress",
+    "purpose": "Determinate progress indicator.",
+    "useWhen": [
+      "showing lobby fill or round completion"
+    ],
+    "avoid": [
+      "encoding game scoring logic in the component"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [
+      "value",
+      "label"
+    ],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "skeleton": {
+    "registryItem": "@gamescience/skeleton",
+    "category": "component",
+    "title": "Skeleton",
+    "purpose": "Loading placeholder surface.",
+    "useWhen": [
+      "reserving layout while content loads"
+    ],
+    "avoid": [
+      "using as a decorative element"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "game-code-input": {
+    "registryItem": "@gamescience/game-code-input",
+    "category": "component",
+    "title": "Game Code Input",
+    "purpose": "Room/session code field with validation messaging.",
+    "useWhen": [
+      "collecting a participant room code"
+    ],
+    "avoid": [
+      "embedding networking validation inside the component"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "participant"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "join-flow"
+    ],
+    "props": [
+      "value",
+      "onChange",
+      "error",
+      "hint"
+    ],
+    "uses": [
+      "base",
+      "input"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "connection-status": {
+    "registryItem": "@gamescience/connection-status",
+    "category": "component",
+    "title": "Connection Status",
+    "purpose": "Accessible connection state presentation.",
+    "useWhen": [
+      "showing connected, reconnecting, or offline state"
+    ],
+    "avoid": [
+      "colour-only status without labels"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "participant",
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [
+      "state",
+      "attempt",
+      "onRetry"
+    ],
+    "uses": [
+      "base",
+      "badge",
+      "button"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "participant-identity": {
+    "registryItem": "@gamescience/participant-identity",
+    "category": "component",
+    "title": "Participant Identity",
+    "purpose": "Display-name capture for join flows.",
+    "useWhen": [
+      "collecting a participant display name"
+    ],
+    "avoid": [
+      "storing identity persistence inside the component"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "participant"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "join-flow"
+    ],
+    "props": [],
+    "uses": [
+      "base",
+      "input"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "participant-status": {
+    "registryItem": "@gamescience/participant-status",
+    "category": "component",
+    "title": "Participant Status",
+    "purpose": "Connection and readiness summary for a participant.",
+    "useWhen": [
+      "rendering facilitator participant lists"
+    ],
+    "avoid": [
+      "showing private role information on shared display"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "lobby"
+    ],
+    "props": [],
+    "uses": [
+      "base",
+      "badge",
+      "connection-status"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "waiting-state": {
+    "registryItem": "@gamescience/waiting-state",
+    "category": "component",
+    "title": "Waiting State",
+    "purpose": "Centered waiting/idle messaging.",
+    "useWhen": [
+      "lobby and transitional waiting moments"
+    ],
+    "avoid": [
+      "encoding timers or stage authority"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "all"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "room-code-display": {
+    "registryItem": "@gamescience/room-code-display",
+    "category": "component",
+    "title": "Room Code Display",
+    "purpose": "Large privacy-safe room code presentation.",
+    "useWhen": [
+      "showing a join code on shared displays or facilitator consoles"
+    ],
+    "avoid": [
+      "pairing with private participant details on shared display"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "facilitator",
+      "shared-display"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "display-heading": {
+    "registryItem": "@gamescience/display-heading",
+    "category": "component",
+    "title": "Display Heading",
+    "purpose": "Large shared-display heading with optional eyebrow.",
+    "useWhen": [
+      "titling shared-display screens at distance-readable scale"
+    ],
+    "avoid": [
+      "using as a participant mobile page title without need"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "shared-display",
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "shared-display-lobby"
+    ],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "participant-count-display": {
+    "registryItem": "@gamescience/participant-count-display",
+    "category": "component",
+    "title": "Participant Count Display",
+    "purpose": "Privacy-safe connected participant count for shared displays.",
+    "useWhen": [
+      "showing aggregate join progress on a shared display"
+    ],
+    "avoid": [
+      "listing private participant identities on shared display"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "shared-display",
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "shared-display-lobby"
+    ],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "join-flow": {
+    "registryItem": "@gamescience/join-flow",
+    "category": "pattern",
+    "title": "Participant Join Flow",
+    "purpose": "Participant code entry, identity, waiting, and reconnect states.",
+    "useWhen": [
+      "creating a participant game joining experience",
+      "collecting a room code and participant identity"
+    ],
+    "avoid": [
+      "adding networking logic inside the pattern",
+      "creating a game-specific copy"
+    ],
+    "preferOver": [
+      "manually assembling a room-code form from primitives"
+    ],
+    "contexts": [
+      "participant"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "lobby",
+      "shared-display-lobby",
+      "participant-shell"
+    ],
+    "props": [],
+    "uses": [
+      "base",
+      "button",
+      "input",
+      "panel",
+      "alert",
+      "game-code-input",
+      "participant-identity",
+      "connection-status",
+      "waiting-state",
+      "participant-shell"
+    ],
+    "deprecatedAlternatives": [
+      "manually assembling a room-code form from primitives"
+    ],
+    "version": "0.2.1"
+  },
+  "lobby": {
+    "registryItem": "@gamescience/lobby",
+    "category": "pattern",
+    "title": "Facilitator Lobby",
+    "purpose": "Facilitator lobby with room code, participant status, and start controls.",
+    "useWhen": [
+      "operating a pre-start facilitator lobby"
+    ],
+    "avoid": [
+      "owning stage-transition authority inside the pattern"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "join-flow",
+      "shared-display-lobby"
+    ],
+    "props": [],
+    "uses": [
+      "base",
+      "button",
+      "panel",
+      "badge",
+      "alert",
+      "progress",
+      "participant-status",
+      "room-code-display",
+      "facilitator-shell"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "shared-display-lobby": {
+    "registryItem": "@gamescience/shared-display-lobby",
+    "category": "pattern",
+    "title": "Shared Display Lobby",
+    "purpose": "Privacy-safe shared-display lobby with room code and join progress.",
+    "useWhen": [
+      "broadcasting a join/lobby state on a shared room display"
+    ],
+    "avoid": [
+      "showing participant-private information"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "shared-display"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [
+      "join-flow",
+      "lobby"
+    ],
+    "props": [],
+    "uses": [
+      "base",
+      "panel",
+      "badge",
+      "waiting-state",
+      "room-code-display",
+      "display-heading",
+      "participant-count-display",
+      "shared-display-shell"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "participant-shell": {
+    "registryItem": "@gamescience/participant-shell",
+    "category": "template",
+    "title": "Participant Shell",
+    "purpose": "Mobile-first participant layout shell.",
+    "useWhen": [
+      "wrapping participant screens"
+    ],
+    "avoid": [
+      "putting facilitator density into this shell"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "participant"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "facilitator-shell": {
+    "registryItem": "@gamescience/facilitator-shell",
+    "category": "template",
+    "title": "Facilitator Shell",
+    "purpose": "Desktop facilitator console layout shell.",
+    "useWhen": [
+      "wrapping facilitator operational screens"
+    ],
+    "avoid": [
+      "encoding session orchestration in the shell"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "facilitator"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  },
+  "shared-display-shell": {
+    "registryItem": "@gamescience/shared-display-shell",
+    "category": "template",
+    "title": "Shared Display Shell",
+    "purpose": "Landscape non-interactive shared display shell.",
+    "useWhen": [
+      "wrapping shared room displays"
+    ],
+    "avoid": [
+      "showing participant-private information"
+    ],
+    "preferOver": [],
+    "contexts": [
+      "shared-display"
+    ],
+    "themes": [
+      "gamescience",
+      "citadel"
+    ],
+    "related": [],
+    "props": [],
+    "uses": [
+      "base"
+    ],
+    "deprecatedAlternatives": [],
+    "version": "0.2.1"
+  }
+}

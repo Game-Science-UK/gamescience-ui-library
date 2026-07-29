@@ -21,7 +21,7 @@
     "registry:build": "tsx scripts/build-registry.ts",
     "registry:validate": "tsx scripts/validate-registry.ts",
     "registry:serve": "npx --yes serve public/registry -p 4343",
-    "pages:build": "npm run registry:build && tsx scripts/build-pages.ts",
+    "pages:build": "npm run pages:build:versioned && npm run pages:build:latest",
     "pages:validate": "tsx scripts/validate-pages.ts",
     "pages:serve": "npx --yes serve pages-dist -p 4177",
     "theme:check": "tsx scripts/check-theme-contract.ts",
