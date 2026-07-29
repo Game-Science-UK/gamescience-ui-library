@@ -175,7 +175,8 @@ export const registryItems: RegistryItemDefinition[] = [
     name: "theme-citadel",
     type: "registry:theme",
     title: "Citadel Theme",
-    description: "Expressive Citadel theme CSS — no component forks.",
+    description:
+      "Citadel 4.1 HUD theme CSS with semantic tokens and theme-scoped treatments — no component forks. Fonts load via public stylesheet @import with full fallback stacks.",
     category: "theme",
     registryDependencies: ["base"],
     files: [
@@ -183,7 +184,10 @@ export const registryItems: RegistryItemDefinition[] = [
     ],
     catalogue: {
       useWhen: ["building Citadel-branded game experiences"],
-      avoid: ["creating CitadelButton or other theme-named forks"],
+      avoid: [
+        "creating CitadelButton or other theme-named forks",
+        "installing alongside theme-gamescience as concurrent nested themes",
+      ],
       contexts: ["all"],
       themes: ["citadel"],
       related: ["theme-gamescience"],
@@ -193,7 +197,7 @@ export const registryItems: RegistryItemDefinition[] = [
     name: "button",
     type: "registry:ui",
     title: "Button",
-    description: "Semantic button primitive with intent, size, and loading states.",
+    description: "Semantic button primitive with intent, size, emphasis, and loading states.",
     category: "component",
     registryDependencies: ["base"],
     dependencies: ["@radix-ui/react-slot", "class-variance-authority", "lucide-react"],
@@ -215,7 +219,7 @@ export const registryItems: RegistryItemDefinition[] = [
       preferOver: ["TechButton", "CitadelButton"],
       contexts: ["all"],
       themes: ["gamescience", "citadel"],
-      props: ["intent", "size", "loading", "disabled"],
+      props: ["intent", "size", "emphasis", "loading", "disabled"],
     },
   },
   {
@@ -250,7 +254,7 @@ export const registryItems: RegistryItemDefinition[] = [
     name: "panel",
     type: "registry:ui",
     title: "Panel",
-    description: "Surface container with semantic elevation.",
+    description: "Surface container with semantic elevation and emphasis.",
     category: "component",
     registryDependencies: ["base"],
     files: [
@@ -266,14 +270,14 @@ export const registryItems: RegistryItemDefinition[] = [
       preferOver: ["GlassCard", "TechPanel"],
       contexts: ["all"],
       themes: ["gamescience", "citadel"],
-      props: ["elevation", "padding"],
+      props: ["elevation", "padding", "emphasis"],
     },
   },
   {
     name: "badge",
     type: "registry:ui",
     title: "Badge",
-    description: "Compact status and metadata label.",
+    description: "Compact status and metadata label with semantic intent and treatment axes.",
     category: "component",
     registryDependencies: ["base"],
     files: [
@@ -285,10 +289,13 @@ export const registryItems: RegistryItemDefinition[] = [
     ],
     catalogue: {
       useWhen: ["showing compact status values"],
-      avoid: ["colour-only status without text"],
+      avoid: [
+        "colour-only status without text",
+        "intent=outline (deprecated — use treatment=outlined)",
+      ],
       contexts: ["all"],
       themes: ["gamescience", "citadel"],
-      props: ["intent"],
+      props: ["intent", "treatment"],
     },
   },
   {

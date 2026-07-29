@@ -1,108 +1,517 @@
 /**
  * Citadel theme — tactical, luminous, HUD-inspired.
  * Visual identity only; no Citadel-specific component forks.
+ *
+ * Fonts: public Google Fonts stylesheet for Hanken Grotesk and Plus Jakarta Sans.
+ * Mono uses Geist Mono when present, otherwise IBM Plex Mono (loaded by base foundations).
+ * Remote font failure must not break usability — complete fallback stacks are required.
+ * Build/smoke tests must not require the remote font request to succeed.
  */
 
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
 [data-theme="citadel"] {
-  --background: 220 28% 7%;
-  --foreground: 190 40% 94%;
+  /* Page and surfaces */
+  --background: 213 76% 11%;
+  --foreground: 210 76% 95%;
 
-  --surface: 220 24% 11%;
-  --surface-subtle: 220 22% 14%;
-  --surface-raised: 220 26% 13%;
-  --surface-overlay: 220 30% 10%;
+  --surface-subtle: 213 68% 12%;
+  --surface: 211 67% 14%;
+  --surface-raised: 211 64% 17%;
+  --surface-overlay: 213 76% 9%;
 
-  --border: 190 35% 28%;
-  --border-strong: 186 72% 48%;
-  --focus-ring: 186 90% 52%;
+  /* Borders and focus */
+  --border: 211 50% 22%;
+  --border-strong: 195 100% 48%;
+  --focus-ring: 195 100% 48%;
 
-  --primary: 186 90% 46%;
-  --primary-hover: 186 90% 40%;
-  --primary-active: 186 88% 34%;
-  --primary-foreground: 220 40% 6%;
+  /* Primary — Pacific */
+  --primary: 195 100% 48%;
+  --primary-hover: 195 100% 42%;
+  --primary-active: 195 100% 36%;
+  --primary-foreground: 205 88% 12%;
 
-  --secondary: 220 22% 16%;
-  --secondary-hover: 220 22% 20%;
-  --secondary-active: 220 24% 24%;
-  --secondary-foreground: 190 35% 90%;
+  /* Secondary */
+  --secondary: 212 64% 18%;
+  --secondary-hover: 212 60% 22%;
+  --secondary-active: 212 58% 26%;
+  --secondary-foreground: 212 24% 83%;
 
-  --accent: 28 95% 55%;
-  --accent-foreground: 220 40% 6%;
+  /* Accent — Cobalt */
+  --accent: 228 76% 50%;
+  --accent-foreground: 210 76% 95%;
 
-  --muted: 220 18% 16%;
-  --muted-foreground: 200 15% 68%;
+  /* Muted */
+  --muted: 212 54% 17%;
+  --muted-foreground: 212 24% 73%;
 
-  --success: 152 70% 42%;
-  --success-foreground: 220 40% 6%;
-  --warning: 38 95% 52%;
-  --warning-foreground: 220 40% 6%;
-  --danger: 350 85% 55%;
+  /* Status */
+  --success: 161 93% 35%;
+  --success-foreground: 213 76% 9%;
+
+  --warning: 42 100% 67%;
+  --warning-foreground: 213 76% 9%;
+
+  --danger: 0 72% 51%;
   --danger-foreground: 0 0% 100%;
-  --information: 205 90% 55%;
-  --information-foreground: 220 40% 6%;
 
-  --radius-control: 0.25rem;
-  --radius-card: 0.375rem;
-  --radius-panel: 0.375rem;
-  --radius-overlay: 0.5rem;
-  --radius-pill: 0.25rem;
+  --information: 195 100% 48%;
+  --information-foreground: 205 88% 12%;
+
+  /* Shape */
+  --radius-control: 0;
+  --radius-card: 0;
+  --radius-panel: 0;
+  --radius-overlay: 0.25rem;
+  --radius-pill: 9999px;
 
   --border-width-control: 1px;
   --border-width-panel: 1px;
 
-  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
-  --font-body: "Source Sans 3", "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  /* Typography */
+  --font-display: "Hanken Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
 
-  --font-weight-heading: 700;
+  --font-weight-heading: 800;
   --font-weight-label: 600;
   --font-weight-body: 400;
 
-  --tracking-heading: 0.02em;
-  --tracking-label: 0.08em;
+  --tracking-heading: -0.025em;
+  --tracking-label: 0.2em;
   --text-transform-label: uppercase;
 
-  --control-height-sm: 2rem;
-  --control-height-md: 2.5rem;
-  --control-height-lg: 3rem;
+  /* Controls */
+  --control-height-sm: 2.25rem;
+  --control-height-md: 2.75rem;
+  --control-height-lg: 4rem;
 
   --control-padding-inline-sm: 0.75rem;
   --control-padding-inline-md: 1rem;
-  --control-padding-inline-lg: 1.25rem;
+  --control-padding-inline-lg: 1.5rem;
 
-  --panel-padding-sm: 0.75rem;
-  --panel-padding-md: 1.25rem;
+  /* Panels and spacing */
+  --panel-padding-sm: 1rem;
+  --panel-padding-md: 1.5rem;
   --panel-padding-lg: 1.75rem;
 
-  --section-gap: 1.5rem;
-  --content-max-width: 42rem;
+  --section-gap: 1.25rem;
+  --content-max-width: 72rem;
 
-  --shadow-control: 0 0 0 1px hsl(190 40% 30% / 0.35), 0 2px 8px rgb(0 0 0 / 0.35);
-  --shadow-card: 0 0 0 1px hsl(190 50% 40% / 0.25), 0 12px 32px rgb(0 0 0 / 0.45);
-  --shadow-overlay: 0 0 0 1px hsl(186 70% 45% / 0.35), 0 24px 64px rgb(0 0 0 / 0.55);
+  /* Shadows */
+  --shadow-control: 0 0 0 1px hsl(195 100% 48% / 0.24), 0 4px 14px rgb(0 0 0 / 0.38);
+
+  --shadow-card: 0 0 0 1px hsl(195 100% 48% / 0.18), 0 12px 32px rgb(0 0 0 / 0.34);
+
+  --shadow-overlay: 0 0 0 1px hsl(195 100% 48% / 0.3), 0 24px 64px rgb(0 0 0 / 0.55);
+
   --shadow-focus: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--focus-ring) / 0.75);
 
+  /* Motion */
   --duration-fast: 100ms;
-  --duration-standard: 180ms;
-  --duration-emphasis: 280ms;
+  --duration-standard: 200ms;
+  --duration-emphasis: 320ms;
 
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-emphasis: cubic-bezier(0.65, 0, 0.35, 1);
 
   --press-scale: 0.98;
-  --hover-translate: 0px;
+  --hover-translate: -1px;
 
+  /* Shell */
   --gs-shell-gradient:
-    radial-gradient(ellipse at 50% -10%, hsl(186 80% 30% / 0.28), transparent 45%),
-    radial-gradient(ellipse at 100% 100%, hsl(28 90% 40% / 0.12), transparent 40%),
-    linear-gradient(180deg, hsl(220 28% 8%), hsl(220 30% 5%));
+    radial-gradient(ellipse at 50% -10%, hsl(195 100% 48% / 0.12), transparent 42%),
+    linear-gradient(180deg, hsl(213 76% 11%), hsl(213 80% 8%));
+
+  /* Extension tokens — consumed by theme-scoped component/shell rules */
+  --shell-grid-color: 195 100% 48%;
+  --shell-grid-dot-alpha: 0.054;
+  --shell-grid-size-participant: 32px;
+  --shell-grid-size-display: 40px;
+
+  --shell-vignette: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 70%,
+    hsl(213 76% 11% / 0.18) 92%,
+    hsl(213 76% 11% / 0.35) 100%
+  );
+
+  --panel-surface-alpha: 0.7;
+  --panel-border-alpha: 0.15;
+  --panel-blur: 12px;
+
+  --scope-corner-size-sm: 10px;
+  --scope-corner-size-md: 12px;
+  --scope-corner-size-lg: 16px;
+  --scope-corner-width: 2px;
+  --scope-corner-offset: -1px;
+  --scope-corner-color: hsl(var(--border-strong));
+
+  --hairline-alpha: 0.3;
+
+  --glow-emphasis: 0 0 24px hsl(var(--accent) / 0.28);
+  --glow-information: 0 0 18px hsl(var(--information) / 0.28);
+  --glow-warning: 0 0 18px hsl(var(--warning) / 0.24);
+  --glow-danger: 0 0 18px hsl(var(--danger) / 0.28);
+
+  --action-bar-pad-top: 2rem;
+  --action-bar-safe-bottom: max(1.5rem, env(safe-area-inset-bottom));
 }
 
-[data-theme="citadel"] [data-elevation="raised"],
+/* Shared-display density must not soften Citadel geometry */
+[data-theme="citadel"][data-context="shared-display"] {
+  --radius-panel: 0;
+  --radius-control: 0;
+  --radius-card: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Scope corners — four L-brackets via layered backgrounds on ::before        */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-panel,
+[data-theme="citadel"] .gs-button[data-emphasis="strong"] {
+  --scope-corner-size: var(--scope-corner-size-md);
+  position: relative;
+  overflow: visible;
+}
+
+[data-theme="citadel"] .gs-button[data-emphasis="strong"][data-size="sm"],
+[data-theme="citadel"] .gs-panel[data-padding="sm"] {
+  --scope-corner-size: var(--scope-corner-size-sm);
+}
+
+[data-theme="citadel"] .gs-button[data-emphasis="strong"][data-size="lg"],
+[data-theme="citadel"] .gs-panel[data-padding="lg"] {
+  --scope-corner-size: var(--scope-corner-size-lg);
+}
+
+[data-theme="citadel"] .gs-panel::before,
+[data-theme="citadel"] .gs-button[data-emphasis="strong"]::before {
+  content: "";
+  position: absolute;
+  inset: var(--scope-corner-offset);
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) top left /
+      var(--scope-corner-size) var(--scope-corner-width) no-repeat,
+    linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) top left /
+      var(--scope-corner-width) var(--scope-corner-size) no-repeat,
+    linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) top right /
+      var(--scope-corner-size) var(--scope-corner-width) no-repeat,
+    linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) top right /
+      var(--scope-corner-width) var(--scope-corner-size) no-repeat,
+    linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) bottom left /
+      var(--scope-corner-size) var(--scope-corner-width) no-repeat,
+    linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) bottom left /
+      var(--scope-corner-width) var(--scope-corner-size) no-repeat,
+    linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) bottom right /
+      var(--scope-corner-size) var(--scope-corner-width) no-repeat,
+    linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) bottom right /
+      var(--scope-corner-width) var(--scope-corner-size) no-repeat;
+}
+
+[data-theme="citadel"] .gs-panel[data-emphasis="strong"] {
+  --scope-corner-color: hsl(var(--accent));
+}
+
+[data-theme="citadel"]
+  .gs-button[data-emphasis="strong"]:not(:disabled):not([aria-disabled="true"]) {
+  --scope-corner-color: hsl(var(--information));
+}
+
+[data-theme="citadel"] .gs-button[data-emphasis="strong"]:disabled::before,
+[data-theme="citadel"] .gs-button[data-emphasis="strong"][aria-disabled="true"]::before {
+  opacity: 0.35;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Button                                                                     */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-button {
+  border-radius: var(--radius-control);
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: var(--text-transform-label);
+}
+
+[data-theme="citadel"]
+  .gs-button[data-emphasis="strong"]:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: var(--shadow-control), var(--glow-information);
+}
+
+[data-theme="citadel"] .gs-button[data-emphasis="strong"]:disabled,
+[data-theme="citadel"] .gs-button[data-emphasis="strong"][aria-disabled="true"] {
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="citadel"] .gs-button {
+    --press-scale: 1;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Input / Label                                                              */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-input {
+  background: hsl(var(--surface) / 0.82);
+  border-color: hsl(var(--border-strong) / 0.22);
+  color: hsl(var(--foreground));
+  box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.03);
+  border-radius: var(--radius-control);
+}
+
+[data-theme="citadel"] .gs-input:hover:not(:disabled):not([aria-invalid="true"]) {
+  border-color: hsl(var(--border-strong) / 0.38);
+}
+
+[data-theme="citadel"] .gs-input:focus-visible {
+  border-color: hsl(var(--focus-ring));
+  box-shadow: var(--shadow-focus);
+}
+
+[data-theme="citadel"] .gs-input::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+[data-theme="citadel"] .gs-input[aria-invalid="true"] {
+  border-color: hsl(var(--danger));
+}
+
+[data-theme="citadel"] .gs-input[aria-invalid="true"]:focus-visible {
+  box-shadow:
+    0 0 0 2px hsl(var(--background)),
+    0 0 0 4px hsl(var(--danger) / 0.75);
+}
+
+[data-theme="citadel"] .gs-label {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: var(--text-transform-label);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Panel                                                                      */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-panel {
+  background: hsl(var(--surface) / var(--panel-surface-alpha));
+  border: var(--border-width-panel) solid hsl(var(--border-strong) / var(--panel-border-alpha));
+  border-radius: var(--radius-panel);
+  backdrop-filter: blur(var(--panel-blur));
+  box-shadow: none;
+}
+
 [data-theme="citadel"] .gs-panel[data-elevation="raised"] {
-  background: linear-gradient(145deg, hsl(220 26% 14% / 0.92), hsl(220 28% 10% / 0.88));
-  backdrop-filter: blur(12px);
+  background: hsl(var(--surface-raised) / 0.9);
   box-shadow:
     var(--shadow-card),
-    inset 0 1px 0 hsl(190 60% 70% / 0.08);
+    inset 0 1px 0 hsl(var(--foreground) / 0.04);
+}
+
+[data-theme="citadel"] .gs-panel[data-emphasis="strong"] {
+  box-shadow: var(--shadow-card), var(--glow-emphasis);
+}
+
+[data-theme="citadel"] .gs-panel > .gs-panel-content {
+  position: relative;
+  z-index: 0;
+  min-width: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Badge                                                                      */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-badge {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+}
+
+[data-theme="citadel"] .gs-badge[data-intent="information"][data-treatment="outlined"] {
+  color: hsl(var(--information));
+  border-color: hsl(var(--information) / 0.8);
+  background: hsl(var(--information) / 0.08);
+}
+
+[data-theme="citadel"] .gs-badge[data-treatment="outlined"] {
+  background: transparent;
+}
+
+[data-theme="citadel"] .gs-badge[data-treatment="subtle"][data-intent="information"] {
+  color: hsl(var(--information));
+  background: hsl(var(--information) / 0.12);
+  border-color: transparent;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Alert                                                                      */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-alert {
+  background: hsl(var(--surface) / 0.78);
+  border-radius: var(--radius-panel);
+}
+
+[data-theme="citadel"] .gs-alert[data-intent="information"] {
+  border-color: hsl(var(--information) / 0.45);
+}
+
+[data-theme="citadel"] .gs-alert[data-intent="success"] {
+  border-color: hsl(var(--success) / 0.45);
+}
+
+[data-theme="citadel"] .gs-alert[data-intent="warning"] {
+  border-color: hsl(var(--warning) / 0.55);
+}
+
+[data-theme="citadel"] .gs-alert[data-intent="danger"] {
+  border-color: hsl(var(--danger) / 0.55);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Progress / Skeleton                                                        */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-progress {
+  background: hsl(var(--surface-subtle));
+  border: 1px solid hsl(var(--border-strong) / 0.18);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+[data-theme="citadel"] .gs-progress-indicator {
+  background: hsl(var(--primary));
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.28);
+}
+
+[data-theme="citadel"] .gs-skeleton {
+  background: hsl(var(--surface-raised));
+  border-radius: var(--radius-control);
+  background-image: linear-gradient(
+    90deg,
+    hsl(var(--surface-raised)),
+    hsl(var(--border-strong) / 0.12),
+    hsl(var(--surface-raised))
+  );
+  background-size: 200% 100%;
+  animation: gs-citadel-skeleton 1.4s var(--ease-standard) infinite;
+}
+
+@keyframes gs-citadel-skeleton {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="citadel"] .gs-skeleton {
+    animation: none;
+    background-image: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Display / mono emphasis                                                    */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-display {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: var(--tracking-heading);
+  line-height: 1.05;
+}
+
+[data-theme="citadel"] .gs-mono {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--foreground));
+}
+
+[data-theme="citadel"] .gs-connection-marker {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Shells — grid + vignette (theme-owned)                                     */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-theme="citadel"] .gs-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: var(--shell-vignette);
+}
+
+[data-theme="citadel"][data-context="participant"] .gs-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    hsl(var(--shell-grid-color) / var(--shell-grid-dot-alpha)) 1px,
+    transparent 1px
+  );
+  background-size: var(--shell-grid-size-participant) var(--shell-grid-size-participant);
+}
+
+[data-theme="citadel"][data-context="facilitator"] .gs-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+  background-image: radial-gradient(
+    circle,
+    hsl(var(--shell-grid-color) / 0.028) 1px,
+    transparent 1px
+  );
+  background-size: 48px 48px;
+}
+
+[data-theme="citadel"][data-context="shared-display"] .gs-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    hsl(var(--shell-grid-color) / 0.09) 1px,
+    transparent 1px
+  );
+  background-size: var(--shell-grid-size-display) var(--shell-grid-size-display);
+}
+
+[data-theme="citadel"] .gs-shell > * {
+  position: relative;
+  z-index: 1;
 }

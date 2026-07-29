@@ -18,7 +18,10 @@ function FacilitatorShell({
 }: FacilitatorShellProps) {
   return (
     <div
-      className={cn("min-h-screen bg-[image:var(--gs-shell-gradient)] text-foreground", className)}
+      className={cn(
+        "gs-shell min-h-screen bg-[image:var(--gs-shell-gradient)] text-foreground",
+        className,
+      )}
     >
       <header className="border-b border-border bg-surface/80 px-6 py-4 backdrop-blur">
         <div className="mx-auto flex max-w-content items-start justify-between gap-4">

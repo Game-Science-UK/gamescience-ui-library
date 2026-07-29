@@ -20,6 +20,7 @@ const meta = {
       options: ["primary", "secondary", "danger", "ghost", "outline"],
     },
     size: { control: "select", options: ["sm", "md", "lg"] },
+    emphasis: { control: "select", options: ["default", "strong"] },
     loading: { control: "boolean" },
     disabled: { control: "boolean" },
   },
@@ -73,6 +74,25 @@ export const Accessibility: Story = {
       <Button aria-label="Start session">Start</Button>
       <Button loading aria-busy>
         Saving
+      </Button>
+    </ButtonGroup>
+  ),
+};
+
+export const Emphasis: Story = {
+  render: () => (
+    <ButtonGroup orientation="vertical" className="w-full max-w-sm p-6">
+      <Button intent="primary" emphasis="default" size="lg" className="w-full">
+        Default emphasis
+      </Button>
+      <Button intent="primary" emphasis="strong" size="lg" className="w-full">
+        Strong emphasis
+      </Button>
+      <Button intent="primary" emphasis="strong" size="lg" className="w-full" disabled>
+        Strong disabled
+      </Button>
+      <Button intent="primary" emphasis="strong" size="lg" className="w-full" loading>
+        Strong loading
       </Button>
     </ButtonGroup>
   ),

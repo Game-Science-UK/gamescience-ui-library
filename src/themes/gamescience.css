@@ -114,3 +114,29 @@
     radial-gradient(ellipse at 20% 0%, hsl(221 70% 28% / 0.45), transparent 50%),
     linear-gradient(180deg, hsl(222 47% 11%), hsl(222 45% 8%));
 }
+
+/* Theme-owned shared-display grid (replaces former inline shell styles) */
+[data-theme="gamescience"][data-context="shared-display"] .gs-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-theme="gamescience"][data-context="shared-display"] .gs-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    hsl(var(--border) / 0.35) 1px,
+    transparent 0
+  );
+  background-size: 32px 32px;
+}
+
+[data-theme="gamescience"][data-context="shared-display"] .gs-shell > * {
+  position: relative;
+  z-index: 1;
+}

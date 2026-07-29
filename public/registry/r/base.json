@@ -74,7 +74,7 @@
       "path": "src/lib/version.ts",
       "type": "registry:lib",
       "target": "src/lib/version.ts",
-      "content": "/** Installed GameScience UI library version metadata. */\nexport const GAMESCIENCE_UI_VERSION = \"0.1.0\";\n"
+      "content": "/** Installed GameScience UI library version metadata. */\nexport const GAMESCIENCE_UI_VERSION = \"0.2.0\";\n"
     },
     {
       "path": "src/providers/game-theme-context.ts",
@@ -116,7 +116,7 @@
       "path": "consumer/gamescience-ui.json",
       "type": "registry:file",
       "target": "src/docs/gamescience-ui.json",
-      "content": "{\n  \"name\": \"GameScience UI\",\n  \"version\": \"0.1.0\",\n  \"registryNamespace\": \"@gamescience\",\n  \"registryUrl\": \"https://game-science-uk.github.io/gamescience-ui-library/versions/0.1.0/r/{name}.json\",\n  \"latestRegistryUrl\": \"https://game-science-uk.github.io/gamescience-ui-library/r/{name}.json\",\n  \"catalogueUrl\": \"https://game-science-uk.github.io/gamescience-ui-library/versions/0.1.0/agent-catalogue.json\",\n  \"themeRule\": \"One active theme per application\",\n  \"contexts\": [\n    \"participant\",\n    \"facilitator\",\n    \"shared-display\"\n  ],\n  \"guidanceFile\": \"src/docs/gamescience-ui-guidance.md\"\n}\n"
+      "content": "{\n  \"name\": \"GameScience UI\",\n  \"version\": \"0.2.0\",\n  \"registryNamespace\": \"@gamescience\",\n  \"registryUrl\": \"https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/r/{name}.json\",\n  \"latestRegistryUrl\": \"https://game-science-uk.github.io/gamescience-ui-library/r/{name}.json\",\n  \"catalogueUrl\": \"https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/agent-catalogue.json\",\n  \"themeRule\": \"One active theme per application\",\n  \"contexts\": [\n    \"participant\",\n    \"facilitator\",\n    \"shared-display\"\n  ],\n  \"guidanceFile\": \"src/docs/gamescience-ui-guidance.md\"\n}\n"
     },
     {
       "path": "consumer/gamescience-ui-guidance.md",
@@ -127,7 +127,7 @@
   ],
   "meta": {
     "category": "base",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "namespace": "@gamescience"
   }
 }

@@ -20,7 +20,7 @@ https://game-science-uk.github.io/gamescience-ui-library/
 
 ```bash
 curl -I https://game-science-uk.github.io/gamescience-ui-library/r/base.json
-curl -s https://game-science-uk.github.io/gamescience-ui-library/versions/0.1.0/r/base.json | head
+curl -s https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/r/base.json | head
 curl -s https://game-science-uk.github.io/gamescience-ui-library/version.json
 ```
 
@@ -50,10 +50,11 @@ npm run pages:serve
 
 ## Versioned vs latest
 
-- Consumers should pin:
+- Consumers should pin the current version:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/0.1.0/r/{name}.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/r/{name}.json
 ```
 
+- Published `versions/0.1.0/...` and `releases/0.1.0.lock.json` remain immutable.
 - Unversioned `/r/{name}.json` tracks latest stable published from `main` / release tags.

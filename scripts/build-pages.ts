@@ -135,8 +135,50 @@ function buildReleaseLock(versionRoot: string) {
   };
 }
 
+function preservePriorVersions() {
+  const versionsDir = path.join(pagesDist, "versions");
+  if (!existsSync(versionsDir)) {
+    return null as string | null;
+  }
+
+  const staging = path.join(root, ".tmp-pages-prior-versions");
+  rmSync(staging, { recursive: true, force: true });
+  mkdirSync(staging, { recursive: true });
+
+  for (const entry of readdirSync(versionsDir, { withFileTypes: true })) {
+    if (!entry.isDirectory() || entry.name === PAGES_VERSION) continue;
+    cpSync(path.join(versionsDir, entry.name), path.join(staging, entry.name), {
+      recursive: true,
+    });
+  }
+
+  return staging;
+}
+
+function restorePriorVersions(staging: string | null) {
+  if (!staging || !existsSync(staging)) return;
+
+  const versionsDir = path.join(pagesDist, "versions");
+  mkdirSync(versionsDir, { recursive: true });
+
+  for (const entry of readdirSync(staging, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const target = path.join(versionsDir, entry.name);
+    if (existsSync(target)) {
+      // Never overwrite an already-present immutable prior version tree.
+      continue;
+    }
+    cpSync(path.join(staging, entry.name), target, { recursive: true });
+    console.log(`[pages:build] preserved prior version tree versions/${entry.name}`);
+  }
+
+  rmSync(staging, { recursive: true, force: true });
+}
+
 function main() {
   ensureRegistryBuilt();
+
+  const priorVersionsStaging = preservePriorVersions();
 
   rmSync(pagesDist, { recursive: true, force: true });
   mkdirSync(pagesDist, { recursive: true });
@@ -144,17 +186,20 @@ function main() {
   const versionJson = buildVersionJson();
   const versionRoot = path.join(pagesDist, "versions", PAGES_VERSION);
 
-  // Latest (unversioned) tree
+  // Latest (unversioned) tree — tracks current GAMESCIENCE_UI_VERSION only after a successful cut.
   copyRegistryTree(pagesDist);
   writeFileSync(path.join(pagesDist, "version.json"), JSON.stringify(versionJson, null, 2));
   writeIndexHtml(path.join(pagesDist, "index.html"), versionJson);
   writeDocsPage(path.join(pagesDist, "docs/index.html"));
   writeFileSync(path.join(pagesDist, ".nojekyll"), "");
 
-  // Immutable versioned tree
+  // Immutable versioned tree for the current release
   mkdirSync(versionRoot, { recursive: true });
   copyRegistryTree(versionRoot);
   writeFileSync(path.join(versionRoot, "version.json"), JSON.stringify(versionJson, null, 2));
+
+  // Keep previously published version trees (e.g. 0.1.0) intact in pages-dist.
+  restorePriorVersions(priorVersionsStaging);
 
   // Release lock: create if missing, or refresh only when explicitly requested.
   mkdirSync(releasesDir, { recursive: true });

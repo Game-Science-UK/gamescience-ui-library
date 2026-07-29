@@ -82,6 +82,7 @@ function ParticipantJoinFlow({
             <Button
               type="submit"
               intent="primary"
+              emphasis="strong"
               size="lg"
               loading={isSubmitting}
               className="w-full"
@@ -111,6 +112,7 @@ function ParticipantJoinFlow({
             <Button
               type="submit"
               intent="primary"
+              emphasis="strong"
               size="lg"
               loading={isSubmitting}
               className="w-full"

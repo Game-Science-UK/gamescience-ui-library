@@ -10,7 +10,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     <input
       type={type}
       className={cn(
-        "gs-touch-target flex h-control-md w-full rounded-control border bg-surface px-[var(--control-padding-inline-md)]",
+        "gs-input gs-touch-target flex h-control-md w-full rounded-control border bg-surface px-[var(--control-padding-inline-md)]",
         "text-[length:var(--type-scale-body)] text-foreground shadow-control",
         "placeholder:text-muted-foreground",
         "focus-visible:shadow-focus focus-visible:outline-none",

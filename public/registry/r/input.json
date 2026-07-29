@@ -13,7 +13,7 @@
       "path": "src/components/ui/input.tsx",
       "type": "registry:ui",
       "target": "src/components/ui/input.tsx",
-      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {\n  invalid?: boolean;\n}\n\nconst Input = React.forwardRef<HTMLInputElement, InputProps>(\n  ({ className, type = \"text\", invalid, ...props }, ref) => (\n    <input\n      type={type}\n      className={cn(\n        \"gs-touch-target flex h-control-md w-full rounded-control border bg-surface px-[var(--control-padding-inline-md)]\",\n        \"text-[length:var(--type-scale-body)] text-foreground shadow-control\",\n        \"placeholder:text-muted-foreground\",\n        \"focus-visible:shadow-focus focus-visible:outline-none\",\n        \"disabled:cursor-not-allowed disabled:opacity-50\",\n        invalid ? \"border-danger\" : \"border-border\",\n        className,\n      )}\n      ref={ref}\n      aria-invalid={invalid || undefined}\n      {...props}\n    />\n  ),\n);\nInput.displayName = \"Input\";\n\nexport { Input };\n"
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {\n  invalid?: boolean;\n}\n\nconst Input = React.forwardRef<HTMLInputElement, InputProps>(\n  ({ className, type = \"text\", invalid, ...props }, ref) => (\n    <input\n      type={type}\n      className={cn(\n        \"gs-input gs-touch-target flex h-control-md w-full rounded-control border bg-surface px-[var(--control-padding-inline-md)]\",\n        \"text-[length:var(--type-scale-body)] text-foreground shadow-control\",\n        \"placeholder:text-muted-foreground\",\n        \"focus-visible:shadow-focus focus-visible:outline-none\",\n        \"disabled:cursor-not-allowed disabled:opacity-50\",\n        invalid ? \"border-danger\" : \"border-border\",\n        className,\n      )}\n      ref={ref}\n      aria-invalid={invalid || undefined}\n      {...props}\n    />\n  ),\n);\nInput.displayName = \"Input\";\n\nexport { Input };\n"
     },
     {
       "path": "src/components/ui/label.tsx",
@@ -24,7 +24,7 @@
   ],
   "meta": {
     "category": "component",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "namespace": "@gamescience"
   }
 }

@@ -27,7 +27,7 @@
     ],
     "uses": [],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "theme-gamescience": {
     "registryItem": "@gamescience/theme-gamescience",
@@ -55,18 +55,19 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "theme-citadel": {
     "registryItem": "@gamescience/theme-citadel",
     "category": "theme",
     "title": "Citadel Theme",
-    "purpose": "Expressive Citadel theme CSS — no component forks.",
+    "purpose": "Citadel 4.1 HUD theme CSS with semantic tokens and theme-scoped treatments — no component forks. Fonts load via public stylesheet @import with full fallback stacks.",
     "useWhen": [
       "building Citadel-branded game experiences"
     ],
     "avoid": [
-      "creating CitadelButton or other theme-named forks"
+      "creating CitadelButton or other theme-named forks",
+      "installing alongside theme-gamescience as concurrent nested themes"
     ],
     "preferOver": [],
     "contexts": [
@@ -83,13 +84,13 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "button": {
     "registryItem": "@gamescience/button",
     "category": "component",
     "title": "Button",
-    "purpose": "Semantic button primitive with intent, size, and loading states.",
+    "purpose": "Semantic button primitive with intent, size, emphasis, and loading states.",
     "useWhen": [
       "primary and secondary actions across all contexts"
     ],
@@ -111,6 +112,7 @@
     "props": [
       "intent",
       "size",
+      "emphasis",
       "loading",
       "disabled"
     ],
@@ -121,7 +123,7 @@
       "TechButton",
       "CitadelButton"
     ],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "input": {
     "registryItem": "@gamescience/input",
@@ -156,13 +158,13 @@
     "deprecatedAlternatives": [
       "TechInput"
     ],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "panel": {
     "registryItem": "@gamescience/panel",
     "category": "component",
     "title": "Panel",
-    "purpose": "Surface container with semantic elevation.",
+    "purpose": "Surface container with semantic elevation and emphasis.",
     "useWhen": [
       "grouping related content on a surface"
     ],
@@ -183,7 +185,8 @@
     "related": [],
     "props": [
       "elevation",
-      "padding"
+      "padding",
+      "emphasis"
     ],
     "uses": [
       "base"
@@ -192,18 +195,19 @@
       "GlassCard",
       "TechPanel"
     ],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "badge": {
     "registryItem": "@gamescience/badge",
     "category": "component",
     "title": "Badge",
-    "purpose": "Compact status and metadata label.",
+    "purpose": "Compact status and metadata label with semantic intent and treatment axes.",
     "useWhen": [
       "showing compact status values"
     ],
     "avoid": [
-      "colour-only status without text"
+      "colour-only status without text",
+      "intent=outline (deprecated — use treatment=outlined)"
     ],
     "preferOver": [],
     "contexts": [
@@ -215,13 +219,14 @@
     ],
     "related": [],
     "props": [
-      "intent"
+      "intent",
+      "treatment"
     ],
     "uses": [
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "alert": {
     "registryItem": "@gamescience/alert",
@@ -252,7 +257,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "progress": {
     "registryItem": "@gamescience/progress",
@@ -282,7 +287,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "skeleton": {
     "registryItem": "@gamescience/skeleton",
@@ -309,7 +314,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "game-code-input": {
     "registryItem": "@gamescience/game-code-input",
@@ -344,7 +349,7 @@
       "input"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "connection-status": {
     "registryItem": "@gamescience/connection-status",
@@ -378,7 +383,7 @@
       "button"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "participant-identity": {
     "registryItem": "@gamescience/participant-identity",
@@ -408,7 +413,7 @@
       "input"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "participant-status": {
     "registryItem": "@gamescience/participant-status",
@@ -439,7 +444,7 @@
       "connection-status"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "waiting-state": {
     "registryItem": "@gamescience/waiting-state",
@@ -466,7 +471,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "room-code-display": {
     "registryItem": "@gamescience/room-code-display",
@@ -494,7 +499,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "display-heading": {
     "registryItem": "@gamescience/display-heading",
@@ -524,7 +529,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "participant-count-display": {
     "registryItem": "@gamescience/participant-count-display",
@@ -554,7 +559,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "join-flow": {
     "registryItem": "@gamescience/join-flow",
@@ -600,7 +605,7 @@
     "deprecatedAlternatives": [
       "manually assembling a room-code form from primitives"
     ],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "lobby": {
     "registryItem": "@gamescience/lobby",
@@ -638,7 +643,7 @@
       "facilitator-shell"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "shared-display-lobby": {
     "registryItem": "@gamescience/shared-display-lobby",
@@ -675,7 +680,7 @@
       "shared-display-shell"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "participant-shell": {
     "registryItem": "@gamescience/participant-shell",
@@ -702,7 +707,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "facilitator-shell": {
     "registryItem": "@gamescience/facilitator-shell",
@@ -729,7 +734,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "shared-display-shell": {
     "registryItem": "@gamescience/shared-display-shell",
@@ -756,6 +761,6 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.1.0"
+    "version": "0.2.0"
   }
 }

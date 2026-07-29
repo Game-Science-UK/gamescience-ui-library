@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/cn";
 
 const alertVariants = cva(
-  "relative flex w-full gap-3 rounded-card border p-panel-md text-[length:var(--type-scale-body)]",
+  "gs-alert relative flex w-full gap-3 rounded-card border p-panel-md text-[length:var(--type-scale-body)]",
   {
     variants: {
       intent: {
@@ -36,7 +36,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, intent = "information", title, children, ...props }, ref) => {
     const Icon = intentIcon[intent ?? "information"];
     return (
-      <div ref={ref} role="alert" className={cn(alertVariants({ intent }), className)} {...props}>
+      <div
+        ref={ref}
+        role="alert"
+        data-intent={intent ?? "information"}
+        className={cn(alertVariants({ intent }), className)}
+        {...props}
+      >
         <Icon className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
         <div className="min-w-0 flex-1 space-y-1">
           {title ? <p className="font-label">{title}</p> : null}

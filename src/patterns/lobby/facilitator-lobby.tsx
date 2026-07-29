@@ -53,8 +53,12 @@ function FacilitatorLobby({
 
         <RoomCodeDisplay code={session.code} label="Room code" />
         <div className="flex flex-wrap gap-2">
-          <Badge intent="information">Stage: Lobby</Badge>
-          <Badge intent={status === "ready" ? "success" : "default"}>Status: {status}</Badge>
+          <Badge intent="information" treatment="outlined">
+            Stage: Lobby
+          </Badge>
+          <Badge intent={status === "ready" ? "success" : "default"} treatment="outlined">
+            Status: {status}
+          </Badge>
         </div>
 
         <Progress value={progressValue} label={`Joined ${participants.length} of ${expected}`} />
@@ -80,7 +84,14 @@ function FacilitatorLobby({
           </Alert>
         ) : (
           <ButtonGroup orientation="vertical">
-            <Button type="button" intent="primary" size="lg" disabled={!canStart} onClick={onStart}>
+            <Button
+              type="button"
+              intent="primary"
+              emphasis="strong"
+              size="lg"
+              disabled={!canStart}
+              onClick={onStart}
+            >
               Start session
             </Button>
             {!canStart ? (

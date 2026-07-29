@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "gamescience",
   "homepage": "https://gamescience.ai",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "items": [
     {
       "name": "base",
@@ -134,7 +134,7 @@
       "name": "theme-citadel",
       "type": "registry:theme",
       "title": "Citadel Theme",
-      "description": "Expressive Citadel theme CSS — no component forks.",
+      "description": "Citadel 4.1 HUD theme CSS with semantic tokens and theme-scoped treatments — no component forks. Fonts load via public stylesheet @import with full fallback stacks.",
       "registryDependencies": [
         "@gamescience/base"
       ],
@@ -151,7 +151,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Semantic button primitive with intent, size, and loading states.",
+      "description": "Semantic button primitive with intent, size, emphasis, and loading states.",
       "registryDependencies": [
         "@gamescience/base"
       ],
@@ -199,7 +199,7 @@
       "name": "panel",
       "type": "registry:ui",
       "title": "Panel",
-      "description": "Surface container with semantic elevation.",
+      "description": "Surface container with semantic elevation and emphasis.",
       "registryDependencies": [
         "@gamescience/base"
       ],
@@ -216,7 +216,7 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Compact status and metadata label.",
+      "description": "Compact status and metadata label with semantic intent and treatment axes.",
       "registryDependencies": [
         "@gamescience/base"
       ],

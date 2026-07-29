@@ -50,7 +50,16 @@ function ConnectionStatus(props: ConnectionStatusProps) {
       aria-live="polite"
       data-state={state}
     >
-      <Badge intent={intent} className="gap-1.5">
+      <span
+        className={cn(
+          "gs-connection-marker shrink-0",
+          state === "connected" && "bg-success text-success",
+          state === "reconnecting" && "bg-warning text-warning",
+          state === "offline" && "bg-danger text-danger",
+        )}
+        aria-hidden="true"
+      />
+      <Badge intent={intent} treatment="outlined" className="gap-1.5">
         <Icon
           className={cn("size-3.5", state === "reconnecting" && "animate-spin")}
           aria-hidden="true"

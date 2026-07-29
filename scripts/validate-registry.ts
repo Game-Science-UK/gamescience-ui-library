@@ -64,6 +64,39 @@ for (const item of registryItems) {
   if (!(item.name in catalogue)) {
     fail(`agent-catalogue missing entry for ${item.name}`);
   }
+
+  if (item.name === "theme-citadel") {
+    const cssFile = built.files.find((file) => file.path.endsWith("citadel.css"));
+    const css = cssFile?.content ?? "";
+    if (!css.trim()) {
+      fail("theme-citadel CSS payload is empty");
+    } else {
+      const withoutComments = css.replace(/\/\*[\s\S]*?\*\//g, "");
+      const importMatches = [...withoutComments.matchAll(/@import\b[^;]*;/g)];
+      const firstImport = importMatches[0]?.[0];
+      if (firstImport) {
+        const lines = withoutComments.split(/\r?\n/);
+        let sawNonImportRule = false;
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          if (trimmed.startsWith("@import")) {
+            if (sawNonImportRule) {
+              fail(
+                "theme-citadel CSS has @import after non-import rules — keep all @import at the top of the generated payload",
+              );
+              break;
+            }
+            continue;
+          }
+          if (trimmed.startsWith("@charset")) {
+            continue;
+          }
+          sawNonImportRule = true;
+        }
+      }
+    }
+  }
 }
 
 if (index.items.length !== registryItems.length) {

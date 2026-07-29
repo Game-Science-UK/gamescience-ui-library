@@ -11,29 +11,47 @@ const panelVariants = cva("gs-panel rounded-panel border text-foreground", {
       overlay: "border-border bg-surface-overlay shadow-overlay",
     },
     padding: {
-      none: "p-0",
-      sm: "p-panel-sm",
-      md: "p-panel-md",
-      lg: "p-panel-lg",
+      none: "",
+      sm: "",
+      md: "",
+      lg: "",
+    },
+    emphasis: {
+      default: "",
+      strong: "",
     },
   },
   defaultVariants: {
     elevation: "raised",
     padding: "md",
+    emphasis: "default",
   },
 });
+
+const panelContentPadding = {
+  none: "p-0",
+  sm: "p-panel-sm",
+  md: "p-panel-md",
+  lg: "p-panel-lg",
+} as const;
 
 export interface PanelProps
   extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof panelVariants> {}
 
 const Panel = React.forwardRef<HTMLDivElement, PanelProps>(
-  ({ className, elevation, padding, ...props }, ref) => (
+  ({ className, elevation, padding = "md", emphasis = "default", children, ...props }, ref) => (
     <div
       ref={ref}
       data-elevation={elevation ?? "raised"}
-      className={cn(panelVariants({ elevation, padding }), className)}
+      data-emphasis={emphasis ?? "default"}
+      data-padding={padding ?? "md"}
+      className={cn(panelVariants({ elevation, padding, emphasis }))}
       {...props}
-    />
+    >
+      <div className={cn("gs-panel-content", panelContentPadding[padding ?? "md"], className)}>
+        {children}
+      </div>
+    </div>
   ),
 );
 Panel.displayName = "Panel";

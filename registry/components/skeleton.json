@@ -13,12 +13,12 @@
       "path": "src/components/ui/skeleton.tsx",
       "type": "registry:ui",
       "target": "src/components/ui/skeleton.tsx",
-      "content": "import type { HTMLAttributes } from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nfunction Skeleton({ className, ...props }: HTMLAttributes<HTMLDivElement>) {\n  return (\n    <div\n      className={cn(\"animate-pulse rounded-control bg-muted\", className)}\n      aria-hidden=\"true\"\n      {...props}\n    />\n  );\n}\n\nSkeleton.displayName = \"Skeleton\";\n\nexport { Skeleton };\n"
+      "content": "import type { HTMLAttributes } from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nfunction Skeleton({ className, ...props }: HTMLAttributes<HTMLDivElement>) {\n  return (\n    <div\n      className={cn(\"gs-skeleton animate-pulse rounded-control bg-muted\", className)}\n      aria-hidden=\"true\"\n      {...props}\n    />\n  );\n}\n\nSkeleton.displayName = \"Skeleton\";\n\nexport { Skeleton };\n"
     }
   ],
   "meta": {
     "category": "component",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "namespace": "@gamescience"
   }
 }

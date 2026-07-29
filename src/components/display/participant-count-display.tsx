@@ -18,7 +18,9 @@ function ParticipantCountDisplay({
   return (
     <div className={cn("text-center", className)} aria-live="polite">
       <p className="gs-label text-muted-foreground">{label}</p>
-      <p className="gs-display mt-1 font-display text-foreground">{value}</p>
+      <p className="gs-mono mt-1 text-[length:var(--type-scale-display)] tabular-nums text-foreground">
+        {value}
+      </p>
     </div>
   );
 }

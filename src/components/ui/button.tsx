@@ -6,7 +6,7 @@ import { cn } from "@/lib/cn";
 
 const buttonVariants = cva(
   [
-    "gs-pressable gs-touch-target inline-flex items-center justify-center gap-2 whitespace-nowrap",
+    "gs-button gs-pressable gs-touch-target inline-flex items-center justify-center gap-2 whitespace-nowrap",
     "rounded-control border border-transparent font-label text-[length:var(--type-scale-label)]",
     "shadow-control focus-visible:outline-none focus-visible:shadow-focus",
     "disabled:pointer-events-none disabled:opacity-50",
@@ -27,10 +27,15 @@ const buttonVariants = cva(
         md: "h-control-md px-[var(--control-padding-inline-md)]",
         lg: "h-control-lg px-[var(--control-padding-inline-lg)]",
       },
+      emphasis: {
+        default: "",
+        strong: "",
+      },
     },
     defaultVariants: {
       intent: "primary",
       size: "md",
+      emphasis: "default",
     },
   },
 );
@@ -43,7 +48,17 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, intent, size, asChild = false, loading = false, disabled, children, ...props },
+    {
+      className,
+      intent,
+      size,
+      emphasis = "default",
+      asChild = false,
+      loading = false,
+      disabled,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const Comp = asChild ? Slot : "button";
@@ -51,13 +66,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <Comp
-        className={cn(buttonVariants({ intent, size }), className)}
+        className={cn(buttonVariants({ intent, size, emphasis }), className)}
         ref={ref}
         disabled={isDisabled}
         aria-busy={loading || undefined}
+        data-emphasis={emphasis ?? "default"}
+        data-size={size ?? "md"}
         {...props}
       >
-        {loading ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+        {loading ? (
+          <Loader2 className="relative z-[2] size-4 animate-spin" aria-hidden="true" />
+        ) : null}
         {children}
       </Comp>
     );

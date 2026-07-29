@@ -33,7 +33,12 @@ function SharedDisplayLobby({
         {isReady ? "Ready to begin" : "Join the session"}
       </DisplayHeading>
 
-      <Panel elevation="raised" padding="lg" className="w-full max-w-4xl space-y-8">
+      <Panel
+        elevation="raised"
+        emphasis="strong"
+        padding="lg"
+        className="w-full max-w-4xl space-y-8"
+      >
         <RoomCodeDisplay code={session.code} />
         <p className="text-center text-[length:var(--type-scale-body)] text-muted-foreground">
           {instruction}
@@ -43,7 +48,7 @@ function SharedDisplayLobby({
           expected={session.expectedParticipantCount}
         />
         <div className="flex justify-center">
-          <Badge intent={isReady ? "success" : "information"}>
+          <Badge intent={isReady ? "success" : "information"} treatment="outlined">
             {isReady ? "All participants ready" : "Waiting for participants"}
           </Badge>
         </div>
