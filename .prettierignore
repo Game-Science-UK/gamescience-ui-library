@@ -4,6 +4,7 @@ storybook-static
 public/registry
 registry/**/*.json
 releases/*.lock.json
+releases/snapshots/**
 consumer/gamescience-ui.json
 docs/registry-overwrite-observations.md
 node_modules
