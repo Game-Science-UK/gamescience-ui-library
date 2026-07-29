@@ -92,13 +92,13 @@ function hasNearbyMarkdownHeading(content: string) {
 function extractGuidanceDocRefs(guidance: string): string[] {
   const refs = new Set<string>();
   // Backtick paths and bare docs/*.md mentions from consumer guidance.
-  for (const match of guidance.matchAll(/`?(docs\/[A-Za-z0-9._\-\/]+\.md)`?/g)) {
+  for (const match of guidance.matchAll(/`?(docs\/[A-Za-z0-9._/-]+\.md)`?/g)) {
     refs.add(match[1]!);
   }
-  for (const match of guidance.matchAll(/\(((\.\.\/)*docs\/[A-Za-z0-9._\-\/]+\.md)\)/g)) {
+  for (const match of guidance.matchAll(/\(((\.\.\/)*docs\/[A-Za-z0-9._/-]+\.md)\)/g)) {
     refs.add(match[1]!);
   }
-  for (const match of guidance.matchAll(/\((\/docs\/[A-Za-z0-9._\-\/]+\.md)\)/g)) {
+  for (const match of guidance.matchAll(/\((\/docs\/[A-Za-z0-9._/-]+\.md)\)/g)) {
     refs.add(match[1]!);
   }
   return [...refs];
