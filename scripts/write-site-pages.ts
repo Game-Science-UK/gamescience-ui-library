@@ -120,12 +120,20 @@ function shellLayout(options: {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${escapeHtml(options.title)} · GameScience UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="${PAGES_SITE_PATH}/assets/site.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
-      <a class="brand" href="${PAGES_SITE_PATH}/">GameScience UI</a>
+      <a class="brand" href="${PAGES_SITE_PATH}/"
+        ><span class="brand-game">Game</span><span class="brand-science">Science</span> UI</a
+      >
       <nav class="nav" aria-label="Primary">
           ${nav}
       </nav>
@@ -145,7 +153,7 @@ ${options.body}
 function writeHomepage(pagesDist: string, version: string, itemCount: number) {
   const body = `
       <section class="hero" id="hero">
-        <h1>GameScience UI</h1>
+        <h1>GameScience® <span class="accent">UI Design Library</span></h1>
         <p class="lede">Reusable interface foundations, components and game patterns for GameScience Lovable projects. Install approved source into your app, compose with the Lovable build agent, and pin an immutable registry version.</p>
         <div class="actions">
           <a class="button button-primary" href="${PAGES_SITE_PATH}/start/">Start a new project</a>
@@ -456,6 +464,12 @@ function writeDocsIndex(docsOut: string, extraDocs: string[]) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GameScience UI documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="${PAGES_SITE_PATH}/assets/site.css" />
   </head>
   <body>
