@@ -155,7 +155,7 @@ function scaffoldConsumer(registryUrlTemplate: string) {
         tsx: true,
         tailwind: {
           config: "tailwind.config.ts",
-          css: "src/foundations/index.css",
+          css: "src/index.css",
           baseColor: "neutral",
           cssVariables: true,
         },
@@ -218,12 +218,22 @@ export default defineConfig({
   );
 
   writeFileSync(
+    path.join(fixtureRoot, "src/index.css"),
+    `@import "./foundations/index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+`,
+  );
+
+  writeFileSync(
     path.join(fixtureRoot, "src/main.tsx"),
     `import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { GameScienceProvider } from "@/providers/gamescience-provider";
 import { Button } from "@/components/ui/button";
-import "@/foundations/index.css";
+import "@/index.css";
 import "@/themes/gamescience.css";
 
 createRoot(document.getElementById("root")!).render(

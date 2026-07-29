@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/react-vite";
 import { GameScienceProvider } from "../src/providers";
 import type { ExperienceContext, GameTheme } from "../src/themes/theme-contract";
+import "../src/dev/tailwind3-entry.css";
 import "../src/foundations/index.css";
 import "../src/themes/index.css";
 

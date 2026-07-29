@@ -7,7 +7,7 @@ The GameScience registry is a publicly readable static shadcn registry that dist
 - Namespace: `@gamescience`
 - Local serve URL (default): `http://localhost:4343`
 - GitHub Pages latest: `https://game-science-uk.github.io/gamescience-ui-library/r/{name}.json`
-- GitHub Pages versioned (recommended): `https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/r/{name}.json`
+- GitHub Pages versioned (recommended): `https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/r/{name}.json`
 - Configurable local override via `GAMESCIENCE_REGISTRY_URL`
 
 ## Build and serve locally
@@ -50,16 +50,28 @@ Or use direct item URLs while developing locally:
 npx shadcn@latest add http://localhost:4343/r/base.json -y
 ```
 
-After installing a theme, import its CSS in the application entry:
+After installing a theme, import foundations + **exactly one** theme. Own the Tailwind entry in the consumer:
 
-```ts
-import "@/foundations/index.css";
-import "@/themes/citadel.css"; // or gamescience.css
+**Tailwind 3**
+
+```css
+@import "./foundations/index.css";
+@import "./themes/citadel.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
+
+**Tailwind 4**
+
+See [tailwind-v4-integration.md](./tailwind-v4-integration.md). Copy `consumer/tailwind-v4-bridge.css` into the app and avoid circular `--x: var(--x)` mappings.
+
+Fonts are application-owned — see [font-loading.md](./font-loading.md).
 
 ## Installation smoke coverage
 
-`npm run smoke:registry` builds clean consumer fixtures for:
+`npm run smoke:registry` builds clean Tailwind 3 consumer fixtures for:
 
 1. `base` + `theme-gamescience` + `join-flow`
 2. `base` + `theme-citadel` + `join-flow`
@@ -67,6 +79,8 @@ import "@/themes/citadel.css"; // or gamescience.css
 4. `base` + `theme-citadel` + `lobby`
 5. `base` + `theme-gamescience` + `shared-display-lobby`
 6. `base` + `theme-citadel` + `shared-display-lobby`
+
+`npm run smoke:tailwind4` builds Tailwind 4 fixtures for Gamescience and Citadel join-flow and proves documented bridge utilities emit CSS.
 
 Each scenario asserts that sibling pattern packages and the alternate theme are not pulled in accidentally.
 

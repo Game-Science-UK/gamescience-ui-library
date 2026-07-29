@@ -1,49 +1,47 @@
-@layer base {
-  html {
-    font-family: var(--font-body);
-    font-weight: var(--font-weight-body);
-    line-height: 1.5;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-  }
+html {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body);
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
 
-  h1,
-  h2,
-  h3,
-  .gs-display {
-    font-family: var(--font-display);
-    font-weight: var(--font-weight-heading);
-    letter-spacing: var(--tracking-heading);
-    line-height: 1.15;
-  }
+h1,
+h2,
+h3,
+.gs-display {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: var(--tracking-heading);
+  line-height: 1.15;
+}
 
-  h1,
-  .gs-display {
-    font-size: var(--type-scale-display);
-  }
+h1,
+.gs-display {
+  font-size: var(--type-scale-display);
+}
 
-  h2,
-  .gs-title {
-    font-size: var(--type-scale-title);
-  }
+h2,
+.gs-title {
+  font-size: var(--type-scale-title);
+}
 
-  p,
-  .gs-body {
-    font-size: var(--type-scale-body);
-  }
+p,
+.gs-body {
+  font-size: var(--type-scale-body);
+}
 
-  label,
-  .gs-label {
-    font-size: var(--type-scale-label);
-    font-weight: var(--font-weight-label);
-    letter-spacing: var(--tracking-label);
-    text-transform: var(--text-transform-label);
-  }
+label,
+.gs-label {
+  font-size: var(--type-scale-label);
+  font-weight: var(--font-weight-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: var(--text-transform-label);
+}
 
-  code,
-  kbd,
-  .gs-mono {
-    font-family: var(--font-mono);
-    font-size: var(--type-scale-code);
-  }
+code,
+kbd,
+.gs-mono {
+  font-family: var(--font-mono);
+  font-size: var(--type-scale-code);
 }

@@ -1,6 +1,6 @@
 {
   "name": "@gamescience/ui-library",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "type": "module",
   "description": "GameScience.ai React design library and shadcn registry for multiplayer learning games",
@@ -29,7 +29,11 @@
     "smoke:registry": "tsx scripts/smoke-registry-install.ts",
     "smoke:registry-overwrite": "tsx scripts/smoke-registry-overwrite.ts",
     "smoke:pages": "tsx scripts/smoke-pages-install.ts",
-    "validate": "npm run typecheck && npm run lint && npm run format:check && npm run theme:check && npm run architecture:check && npm run test && npm run build && npm run build-storybook && npm run registry:build && npm run registry:validate && npm run pages:build && npm run pages:validate"
+    "smoke:tailwind4": "tsx scripts/smoke-tailwind4-install.ts",
+    "pages:build:versioned": "npm run registry:build && PAGES_STAGE=versioned tsx scripts/build-pages.ts",
+    "pages:build:latest": "PAGES_STAGE=latest tsx scripts/build-pages.ts",
+    "pages:validate:versioned": "PAGES_VALIDATE_MODE=versioned tsx scripts/validate-pages.ts",
+    "validate": "npm run typecheck && npm run lint && npm run format:check && npm run theme:check && npm run architecture:check && npm run test && npm run build && npm run build-storybook && npm run registry:build && npm run registry:validate && npm run pages:build:versioned && npm run pages:validate:versioned && npm run pages:build:latest && npm run pages:validate"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.7",

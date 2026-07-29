@@ -176,7 +176,7 @@ export const registryItems: RegistryItemDefinition[] = [
     type: "registry:theme",
     title: "Citadel Theme",
     description:
-      "Citadel 4.1 HUD theme CSS with semantic tokens and theme-scoped treatments — no component forks. Fonts load via public stylesheet @import with full fallback stacks.",
+      "Citadel 4.1 HUD theme CSS with semantic tokens and theme-scoped treatments — no component forks. Font stacks only; load fonts at the application level (see docs/font-loading.md).",
     category: "theme",
     registryDependencies: ["base"],
     files: [

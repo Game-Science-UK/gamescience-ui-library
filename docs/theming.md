@@ -51,6 +51,14 @@ npm run theme:check
 - networking
 - context-specific branching that belongs in `responsive.css`
 - client-specific component names
+- remote font `@import` statements (fonts are application-owned — see [font-loading.md](./font-loading.md))
+
+## Application CSS entry
+
+- Import framework-neutral `src/foundations/index.css` (no `@tailwind` directives)
+- Import exactly one theme CSS file
+- Own Tailwind 3 `@tailwind` directives or the Tailwind 4 bridge in application CSS ([tailwind-v4-integration.md](./tailwind-v4-integration.md))
+- Load fonts via HTML `<link>` or approved packages
 
 ## Why components do not accept theme props
 
@@ -75,7 +83,9 @@ Behaviour:
 
 Consumer applications should:
 
-- Import foundations CSS and exactly one theme CSS at the app entry
+- Import framework-neutral foundations CSS and exactly one theme CSS at the app entry
+- Own Tailwind directives / TW4 bridge in application CSS (see [tailwind-v4-integration.md](./tailwind-v4-integration.md))
+- Load fonts via HTML `<link>` (see [font-loading.md](./font-loading.md))
 - Wrap the app once with `GameScienceProvider`
 - Rely on semantic tokens for Sonner / overlay surfaces (no per-portal theme props)
 

@@ -25,6 +25,13 @@ const registrySource = path.join(root, "public/registry");
 const pagesDist = path.join(root, "pages-dist");
 const releasesDir = path.join(root, "releases");
 
+/**
+ * PAGES_STAGE=versioned (default) — write/restore version trees + lock; do not refresh unversioned latest.
+ * PAGES_STAGE=latest — copy validated current version tree into unversioned latest + root metadata.
+ * PAGES_STAGE=all — legacy one-shot (versioned then latest); prefer staged CI.
+ */
+const stage = (process.env.PAGES_STAGE ?? "versioned").toLowerCase();
+
 function ensureRegistryBuilt() {
   const sample = path.join(registrySource, "r", "base.json");
   if (!existsSync(sample)) {
@@ -164,10 +171,12 @@ function restorePriorVersions(staging: string | null) {
   for (const entry of readdirSync(staging, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue;
     const target = path.join(versionsDir, entry.name);
-    if (existsSync(target)) {
-      // Never overwrite an already-present immutable prior version tree.
+    const marker = path.join(target, "version.json");
+    // Restore when missing or incomplete (e.g. empty directory left after a failed fetch).
+    if (existsSync(marker)) {
       continue;
     }
+    rmSync(target, { recursive: true, force: true });
     cpSync(path.join(staging, entry.name), target, { recursive: true });
     console.log(`[pages:build] preserved prior version tree versions/${entry.name}`);
   }
@@ -175,46 +184,88 @@ function restorePriorVersions(staging: string | null) {
   rmSync(staging, { recursive: true, force: true });
 }
 
-function main() {
+function writeVersionedCandidate() {
   ensureRegistryBuilt();
 
   const priorVersionsStaging = preservePriorVersions();
-
-  rmSync(pagesDist, { recursive: true, force: true });
-  mkdirSync(pagesDist, { recursive: true });
-
   const versionJson = buildVersionJson();
   const versionRoot = path.join(pagesDist, "versions", PAGES_VERSION);
 
-  // Latest (unversioned) tree — tracks current GAMESCIENCE_UI_VERSION only after a successful cut.
-  copyRegistryTree(pagesDist);
-  writeFileSync(path.join(pagesDist, "version.json"), JSON.stringify(versionJson, null, 2));
-  writeIndexHtml(path.join(pagesDist, "index.html"), versionJson);
-  writeDocsPage(path.join(pagesDist, "docs/index.html"));
-  writeFileSync(path.join(pagesDist, ".nojekyll"), "");
+  mkdirSync(pagesDist, { recursive: true });
+  mkdirSync(path.join(pagesDist, "versions"), { recursive: true });
 
-  // Immutable versioned tree for the current release
+  // Replace only the current version tree; preserve others via staging.
+  rmSync(versionRoot, { recursive: true, force: true });
   mkdirSync(versionRoot, { recursive: true });
   copyRegistryTree(versionRoot);
   writeFileSync(path.join(versionRoot, "version.json"), JSON.stringify(versionJson, null, 2));
-
-  // Keep previously published version trees (e.g. 0.1.0) intact in pages-dist.
   restorePriorVersions(priorVersionsStaging);
 
-  // Release lock: create if missing, or refresh only when explicitly requested.
+  // Ensure prior trees survive even if pages-dist was empty of other versions.
+  // (restore only copies from staging captured before wipe of current version)
+
   mkdirSync(releasesDir, { recursive: true });
   const lockPath = path.join(releasesDir, `${PAGES_VERSION}.lock.json`);
   const lock = buildReleaseLock(versionRoot);
   if (!existsSync(lockPath) || process.env.UPDATE_RELEASE_LOCK === "1") {
     writeFileSync(lockPath, JSON.stringify(lock, null, 2));
     console.log(`[pages:build] wrote release lock ${path.relative(root, lockPath)}`);
+  } else {
+    console.log(`[pages:build] kept existing release lock ${path.relative(root, lockPath)}`);
   }
 
-  console.log(`[pages:build] wrote ${pagesDist}`);
-  console.log(`[pages:build] latest: ${latestRegistryTemplate(PAGES_SITE_URL)}`);
+  // Placeholder root so pages-dist is not empty before latest promotion.
+  writeFileSync(path.join(pagesDist, ".nojekyll"), "");
+  if (!existsSync(path.join(pagesDist, "version.json"))) {
+    writeFileSync(
+      path.join(pagesDist, "version.json"),
+      `${JSON.stringify({ ...versionJson, latestPending: true }, null, 2)}\n`,
+    );
+  }
+
+  console.log(`[pages:build] stage=versioned wrote versions/${PAGES_VERSION}`);
   console.log(
     `[pages:build] versioned: ${versionedRegistryTemplate(PAGES_VERSION, PAGES_SITE_URL)}`,
   );
+  console.log(`[pages:build] run pages:validate then PAGES_STAGE=latest npm run pages:build`);
+}
+
+function promoteLatestFromVersioned() {
+  const versionRoot = path.join(pagesDist, "versions", PAGES_VERSION);
+  if (!existsSync(versionRoot)) {
+    throw new Error(
+      `versions/${PAGES_VERSION} missing — run PAGES_STAGE=versioned pages:build first`,
+    );
+  }
+
+  const versionJson = buildVersionJson();
+
+  // Refresh unversioned latest from the immutable candidate tree.
+  rmSync(path.join(pagesDist, "r"), { recursive: true, force: true });
+  copyRegistryTree(pagesDist);
+  writeFileSync(path.join(pagesDist, "version.json"), JSON.stringify(versionJson, null, 2));
+  writeIndexHtml(path.join(pagesDist, "index.html"), versionJson);
+  writeDocsPage(path.join(pagesDist, "docs/index.html"));
+  writeFileSync(path.join(pagesDist, ".nojekyll"), "");
+
+  console.log(`[pages:build] stage=latest promoted unversioned /r from versions/${PAGES_VERSION}`);
+  console.log(`[pages:build] latest: ${latestRegistryTemplate(PAGES_SITE_URL)}`);
+}
+
+function main() {
+  if (stage === "latest") {
+    promoteLatestFromVersioned();
+    return;
+  }
+
+  if (stage === "all") {
+    writeVersionedCandidate();
+    promoteLatestFromVersioned();
+    return;
+  }
+
+  // default: versioned
+  writeVersionedCandidate();
 }
 
 main();

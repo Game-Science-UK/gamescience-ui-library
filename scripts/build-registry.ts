@@ -19,13 +19,16 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(root, "public/registry");
 
 function writeConsumerMetadata() {
+  const registryUrl = versionedRegistryTemplate(REGISTRY_VERSION, PAGES_SITE_URL);
+  const catalogueUrl = versionedCatalogueUrl(REGISTRY_VERSION, PAGES_SITE_URL);
+
   const metadata = {
     name: "GameScience UI",
     version: REGISTRY_VERSION,
     registryNamespace: REGISTRY_NAMESPACE,
-    registryUrl: versionedRegistryTemplate(REGISTRY_VERSION, PAGES_SITE_URL),
+    registryUrl,
     latestRegistryUrl: latestRegistryTemplate(PAGES_SITE_URL),
-    catalogueUrl: versionedCatalogueUrl(REGISTRY_VERSION, PAGES_SITE_URL),
+    catalogueUrl,
     themeRule: "One active theme per application",
     contexts: ["participant", "facilitator", "shared-display"],
     guidanceFile: "src/docs/gamescience-ui-guidance.md",
@@ -35,6 +38,14 @@ function writeConsumerMetadata() {
     path.join(root, "consumer/gamescience-ui.json"),
     `${JSON.stringify(metadata, null, 2)}\n`,
   );
+
+  const templatePath = path.join(root, "consumer/gamescience-ui-guidance.template.md");
+  const template = readFileSync(templatePath, "utf8");
+  const guidance = template
+    .replaceAll("{{VERSION}}", REGISTRY_VERSION)
+    .replaceAll("{{REGISTRY_URL}}", registryUrl)
+    .replaceAll("{{CATALOGUE_URL}}", catalogueUrl);
+  writeFileSync(path.join(root, "consumer/gamescience-ui-guidance.md"), guidance);
 }
 
 function ensureCleanOutput() {

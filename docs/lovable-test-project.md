@@ -2,12 +2,12 @@
 
 Paste-ready guide for creating a clean GameScience Lovable project that consumes the public registry.
 
-Pinned version: **0.2.0**
+Pinned version: **0.2.1**
 
 Registry base:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/r/{name}.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/r/{name}.json
 ```
 
 ---
@@ -55,7 +55,7 @@ Complete sample compatible with this library:
   "iconLibrary": "lucide",
   "tailwind": {
     "config": "tailwind.config.ts",
-    "css": "src/foundations/index.css",
+    "css": "src/styles.css",
     "baseColor": "neutral",
     "cssVariables": true
   },
@@ -67,7 +67,7 @@ Complete sample compatible with this library:
     "hooks": "@/hooks"
   },
   "registries": {
-    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/r/{name}.json"
+    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/r/{name}.json"
   }
 }
 ```
@@ -93,11 +93,20 @@ Citadel alternative (use **one** theme per app):
 npx shadcn@latest add @gamescience/theme-citadel
 ```
 
-After install, import in the app entry:
+After install, wire CSS for Tailwind 4 / Lovable (see also [tailwind-v4-integration.md](./tailwind-v4-integration.md) and [font-loading.md](./font-loading.md)):
+
+```css
+/* src/styles.css */
+@import "tailwindcss";
+@import "./foundations/index.css";
+@import "./themes/gamescience.css"; /* or citadel.css — one theme only */
+@import "./gamescience-tw4-bridge.css"; /* copy from library consumer/tailwind-v4-bridge.css */
+```
+
+Load fonts via HTML `<link>` in the document head — do not add remote `@import` inside theme CSS.
 
 ```ts
-import "@/foundations/index.css";
-import "@/themes/gamescience.css"; // or citadel.css
+import "@/styles.css";
 ```
 
 `@gamescience/base` also installs:
@@ -116,12 +125,12 @@ Add or update the consumer `AGENTS.md` with:
 
 ## Installed design system
 
-- GameScience UI version: `0.2.0`
+- GameScience UI version: `0.2.1`
 - Active test theme: `gamescience` (switch only via GameScienceProvider; do not mix themes)
 - Registry namespace: `@gamescience`
-- Versioned registry URL: https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/r/{name}.json
+- Versioned registry URL: https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/r/{name}.json
 - Local installed source under `src/` is authoritative for implementation
-- Catalogue: https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.0/agent-catalogue.json
+- Catalogue: https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/agent-catalogue.json
 - Local guidance: `src/docs/gamescience-ui-guidance.md`
 - Local metadata: `src/docs/gamescience-ui.json`
 
@@ -178,7 +187,7 @@ Shared-display states:
 - waiting
 - ready
 
-Import foundations CSS and gamescience theme CSS once at the app root.
+Import foundations CSS and gamescience (or citadel) theme CSS once at the app root using the Tailwind 4 bridge. Load fonts via `<link>`.
 ```
 
 ## Step 7: Verify

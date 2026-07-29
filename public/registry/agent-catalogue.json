@@ -27,7 +27,7 @@
     ],
     "uses": [],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "theme-gamescience": {
     "registryItem": "@gamescience/theme-gamescience",
@@ -55,13 +55,13 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "theme-citadel": {
     "registryItem": "@gamescience/theme-citadel",
     "category": "theme",
     "title": "Citadel Theme",
-    "purpose": "Citadel 4.1 HUD theme CSS with semantic tokens and theme-scoped treatments — no component forks. Fonts load via public stylesheet @import with full fallback stacks.",
+    "purpose": "Citadel 4.1 HUD theme CSS with semantic tokens and theme-scoped treatments — no component forks. Font stacks only; load fonts at the application level (see docs/font-loading.md).",
     "useWhen": [
       "building Citadel-branded game experiences"
     ],
@@ -84,7 +84,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "button": {
     "registryItem": "@gamescience/button",
@@ -123,7 +123,7 @@
       "TechButton",
       "CitadelButton"
     ],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "input": {
     "registryItem": "@gamescience/input",
@@ -158,7 +158,7 @@
     "deprecatedAlternatives": [
       "TechInput"
     ],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "panel": {
     "registryItem": "@gamescience/panel",
@@ -195,7 +195,7 @@
       "GlassCard",
       "TechPanel"
     ],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "badge": {
     "registryItem": "@gamescience/badge",
@@ -226,7 +226,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "alert": {
     "registryItem": "@gamescience/alert",
@@ -257,7 +257,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "progress": {
     "registryItem": "@gamescience/progress",
@@ -287,7 +287,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "skeleton": {
     "registryItem": "@gamescience/skeleton",
@@ -314,7 +314,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "game-code-input": {
     "registryItem": "@gamescience/game-code-input",
@@ -349,7 +349,7 @@
       "input"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "connection-status": {
     "registryItem": "@gamescience/connection-status",
@@ -383,7 +383,7 @@
       "button"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "participant-identity": {
     "registryItem": "@gamescience/participant-identity",
@@ -413,7 +413,7 @@
       "input"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "participant-status": {
     "registryItem": "@gamescience/participant-status",
@@ -444,7 +444,7 @@
       "connection-status"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "waiting-state": {
     "registryItem": "@gamescience/waiting-state",
@@ -471,7 +471,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "room-code-display": {
     "registryItem": "@gamescience/room-code-display",
@@ -499,7 +499,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "display-heading": {
     "registryItem": "@gamescience/display-heading",
@@ -529,7 +529,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "participant-count-display": {
     "registryItem": "@gamescience/participant-count-display",
@@ -559,7 +559,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "join-flow": {
     "registryItem": "@gamescience/join-flow",
@@ -605,7 +605,7 @@
     "deprecatedAlternatives": [
       "manually assembling a room-code form from primitives"
     ],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "lobby": {
     "registryItem": "@gamescience/lobby",
@@ -643,7 +643,7 @@
       "facilitator-shell"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "shared-display-lobby": {
     "registryItem": "@gamescience/shared-display-lobby",
@@ -680,7 +680,7 @@
       "shared-display-shell"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "participant-shell": {
     "registryItem": "@gamescience/participant-shell",
@@ -707,7 +707,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "facilitator-shell": {
     "registryItem": "@gamescience/facilitator-shell",
@@ -734,7 +734,7 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "shared-display-shell": {
     "registryItem": "@gamescience/shared-display-shell",
@@ -761,6 +761,6 @@
       "base"
     ],
     "deprecatedAlternatives": [],
-    "version": "0.2.0"
+    "version": "0.2.1"
   }
 }

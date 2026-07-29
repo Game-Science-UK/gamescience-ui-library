@@ -1,33 +1,38 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
-
 @import "./tokens.css";
 @import "./typography.css";
 @import "./motion.css";
 @import "./responsive.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/**
+ * Framework-neutral GameScience foundations entry.
+ *
+ * Safe to import in Tailwind 3 and Tailwind 4 consumers.
+ * Does not include @tailwind directives, @apply, or remote @import.
+ * Fonts are application-owned — see docs/font-loading.md.
+ */
 
-@layer base {
-  html {
-    @apply bg-background;
-    min-height: 100%;
-  }
+html {
+  background-color: hsl(var(--background));
+  min-height: 100%;
+}
 
-  *,
-  *::before,
-  *::after {
-    @apply border-border;
-  }
+*,
+*::before,
+*::after {
+  border-color: hsl(var(--border));
+}
 
-  body {
-    @apply min-h-screen bg-background font-body text-foreground antialiased;
-    margin: 0;
-  }
+body {
+  min-height: 100vh;
+  margin: 0;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body);
+  -webkit-font-smoothing: antialiased;
+}
 
-  :focus-visible {
-    outline: none;
-    box-shadow: var(--shadow-focus);
-  }
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
 }

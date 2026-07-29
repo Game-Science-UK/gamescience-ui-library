@@ -4,6 +4,7 @@ import { GameScienceProvider } from "@/providers";
 import { ParticipantShell } from "@/templates";
 import { ParticipantJoinFlow } from "@/patterns";
 import { Toaster } from "@/components/ui";
+import "@/dev/tailwind3-entry.css";
 import "@/foundations/index.css";
 import "@/themes/index.css";
 

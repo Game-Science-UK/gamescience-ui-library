@@ -103,7 +103,17 @@ Never run `--overwrite` as a default automation step without a human-reviewed di
 - Expect source-level merges for major token or API changes
 - Keep application compositions compiling against the new contracts before rolling out to facilitators
 
+## 0.2.1 packaging notes
+
+When updating from `0.2.0`:
+
+- Reinstall `base` and the active theme first (foundations entry + Citadel CSS no longer carry remote `@import` or `@tailwind`)
+- Remove local patches that only stripped Google Fonts from `citadel.css`
+- Add application-owned font loading and, for Tailwind 4, the approved non-circular bridge
+- Confirm guidance JSON/markdown version strings match `GAMESCIENCE_UI_VERSION`
+
 ## Regression coverage
 
-- `npm run smoke:registry` — clean install + build for both themes and pattern packages
+- `npm run smoke:registry` — clean Tailwind 3 install + build for both themes and pattern packages
+- `npm run smoke:tailwind4` — Tailwind 4 install + utility emission proof
 - `npm run smoke:registry-overwrite` — records CLI skip/overwrite behaviour against a temporary fixture

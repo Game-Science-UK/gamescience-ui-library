@@ -48,3 +48,16 @@ Do not preserve `BentoCard` automatically. Introduce grid primitives only when a
 - Custom files should not be placed in `components/ui` unless they are approved core components
 - Bespoke game components remain application-owned outside the approved catalogue
 - Do not copy an entire project’s shadcn catalogue into this library
+
+## 0.2.0 → 0.2.1 (compatibility / packaging)
+
+Bug-fix packaging patch. No new UI APIs.
+
+1. **Pin** the registry to `versions/0.2.1` (or reinstall from the updated unversioned latest after publish).
+2. **Diff then reinstall** affected items (`base`, themes, patterns you use) with `--diff` / `--overwrite` per [registry-update-policy.md](./registry-update-policy.md).
+3. **Remove** any local Citadel patch that stripped Google Fonts `@import` — remote font imports are gone upstream.
+4. **Load fonts** at the application layer (`<link>` or `@fontsource`). See [font-loading.md](./font-loading.md).
+5. **Foundations** `index.css` is framework-neutral (no `@tailwind`). Own Tailwind 3 directives or the Tailwind 4 bridge in app CSS.
+6. **Tailwind 4**: replace any circular `--x: var(--x)` `@theme` bridge with the approved mapping in [tailwind-v4-integration.md](./tailwind-v4-integration.md) / `consumer/tailwind-v4-bridge.css`.
+7. Confirm installed `src/docs/gamescience-ui-guidance.md` and `src/lib/version.ts` both report `0.2.1`.
+8. Smoke participant / facilitator / shared-display for Gamescience and Citadel as applicable.

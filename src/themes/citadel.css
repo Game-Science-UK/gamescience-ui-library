@@ -2,13 +2,12 @@
  * Citadel theme — tactical, luminous, HUD-inspired.
  * Visual identity only; no Citadel-specific component forks.
  *
- * Fonts: public Google Fonts stylesheet for Hanken Grotesk and Plus Jakarta Sans.
- * Mono uses Geist Mono when present, otherwise IBM Plex Mono (loaded by base foundations).
- * Remote font failure must not break usability — complete fallback stacks are required.
- * Build/smoke tests must not require the remote font request to succeed.
+ * Font stacks reference Hanken Grotesk, Plus Jakarta Sans, and Geist Mono with
+ * system fallbacks. Font files are application-owned — load via HTML <link> or
+ * approved packages (see docs/font-loading.md). This file must not contain
+ * remote @import statements (Tailwind 4 / Lightning CSS consumers break on them).
+ * Builds and smoke tests must not require a remote font provider.
  */
-
-@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
 [data-theme="citadel"] {
   /* Page and surfaces */

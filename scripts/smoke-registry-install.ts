@@ -148,6 +148,16 @@ export default defineConfig({
     path.join(dir, "index.html"),
     `<!doctype html><html><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>`,
   );
+
+  writeFileSync(
+    path.join(dir, "src/index.css"),
+    `@import "./foundations/index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+`,
+  );
 }
 
 function mainEntryFor(scenario: SmokeScenario): string {
@@ -159,7 +169,7 @@ import { createRoot } from "react-dom/client";
 import { GameScienceProvider } from "@/providers/gamescience-provider";
 import { ParticipantJoinFlow } from "@/patterns/join/participant-join-flow";
 import { ParticipantShell } from "@/templates/participant-shell/participant-shell";
-import "@/foundations/index.css";
+import "@/index.css";
 import "${themeImport}";
 
 createRoot(document.getElementById("root")!).render(
@@ -188,7 +198,7 @@ import { createRoot } from "react-dom/client";
 import { GameScienceProvider } from "@/providers/gamescience-provider";
 import { FacilitatorLobby } from "@/patterns/lobby/facilitator-lobby";
 import { FacilitatorShell } from "@/templates/facilitator-shell/facilitator-shell";
-import "@/foundations/index.css";
+import "@/index.css";
 import "${themeImport}";
 
 const session = {
@@ -237,7 +247,7 @@ import { createRoot } from "react-dom/client";
 import { GameScienceProvider } from "@/providers/gamescience-provider";
 import { SharedDisplayLobby } from "@/patterns/lobby/shared-display-lobby";
 import { SharedDisplayShell } from "@/templates/shared-display-shell/shared-display-shell";
-import "@/foundations/index.css";
+import "@/index.css";
 import "${themeImport}";
 
 const session = {

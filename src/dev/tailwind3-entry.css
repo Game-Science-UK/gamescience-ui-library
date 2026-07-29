@@ -1,0 +1,7 @@
+/**
+ * Library-local Tailwind 3 entry for Storybook and the monorepo Vite app.
+ * Not distributed through the registry — consumers own their Tailwind entry.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
