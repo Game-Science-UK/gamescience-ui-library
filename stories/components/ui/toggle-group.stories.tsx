@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Grouped toggles for single or multiple selection. Use `type=\"single\"` or `type=\"multiple\"` — theme appearance comes from GameScienceProvider.",
+          'Grouped toggles for single or multiple selection. Use `type="single"` or `type="multiple"` — theme appearance comes from GameScienceProvider.',
       },
     },
   },

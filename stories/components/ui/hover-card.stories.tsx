@@ -22,9 +22,7 @@ export const Playground: Story = {
         <HoverCardContent>
           <div className="space-y-2">
             <p className="text-sm font-medium">Alex Morgan</p>
-            <p className="text-sm text-muted-foreground">
-              Joined 3 minutes ago · Sector North
-            </p>
+            <p className="text-sm text-muted-foreground">Joined 3 minutes ago · Sector North</p>
           </div>
         </HoverCardContent>
       </HoverCard>

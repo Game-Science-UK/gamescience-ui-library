@@ -1,5 +1,5 @@
-import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { Spinner } from "@/components/ui/spinner";
 
 export interface WaitingStateProps {
   title: string;
@@ -15,7 +15,7 @@ function WaitingState({ title, description, className, loading = true }: Waiting
       role="status"
       aria-live="polite"
     >
-      {loading ? <Loader2 className="size-8 animate-spin text-primary" aria-hidden="true" /> : null}
+      {loading ? <Spinner className="size-8 text-primary" aria-hidden="true" /> : null}
       <div className="space-y-1">
         <p className="gs-title text-foreground">{title}</p>
         {description ? <p className="max-w-prose text-muted-foreground">{description}</p> : null}

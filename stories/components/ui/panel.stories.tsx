@@ -1,10 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  Panel,
-  PanelDescription,
-  PanelHeader,
-  PanelTitle,
-} from "@/components/ui/panel";
+import { Panel, PanelDescription, PanelHeader, PanelTitle } from "@/components/ui/panel";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {

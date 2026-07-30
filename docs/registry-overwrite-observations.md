@@ -1,8 +1,8 @@
 # Registry overwrite observations
 
-Date: 2026-07-28T02:40:13.209Z
+Date: 2026-07-30T06:08:18.176Z
 CLI: `npx shadcn@latest` (resolved at runtime)
-Registry namespace template: http://127.0.0.1:57217/r/{name}.json
+Registry namespace template: http://127.0.0.1:56416/r/{name}.json
 
 Initial install method: direct registry JSON file copy (simulating first install of: base, theme-gamescience, button)
 Installing consumer npm dependencies…
@@ -38,7 +38,7 @@ CLI output (ANSI stripped):
   - src/lib/accessibility.ts
   - src/lib/version.ts
   - src/components/ui/button.tsx
-ℹ Skipped 13 files: (files might be identical, use --overwrite to overwrite)
+ℹ Skipped 15 files: (files might be identical, use --overwrite to overwrite)
   - src/foundations/tokens.css
   - src/foundations/typography.css
   - src/foundations/motion.css
@@ -51,6 +51,8 @@ CLI output (ANSI stripped):
   - src/providers/index.ts
   - src/types/game.ts
   - src/components/ui/sonner.tsx
+  - src/docs/gamescience-ui.json
+  - src/docs/gamescience-ui-guidance.md
   - src/components/ui/button-group.tsx
 ```
 Button local marker after --overwrite: REMOVED (overwritten from registry)
@@ -75,7 +77,7 @@ Changed registry content with --overwrite:
 - Updating files.
 ℹ Updated 1 file:
   - src/components/ui/button.tsx
-ℹ Skipped 17 files: (files might be identical, use --overwrite to overwrite)
+ℹ Skipped 19 files: (files might be identical, use --overwrite to overwrite)
   - src/foundations/tokens.css
   - src/foundations/typography.css
   - src/foundations/motion.css
@@ -92,6 +94,8 @@ Changed registry content with --overwrite:
   - src/providers/index.ts
   - src/types/game.ts
   - src/components/ui/sonner.tsx
+  - src/docs/gamescience-ui.json
+  - src/docs/gamescience-ui-guidance.md
   - src/components/ui/button-group.tsx
 ```
 Local marker after versioned overwrite: REMOVED

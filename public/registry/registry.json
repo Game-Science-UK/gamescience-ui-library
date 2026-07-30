@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "gamescience",
   "homepage": "https://gamescience.ai",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "items": [
     {
       "name": "base",
@@ -360,7 +360,8 @@
       "title": "Waiting State",
       "description": "Centered waiting/idle messaging.",
       "registryDependencies": [
-        "@gamescience/base"
+        "@gamescience/base",
+        "@gamescience/spinner"
       ],
       "dependencies": [],
       "files": [
@@ -1289,7 +1290,9 @@
       "registryDependencies": [
         "@gamescience/base"
       ],
-      "dependencies": [],
+      "dependencies": [
+        "lucide-react"
+      ],
       "files": [
         {
           "path": "src/components/ui/spinner.tsx",

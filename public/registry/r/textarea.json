@@ -13,12 +13,12 @@
       "path": "src/components/ui/textarea.tsx",
       "type": "registry:ui",
       "target": "src/components/ui/textarea.tsx",
-      "content": "/** GameScience UI — adapted from shadcn/ui new-york (textarea). Theme via semantic tokens. */\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/cn\";\n\nconst Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<\"textarea\">>(\n  ({ className, ...props }, ref) => {\n    return (\n      <textarea\n        className={cn(\n          \"flex min-h-[60px] w-full rounded-control border border-border bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-focus-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm\",\n          className,\n        )}\n        ref={ref}\n        {...props}\n      />\n    );\n  },\n);\nTextarea.displayName = \"Textarea\";\n\nexport { Textarea };\n"
+      "content": "/** GameScience UI — adapted from shadcn/ui new-york (textarea). Theme via semantic tokens. */\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/cn\";\n\nconst Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<\"textarea\">>(\n  ({ className, ...props }, ref) => {\n    return (\n      <textarea\n        className={cn(\n          \"gs-textarea gs-input flex min-h-[60px] w-full rounded-control border border-border bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-focus-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm\",\n          className,\n        )}\n        ref={ref}\n        {...props}\n      />\n    );\n  },\n);\nTextarea.displayName = \"Textarea\";\n\nexport { Textarea };\n"
     }
   ],
   "meta": {
     "category": "component",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "namespace": "@gamescience"
   }
 }

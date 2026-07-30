@@ -2,14 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Badge } from "@/components/ui/badge";
 import { StoryFrame } from "../../_utils/story-frame";
 
-const intents = [
-  "default",
-  "primary",
-  "success",
-  "warning",
-  "danger",
-  "information",
-] as const;
+const intents = ["default", "primary", "success", "warning", "danger", "information"] as const;
 
 const treatments = ["solid", "subtle", "outlined"] as const;
 
@@ -39,7 +32,7 @@ export const IntentTreatment: Story = {
     <StoryFrame className="space-y-6">
       {treatments.map((treatment) => (
         <div key={treatment} className="space-y-2">
-          <p className="gs-label text-muted-foreground capitalize">{treatment}</p>
+          <p className="gs-label capitalize text-muted-foreground">{treatment}</p>
           <div className="flex flex-wrap gap-2">
             {intents.map((intent) => (
               <Badge key={`${intent}-${treatment}`} intent={intent} treatment={treatment}>

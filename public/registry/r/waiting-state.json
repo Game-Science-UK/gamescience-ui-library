@@ -6,19 +6,20 @@
   "description": "Centered waiting/idle messaging.",
   "dependencies": [],
   "registryDependencies": [
-    "@gamescience/base"
+    "@gamescience/base",
+    "@gamescience/spinner"
   ],
   "files": [
     {
       "path": "src/components/game/waiting-state.tsx",
       "type": "registry:component",
       "target": "src/components/game/waiting-state.tsx",
-      "content": "import { Loader2 } from \"lucide-react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface WaitingStateProps {\n  title: string;\n  description?: string;\n  className?: string;\n  loading?: boolean;\n}\n\nfunction WaitingState({ title, description, className, loading = true }: WaitingStateProps) {\n  return (\n    <div\n      className={cn(\"flex flex-col items-center justify-center gap-3 text-center\", className)}\n      role=\"status\"\n      aria-live=\"polite\"\n    >\n      {loading ? <Loader2 className=\"size-8 animate-spin text-primary\" aria-hidden=\"true\" /> : null}\n      <div className=\"space-y-1\">\n        <p className=\"gs-title text-foreground\">{title}</p>\n        {description ? <p className=\"max-w-prose text-muted-foreground\">{description}</p> : null}\n      </div>\n    </div>\n  );\n}\n\nWaitingState.displayName = \"WaitingState\";\n\nexport { WaitingState };\n"
+      "content": "import { cn } from \"@/lib/cn\";\nimport { Spinner } from \"@/components/ui/spinner\";\n\nexport interface WaitingStateProps {\n  title: string;\n  description?: string;\n  className?: string;\n  loading?: boolean;\n}\n\nfunction WaitingState({ title, description, className, loading = true }: WaitingStateProps) {\n  return (\n    <div\n      className={cn(\"flex flex-col items-center justify-center gap-3 text-center\", className)}\n      role=\"status\"\n      aria-live=\"polite\"\n    >\n      {loading ? <Spinner className=\"size-8 text-primary\" aria-hidden=\"true\" /> : null}\n      <div className=\"space-y-1\">\n        <p className=\"gs-title text-foreground\">{title}</p>\n        {description ? <p className=\"max-w-prose text-muted-foreground\">{description}</p> : null}\n      </div>\n    </div>\n  );\n}\n\nWaitingState.displayName = \"WaitingState\";\n\nexport { WaitingState };\n"
     }
   ],
   "meta": {
     "category": "component",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "namespace": "@gamescience"
   }
 }

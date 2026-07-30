@@ -80,3 +80,26 @@ Bug-fix packaging patch. No new UI APIs.
    (including dependency files that may be rewritten).
 9. Confirm `src/lib/version.ts` and guidance report `0.3.0`.
 10. See [primitive-layer.md](./primitive-layer.md).
+
+## 0.3.0 → 0.4.0 (Citadel theme + Storybook coverage)
+
+0.4.0 refines Citadel theme identity against the live HUD audit and expands
+Storybook to per-component coverage plus family galleries. No new registry item
+names; consumers reinstall `theme-citadel` (and `base` if foundations changed)
+to pick up CSS and `gs-*` hook updates.
+
+1. **Pin** the registry to `versions/0.4.0`.
+2. **Diff then reinstall** `base` and the active theme (`theme-citadel` or
+   `theme-gamescience`) with `--diff` / `--overwrite` per
+   [registry-update-policy.md](./registry-update-policy.md).
+3. Reinstall any installed UI primitives you care about if you need the new
+   theme hooks (`gs-card`, `gs-dialog-*`, form controls, etc.) — GameScience
+   visual identity is unchanged; Citadel gains HUD treatments.
+4. Reinstall `waiting-state` (or patterns that pull it: `join-flow`,
+   `shared-display-lobby`) so the new `spinner` registry dependency installs.
+5. Confirm `src/lib/version.ts` and guidance report `0.4.0`.
+6. Smoke participant / facilitator / shared-display under Citadel for panel,
+   button `emphasis="strong"`, input, badge outlined information, dialog, and
+   shell backgrounds.
+7. Application-owned GlassCard / BackgroundKpmg / binary-stream chrome remain
+   out of the library — keep them local or replace with Panel + shells.

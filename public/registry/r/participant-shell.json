@@ -13,12 +13,12 @@
       "path": "src/templates/participant-shell/participant-shell.tsx",
       "type": "registry:block",
       "target": "src/templates/participant-shell/participant-shell.tsx",
-      "content": "import type { ReactNode } from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface ParticipantShellProps {\n  children: ReactNode;\n  header?: ReactNode;\n  footer?: ReactNode;\n  className?: string;\n}\n\nfunction ParticipantShell({ children, header, footer, className }: ParticipantShellProps) {\n  return (\n    <div\n      className={cn(\n        \"gs-shell relative flex min-h-screen flex-col\",\n        \"bg-[image:var(--gs-shell-gradient)]\",\n        className,\n      )}\n    >\n      {header ? <header className=\"safe-area-top px-4 pb-2 pt-4\">{header}</header> : null}\n      <main className=\"mx-auto flex w-full max-w-content flex-1 flex-col justify-center px-4 py-6\">\n        {children}\n      </main>\n      {footer ? (\n        <footer className=\"safe-area-bottom px-4 pb-[var(--action-bar-safe-bottom,1.5rem)] pt-2\">\n          {footer}\n        </footer>\n      ) : null}\n    </div>\n  );\n}\n\nParticipantShell.displayName = \"ParticipantShell\";\n\nexport { ParticipantShell };\n"
+      "content": "import type { ReactNode } from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface ParticipantShellProps {\n  children: ReactNode;\n  header?: ReactNode;\n  footer?: ReactNode;\n  className?: string;\n}\n\nfunction ParticipantShell({ children, header, footer, className }: ParticipantShellProps) {\n  return (\n    <div\n      className={cn(\n        \"gs-shell relative flex min-h-screen flex-col\",\n        \"bg-[image:var(--gs-shell-gradient)]\",\n        className,\n      )}\n    >\n      {header ? <header className=\"safe-area-top px-4 pb-2 pt-4\">{header}</header> : null}\n      <main className=\"mx-auto flex w-full max-w-content flex-1 flex-col justify-center px-4 py-6\">\n        {children}\n      </main>\n      {footer ? (\n        <footer className=\"gs-shell-footer safe-area-bottom px-4 pb-[var(--action-bar-safe-bottom,1.5rem)] pt-2\">\n          {footer}\n        </footer>\n      ) : null}\n    </div>\n  );\n}\n\nParticipantShell.displayName = \"ParticipantShell\";\n\nexport { ParticipantShell };\n"
     }
   ],
   "meta": {
     "category": "template",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "namespace": "@gamescience"
   }
 }

@@ -474,7 +474,7 @@ export const registryItems: RegistryItemDefinition[] = [
     title: "Waiting State",
     description: "Centered waiting/idle messaging.",
     category: "component",
-    registryDependencies: ["base"],
+    registryDependencies: ["base", "spinner"],
     files: [
       {
         path: "src/components/game/waiting-state.tsx",
@@ -1691,6 +1691,7 @@ export const registryItems: RegistryItemDefinition[] = [
     title: "Spinner",
     description: "Inline loading spinner indicator.",
     category: "component",
+    dependencies: ["lucide-react"],
     registryDependencies: ["base"],
     files: [
       {

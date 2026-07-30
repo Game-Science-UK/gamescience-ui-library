@@ -22,7 +22,7 @@ function ParticipantShell({ children, header, footer, className }: ParticipantSh
         {children}
       </main>
       {footer ? (
-        <footer className="safe-area-bottom px-4 pb-[var(--action-bar-safe-bottom,1.5rem)] pt-2">
+        <footer className="gs-shell-footer safe-area-bottom px-4 pb-[var(--action-bar-safe-bottom,1.5rem)] pt-2">
           {footer}
         </footer>
       ) : null}

@@ -8,7 +8,7 @@ function Toaster(props: ToasterProps) {
   return (
     <Sonner
       theme="system"
-      className="toaster group"
+      className="gs-toaster toaster group"
       toastOptions={{
         classNames: {
           toast:

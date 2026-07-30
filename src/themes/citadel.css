@@ -2,7 +2,7 @@
  * Citadel theme — tactical, luminous, HUD-inspired.
  * Visual identity only; no Citadel-specific component forks.
  *
- * Font stacks reference Hanken Grotesk, Plus Jakarta Sans, and Geist Mono with
+ * Font stacks reference Hanken Grotesk, Plus Jakarta Sans, and Geist with
  * system fallbacks. Font files are application-owned — load via HTML <link> or
  * approved packages (see docs/font-loading.md). This file must not contain
  * remote @import statements (Tailwind 4 / Lightning CSS consumers break on them).
@@ -10,7 +10,7 @@
  */
 
 [data-theme="citadel"] {
-  /* Page and surfaces */
+  /* Page and surfaces — field #051A33, surface #0C233C, surface-2 #102B49 */
   --background: 213 76% 11%;
   --foreground: 210 76% 95%;
 
@@ -24,38 +24,38 @@
   --border-strong: 195 100% 48%;
   --focus-ring: 195 100% 48%;
 
-  /* Primary — Pacific */
+  /* Primary — Pacific #00B8F5; CTA ink ~#04253A */
   --primary: 195 100% 48%;
   --primary-hover: 195 100% 42%;
   --primary-active: 195 100% 36%;
-  --primary-foreground: 205 88% 12%;
+  --primary-foreground: 205 87% 12%;
 
-  /* Secondary */
+  /* Secondary — body text role ~#C8D3E0 */
   --secondary: 212 64% 18%;
   --secondary-hover: 212 60% 22%;
   --secondary-active: 212 58% 26%;
   --secondary-foreground: 212 24% 83%;
 
-  /* Accent — Cobalt */
+  /* Accent — Cobalt #1E49E2 */
   --accent: 228 76% 50%;
   --accent-foreground: 210 76% 95%;
 
-  /* Muted */
+  /* Muted — #6B7C90 */
   --muted: 212 54% 17%;
-  --muted-foreground: 212 24% 73%;
+  --muted-foreground: 212 14% 49%;
 
-  /* Status */
-  --success: 161 93% 35%;
+  /* Status — success #4ADE80, warning #FFC857, critical #FF6B6B */
+  --success: 142 69% 58%;
   --success-foreground: 213 76% 9%;
 
   --warning: 42 100% 67%;
   --warning-foreground: 213 76% 9%;
 
-  --danger: 0 72% 51%;
-  --danger-foreground: 0 0% 100%;
+  --danger: 0 100% 71%;
+  --danger-foreground: 213 76% 9%;
 
   --information: 195 100% 48%;
-  --information-foreground: 205 88% 12%;
+  --information-foreground: 205 87% 12%;
 
   /* Shape */
   --radius-control: 0;
@@ -67,16 +67,16 @@
   --border-width-control: 1px;
   --border-width-panel: 1px;
 
-  /* Typography */
+  /* Typography — labels use Geist (sans) per live Citadel HUD */
   --font-display: "Hanken Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-mono: "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "Hanken Grotesk", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist", "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
 
   --font-weight-heading: 800;
   --font-weight-label: 600;
   --font-weight-body: 400;
 
-  --tracking-heading: -0.025em;
+  --tracking-heading: -0.02em;
   --tracking-label: 0.2em;
   --text-transform-label: uppercase;
 
@@ -106,7 +106,7 @@
 
   --shadow-focus: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--focus-ring) / 0.75);
 
-  /* Motion */
+  /* Motion — --easing-out from audit */
   --duration-fast: 100ms;
   --duration-standard: 200ms;
   --duration-emphasis: 320ms;
@@ -124,21 +124,27 @@
 
   /* Extension tokens — consumed by theme-scoped component/shell rules */
   --shell-grid-color: 195 100% 48%;
-  --shell-grid-dot-alpha: 0.054;
+  --shell-grid-dot-alpha: 0.18;
   --shell-grid-size-participant: 32px;
   --shell-grid-size-display: 40px;
+  --shell-grid-line-alpha: 0.04;
+  --shell-scanline-alpha: 0.03;
 
   --shell-vignette: radial-gradient(
     ellipse at center,
     transparent 0%,
-    transparent 70%,
-    hsl(213 76% 11% / 0.18) 92%,
-    hsl(213 76% 11% / 0.35) 100%
+    transparent 50%,
+    hsl(213 76% 11% / 0.28) 88%,
+    hsl(213 76% 11% / 0.55) 100%
   );
 
   --panel-surface-alpha: 0.7;
   --panel-border-alpha: 0.15;
   --panel-blur: 12px;
+
+  --input-surface-alpha: 0.6;
+  --input-border-alpha: 0.25;
+  --input-border-hover-alpha: 0.4;
 
   --scope-corner-size-sm: 10px;
   --scope-corner-size-md: 12px;
@@ -148,14 +154,26 @@
   --scope-corner-color: hsl(var(--border-strong));
 
   --hairline-alpha: 0.3;
+  --overlay-scrim-alpha: 0.72;
 
-  --glow-emphasis: 0 0 24px hsl(var(--accent) / 0.28);
-  --glow-information: 0 0 18px hsl(var(--information) / 0.28);
-  --glow-warning: 0 0 18px hsl(var(--warning) / 0.24);
-  --glow-danger: 0 0 18px hsl(var(--danger) / 0.28);
+  /* Glow roles — pacific / cobalt / warning / critical */
+  --glow-pacific: 0 0 12px hsl(195 100% 48% / 0.4);
+  --glow-pacific-strong: 0 0 24px hsl(195 100% 48% / 0.6);
+  --glow-cobalt: 0 0 12px hsl(228 76% 50% / 0.4);
+  --glow-warning: 0 0 12px hsl(42 100% 67% / 0.5);
+  --glow-danger: 0 0 12px hsl(0 100% 71% / 0.5);
+  /* Back-compat aliases used by existing rules */
+  --glow-emphasis: var(--glow-cobalt);
+  --glow-information: var(--glow-pacific);
 
   --action-bar-pad-top: 2rem;
   --action-bar-safe-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  --action-bar-bleed: linear-gradient(
+    to top,
+    hsl(213 76% 11% / 0.95),
+    hsl(213 76% 11% / 0.5) 70%,
+    transparent
+  );
 }
 
 /* Shared-display density must not soften Citadel geometry */
@@ -170,6 +188,7 @@
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-panel,
+[data-theme="citadel"] .gs-card,
 [data-theme="citadel"] .gs-button[data-emphasis="strong"] {
   --scope-corner-size: var(--scope-corner-size-md);
   position: relative;
@@ -187,6 +206,7 @@
 }
 
 [data-theme="citadel"] .gs-panel::before,
+[data-theme="citadel"] .gs-card::before,
 [data-theme="citadel"] .gs-button[data-emphasis="strong"]::before {
   content: "";
   position: absolute;
@@ -218,16 +238,17 @@
 
 [data-theme="citadel"]
   .gs-button[data-emphasis="strong"]:not(:disabled):not([aria-disabled="true"]) {
-  --scope-corner-color: hsl(var(--information));
+  --scope-corner-color: hsl(var(--primary-foreground));
 }
 
 [data-theme="citadel"] .gs-button[data-emphasis="strong"]:disabled::before,
 [data-theme="citadel"] .gs-button[data-emphasis="strong"][aria-disabled="true"]::before {
-  opacity: 0.35;
+  --scope-corner-color: hsl(var(--border-strong));
+  opacity: 0.55;
 }
 
 /* -------------------------------------------------------------------------- */
-/* Button                                                                     */
+/* Button — sticky CTA language via emphasis=strong                           */
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-button {
@@ -240,39 +261,50 @@
 
 [data-theme="citadel"]
   .gs-button[data-emphasis="strong"]:not(:disabled):not([aria-disabled="true"]) {
-  box-shadow: var(--shadow-control), var(--glow-information);
+  box-shadow: var(--glow-pacific-strong);
 }
 
 [data-theme="citadel"] .gs-button[data-emphasis="strong"]:disabled,
 [data-theme="citadel"] .gs-button[data-emphasis="strong"][aria-disabled="true"] {
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border-strong));
   box-shadow: none;
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
   [data-theme="citadel"] .gs-button {
     --press-scale: 1;
   }
+
+  [data-theme="citadel"]
+    .gs-button[data-emphasis="strong"]:not(:disabled):not([aria-disabled="true"]) {
+    box-shadow: none;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
-/* Input / Label                                                              */
+/* Input / Textarea / Label                                                    */
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-input {
-  background: hsl(var(--surface) / 0.82);
-  border-color: hsl(var(--border-strong) / 0.22);
+  background: hsl(var(--background) / var(--input-surface-alpha));
+  border-color: hsl(var(--border-strong) / var(--input-border-alpha));
   color: hsl(var(--foreground));
-  box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.03);
+  box-shadow: none;
   border-radius: var(--radius-control);
+  font-family: var(--font-body);
 }
 
 [data-theme="citadel"] .gs-input:hover:not(:disabled):not([aria-invalid="true"]) {
-  border-color: hsl(var(--border-strong) / 0.38);
+  border-color: hsl(var(--border-strong) / var(--input-border-hover-alpha));
 }
 
 [data-theme="citadel"] .gs-input:focus-visible {
   border-color: hsl(var(--focus-ring));
-  box-shadow: var(--shadow-focus);
+  box-shadow: none;
+  outline: none;
 }
 
 [data-theme="citadel"] .gs-input::placeholder {
@@ -284,9 +316,8 @@
 }
 
 [data-theme="citadel"] .gs-input[aria-invalid="true"]:focus-visible {
-  box-shadow:
-    0 0 0 2px hsl(var(--background)),
-    0 0 0 4px hsl(var(--danger) / 0.75);
+  box-shadow: none;
+  border-color: hsl(var(--danger));
 }
 
 [data-theme="citadel"] .gs-label {
@@ -296,8 +327,119 @@
   text-transform: var(--text-transform-label);
 }
 
+[data-theme="citadel"] .gs-eyebrow {
+  color: hsl(var(--primary));
+}
+
 /* -------------------------------------------------------------------------- */
-/* Panel                                                                      */
+/* Forms — checkbox, radio, switch, select, slider, tabs, accordion           */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-checkbox,
+[data-theme="citadel"] .gs-radio {
+  border-color: hsl(var(--border-strong) / 0.45);
+  background: hsl(var(--background) / var(--input-surface-alpha));
+}
+
+[data-theme="citadel"] .gs-checkbox {
+  border-radius: var(--radius-control);
+}
+
+[data-theme="citadel"] .gs-radio {
+  border-radius: 9999px;
+}
+
+[data-theme="citadel"] .gs-checkbox[data-state="checked"],
+[data-theme="citadel"] .gs-radio[data-state="checked"] {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: var(--glow-pacific);
+}
+
+[data-theme="citadel"] .gs-switch {
+  border-radius: var(--radius-control);
+  background: hsl(var(--muted));
+}
+
+[data-theme="citadel"] .gs-switch[data-state="checked"] {
+  background: hsl(var(--primary));
+  box-shadow: var(--glow-pacific);
+}
+
+[data-theme="citadel"] .gs-select-trigger {
+  background: hsl(var(--background) / var(--input-surface-alpha));
+  border-color: hsl(var(--border-strong) / var(--input-border-alpha));
+  border-radius: var(--radius-control);
+  color: hsl(var(--foreground));
+  box-shadow: none;
+}
+
+[data-theme="citadel"] .gs-select-trigger:focus,
+[data-theme="citadel"] .gs-select-trigger:focus-visible {
+  border-color: hsl(var(--focus-ring));
+  box-shadow: none;
+  outline: none;
+}
+
+[data-theme="citadel"] .gs-select-content,
+[data-theme="citadel"] .gs-popover-content,
+[data-theme="citadel"] .gs-dropdown-content {
+  background: hsl(var(--surface-raised));
+  border-color: hsl(var(--border-strong) / 0.28);
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-overlay);
+}
+
+[data-theme="citadel"] .gs-slider-track {
+  border-radius: 0;
+  background: hsl(var(--muted));
+}
+
+[data-theme="citadel"] .gs-slider-range {
+  background: hsl(var(--primary));
+}
+
+[data-theme="citadel"] .gs-slider-thumb {
+  border-radius: 0;
+  border-color: hsl(var(--primary));
+  background: hsl(var(--background));
+  box-shadow: var(--glow-pacific);
+}
+
+[data-theme="citadel"] .gs-tabs-list {
+  border-radius: var(--radius-control);
+  background: hsl(var(--surface) / var(--panel-surface-alpha));
+  border: 1px solid hsl(var(--border-strong) / 0.18);
+}
+
+[data-theme="citadel"] .gs-tabs-trigger {
+  border-radius: var(--radius-control);
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+[data-theme="citadel"] .gs-tabs-trigger[data-state="active"] {
+  background: hsl(var(--primary) / 0.12);
+  color: hsl(var(--primary));
+  box-shadow: inset 0 -2px 0 hsl(var(--primary));
+}
+
+[data-theme="citadel"] .gs-accordion-item {
+  border-color: hsl(var(--border-strong) / 0.2);
+}
+
+[data-theme="citadel"] .gs-accordion-trigger {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Panel / Card / Separator / Empty / Table                                   */
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-panel {
@@ -316,7 +458,7 @@
 }
 
 [data-theme="citadel"] .gs-panel[data-emphasis="strong"] {
-  box-shadow: var(--shadow-card), var(--glow-emphasis);
+  box-shadow: var(--shadow-card), var(--glow-cobalt);
 }
 
 [data-theme="citadel"] .gs-panel > .gs-panel-content {
@@ -325,8 +467,43 @@
   min-width: 0;
 }
 
+[data-theme="citadel"] .gs-card {
+  background: hsl(var(--surface) / var(--panel-surface-alpha));
+  border: 1px solid hsl(var(--border-strong) / var(--panel-border-alpha));
+  border-radius: var(--radius-card);
+  backdrop-filter: blur(var(--panel-blur));
+  box-shadow: none;
+}
+
+[data-theme="citadel"] .gs-separator {
+  background: hsl(var(--border-strong) / var(--hairline-alpha));
+}
+
+[data-theme="citadel"] .gs-empty {
+  border-color: hsl(var(--border-strong) / 0.25);
+  border-radius: var(--radius-panel);
+  background: hsl(var(--surface) / 0.4);
+}
+
+[data-theme="citadel"] .gs-table {
+  border-collapse: collapse;
+}
+
+[data-theme="citadel"] .gs-table th {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  border-bottom-color: hsl(var(--border-strong) / 0.25);
+}
+
+[data-theme="citadel"] .gs-table td {
+  border-bottom-color: hsl(var(--border) / 0.8);
+}
+
 /* -------------------------------------------------------------------------- */
-/* Badge                                                                      */
+/* Badge — classified chip                                                    */
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-badge {
@@ -334,12 +511,14 @@
   font-weight: var(--font-weight-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  border-radius: 0.25rem;
+  border-radius: 0.125rem;
+  padding-inline: 0.5rem;
+  padding-block: 0.125rem;
 }
 
 [data-theme="citadel"] .gs-badge[data-intent="information"][data-treatment="outlined"] {
   color: hsl(var(--information));
-  border-color: hsl(var(--information) / 0.8);
+  border-color: hsl(var(--information));
   background: hsl(var(--information) / 0.08);
 }
 
@@ -354,32 +533,73 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Alert                                                                      */
+/* Alert — validation banner                                                  */
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-alert {
-  background: hsl(var(--surface) / 0.78);
+  background: rgb(0 0 0 / 0.2);
   border-radius: var(--radius-panel);
+  border-width: 1px;
 }
 
 [data-theme="citadel"] .gs-alert[data-intent="information"] {
-  border-color: hsl(var(--information) / 0.45);
+  border-color: hsl(var(--information));
 }
 
 [data-theme="citadel"] .gs-alert[data-intent="success"] {
-  border-color: hsl(var(--success) / 0.45);
+  border-color: hsl(var(--success));
 }
 
 [data-theme="citadel"] .gs-alert[data-intent="warning"] {
-  border-color: hsl(var(--warning) / 0.55);
+  border-color: hsl(var(--warning));
 }
 
 [data-theme="citadel"] .gs-alert[data-intent="danger"] {
-  border-color: hsl(var(--danger) / 0.55);
+  border-color: hsl(var(--danger));
 }
 
 /* -------------------------------------------------------------------------- */
-/* Progress / Skeleton                                                        */
+/* Overlays — dialog / sheet / tooltip / toaster                              */
+/* -------------------------------------------------------------------------- */
+
+[data-theme="citadel"] .gs-dialog-overlay {
+  background: hsl(var(--background) / var(--overlay-scrim-alpha));
+}
+
+[data-theme="citadel"] .gs-dialog-content,
+[data-theme="citadel"] .gs-sheet-content {
+  background: hsl(var(--surface) / 0.92);
+  border-color: hsl(var(--border-strong) / 0.28);
+  border-radius: var(--radius-overlay);
+  backdrop-filter: blur(var(--panel-blur));
+  box-shadow: var(--shadow-overlay);
+}
+
+[data-theme="citadel"] .gs-dialog-content,
+[data-theme="citadel"] .gs-sheet-content {
+  font-family: var(--font-body);
+}
+
+[data-theme="citadel"] .gs-tooltip-content {
+  background: hsl(var(--surface-raised));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border-strong) / 0.35);
+  border-radius: var(--radius-control);
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+[data-theme="citadel"] .gs-toaster [data-sonner-toast],
+[data-theme="citadel"] .gs-toaster .toast {
+  background: hsl(var(--surface) / 0.92) !important;
+  border-color: hsl(var(--border-strong) / 0.3) !important;
+  border-radius: var(--radius-control) !important;
+  backdrop-filter: blur(var(--panel-blur));
+}
+
+/* -------------------------------------------------------------------------- */
+/* Progress / Skeleton / Spinner                                              */
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-progress {
@@ -391,7 +611,7 @@
 
 [data-theme="citadel"] .gs-progress-indicator {
   background: hsl(var(--primary));
-  box-shadow: 0 0 10px hsl(var(--primary) / 0.28);
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.4);
 }
 
 [data-theme="citadel"] .gs-skeleton {
@@ -423,8 +643,84 @@
   }
 }
 
+/* Multi-arc HUD spinner — hide lucide paths, draw concentric rings */
+[data-theme="citadel"] .gs-spinner {
+  position: relative;
+  display: inline-block;
+  color: transparent !important;
+  animation: none !important;
+}
+
+[data-theme="citadel"] .gs-spinner > * {
+  display: none;
+}
+
+[data-theme="citadel"] .gs-spinner::before,
+[data-theme="citadel"] .gs-spinner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+}
+
+[data-theme="citadel"] .gs-spinner::before {
+  border-top-color: hsl(var(--primary));
+  border-right-color: hsl(var(--primary));
+  border-bottom-color: hsl(var(--primary));
+  animation: gs-citadel-spinner-spin 1200ms linear infinite;
+}
+
+[data-theme="citadel"] .gs-spinner::after {
+  inset: 18%;
+  border-top-color: hsl(var(--primary) / 0.6);
+  border-right-color: hsl(var(--primary) / 0.6);
+  animation: gs-citadel-spinner-spin-reverse 1600ms linear infinite;
+}
+
+@keyframes gs-citadel-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gs-citadel-spinner-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes gs-citadel-spinner-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="citadel"] .gs-spinner::before,
+  [data-theme="citadel"] .gs-spinner::after {
+    animation: none;
+    border: none;
+  }
+
+  [data-theme="citadel"] .gs-spinner::before {
+    inset: 30%;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    box-shadow: var(--glow-pacific);
+    animation: gs-citadel-spinner-pulse 1600ms ease-in-out infinite;
+  }
+}
+
 /* -------------------------------------------------------------------------- */
-/* Display / mono emphasis                                                    */
+/* Display / mono / connection                                                */
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-display {
@@ -432,6 +728,11 @@
   font-weight: var(--font-weight-heading);
   letter-spacing: var(--tracking-heading);
   line-height: 1.05;
+}
+
+[data-theme="citadel"][data-context="shared-display"] .gs-display {
+  color: hsl(var(--primary));
+  text-shadow: var(--glow-pacific-strong);
 }
 
 [data-theme="citadel"] .gs-mono {
@@ -442,6 +743,11 @@
   color: hsl(var(--foreground));
 }
 
+[data-theme="citadel"][data-context="shared-display"] .gs-mono {
+  color: hsl(var(--primary));
+  text-shadow: var(--glow-pacific);
+}
+
 [data-theme="citadel"] .gs-connection-marker {
   width: 0.5rem;
   height: 0.5rem;
@@ -450,7 +756,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Shells — grid + vignette (theme-owned)                                     */
+/* Shells — grid + vignette + sticky action bar                               */
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-shell {
@@ -467,12 +773,14 @@
   background-image: var(--shell-vignette);
 }
 
+/* Participant — Pacific dot grid @ 30% opacity of audit 0.18 → use token */
 [data-theme="citadel"][data-context="participant"] .gs-shell::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
+  opacity: 0.3;
   background-image: radial-gradient(
     circle,
     hsl(var(--shell-grid-color) / var(--shell-grid-dot-alpha)) 1px,
@@ -496,21 +804,40 @@
   background-size: 48px 48px;
 }
 
+/* Shared display — line grid + dots + scanlines (static; no animated scan band) */
 [data-theme="citadel"][data-context="shared-display"] .gs-shell::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: radial-gradient(
-    circle,
-    hsl(var(--shell-grid-color) / 0.09) 1px,
-    transparent 1px
-  );
-  background-size: var(--shell-grid-size-display) var(--shell-grid-size-display);
+  background-image:
+    linear-gradient(hsl(210 76% 95% / var(--shell-grid-line-alpha)) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(210 76% 95% / var(--shell-grid-line-alpha)) 1px, transparent 1px),
+    radial-gradient(circle, hsl(var(--shell-grid-color) / 0.18) 1px, transparent 1px),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 3px,
+      hsl(210 76% 95% / var(--shell-scanline-alpha)) 3px 4px
+    );
+  background-size:
+    200px 200px,
+    200px 200px,
+    var(--shell-grid-size-display) var(--shell-grid-size-display),
+    100% 4px;
+  opacity: 1;
 }
 
 [data-theme="citadel"] .gs-shell > * {
   position: relative;
   z-index: 1;
+}
+
+[data-theme="citadel"] .gs-shell-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: auto;
+  padding-top: var(--action-bar-pad-top);
+  background-image: var(--action-bar-bleed);
 }

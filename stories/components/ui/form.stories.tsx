@@ -33,10 +33,7 @@ export const Playground: Story = {
     return (
       <StoryFrame>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(() => undefined)}
-            className="w-full max-w-sm space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(() => undefined)} className="w-full max-w-sm space-y-4">
             <FormField
               control={form.control}
               name="displayName"

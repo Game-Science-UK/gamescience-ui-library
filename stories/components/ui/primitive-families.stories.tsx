@@ -131,12 +131,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { StoryFrame } from "../../_utils/story-frame";
 
 function Frame({ children }: { children: ReactNode }) {
@@ -225,7 +220,9 @@ export const Overlays: Story = {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Confirm start</DialogTitle>
-                <DialogDescription>Review participants before starting the session.</DialogDescription>
+                <DialogDescription>
+                  Review participants before starting the session.
+                </DialogDescription>
               </DialogHeader>
             </DialogContent>
           </Dialog>

@@ -80,12 +80,7 @@ export const Waiting: Story = {
   ...participantStory,
   render: () => (
     <ParticipantShell>
-      <ParticipantJoinFlow
-        step="waiting"
-        code="B7K2"
-        displayName="Team Alpha"
-        {...joinFlowProps}
-      />
+      <ParticipantJoinFlow step="waiting" code="B7K2" displayName="Team Alpha" {...joinFlowProps} />
     </ParticipantShell>
   ),
 };

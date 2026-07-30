@@ -15,7 +15,7 @@ function DisplayHeading({
 }: DisplayHeadingProps) {
   return (
     <div className={cn("space-y-2 text-center", className)}>
-      {eyebrow ? <p className="gs-label text-muted-foreground">{eyebrow}</p> : null}
+      {eyebrow ? <p className="gs-label gs-eyebrow text-muted-foreground">{eyebrow}</p> : null}
       <Comp className="gs-display text-foreground" {...props}>
         {children}
       </Comp>

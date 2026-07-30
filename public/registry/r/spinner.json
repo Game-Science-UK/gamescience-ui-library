@@ -4,7 +4,9 @@
   "type": "registry:ui",
   "title": "Spinner",
   "description": "Inline loading spinner indicator.",
-  "dependencies": [],
+  "dependencies": [
+    "lucide-react"
+  ],
   "registryDependencies": [
     "@gamescience/base"
   ],
@@ -13,12 +15,12 @@
       "path": "src/components/ui/spinner.tsx",
       "type": "registry:ui",
       "target": "src/components/ui/spinner.tsx",
-      "content": "/** GameScience UI — adapted from shadcn/ui new-york (spinner). Theme via semantic tokens. */\nimport { Loader2Icon } from \"lucide-react\";\n\nimport { cn } from \"@/lib/cn\";\n\nfunction Spinner({ className, ...props }: React.ComponentProps<\"svg\">) {\n  return (\n    <Loader2Icon\n      role=\"status\"\n      aria-label=\"Loading\"\n      className={cn(\"size-4 animate-spin\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Spinner };\n"
+      "content": "/** GameScience UI — adapted from shadcn/ui new-york (spinner). Theme via semantic tokens. */\nimport { Loader2Icon } from \"lucide-react\";\n\nimport { cn } from \"@/lib/cn\";\n\nfunction Spinner({ className, ...props }: React.ComponentProps<\"svg\">) {\n  return (\n    <Loader2Icon\n      role=\"status\"\n      aria-label=\"Loading\"\n      className={cn(\"gs-spinner size-4 animate-spin\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Spinner };\n"
     }
   ],
   "meta": {
     "category": "component",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "namespace": "@gamescience"
   }
 }
