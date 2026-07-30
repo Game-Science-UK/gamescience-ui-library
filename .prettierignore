@@ -10,4 +10,5 @@ docs/registry-overwrite-observations.md
 node_modules
 coverage
 tmp
+skills
 package-lock.json
