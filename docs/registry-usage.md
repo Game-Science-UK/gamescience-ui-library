@@ -58,13 +58,17 @@ After installing a theme, import foundations + **exactly one** theme. Own the Ta
 
 **Tailwind 3**
 
-```css
-@import "./foundations/index.css";
-@import "./themes/citadel.css";
+See [tailwind-v3-integration.md](./tailwind-v3-integration.md). Retain
+`tailwind.config.ts`, merge the contract token map, keep `@tailwind` directives,
+and do not install the Tailwind 4 bridge.
 
+```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./foundations/index.css";
+@import "./themes/citadel.css";
 ```
 
 **Tailwind 4**

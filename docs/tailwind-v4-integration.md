@@ -1,7 +1,11 @@
 # Tailwind CSS v4 integration
 
-GameScience foundations are framework-neutral. Tailwind 4 / Lovable consumers
-must own the Tailwind entry and map semantic tokens with a non-circular bridge.
+GameScience foundations are framework-neutral. Tailwind 4 consumers must own
+the Tailwind entry and map semantic tokens with a non-circular bridge.
+
+For Tailwind 3 projects see [tailwind-v3-integration.md](./tailwind-v3-integration.md).
+Do not install this bridge on Tailwind 3 projects. React/router choice is
+independent of Tailwind support.
 
 ## Install
 

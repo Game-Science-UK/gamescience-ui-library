@@ -25,8 +25,11 @@ Canonical doctrine: [context-model.md](./context-model.md).
 ## Defaults
 
 - Mode: safe incremental migration
-- Stack: Lovable / Tailwind 4
+- Tailwind integration: Detect from project
 - Version: current stable only
+
+Generated briefs include **exactly one** Tailwind branch (`tailwind3`,
+`tailwind4`, or `detect`). Tailwind 4 guidance is not universal.
 
 ## Output requirements
 

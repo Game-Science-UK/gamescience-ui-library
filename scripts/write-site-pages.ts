@@ -69,9 +69,9 @@ export function compileMigrationConfig(availableVersions: string[]) {
         citadel: readModule("themes/citadel.md"),
       },
       stacks: {
-        "lovable-tailwind4": readModule("stacks/lovable-tailwind4.md"),
         tailwind3: readModule("stacks/tailwind3.md"),
-        unknown: readModule("stacks/unknown.md"),
+        tailwind4: readModule("stacks/tailwind4.md"),
+        detect: readModule("stacks/detect.md"),
       },
       contexts: {
         participant: readModule("contexts/participant.md"),
@@ -279,6 +279,7 @@ function writeHomepage(pagesDist: string, version: string, itemCount: number) {
         <ul>
           <li><a href="${PAGES_SITE_PATH}/docs/registry-usage.md">Registry usage</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/registry-update-policy.md">Update policy</a></li>
+          <li><a href="${PAGES_SITE_PATH}/docs/tailwind-v3-integration.md">Tailwind 3 integration</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/tailwind-v4-integration.md">Tailwind 4 integration</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/font-loading.md">Font loading</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/theming.md">Theming</a></li>
@@ -478,10 +479,10 @@ function writeMigratePage(pagesDist: string, version: string) {
             <label><input type="radio" name="mode" value="full" /> Full visual alignment</label>
           </fieldset>
           <fieldset>
-            <legend>Consumer stack</legend>
-            <label><input type="radio" name="stack" value="lovable-tailwind4" checked /> Lovable / Tailwind 4</label>
+            <legend>Tailwind integration</legend>
+            <label><input type="radio" name="stack" value="detect" checked /> Detect from project</label>
             <label><input type="radio" name="stack" value="tailwind3" /> Tailwind 3</label>
-            <label><input type="radio" name="stack" value="unknown" /> Unknown</label>
+            <label><input type="radio" name="stack" value="tailwind4" /> Tailwind 4</label>
           </fieldset>
           <label>Project type
             <select name="projectType">

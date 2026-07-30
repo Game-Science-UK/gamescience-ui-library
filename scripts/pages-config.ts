@@ -9,6 +9,7 @@ export const PAGES_VERSION = GAMESCIENCE_UI_VERSION;
 
 /** Approved consumer-facing Markdown published at `/docs/*` (unversioned). */
 export const PUBLIC_PAGES_DOCS = [
+  "tailwind-v3-integration.md",
   "tailwind-v4-integration.md",
   "font-loading.md",
   "registry-usage.md",
@@ -31,6 +32,7 @@ export type PublicPagesDoc = (typeof PUBLIC_PAGES_DOCS)[number];
 
 /** Document-specific marker text used by pages:validate and smoke:pages. */
 export const PUBLIC_PAGES_DOC_MARKERS: Record<PublicPagesDoc, string> = {
+  "tailwind-v3-integration.md": "Tailwind CSS v3 integration",
   "tailwind-v4-integration.md": "Tailwind CSS v4 integration",
   "font-loading.md": "Font loading",
   "registry-usage.md": "Registry usage",

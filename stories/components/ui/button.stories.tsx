@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
   title: "Components/UI/Button",
@@ -39,32 +40,38 @@ export const Playground: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <ButtonGroup>
-      <Button intent="primary">Primary</Button>
-      <Button intent="secondary">Secondary</Button>
-      <Button intent="outline">Outline</Button>
-      <Button intent="ghost">Ghost</Button>
-      <Button intent="danger">Danger</Button>
-    </ButtonGroup>
+    <StoryFrame>
+      <ButtonGroup>
+        <Button intent="primary">Primary</Button>
+        <Button intent="secondary">Secondary</Button>
+        <Button intent="outline">Outline</Button>
+        <Button intent="ghost">Ghost</Button>
+        <Button intent="danger">Danger</Button>
+      </ButtonGroup>
+    </StoryFrame>
   ),
 };
 
 export const Sizes: Story = {
   render: () => (
-    <ButtonGroup>
-      <Button size="sm">Small</Button>
-      <Button size="md">Medium</Button>
-      <Button size="lg">Large</Button>
-    </ButtonGroup>
+    <StoryFrame>
+      <ButtonGroup>
+        <Button size="sm">Small</Button>
+        <Button size="md">Medium</Button>
+        <Button size="lg">Large</Button>
+      </ButtonGroup>
+    </StoryFrame>
   ),
 };
 
 export const States: Story = {
   render: () => (
-    <ButtonGroup>
-      <Button loading>Loading</Button>
-      <Button disabled>Disabled</Button>
-    </ButtonGroup>
+    <StoryFrame>
+      <ButtonGroup>
+        <Button loading>Loading</Button>
+        <Button disabled>Disabled</Button>
+      </ButtonGroup>
+    </StoryFrame>
   ),
 };
 

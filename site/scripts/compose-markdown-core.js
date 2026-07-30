@@ -57,10 +57,13 @@ export function composeMigrationBrief(input) {
 
   const modeBody = modules.modes?.[mode];
   const themeBody = modules.themes?.[theme];
-  const stackBody = modules.stacks?.[stack];
+  // Accept legacy composer keys while emitting the current stack branch only.
+  const stackKey =
+    stack === "lovable-tailwind4" ? "tailwind4" : stack === "unknown" ? "detect" : stack;
+  const stackBody = modules.stacks?.[stackKey];
   if (!modeBody) throw new Error(`composeMigrationBrief: missing mode module ${mode}`);
   if (!themeBody) throw new Error(`composeMigrationBrief: missing theme module ${theme}`);
-  if (!stackBody) throw new Error(`composeMigrationBrief: missing stack module ${stack}`);
+  if (!stackBody) throw new Error(`composeMigrationBrief: missing stack module ${stackKey}`);
 
   const contextKey =
     contexts.length > 1 || contexts.includes("multi") || contexts.includes("multi-context")
@@ -77,7 +80,7 @@ export function composeMigrationBrief(input) {
     THEME: theme,
     MODE: mode,
     MODE_LABEL: modeLabel,
-    STACK: stack,
+    STACK: stackKey,
     CONTEXTS: contexts.join(", "),
     PROJECT_TYPE: projectType,
     GENERATED_AT: generatedAt,
@@ -98,7 +101,7 @@ ${modeLabel}
 | Theme | ${theme} |
 | Contexts | ${contexts.join(", ")} |
 | Mode | ${mode} |
-| Consumer stack | ${stack} |
+| Tailwind integration | ${stackKey} |
 | Project type | ${projectType} |
 | Generated at | ${generatedAt} (informational; not registry identity) |
 `;

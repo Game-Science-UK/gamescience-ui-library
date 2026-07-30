@@ -439,6 +439,10 @@ async function assertPublicDocs(siteBase: string) {
     { path: "/r/base.json", marker: "GameScience Base", allowHtml: true },
     { path: "/docs/migration-config.json", marker: "architectureRules", allowHtml: true },
     {
+      path: "/docs/tailwind-v3-integration.md",
+      marker: PUBLIC_PAGES_DOC_MARKERS["tailwind-v3-integration.md"],
+    },
+    {
       path: "/docs/tailwind-v4-integration.md",
       marker: PUBLIC_PAGES_DOC_MARKERS["tailwind-v4-integration.md"],
     },
@@ -506,7 +510,7 @@ async function assertPublicDocs(siteBase: string) {
     registryUrl,
     theme: "citadel",
     mode: "incremental",
-    stack: "lovable-tailwind4",
+    stack: "detect",
     contexts: ["participant"],
     projectType: "participant-experience",
     generatedAt: "2026-07-30",

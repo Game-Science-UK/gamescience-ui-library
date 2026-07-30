@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { GameCodeInput } from "@/components/game/game-code-input";
+import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
   title: "Components/Game/GameCodeInput",
@@ -14,6 +15,13 @@ const meta = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <StoryFrame className="max-w-sm">
+        <Story />
+      </StoryFrame>
+    ),
+  ],
 } satisfies Meta<typeof GameCodeInput>;
 
 export default meta;

@@ -1,9 +1,9 @@
-## Stack guidance — Tailwind 3
+## Stack guidance — Tailwind 4
 
-Selected Tailwind integration: **Tailwind 3**.
+Selected Tailwind integration: **Tailwind 4**.
 
-This branch applies only when the project uses Tailwind 3. It is not universal
-guidance for every consumer.
+This branch applies only when the project uses Tailwind 4 (including typical
+Lovable Tailwind 4 projects). It is not universal guidance for every consumer.
 
 Router / framework detection is separate:
 
@@ -15,23 +15,25 @@ Router / framework detection is separate:
    immutable registry URL
 2. Import the stack-agnostic foundation CSS (`src/foundations/index.css`)
 3. Import exactly one theme CSS file
-4. Retain the project `tailwind.config.ts` (or `.js`)
-5. Merge the required semantic token mappings from the installed token contract /
-   `docs/tailwind-v3-integration.md`
-6. Retain existing `@tailwind base`, `@tailwind components`, and
-   `@tailwind utilities` directives
-7. Do **not** install or import `tailwind-v4-bridge.css`
+4. Install/import the approved Tailwind 4 bridge
+   (`docs/tailwind-v4-integration.md` / published `tailwind-v4-bridge.css`)
+5. Use CSS-first scanning and token mapping
+6. Do **not** introduce `tailwind.config.ts` merely for the registry
+7. No circular `@theme` mappings such as `--x: var(--x)`
+8. No remote font `@import` in theme/foundation CSS — load fonts via
+   application-owned HTML `<link>` elements
 
 ### Application CSS shape
 
 ```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import "tailwindcss";
 @import "./foundations/index.css";
 @import "./themes/{{THEME}}.css";
+@import "./gamescience-tw4-bridge.css";
 ```
+
+Preserve the project’s existing framework and router. Do not rebuild the app as
+a generic Vite project solely to consume the registry.
 
 ### Stack support classification
 

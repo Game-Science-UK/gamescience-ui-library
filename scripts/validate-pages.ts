@@ -329,6 +329,15 @@ function validateSitePages() {
     ]) {
       if (!(key in modules)) fail(`migration-config.json missing modules.${key}`);
     }
+    const stacks = (modules.stacks ?? {}) as Record<string, unknown>;
+    for (const key of ["tailwind3", "tailwind4", "detect"]) {
+      if (typeof stacks[key] !== "string" || !(stacks[key] as string).trim()) {
+        fail(`migration-config.json missing stacks.${key}`);
+      }
+    }
+    if ("lovable-tailwind4" in stacks || "unknown" in stacks) {
+      fail("migration-config.json must not publish legacy stack keys lovable-tailwind4/unknown");
+    }
     const contextModel = modules.contextModel;
     if (typeof contextModel !== "string" || !contextModel.trim()) {
       fail("migration-config.json modules.contextModel must be a non-empty string");
@@ -371,7 +380,7 @@ function validateSitePages() {
           registryUrl,
           theme: "citadel",
           mode: "audit",
-          stack: "lovable-tailwind4",
+          stack: "detect",
           contexts: ["participant"],
           projectType: "participant-experience",
           generatedAt: "2026-07-30",

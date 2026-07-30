@@ -56,14 +56,14 @@ describe("compose-markdown-core", () => {
     expect((serialized.match(/## Experience context model/g) ?? []).length).toBe(1);
   });
 
-  it("composes citadel participant-only audit lovable-tw4", () => {
+  it("composes citadel participant-only audit with detect stack", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
       version: "0.3.0",
       registryUrl,
       theme: "citadel",
       mode: "audit",
-      stack: "lovable-tailwind4",
+      stack: "detect",
       contexts: ["participant"],
       projectType: "participant-experience",
       generatedAt: FIXED_DATE,
@@ -72,7 +72,12 @@ describe("compose-markdown-core", () => {
     expect(md).toContain("MODE: AUDIT ONLY — DO NOT MODIFY FILES");
     expect(md).toContain("citadel");
     expect(md).toContain("Pacific primary");
-    expect(md).toContain("Lovable / Tailwind 4");
+    expect(md).toContain("Detect from project");
+    expect(md).toContain("exactly one");
+    expect(md).toContain("branch");
+    expect(md).toContain("Tailwind version does not determine router integration");
+    expect(md).not.toContain("Stack guidance — Tailwind 3\n");
+    expect(md).not.toContain("Stack guidance — Tailwind 4\n");
     expect(md).toContain("complete context inventory");
     expect(md).toContain("do **not** change routes or providers");
     expect(md).toContain("unclassified");
@@ -82,14 +87,14 @@ describe("compose-markdown-core", () => {
     expect(md).toContain("| Contexts | participant |");
   });
 
-  it("composes gamescience participant+facilitator incremental", () => {
+  it("composes gamescience participant+facilitator incremental tailwind4", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
       version: "0.3.0",
       registryUrl,
       theme: "gamescience",
       mode: "incremental",
-      stack: "lovable-tailwind4",
+      stack: "tailwind4",
       contexts: ["participant", "facilitator"],
       projectType: "full-multi-surface",
       generatedAt: FIXED_DATE,
@@ -100,6 +105,10 @@ describe("compose-markdown-core", () => {
     expect(md).toContain("context-appropriate vertical slice");
     expect(md).toContain("Establish **one** root `GameScienceProvider`");
     expect(md).toContain("theme-gamescience");
+    expect(md).toContain("Stack guidance — Tailwind 4");
+    expect(md).toContain("tailwind-v4-bridge");
+    expect(md).not.toContain("Stack guidance — Tailwind 3\n");
+    expect(md).not.toContain("Detect from project");
   });
 
   it("composes citadel all-three-context full tailwind3", () => {
@@ -118,11 +127,30 @@ describe("compose-markdown-core", () => {
     expect(md).toContain("MODE: FULL VISUAL ALIGNMENT");
     expect(md).toContain("Migrate context by context");
     expect(md).toContain("inventing a fourth context");
-    expect(md).toContain("Tailwind 3");
+    expect(md).toContain("Stack guidance — Tailwind 3");
+    expect(md).toContain("Do **not** install or import `tailwind-v4-bridge.css`");
+    expect(md).not.toContain("Stack guidance — Tailwind 4\n");
     expect(md).toContain("shared-display");
   });
 
-  it("composes unknown-context legacy project guidance", () => {
+  it("maps legacy lovable-tailwind4 stack key to Tailwind 4 branch only", () => {
+    const md = composeMigrationBrief({
+      modules: config.modules,
+      version: "0.3.0",
+      registryUrl,
+      theme: "gamescience",
+      mode: "audit",
+      stack: "lovable-tailwind4",
+      contexts: ["participant"],
+      projectType: "participant-experience",
+      generatedAt: FIXED_DATE,
+    });
+    expect(md).toContain("| Tailwind integration | tailwind4 |");
+    expect(md).toContain("Stack guidance — Tailwind 4");
+    expect(md).not.toContain("Stack guidance — Tailwind 3\n");
+  });
+
+  it("composes unknown-context legacy project with detect stack", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
       version: "0.3.0",
@@ -135,20 +163,21 @@ describe("compose-markdown-core", () => {
       generatedAt: FIXED_DATE,
     });
     assertSharedContextGuidance(md, registryUrl);
-    expect(md).toContain("unknown");
-    expect(md).toContain("Determine the consumer stack");
+    expect(md).toContain("Detect from project");
+    expect(md).toContain("Uncertain — payload inspection required");
     expect(md).toContain("unclassified");
     expect(md).toContain("Do not infer context solely from names");
+    expect(md).toContain("Do **not** infer registry stack support solely from the names");
   });
 
-  it("composes shared-display incremental unknown stack", () => {
+  it("composes shared-display incremental detect stack", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
       version: "0.3.0",
       registryUrl,
       theme: "gamescience",
       mode: "incremental",
-      stack: "unknown",
+      stack: "detect",
       contexts: ["shared-display"],
       projectType: "shared-display",
       generatedAt: FIXED_DATE,
@@ -156,6 +185,7 @@ describe("compose-markdown-core", () => {
     assertSharedContextGuidance(md, registryUrl);
     expect(md).toContain("shared-display lobby");
     expect(md).toContain("no participant-private information");
+    expect(md).toContain("| Tailwind integration | detect |");
   });
 
   it("composes start briefs for participant-only, participant+facilitator, and all three", () => {

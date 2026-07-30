@@ -2,7 +2,7 @@
 
 Inspect before changing code:
 
-- package manager, framework, router, Tailwind version
+- package manager, framework, router, Tailwind version (separately)
 - `components.json`, aliases, UI inventory
 - custom components, global CSS, fonts, theme architecture
 - provider structure, Sonner/toast usage, portals
@@ -55,6 +55,23 @@ contexts may be absent legitimately. Do not force all three contexts.
 |               |                    |                    |                    |               |         |                   |               |                       |                 |                 |                |      |       |
 
 Use `unclassified` when evidence is insufficient.
+
+### Stack support classification
+
+Do **not** infer registry stack support solely from the names of published
+guides. Inspect the installed item payload, foundation CSS, and declared
+dependencies.
+
+Classify Tailwind / consumer-stack support as exactly one of:
+
+- **Supported**
+- **Supported with stack-specific integration**
+- **Unsupported**
+- **Uncertain — payload inspection required**
+
+Use “blocking mismatch” only for a **verified** incompatibility with the
+implementation contract. Tailwind version does not determine router
+integration — report router findings separately.
 
 ## Registry coverage backlog
 

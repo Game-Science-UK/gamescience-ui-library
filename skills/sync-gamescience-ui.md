@@ -1,6 +1,6 @@
 ---
 name: sync-gamescience-ui
-description: Use when checking, updating, or synchronising an existing Lovable project with the GameScience UI registry. Audits the current pin and local registry-managed files, discovers a newer immutable registry release, reviews diffs, applies safe updates, preserves application-owned changes, validates the project, and updates migration records. Not for initial registry adoption or redesigning application-specific game UI.
+description: Use when checking, updating, or synchronising an existing Lovable project with the GameScience UI registry. Audits the current pin and local registry-managed files, discovers a newer immutable registry release, reviews diffs, applies safe updates, preserves application-owned changes, validates the project, and updates migration records. Supports check-only invocations such as "Check whether GameScience UI is current" that discover and diff without changing files. Distinguishes registry item currency from public or project guidance freshness. Not for initial registry adoption or redesigning application-specific game UI.
 ---
 
 # Sync GameScience UI
@@ -9,6 +9,41 @@ Synchronise the current project with the GameScience UI registry through a
 controlled, diff-first upgrade.
 
 Never blindly overwrite project-local source.
+
+## Invocation modes
+
+### Sync (default)
+
+Discover, plan, apply safe updates, validate, and record.
+
+### Check-only
+
+When the user asks to check currency without updating — for example:
+
+- Check whether GameScience UI is current
+- Is our registry pin up to date?
+- Diff our GameScience UI against latest without changing anything
+
+Perform discovery, drift classification and diffing only. Make **no** file
+changes. Do not update the pin, overwrite components, rewrite docs, or create
+history records.
+
+Check-only does not need a separate skill.
+
+Final result for a clean check-only run must state that no files were modified,
+but do not use the audit skill’s formal outcome claim as a substitute for the
+sync result vocabulary below.
+
+Detect theme, Tailwind stack, and experience contexts from the project unless
+the user explicitly overrides them. Do not change the active theme or add
+unused contexts during sync.
+
+Related skills:
+
+- `adopt-gamescience-ui` — greenfield / early-stage first adoption
+- `audit-gamescience-ui` — read-only classification and backlog
+- `migrate-gamescience-ui` — established-project adoption
+- `validate-gamescience-ui` — compliance checks without upgrade
 
 ## Registry source
 
@@ -35,12 +70,13 @@ Synchronisation must:
 - identify the project's current registry version
 - inspect local modifications against that version
 - discover the latest stable immutable version
-- read relevant migration notes
+- distinguish registry item currency from guidance freshness
+- read relevant migration notes and release manifests when available
 - update only installed or newly required registry items
 - use diffs before overwrites
 - preserve application-owned logic and deliberate deviations
 - validate before reporting success
-- leave a durable update record
+- leave a durable update record after applied changes
 
 Do not:
 
@@ -55,6 +91,7 @@ Do not:
 - use an unversioned registry URL as the project pin
 - modify an immutable registry release
 - report completion while validation fails
+- apply changes during check-only invocation
 
 ## 1. Inspect project configuration
 
@@ -88,6 +125,8 @@ Determine:
 - Tailwind version
 - React version
 - current build and validation commands
+- project-local generated guidance revision
+- public migration guidance revision when available
 
 Do not infer the current version only from comments in source files when
 machine-readable metadata exists.
@@ -95,7 +134,33 @@ machine-readable metadata exists.
 If the current version cannot be established confidently, stop before applying
 changes and report the conflicting evidence.
 
+## 1a. Distinguish registry metadata from documentation metadata
+
+Check these layers separately:
+
+| Layer                                | Examples                                                         | Currency question                                      |
+| ------------------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------ |
+| Registry item version                | pinned `/versions/{version}/`, `src/lib/version.ts`, item JSON   | Are installed components on the target release?        |
+| Public migration guidance revision   | published `/docs/*`, `migration-notes.md`, composers             | Has public guidance moved without a registry bump?     |
+| Project-local generated guidance     | `src/docs/gamescience-ui-guidance.md`, local migration notes     | Is project documentation stale relative to public docs?|
+
+Public docs can change without a registry version change.
+
+That means a project can be:
+
+- **Registry source current**
+- **Guidance stale**
+
+In that case the sync result may need to update project documentation without
+reinstalling components.
+
+Never treat a documentation-only refresh as proof that component source was
+reinstalled. Never treat a registry version match as proof that local guidance
+is current.
+
 ## 2. Establish a rollback point
+
+Skip this section in check-only mode.
 
 Before changing files:
 
@@ -202,18 +267,23 @@ Determine:
 - all intermediate versions
 - release type for each step
 - relevant migration notes
-- changed registry items
+- changed registry items from release manifests when available
 - changed theme contracts
 - changed dependency contracts
 - changed provider or context contracts
 - breaking changes
 - required manual actions
+- public guidance revisions that changed without a registry bump
 
 Do not skip intermediate migration requirements merely because the project is
 moving directly to the latest version.
 
 If the project is already on the latest version, continue to the current-release
-drift report and do not rewrite files unnecessarily.
+drift report and guidance-freshness check. Do not rewrite component files
+unnecessarily.
+
+If registry source is current but project-local guidance is stale, plan a
+documentation-only update unless check-only mode is active.
 
 ## 6. Produce a pre-change sync plan
 
@@ -241,13 +311,24 @@ Before applying changes, output:
 | File or item | Current ownership | Upstream change | Proposed action | Risk |
 | ------------ | ----------------- | --------------- | --------------- | ---- |
 
+### Metadata freshness
+
+- Registry source current: yes / no
+- Public guidance newer than project-local guidance: yes / no
+- Documentation-only update sufficient: yes / no
+
 ### Deferred conflicts
 
 List every uncertain or deliberately retained local difference.
 
 Do not apply a high-risk or uncertain overwrite without explicit approval.
 
+In check-only mode, stop after this plan. Report the plan as the result and make
+no changes.
+
 ## 7. Update the registry pin
+
+Skip in check-only mode.
 
 When an upgrade is available and safe to proceed, update the project's
 GameScience registry reference to the target immutable version.
@@ -273,14 +354,33 @@ Do not use the unversioned latest URL as the committed project pin.
 
 ## 8. Determine the update set
 
+Skip component updates in check-only mode. Still compute the candidate set for
+the report.
+
+### Prefer release manifests
+
+When the registry publishes changed-item metadata for the release path, define
+the initial diff set as:
+
+```text
+installed items ∩ changed items
+```
+
+Include transitive registry dependencies declared by those changed items when
+the manifest or item payloads require it.
+
+Fallback to a full installed-item diff against the target release only when
+changed-item metadata is absent.
+
 Update only:
 
-- currently installed registry items changed by the target release
-- their changed registry dependencies
+- the initial diff set above
 - newly required dependencies documented by migration notes
 - the selected theme when it changed
 - foundations or provider when their contracts changed
 - generated guidance or version metadata when required
+- project-local documentation when public guidance is newer and registry source
+  is otherwise current
 
 Do not install:
 
@@ -289,9 +389,6 @@ Do not install:
 - unselected themes
 - unused context shells
 - speculative replacements for application-owned components
-
-When release metadata does not provide a changed-item list, diff the project's
-installed item set against the target release.
 
 ## 9. Diff against the target release
 
@@ -325,6 +422,11 @@ Do not assume a theme update affects only one file. Inspect declared registry
 dependencies.
 
 ## 10. Apply safe updates
+
+Skip in check-only mode.
+
+When only guidance is stale, update project documentation and local generated
+guidance references without reinstalling unchanged components.
 
 Use overwrite only after reviewing the target diff.
 
@@ -426,7 +528,11 @@ equivalent.
 
 ## 15. Validate
 
-Run the project's existing checks.
+Skip broad validation in check-only mode unless the user explicitly asks to
+validate as well; in that case hand the compliance pass to
+`validate-gamescience-ui` or run the checks without modifying files.
+
+After applied updates, run the project's existing checks.
 
 At minimum where available:
 
@@ -459,6 +565,8 @@ Do not report success while required checks fail.
 
 ## 16. Update project records
 
+Skip in check-only mode.
+
 Create or update:
 
 `src/docs/gamescience-ui-update-history.md`
@@ -477,10 +585,12 @@ Record:
 - Items updated:
 - Items unchanged:
 - Items removed:
+- Documentation-only updates:
 - Local deviations preserved:
 - Local deviations removed:
 - Manual merges:
 - Migration notes followed:
+- Release manifest used:
 - Validation completed:
 - Remaining issues:
 ```
@@ -489,7 +599,11 @@ Also update where relevant:
 
 - `src/docs/gamescience-ui-migration.md`
 - `src/docs/gamescience-ui-contexts.md`
+- `src/docs/gamescience-ui-guidance.md` when guidance refresh is required
 - `AGENTS.md`
+
+When the sync is documentation-only, record that registry item source was left
+unchanged.
 
 Do not include secrets, tokens, host keys or credentials.
 
@@ -502,7 +616,11 @@ Report:
 One of:
 
 - No update required
+- Check-only — update available
+- Check-only — registry current, guidance stale
+- Check-only — current
 - Updated successfully
+- Documentation updated without component reinstall
 - Updated with retained deviations
 - Partial update requiring review
 - Blocked by unresolved ownership or validation issues
@@ -513,15 +631,31 @@ One of:
 - Target:
 - Registry URL:
 
+### Metadata freshness
+
+- Registry source:
+- Public guidance revision:
+- Project-local guidance revision:
+- Documentation-only action needed:
+
 ### Drift before update
 
 | Item | Classification | Action |
 | ---- | -------------- | ------ |
 
+### Update set basis
+
+State whether the diff set came from:
+
+- `installed items ∩ changed items` via release manifest
+- full installed-item diff fallback
+
 ### Changes applied
 
 | Item | Files | Upstream change | Local handling |
 | ---- | ----- | --------------- | -------------- |
+
+In check-only mode, replace this table with **Changes that would be applied**.
 
 ### Deviations retained
 
@@ -529,7 +663,8 @@ Explain why each retained deviation remains application-owned.
 
 ### Validation
 
-List every check and result.
+List every check and result. In check-only mode, state validation was not run
+unless explicitly requested.
 
 ### Follow-up
 

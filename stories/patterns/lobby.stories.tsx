@@ -141,6 +141,22 @@ export const FacilitatorReady: Story = {
   ),
 };
 
+export const FacilitatorStartDisabled: Story = {
+  parameters: { viewport: { defaultViewport: "facilitator" } },
+  globals: { context: "facilitator" },
+  render: () => (
+    <FacilitatorShell subtitle="Lobby · start blocked">
+      <FacilitatorLobby
+        session={readyLobbyFixture.session}
+        participants={readyLobbyFixture.participants}
+        status={readyLobbyFixture.status}
+        startDisabledReason="Waiting for facilitator briefing to finish"
+        onStart={() => undefined}
+      />
+    </FacilitatorShell>
+  ),
+};
+
 export const SharedDisplayJoin: Story = {
   parameters: { viewport: { defaultViewport: "sharedDisplay" } },
   globals: { context: "shared-display" },
