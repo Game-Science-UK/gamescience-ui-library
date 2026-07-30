@@ -48,6 +48,7 @@ export function compileMigrationConfig(availableVersions: string[]) {
     modules: {
       core: readModule("core.md"),
       architectureRules: readModule("architecture-rules.md"),
+      contextModel: readModule("context-model.md"),
       fileOwnership: readModule("file-ownership.md"),
       auditOutput: readModule("audit-output.md"),
       validation: readModule("validation.md"),
@@ -187,8 +188,42 @@ function writeHomepage(pagesDist: string, version: string, itemCount: number) {
 
       <section class="section" id="mental-model">
         <h2>The GameScience UI mental model</h2>
-        <p class="intro">Themes control visual identity. Contexts control interface behaviour for participant, facilitator, and shared-display surfaces.</p>
-        <div class="layer-stack" aria-label="UI layers">
+        <p class="intro">Theme controls visual identity. Context controls the interface environment. Role controls what a person is authorised to do. Route controls where the surface is mounted.</p>
+        <div class="distinction-grid" aria-label="Theme, context, role, and route">
+          <article class="card">
+            <h3>Theme</h3>
+            <p>Visual identity — Gamescience or Citadel — selected once at the application root.</p>
+          </article>
+          <article class="card">
+            <h3>Context</h3>
+            <p>Interface environment — participant, facilitator, or shared display — for the active surface.</p>
+          </article>
+          <article class="card">
+            <h3>Role</h3>
+            <p>Authority — what an identity is permitted to do. Application-owned; not granted by context props.</p>
+          </article>
+          <article class="card">
+            <h3>Route</h3>
+            <p>Mount point — where the surface is mounted. Routes may imply context but are not the model itself.</p>
+          </article>
+        </div>
+        <p class="intro" style="margin-top:1.25rem"><a href="${PAGES_SITE_PATH}/docs/context-model.md">Read the experience context model</a></p>
+        <div class="card-grid" aria-label="Experience contexts">
+          <article class="card">
+            <h3>Participant</h3>
+            <p>Typical device: personal / mobile-first. Interaction: touch, focused task. Sensitivity: may include private instructions. Shell: ParticipantShell. Patterns: join flow, waiting and status compositions.</p>
+          </article>
+          <article class="card">
+            <h3>Facilitator</h3>
+            <p>Typical device: desktop or tablet. Interaction: operational controls. Sensitivity: operational / session-private. Shell: FacilitatorShell. Patterns: facilitator lobby, operational panels and alerts.</p>
+          </article>
+          <article class="card">
+            <h3>Shared display</h3>
+            <p>Typical device: large screen. Interaction: non-interactive. Sensitivity: public room-safe only. Shell: SharedDisplayShell. Patterns: shared-display lobby, room code, participant count, display headings.</p>
+          </article>
+        </div>
+        <p class="muted" style="margin-top:1rem">Games do not need to implement every context. Use only the surfaces the experience requires.</p>
+        <div class="layer-stack" aria-label="UI layers" style="margin-top:1.5rem">
           <div class="layer">Template</div>
           <div class="layer">Pattern</div>
           <div class="layer">Game components</div>
@@ -237,6 +272,7 @@ function writeHomepage(pagesDist: string, version: string, itemCount: number) {
           <li><a href="${PAGES_SITE_PATH}/docs/tailwind-v4-integration.md">Tailwind 4 integration</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/font-loading.md">Font loading</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/theming.md">Theming</a></li>
+          <li><a href="${PAGES_SITE_PATH}/docs/context-model.md">Experience context model</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/lovable-test-project.md">Lovable test project</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/migration-notes.md">Migration notes</a></li>
           <li><a href="${PAGES_SITE_PATH}/agent-catalogue.json">Agent catalogue</a></li>
@@ -354,6 +390,13 @@ function writeUpgradePage(pagesDist: string) {
             <legend>Installed theme</legend>
             <label><input type="radio" name="theme" value="gamescience" checked /> Gamescience</label>
             <label><input type="radio" name="theme" value="citadel" /> Citadel</label>
+          </fieldset>
+          <fieldset>
+            <legend>Project currently has an explicit context model</legend>
+            <label><input type="radio" name="contextModelStatus" value="yes" /> Yes</label>
+            <label><input type="radio" name="contextModelStatus" value="partial" /> Partial</label>
+            <label><input type="radio" name="contextModelStatus" value="no" /> No</label>
+            <label><input type="radio" name="contextModelStatus" value="unknown" checked /> Unknown</label>
           </fieldset>
           <label><input type="checkbox" name="comparisonHarness" /> Comparison harness (may load both theme CSS files)</label>
           <label>Affected items (optional, comma-separated)

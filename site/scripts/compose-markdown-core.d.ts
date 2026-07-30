@@ -1,6 +1,7 @@
 export type MigrationModules = {
   core: string;
   architectureRules: string;
+  contextModel: string;
   fileOwnership: string;
   auditOutput: string;
   validation: string;
@@ -16,6 +17,8 @@ export type MigrationModules = {
   stacks: Record<string, string>;
   contexts: Record<string, string>;
 };
+
+export type ContextModelStatus = "yes" | "partial" | "no" | "unknown";
 
 export function composeMigrationBrief(input: {
   modules: MigrationModules;
@@ -46,5 +49,6 @@ export function composeUpgradeBrief(input: {
   theme: string;
   comparisonHarness?: boolean;
   affectedItems?: string[];
+  contextModelStatus?: ContextModelStatus;
   generatedAt: string;
 }): string;

@@ -24,7 +24,12 @@ Do not:
 | Theme   | Visual identity           | `gamescience`, `citadel`                       |
 | Context | Behaviour, scale, density | `participant`, `facilitator`, `shared-display` |
 
-A theme must work across all three contexts.
+Theme controls visual identity. Context controls the interface environment.
+Role controls authority. Route controls where the surface is mounted.
+
+A theme must work across all three contexts. Not every application must use all
+three contexts. Context is not authorisation — see
+[context-model.md](./context-model.md).
 
 ## Token contract
 

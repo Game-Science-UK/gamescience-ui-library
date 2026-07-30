@@ -450,7 +450,104 @@ async function assertPublicDocs(siteBase: string) {
       path: "/docs/registry-usage.md",
       marker: PUBLIC_PAGES_DOC_MARKERS["registry-usage.md"],
     },
+    {
+      path: "/docs/context-model.md",
+      marker: PUBLIC_PAGES_DOC_MARKERS["context-model.md"],
+    },
   ];
+
+  const contextModelResponse = await fetch(`${siteBase}/docs/context-model.md`);
+  if (!contextModelResponse.ok) {
+    throw new Error(
+      `[smoke:pages] /docs/context-model.md returned HTTP ${contextModelResponse.status}`,
+    );
+  }
+  const contextModelBody = await contextModelResponse.text();
+  const contextHead = contextModelBody.slice(0, 400).toLowerCase();
+  if (
+    contextHead.includes("<!doctype html") ||
+    contextHead.includes("<html") ||
+    contextHead.includes("file not found")
+  ) {
+    throw new Error(
+      "[smoke:pages] /docs/context-model.md returned an HTML error/fallback document",
+    );
+  }
+  for (const marker of [
+    "# Experience context model",
+    "participant",
+    "facilitator",
+    "shared-display",
+    "Context is not authorisation",
+    "Shared display has a public-surface contract",
+  ]) {
+    if (!contextModelBody.includes(marker)) {
+      throw new Error(`[smoke:pages] /docs/context-model.md missing expected marker "${marker}"`);
+    }
+  }
+  console.log("[smoke:pages] docs OK /docs/context-model.md (context-model content)");
+
+  const migrationConfigResponse = await fetch(`${siteBase}/docs/migration-config.json`);
+  if (!migrationConfigResponse.ok) {
+    throw new Error(
+      `[smoke:pages] /docs/migration-config.json returned HTTP ${migrationConfigResponse.status}`,
+    );
+  }
+  const migrationConfig = (await migrationConfigResponse.json()) as {
+    version: string;
+    modules: Record<string, unknown>;
+  };
+  const { composeMigrationBrief, composeStartBrief, composeUpgradeBrief } =
+    await import("../site/scripts/compose-markdown-core.js");
+  const registryUrl = `${siteBase}/versions/${migrationConfig.version}/r/{name}.json`;
+  const migrateBrief = composeMigrationBrief({
+    modules: migrationConfig.modules as never,
+    version: migrationConfig.version,
+    registryUrl,
+    theme: "citadel",
+    mode: "incremental",
+    stack: "lovable-tailwind4",
+    contexts: ["participant"],
+    projectType: "participant-experience",
+    generatedAt: "2026-07-30",
+  });
+  const startBrief = composeStartBrief({
+    modules: migrationConfig.modules as never,
+    version: migrationConfig.version,
+    registryUrl,
+    theme: "gamescience",
+    contexts: ["participant", "facilitator"],
+    generatedAt: "2026-07-30",
+  });
+  const upgradeBrief = composeUpgradeBrief({
+    modules: migrationConfig.modules as never,
+    fromVersion: "0.2.0",
+    toVersion: migrationConfig.version,
+    registryUrl,
+    theme: "citadel",
+    contextModelStatus: "partial",
+    generatedAt: "2026-07-30",
+  });
+  for (const [label, brief] of [
+    ["migrate", migrateBrief],
+    ["start", startBrief],
+    ["upgrade", upgradeBrief],
+  ] as const) {
+    for (const marker of [
+      "Experience context model",
+      "inferred user roles",
+      "Shared-display privacy contract",
+      "src/docs/gamescience-ui-contexts.md",
+    ]) {
+      if (!brief.includes(marker)) {
+        throw new Error(`[smoke:pages] live ${label} brief missing "${marker}"`);
+      }
+    }
+  }
+  if (!upgradeBrief.includes("Context-model compatibility review")) {
+    throw new Error("[smoke:pages] live upgrade brief missing context-model compatibility review");
+  }
+  console.log("[smoke:pages] live Start/Migrate/Upgrade briefs include context sections");
 
   for (const check of checks) {
     const response = await fetch(`${siteBase}${check.path}`);

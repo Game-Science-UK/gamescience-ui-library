@@ -25,7 +25,7 @@ Context is separate from theme:
 - `facilitator` — desktop, operational density
 - `shared-display` — landscape, non-interactive, privacy-safe
 
-Context adjusts scale, density, and interaction affordances without changing brand identity.
+Context adjusts scale, density, and interaction affordances without changing brand identity. Context is not a user role and does not grant authority. Public doctrine: [context-model.md](./context-model.md) (published on Pages).
 
 ### Provider
 

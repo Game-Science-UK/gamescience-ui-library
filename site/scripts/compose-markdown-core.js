@@ -31,6 +31,9 @@ export function composeMigrationBrief(input) {
   if (!modules || typeof modules !== "object") {
     throw new Error("composeMigrationBrief: modules required");
   }
+  if (!modules.contextModel) {
+    throw new Error("composeMigrationBrief: modules.contextModel required");
+  }
 
   const version = requireString(input.version, "version");
   const registryUrl = requireString(input.registryUrl, "registryUrl");
@@ -105,6 +108,7 @@ ${modeLabel}
       configBlock,
       modules.core,
       modules.architectureRules,
+      modules.contextModel,
       modules.fileOwnership,
       modeBody,
       themeBody,
@@ -123,6 +127,9 @@ ${modeLabel}
 export function composeStartBrief(input) {
   const modules = input.modules;
   if (!modules?.start) throw new Error("composeStartBrief: modules.start required");
+  if (!modules.contextModel) {
+    throw new Error("composeStartBrief: modules.contextModel required");
+  }
 
   const version = requireString(input.version, "version");
   const registryUrl = requireString(input.registryUrl, "registryUrl");
@@ -159,6 +166,7 @@ export function composeStartBrief(input) {
     joinSections([
       header,
       modules.start,
+      modules.contextModel,
       modules.architectureRules,
       modules.fileOwnership,
       themeBody,
@@ -169,9 +177,19 @@ export function composeStartBrief(input) {
   );
 }
 
+const CONTEXT_MODEL_STATUS_LABELS = {
+  yes: "yes — explicit context model",
+  partial: "partial — incomplete context model",
+  no: "no — no explicit context model",
+  unknown: "unknown — context model status unclear",
+};
+
 export function composeUpgradeBrief(input) {
   const modules = input.modules;
   if (!modules?.upgrade) throw new Error("composeUpgradeBrief: modules.upgrade required");
+  if (!modules.contextModel) {
+    throw new Error("composeUpgradeBrief: modules.contextModel required");
+  }
 
   const fromVersion = requireString(input.fromVersion, "fromVersion");
   const toVersion = requireString(input.toVersion, "toVersion");
@@ -182,6 +200,12 @@ export function composeUpgradeBrief(input) {
   const affectedItems = Array.isArray(input.affectedItems)
     ? input.affectedItems.join(", ")
     : "review with --diff";
+  const contextModelStatusRaw = requireString(
+    input.contextModelStatus ?? "unknown",
+    "contextModelStatus",
+  );
+  const contextModelStatus =
+    CONTEXT_MODEL_STATUS_LABELS[contextModelStatusRaw] ?? CONTEXT_MODEL_STATUS_LABELS.unknown;
 
   const values = {
     FROM_VERSION: fromVersion,
@@ -192,6 +216,8 @@ export function composeUpgradeBrief(input) {
     COMPARISON_HARNESS: comparisonHarness ? "yes" : "no",
     AFFECTED_ITEMS: affectedItems,
     GENERATED_AT: generatedAt,
+    CONTEXT_MODEL_STATUS: contextModelStatus,
+    CONTEXTS: `existing project mapping (${contextModelStatusRaw})`,
   };
 
   const header = `# GameScience UI upgrade brief
@@ -204,6 +230,7 @@ export function composeUpgradeBrief(input) {
 | Target version | ${toVersion} |
 | Immutable target registry URL | \`${registryUrl}\` |
 | Installed theme | ${theme} |
+| Context model status | ${contextModelStatus} |
 | Comparison harness | ${comparisonHarness ? "yes" : "no"} |
 | Affected items (if known) | ${affectedItems} |
 | Generated at | ${generatedAt} (informational) |
@@ -213,6 +240,7 @@ export function composeUpgradeBrief(input) {
     joinSections([
       header,
       modules.upgrade,
+      modules.contextModel,
       modules.architectureRules,
       modules.fileOwnership,
       modules.overwritePolicy,

@@ -2,6 +2,11 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  composeMigrationBrief,
+  composeStartBrief,
+  composeUpgradeBrief,
+} from "../site/scripts/compose-markdown-core.js";
 import { GAMESCIENCE_UI_VERSION } from "../src/lib/version.ts";
 import { registryItems } from "./registry-manifest.ts";
 import {
@@ -11,6 +16,7 @@ import {
   PUBLIC_PAGES_BRIDGE_CSS,
   PUBLIC_PAGES_DOC_MARKERS,
   PUBLIC_PAGES_DOCS,
+  versionedRegistryTemplate,
 } from "./pages-config.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -233,6 +239,20 @@ function validateSitePages() {
   if (!indexHtml.includes(PAGES_VERSION)) {
     fail("homepage missing current PAGES_VERSION");
   }
+  if (!indexHtml.includes("Theme controls visual identity")) {
+    fail("homepage missing theme/context/role/route mental-model copy");
+  }
+  if (!indexHtml.includes("/docs/context-model.md")) {
+    fail("homepage missing link to /docs/context-model.md");
+  }
+  for (const label of ["Participant", "Facilitator", "Shared display"]) {
+    if (!indexHtml.includes(label)) {
+      fail(`homepage missing context card label ${label}`);
+    }
+  }
+  if (!indexHtml.includes("Games do not need to implement every context")) {
+    fail("homepage missing optional-context note");
+  }
 
   const siteData = assertJson(path.join(pagesDist, "site-data.json"), "site-data.json") as {
     version?: string;
@@ -257,6 +277,7 @@ function validateSitePages() {
         "scope",
         "description",
         "contexts",
+        "contextLabel",
         "dependencies",
         "rawRegistryUrl",
         "versionedRegistryUrl",
@@ -292,6 +313,7 @@ function validateSitePages() {
     for (const key of [
       "core",
       "architectureRules",
+      "contextModel",
       "fileOwnership",
       "modes",
       "themes",
@@ -303,6 +325,94 @@ function validateSitePages() {
       "upgrade",
     ]) {
       if (!(key in modules)) fail(`migration-config.json missing modules.${key}`);
+    }
+    const contextModel = modules.contextModel;
+    if (typeof contextModel !== "string" || !contextModel.trim()) {
+      fail("migration-config.json modules.contextModel must be a non-empty string");
+    } else {
+      const occurrences = (JSON.stringify(modules).match(/## Experience context model/g) ?? [])
+        .length;
+      if (occurrences !== 1) {
+        fail(
+          `migration-config.json must include the context-model module heading exactly once (found ${occurrences})`,
+        );
+      }
+      for (const marker of [
+        "inferred user roles",
+        "Not every application needs all three contexts",
+        "Shared-display privacy contract",
+        "Authorisation separation",
+        "src/docs/gamescience-ui-contexts.md",
+        "Required context audit table",
+      ]) {
+        if (!contextModel.includes(marker)) {
+          fail(`migration-config.json contextModel missing marker: ${marker}`);
+        }
+      }
+      if (
+        /facilitator context (grants|equals|means) facilitator (authority|permission)/i.test(
+          contextModel,
+        )
+      ) {
+        fail("contextModel must not equate facilitator context with facilitator authority");
+      }
+      if (/implement all three contexts by default/i.test(contextModel)) {
+        fail("contextModel must not require all three contexts by default");
+      }
+
+      const registryUrl = versionedRegistryTemplate();
+      const sampleBriefs = [
+        composeMigrationBrief({
+          modules: modules as never,
+          version: PAGES_VERSION,
+          registryUrl,
+          theme: "citadel",
+          mode: "audit",
+          stack: "lovable-tailwind4",
+          contexts: ["participant"],
+          projectType: "participant-experience",
+          generatedAt: "2026-07-30",
+        }),
+        composeStartBrief({
+          modules: modules as never,
+          version: PAGES_VERSION,
+          registryUrl,
+          theme: "gamescience",
+          contexts: ["participant", "facilitator", "shared-display"],
+          generatedAt: "2026-07-30",
+        }),
+        composeUpgradeBrief({
+          modules: modules as never,
+          fromVersion: "0.2.0",
+          toVersion: PAGES_VERSION,
+          registryUrl,
+          theme: "citadel",
+          contextModelStatus: "unknown",
+          generatedAt: "2026-07-30",
+        }),
+      ];
+      for (const brief of sampleBriefs) {
+        for (const marker of [
+          "Experience context model",
+          "inferred user roles",
+          "Shared-display privacy contract",
+          "Not every application needs all three contexts",
+        ]) {
+          if (!brief.includes(marker)) {
+            fail(`generated brief missing context marker: ${marker}`);
+          }
+        }
+        if (/player mode|host mode|board mode|projection mode/i.test(brief)) {
+          fail("generated brief contains stale non-canonical context vocabulary");
+        }
+        if (
+          /facilitator context (grants|equals|means) facilitator (authority|permission)/i.test(
+            brief,
+          )
+        ) {
+          fail("generated brief equates facilitator context with facilitator authority");
+        }
+      }
     }
   }
 

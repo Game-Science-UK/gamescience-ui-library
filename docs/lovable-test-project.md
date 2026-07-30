@@ -27,6 +27,9 @@ Create only a basic application shell with routing or simple view switching for:
 - facilitator
 - shared display
 
+Declare each surface with an experience context (`participant`, `facilitator`,
+or `shared-display`). Do not treat context as a user role or permission.
+
 Do not implement final interface designs yet.
 ```
 
@@ -213,3 +216,7 @@ npm run build
 - No horizontal overflow
 - Only one theme active
 - No private participant data on shared display
+- Context declared explicitly (not inferred from role names)
+- `src/docs/gamescience-ui-contexts.md` records route → context mapping
+
+See [context-model.md](./context-model.md) for the canonical experience context doctrine.

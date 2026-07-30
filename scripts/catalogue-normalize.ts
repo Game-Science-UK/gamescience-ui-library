@@ -16,11 +16,29 @@ export interface NormalizedCatalogueItem {
   scope: PublicCatalogueScope;
   description: string;
   contexts: string[];
+  /** Human-readable context labels derived only from catalogue contexts metadata. */
+  contextLabel: string;
   themes: string[];
   dependencies: string[];
   rawRegistryUrl: string;
   versionedRegistryUrl: string;
   installCommand: string;
+}
+
+const CONTEXT_LABELS: Record<string, string> = {
+  all: "All contexts",
+  participant: "Participant",
+  facilitator: "Facilitator",
+  "shared-display": "Shared display",
+};
+
+export function formatContextLabel(contexts: string[]): string {
+  if (contexts.includes("all") || contexts.length === 0) {
+    return "All contexts";
+  }
+  const labels = contexts.map((context) => CONTEXT_LABELS[context] ?? context);
+  if (labels.length === 1) return labels[0]!;
+  return labels.join(" · ");
 }
 
 const GAME_DISPLAY_NAMES = new Set([
@@ -87,6 +105,7 @@ export function normalizeCatalogue(
 
     const scope = scopeFor(name, category);
     const contexts = contextsRaw.includes("all") ? ["all"] : contextsRaw.filter((c) => c !== "all");
+    const contextLabel = formatContextLabel(contexts);
 
     items.push({
       name,
@@ -96,6 +115,7 @@ export function normalizeCatalogue(
       scope,
       description,
       contexts,
+      contextLabel,
       themes: themesRaw,
       dependencies: uses,
       rawRegistryUrl: `${sitePath}/r/${name}.json`,

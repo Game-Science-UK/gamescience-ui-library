@@ -11,12 +11,26 @@ from sources under `site/` and must not modify immutable version trees.
 - `/start/` — clean-install brief composer
 - `/upgrade/` — immutable version upgrade brief composer
 - `/migrate/` — migration brief composer (deterministic Markdown assembly)
+- `/docs/context-model.md` — canonical experience context doctrine
+
+## Mental model
+
+The homepage separates four concepts:
+
+- Theme controls visual identity
+- Context controls the interface environment
+- Role controls what a person is authorised to do
+- Route controls where the surface is mounted
+
+Context cards summarise participant, facilitator, and shared display. Games do
+not need to implement every context.
 
 ## Source of truth
 
 - Version and item count: `site-data.json` (baked from `agent-catalogue.json`)
 - Composer modules: `site/migration-modules/` compiled to `docs/migration-config.json`
 - Individual modules remain under `/docs/migration/` for inspection only
+- Context doctrine: `docs/context-model.md`
 
 ## Constraints
 

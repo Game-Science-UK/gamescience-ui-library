@@ -34,9 +34,9 @@ function renderItem(item) {
     item.dependencies?.length > 0
       ? item.dependencies.map((d) => `@gamescience/${d}`).join(", ")
       : "No registry dependencies listed";
-  const contexts = (item.contexts ?? []).includes("all")
-    ? "All contexts"
-    : (item.contexts ?? []).join(", ");
+  const contexts =
+    item.contextLabel ||
+    ((item.contexts ?? []).includes("all") ? "All contexts" : (item.contexts ?? []).join(" · "));
 
   const article = document.createElement("article");
   article.className = "card catalogue-item";

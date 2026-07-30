@@ -4,7 +4,7 @@ Only approved consumer documentation and site assets are published to GitHub Pag
 
 ## Allowed
 
-- Allowlisted Markdown in `PUBLIC_PAGES_DOCS`
+- Allowlisted Markdown in `PUBLIC_PAGES_DOCS` (includes `context-model.md`)
 - Tailwind 4 bridge CSS
 - Compiled `migration-config.json` and inspection modules under `/docs/migration/`
 - Onboarding site pages under `/`, `/catalogue/`, `/start/`, `/upgrade/`, `/migrate/`

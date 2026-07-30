@@ -19,3 +19,42 @@ Comparison harness: {{COMPARISON_HARNESS}}
 Affected items hint: {{AFFECTED_ITEMS}}
 
 Do not point the project at unversioned `/r/` latest.
+
+## Context-model compatibility review
+
+Project context-model status (composer selection): **{{CONTEXT_MODEL_STATUS}}**
+
+Inspect and preserve the project's existing context mapping:
+
+- existing `ExperienceContext` values (`participant` | `facilitator` | `shared-display`)
+- root-provider placement
+- how context is selected (route metadata, map, layout decision)
+- route-to-context mapping
+- shell usage and pattern usage
+- shared-display privacy where that context exists
+- any local context patches
+- any nested providers
+- any components branching heavily across context
+
+Upgrade guidance:
+
+- Avoid restructuring routes merely because a new registry version is installed.
+- Preserve the existing valid context architecture.
+- Adopt new context guidance only where the target release requires it.
+- Record context-related diffs separately from ordinary upstream overwrites.
+- Verify one active root context and one active theme.
+- Verify no role is inferred from context.
+- Verify shared display remains PII-safe / room-safe.
+- Update `src/docs/gamescience-ui-contexts.md` when context architecture changes.
+
+Depth by status:
+
+| Status  | Review depth                                                                                                                                                        |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| yes     | Compatibility check against the context model; no full migration audit                                                                                              |
+| partial | Map declared vs undeclared surfaces; fix gaps without broad route rewrites                                                                                          |
+| no      | Recommend establishing the context record and root-provider pattern; do not run a complete migration audit unless the project clearly predates the context contract |
+| unknown | Lightweight discovery first; escalate only if evidence shows missing context contract                                                                               |
+
+Do not force all three contexts. Do not equate facilitator context with
+facilitator authority.

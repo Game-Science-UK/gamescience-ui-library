@@ -34,12 +34,15 @@ async function main() {
 
   function refresh(generatedAt) {
     const toVersion = form.toVersion.value;
+    const contextModelStatus =
+      form.querySelector('input[name="contextModelStatus"]:checked')?.value ?? "unknown";
     latest = composeUpgradeBrief({
       modules: config.modules,
       fromVersion: form.fromVersion.value,
       toVersion,
       registryUrl: `https://game-science-uk.github.io${versionedRegistryTemplate(toVersion)}`,
       theme: form.theme.value,
+      contextModelStatus,
       comparisonHarness: form.comparisonHarness.checked,
       affectedItems: form.affectedItems.value
         ? form.affectedItems.value

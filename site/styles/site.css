@@ -311,8 +311,15 @@ a:hover {
   max-width: 46rem;
 }
 
-.card-grid {
+.card-grid,
+.distinction-grid {
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.distinction-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .card,

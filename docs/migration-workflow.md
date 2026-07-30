@@ -13,6 +13,15 @@ a Lovable build agent.
 
 No model is called. The Lovable agent is the AI execution layer.
 
+## Experience context model
+
+Every Migrate brief includes the shared `context-model` module exactly once. It
+explains that selected contexts are migration targets, not roles; that other
+contexts may be absent legitimately; and that every route must be audited with
+the required context audit table.
+
+Canonical doctrine: [context-model.md](./context-model.md).
+
 ## Defaults
 
 - Mode: safe incremental migration
@@ -21,6 +30,10 @@ No model is called. The Lovable agent is the AI execution layer.
 
 ## Output requirements
 
-Generated briefs include architecture rules, file ownership, audit table,
-overwrite policy, theme/stack/context guidance, validation, cleanup, and a
-migration record requirement at `src/docs/gamescience-ui-migration.md`.
+Generated briefs include architecture rules, the experience context model, file
+ownership, audit tables (component + context), overwrite policy,
+theme/stack/context guidance, validation, cleanup, a migration record at
+`src/docs/gamescience-ui-migration.md`, and a project context record at
+`src/docs/gamescience-ui-contexts.md`.
+
+Migrate audits finish with a **Context architecture recommendation**.
