@@ -26,6 +26,7 @@ const buttonVariants = cva(
         sm: "h-control-sm px-[var(--control-padding-inline-sm)]",
         md: "h-control-md px-[var(--control-padding-inline-md)]",
         lg: "h-control-lg px-[var(--control-padding-inline-lg)]",
+        icon: "h-control-md w-control-md px-0",
       },
       emphasis: {
         default: "",

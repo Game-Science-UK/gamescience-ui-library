@@ -61,3 +61,22 @@ Bug-fix packaging patch. No new UI APIs.
 6. **Tailwind 4**: replace any circular `--x: var(--x)` `@theme` bridge with the approved mapping in [tailwind-v4-integration.md](./tailwind-v4-integration.md) / `consumer/tailwind-v4-bridge.css`.
 7. Confirm installed `src/docs/gamescience-ui-guidance.md` and `src/lib/version.ts` both report `0.2.1`.
 8. Smoke participant / facilitator / shared-display for Gamescience and Citadel as applicable.
+
+## 0.2.1 → 0.3.0 (primitive layer)
+
+0.3.0 expands the registry with the complete standard shadcn primitive layer
+(forms, overlays, menus, disclosure, data display, layout helpers, feedback).
+
+1. **Pin** the registry to `versions/0.3.0`.
+2. **Diff** before overwrite. Create a rollback point.
+3. Existing projects do **not** need to install every primitive.
+4. Map local shadcn primitives (Dialog, Select, Card, Table, etc.) to canonical
+   `@gamescience/*` items when you touch those screens.
+5. Install new primitives only when needed; keep dependency installs explicit.
+6. High-level game patterns remain a separate discovery process — see
+   [registry-coverage-backlog.md](./registry-coverage-backlog.md).
+7. Application-specific visuals and mechanics remain local.
+8. Use `--diff` / `--overwrite` only for reviewed upstream-managed files
+   (including dependency files that may be rewritten).
+9. Confirm `src/lib/version.ts` and guidance report `0.3.0`.
+10. See [primitive-layer.md](./primitive-layer.md).

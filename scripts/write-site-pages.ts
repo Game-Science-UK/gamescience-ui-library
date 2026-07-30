@@ -170,6 +170,16 @@ function writeHomepage(pagesDist: string, version: string, itemCount: number) {
         </div>
       </section>
 
+      <section class="section" id="primitive-layer">
+        <h2>Complete primitive layer</h2>
+        <p class="intro">Version ${escapeHtml(version)} includes the full standard shadcn primitive vocabulary — forms, overlays, menus, data display, disclosure, and feedback — theme-neutral and available for both Gamescience and Citadel.</p>
+        <ul>
+          <li>Install only the primitives your project needs.</li>
+          <li>Prefer high-level GameScience patterns where they already exist.</li>
+          <li>Keep game-specific visuals, mechanics, and business logic local.</li>
+        </ul>
+      </section>
+
       <section class="section" id="what-is-a-registry">
         <h2>What is a registry?</h2>
         <p class="intro">GameScience publishes approved UI source. A Lovable project installs selected items. The files are copied into the project. Lovable composes those files into the game. The project pins a version and upgrades deliberately.</p>
@@ -273,6 +283,7 @@ function writeHomepage(pagesDist: string, version: string, itemCount: number) {
           <li><a href="${PAGES_SITE_PATH}/docs/font-loading.md">Font loading</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/theming.md">Theming</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/context-model.md">Experience context model</a></li>
+          <li><a href="${PAGES_SITE_PATH}/docs/primitive-layer.md">Primitive layer</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/lovable-test-project.md">Lovable test project</a></li>
           <li><a href="${PAGES_SITE_PATH}/docs/migration-notes.md">Migration notes</a></li>
           <li><a href="${PAGES_SITE_PATH}/agent-catalogue.json">Agent catalogue</a></li>
@@ -315,6 +326,20 @@ function writeCataloguePage(pagesDist: string) {
             <option value="participant">Participant</option>
             <option value="facilitator">Facilitator</option>
             <option value="shared-display">Shared display</option>
+          </select>
+        </label>
+        <label>Portal
+          <select id="filter-portal">
+            <option value="">Any</option>
+            <option value="yes">Portal</option>
+            <option value="no">Non-portal</option>
+          </select>
+        </label>
+        <label>Interaction
+          <select id="filter-interactive">
+            <option value="">Any</option>
+            <option value="yes">Interactive</option>
+            <option value="no">Non-interactive</option>
           </select>
         </label>
       </div>

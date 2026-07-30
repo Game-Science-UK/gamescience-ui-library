@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "type": "registry:ui",
+  "title": "Aspect Ratio",
+  "description": "Aspect-ratio layout wrapper.",
+  "dependencies": [
+    "@radix-ui/react-aspect-ratio"
+  ],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/aspect-ratio.tsx",
+      "type": "registry:ui",
+      "target": "src/components/ui/aspect-ratio.tsx",
+      "content": "/** GameScience UI — adapted from shadcn/ui new-york (aspect-ratio). Theme via semantic tokens. */\nimport * as AspectRatioPrimitive from \"@radix-ui/react-aspect-ratio\";\n\nconst AspectRatio = AspectRatioPrimitive.Root;\n\nexport { AspectRatio };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.3.0",
+    "namespace": "@gamescience"
+  }
+}

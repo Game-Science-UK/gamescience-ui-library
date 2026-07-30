@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-otp",
+  "type": "registry:ui",
+  "title": "Input OTP",
+  "description": "One-time-passcode segmented input.",
+  "dependencies": [
+    "input-otp"
+  ],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/input-otp.tsx",
+      "type": "registry:ui",
+      "target": "src/components/ui/input-otp.tsx",
+      "content": "/** GameScience UI — adapted from shadcn/ui new-york (input-otp). Theme via semantic tokens. */\nimport * as React from \"react\";\nimport { OTPInput, OTPInputContext } from \"input-otp\";\nimport { Minus } from \"lucide-react\";\n\nimport { cn } from \"@/lib/cn\";\n\nconst InputOTP = React.forwardRef<\n  React.ElementRef<typeof OTPInput>,\n  React.ComponentPropsWithoutRef<typeof OTPInput>\n>(({ className, containerClassName, ...props }, ref) => (\n  <OTPInput\n    ref={ref}\n    containerClassName={cn(\n      \"flex items-center gap-2 has-[:disabled]:opacity-50\",\n      containerClassName,\n    )}\n    className={cn(\"disabled:cursor-not-allowed\", className)}\n    {...props}\n  />\n));\nInputOTP.displayName = \"InputOTP\";\n\nconst InputOTPGroup = React.forwardRef<\n  React.ElementRef<\"div\">,\n  React.ComponentPropsWithoutRef<\"div\">\n>(({ className, ...props }, ref) => (\n  <div ref={ref} className={cn(\"flex items-center\", className)} {...props} />\n));\nInputOTPGroup.displayName = \"InputOTPGroup\";\n\nconst InputOTPSlot = React.forwardRef<\n  React.ElementRef<\"div\">,\n  React.ComponentPropsWithoutRef<\"div\"> & { index: number }\n>(({ index, className, ...props }, ref) => {\n  const inputOTPContext = React.useContext(OTPInputContext);\n  const slot = inputOTPContext?.slots?.[index];\n  const char = slot?.char;\n  const hasFakeCaret = slot?.hasFakeCaret;\n  const isActive = slot?.isActive;\n\n  return (\n    <div\n      ref={ref}\n      className={cn(\n        \"relative flex h-9 w-9 items-center justify-center border-y border-r border-border text-sm shadow-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md\",\n        isActive && \"z-10 ring-1 ring-focus-ring\",\n        className,\n      )}\n      {...props}\n    >\n      {char}\n      {hasFakeCaret && (\n        <div className=\"pointer-events-none absolute inset-0 flex items-center justify-center\">\n          <div className=\"animate-caret-blink h-4 w-px bg-foreground duration-1000\" />\n        </div>\n      )}\n    </div>\n  );\n});\nInputOTPSlot.displayName = \"InputOTPSlot\";\n\nconst InputOTPSeparator = React.forwardRef<\n  React.ElementRef<\"div\">,\n  React.ComponentPropsWithoutRef<\"div\">\n>(({ ...props }, ref) => (\n  <div ref={ref} role=\"separator\" {...props}>\n    <Minus />\n  </div>\n));\nInputOTPSeparator.displayName = \"InputOTPSeparator\";\n\nexport { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.3.0",
+    "namespace": "@gamescience"
+  }
+}

@@ -6,7 +6,8 @@
   "description": "Text input primitive with invalid-state support.",
   "dependencies": [],
   "registryDependencies": [
-    "@gamescience/base"
+    "@gamescience/base",
+    "@gamescience/label"
   ],
   "files": [
     {
@@ -14,17 +15,11 @@
       "type": "registry:ui",
       "target": "src/components/ui/input.tsx",
       "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {\n  invalid?: boolean;\n}\n\nconst Input = React.forwardRef<HTMLInputElement, InputProps>(\n  ({ className, type = \"text\", invalid, ...props }, ref) => (\n    <input\n      type={type}\n      className={cn(\n        \"gs-input gs-touch-target flex h-control-md w-full rounded-control border bg-surface px-[var(--control-padding-inline-md)]\",\n        \"text-[length:var(--type-scale-body)] text-foreground shadow-control\",\n        \"placeholder:text-muted-foreground\",\n        \"focus-visible:shadow-focus focus-visible:outline-none\",\n        \"disabled:cursor-not-allowed disabled:opacity-50\",\n        invalid ? \"border-danger\" : \"border-border\",\n        className,\n      )}\n      ref={ref}\n      aria-invalid={invalid || undefined}\n      {...props}\n    />\n  ),\n);\nInput.displayName = \"Input\";\n\nexport { Input };\n"
-    },
-    {
-      "path": "src/components/ui/label.tsx",
-      "type": "registry:ui",
-      "target": "src/components/ui/label.tsx",
-      "content": "import * as LabelPrimitive from \"@radix-ui/react-label\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nconst labelVariants = cva(\n  \"gs-label inline-block text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70\",\n);\n\nexport interface LabelProps\n  extends\n    React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,\n    VariantProps<typeof labelVariants> {}\n\nconst Label = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>(\n  ({ className, ...props }, ref) => (\n    <LabelPrimitive.Root ref={ref} className={cn(labelVariants(), className)} {...props} />\n  ),\n);\nLabel.displayName = LabelPrimitive.Root.displayName;\n\nexport { Label };\n"
     }
   ],
   "meta": {
     "category": "component",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "namespace": "@gamescience"
   }
 }

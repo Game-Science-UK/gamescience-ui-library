@@ -36,4 +36,6 @@ theme/stack/context guidance, validation, cleanup, a migration record at
 `src/docs/gamescience-ui-migration.md`, and a project context record at
 `src/docs/gamescience-ui-contexts.md`.
 
-Migrate audits finish with a **Context architecture recommendation**.
+Migrate audits finish with a **Context architecture recommendation** and a
+**Registry coverage backlog** (primitive gap / reusable component / pattern /
+template / application-specific / insufficient evidence).

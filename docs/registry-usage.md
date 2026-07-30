@@ -1,5 +1,9 @@
 # Registry usage
 
+From 0.3.0 the registry includes the complete standard primitive layer in
+addition to themes, game/display components, patterns, and shells. Install only
+what you need. Prefer patterns first. See [primitive-layer.md](./primitive-layer.md).
+
 The GameScience registry is a publicly readable static shadcn registry that distributes **source code** into consuming projects.
 
 ## Namespace
@@ -7,7 +11,7 @@ The GameScience registry is a publicly readable static shadcn registry that dist
 - Namespace: `@gamescience`
 - Local serve URL (default): `http://localhost:4343`
 - GitHub Pages latest: `https://game-science-uk.github.io/gamescience-ui-library/r/{name}.json`
-- GitHub Pages versioned (recommended): `https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/r/{name}.json`
+- GitHub Pages versioned (recommended): `https://game-science-uk.github.io/gamescience-ui-library/versions/0.3.0/r/{name}.json`
 - Configurable local override via `GAMESCIENCE_REGISTRY_URL`
 
 ## Build and serve locally

@@ -9,18 +9,40 @@ Inspect before changing code:
 - participant / facilitator / shared-display surfaces (classify independently of role)
 - route structure and business logic coupled to UI
 - duplicate design systems and client/game-specific visuals
+- local shadcn primitives that now have `@gamescience/*` equivalents (0.3.0+)
 - authorisation / RLS findings (report separately; do not block UI migration by default)
 
 ### Required component audit table
 
-| Existing implementation     | Registry target        | Classification      | Proposed action       | Risk   |
-| --------------------------- | ---------------------- | ------------------- | --------------------- | ------ |
-| example: TechButton         | @gamescience/button    | migration candidate | replace               | low    |
-| example: custom join screen | @gamescience/join-flow | mixed UI + logic    | incremental migration | medium |
-| example: WebSocket hook     | none                   | application-owned   | preserve              | high   |
-| example: radar visual       | none                   | game-specific       | retain                | low    |
+Classification must be one of:
 
-Fill the table with project-specific rows. Do not skip classification.
+- **Existing registry target**
+- **Application-specific**
+- **Registry coverage candidate**
+- **Requires further evidence**
+- **Obsolete or unused**
+
+Do **not** default to “Registry target: none / Action: keep”.
+
+| Existing implementation     | Registry target        | Classification              | Proposed action       | Risk   |
+| --------------------------- | ---------------------- | --------------------------- | --------------------- | ------ |
+| example: TechButton         | @gamescience/button    | Existing registry target    | replace               | low    |
+| example: Dialog             | @gamescience/dialog    | Existing registry target    | replace local shadcn  | low    |
+| example: custom join screen | @gamescience/join-flow | Existing registry target    | incremental migration | medium |
+| example: WebSocket hook     | none                   | Application-specific        | preserve              | high   |
+| example: Stat tile          | none                   | Registry coverage candidate | backlog               | medium |
+| example: radar visual       | none                   | Application-specific        | retain                | low    |
+
+For every missing registry target, assess:
+
+1. Is it visual, behavioural, or both?
+2. Is it tied to business or game logic?
+3. Can existing registry primitives compose it?
+4. Is it reusable across games?
+5. Is it a primitive, component, pattern, or template?
+6. Which contexts use it?
+7. Does it appear in more than one project?
+8. Should it remain application-owned?
 
 ### Required context audit table
 
@@ -33,3 +55,20 @@ contexts may be absent legitimately. Do not force all three contexts.
 |               |                    |                    |                    |               |         |                   |               |                       |                 |                 |                |      |       |
 
 Use `unclassified` when evidence is insufficient.
+
+## Registry coverage backlog
+
+Produce:
+
+| Existing implementation | Proposed registry layer                                                                            | Evidence | Contexts | Reuse likelihood    | Recommendation |
+| ----------------------- | -------------------------------------------------------------------------------------------------- | -------- | -------- | ------------------- | -------------- |
+|                         | primitive / reusable component / pattern / template / application-specific / insufficient evidence |          |          | low / medium / high |                |
+
+Classify backlog rows as:
+
+- Primitive gap (should be rare after 0.3.0)
+- Reusable component candidate
+- Pattern candidate
+- Template candidate
+- Application-specific
+- Insufficient evidence

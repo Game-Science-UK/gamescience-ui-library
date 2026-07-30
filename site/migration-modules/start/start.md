@@ -17,11 +17,16 @@ Unselected contexts are **not** required. Do not install facilitator or
 shared-display shells/patterns unless those contexts were selected. Do not
 create routes for unused contexts merely for symmetry.
 
-Install high-level patterns only for selected contexts, for example:
+Install high-level patterns first for selected contexts, for example:
 
 - participant: `@gamescience/participant-shell`, `@gamescience/join-flow`
 - facilitator: `@gamescience/facilitator-shell`, `@gamescience/lobby`
 - shared-display: `@gamescience/shared-display-shell`, `@gamescience/shared-display-lobby`
+
+The registry includes the complete standard primitive layer (forms, overlays,
+menus, data display, feedback). Install individual primitives only when a
+pattern does not cover the need. Do **not** install the entire primitive
+catalogue automatically.
 
 ### Provider and routing
 

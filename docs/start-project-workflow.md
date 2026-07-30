@@ -7,7 +7,8 @@ projects that have not yet built significant UI.
 
 - Pins the **current stable** immutable registry URL only
 - Installs `@gamescience/base` and one selected theme
-- Installs high-level patterns only for selected contexts
+- Installs high-level patterns first for selected contexts
+- Installs individual primitives only when required (not the full catalogue)
 - Clarifies that unselected contexts are not required
 - Establishes one root `GameScienceProvider`
 - Resolves active context from the active surface

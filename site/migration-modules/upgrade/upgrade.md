@@ -20,6 +20,19 @@ Affected items hint: {{AFFECTED_ITEMS}}
 
 Do not point the project at unversioned `/r/` latest.
 
+### 0.2.1 → 0.3.0 notes
+
+When upgrading to **0.3.0**:
+
+- The primitive layer is expanded (dialogs, forms, menus, tables, etc.).
+- Do **not** replace every local shadcn file automatically.
+- Install new primitives only when a screen needs them.
+- Identify duplicate local shadcn primitives that now have `@gamescience/*` targets.
+- Preserve project-owned modifications until reviewed (`--diff` first).
+- Record which primitives became registry-managed.
+- Quarantine unused local inventory only after validation.
+- High-level game patterns remain a separate discovery process.
+
 ## Context-model compatibility review
 
 Project context-model status (composer selection): **{{CONTEXT_MODEL_STATUS}}**

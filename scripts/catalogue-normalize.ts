@@ -4,9 +4,22 @@ import {
   versionedRegistryTemplate,
   latestRegistryTemplate,
 } from "./pages-config.ts";
+import { registryItems } from "./registry-manifest.ts";
 
 export type PublicCatalogueScope =
-  "base-themes" | "core-ui" | "game-display" | "patterns" | "templates";
+  | "foundations"
+  | "themes"
+  | "forms"
+  | "overlays"
+  | "navigation"
+  | "disclosure"
+  | "data-display"
+  | "feedback"
+  | "layout"
+  | "core-ui"
+  | "game-display"
+  | "patterns"
+  | "templates";
 
 export interface NormalizedCatalogueItem {
   name: string;
@@ -14,12 +27,15 @@ export interface NormalizedCatalogueItem {
   title: string;
   category: string;
   scope: PublicCatalogueScope;
+  family: PublicCatalogueScope;
   description: string;
   contexts: string[];
   /** Human-readable context labels derived only from catalogue contexts metadata. */
   contextLabel: string;
   themes: string[];
   dependencies: string[];
+  interactive: boolean | null;
+  portal: boolean | null;
   rawRegistryUrl: string;
   versionedRegistryUrl: string;
   installCommand: string;
@@ -32,15 +48,6 @@ const CONTEXT_LABELS: Record<string, string> = {
   "shared-display": "Shared display",
 };
 
-export function formatContextLabel(contexts: string[]): string {
-  if (contexts.includes("all") || contexts.length === 0) {
-    return "All contexts";
-  }
-  const labels = contexts.map((context) => CONTEXT_LABELS[context] ?? context);
-  if (labels.length === 1) return labels[0]!;
-  return labels.join(" · ");
-}
-
 const GAME_DISPLAY_NAMES = new Set([
   "game-code-input",
   "connection-status",
@@ -52,22 +59,76 @@ const GAME_DISPLAY_NAMES = new Set([
   "participant-count-display",
 ]);
 
-const CORE_UI_NAMES = new Set([
-  "button",
-  "input",
-  "panel",
-  "badge",
-  "alert",
-  "progress",
-  "skeleton",
-]);
+const FAMILY_BY_NAME: Record<string, PublicCatalogueScope> = {
+  base: "foundations",
+  "theme-gamescience": "themes",
+  "theme-citadel": "themes",
+  button: "forms",
+  input: "forms",
+  label: "forms",
+  textarea: "forms",
+  checkbox: "forms",
+  "radio-group": "forms",
+  switch: "forms",
+  slider: "forms",
+  select: "forms",
+  "input-otp": "forms",
+  form: "forms",
+  calendar: "forms",
+  toggle: "forms",
+  "toggle-group": "forms",
+  dialog: "overlays",
+  "alert-dialog": "overlays",
+  sheet: "overlays",
+  drawer: "overlays",
+  popover: "overlays",
+  "hover-card": "overlays",
+  tooltip: "overlays",
+  "context-menu": "overlays",
+  "dropdown-menu": "overlays",
+  command: "overlays",
+  menubar: "navigation",
+  "navigation-menu": "navigation",
+  breadcrumb: "navigation",
+  pagination: "navigation",
+  accordion: "disclosure",
+  collapsible: "disclosure",
+  tabs: "disclosure",
+  card: "data-display",
+  table: "data-display",
+  avatar: "data-display",
+  carousel: "data-display",
+  panel: "layout",
+  separator: "layout",
+  "scroll-area": "layout",
+  resizable: "layout",
+  "aspect-ratio": "layout",
+  badge: "feedback",
+  alert: "feedback",
+  progress: "feedback",
+  skeleton: "feedback",
+  sonner: "feedback",
+  spinner: "feedback",
+  empty: "feedback",
+};
 
-function scopeFor(name: string, category: string): PublicCatalogueScope {
-  if (category === "base" || category === "theme") return "base-themes";
+export function formatContextLabel(contexts: string[]): string {
+  if (contexts.includes("all") || contexts.length === 0) {
+    return "All contexts";
+  }
+  const labels = contexts.map((context) => CONTEXT_LABELS[context] ?? context);
+  if (labels.length === 1) return labels[0]!;
+  return labels.join(" · ");
+}
+
+function scopeFor(name: string, category: string, family?: string): PublicCatalogueScope {
+  if (family && family in SCOPE_LABELS) return family as PublicCatalogueScope;
+  if (FAMILY_BY_NAME[name]) return FAMILY_BY_NAME[name]!;
+  if (category === "base") return "foundations";
+  if (category === "theme") return "themes";
   if (category === "pattern") return "patterns";
   if (category === "template") return "templates";
   if (GAME_DISPLAY_NAMES.has(name)) return "game-display";
-  if (CORE_UI_NAMES.has(name)) return "core-ui";
   throw new Error(`Cannot normalize catalogue scope for ${name} (category=${category})`);
 }
 
@@ -79,6 +140,7 @@ export function normalizeCatalogue(
   const sitePath = options?.sitePath ?? PAGES_SITE_PATH;
   const versionedTemplate = versionedRegistryTemplate(version);
   const latestTemplate = latestRegistryTemplate();
+  const expectedCount = registryItems.length;
 
   const items: NormalizedCatalogueItem[] = [];
 
@@ -92,6 +154,7 @@ export function normalizeCatalogue(
     const themesRaw = Array.isArray(raw.themes) ? raw.themes.map(String) : [];
     const uses = Array.isArray(raw.uses) ? raw.uses.map(String) : [];
     const registryItem = String(raw.registryItem ?? `@gamescience/${name}`);
+    const familyRaw = typeof raw.family === "string" ? raw.family : undefined;
 
     if (!category) {
       throw new Error(`Catalogue item ${name} missing category`);
@@ -103,9 +166,16 @@ export function normalizeCatalogue(
       throw new Error(`Catalogue item ${name} missing themes`);
     }
 
-    const scope = scopeFor(name, category);
+    const scope = scopeFor(name, category, familyRaw);
     const contexts = contextsRaw.includes("all") ? ["all"] : contextsRaw.filter((c) => c !== "all");
     const contextLabel = formatContextLabel(contexts);
+    const interactive =
+      typeof raw.interactive === "boolean"
+        ? raw.interactive
+        : FAMILY_BY_NAME[name]
+          ? !["layout", "foundations", "themes"].includes(scope)
+          : null;
+    const portal = typeof raw.portal === "boolean" ? raw.portal : null;
 
     items.push({
       name,
@@ -113,32 +183,44 @@ export function normalizeCatalogue(
       title,
       category,
       scope,
+      family: scope,
       description,
       contexts,
       contextLabel,
       themes: themesRaw,
       dependencies: uses,
+      interactive,
+      portal,
       rawRegistryUrl: `${sitePath}/r/${name}.json`,
       versionedRegistryUrl: `${sitePath}/versions/${version}/r/${name}.json`,
       installCommand: `npx shadcn@latest add ${registryItem}`,
     });
 
-    // Ensure URL templates stay versioned for consumers (latest only for raw path label).
     void versionedTemplate;
     void latestTemplate;
   }
 
   items.sort((a, b) => a.name.localeCompare(b.name));
 
-  if (items.length !== 24) {
-    throw new Error(`Expected 24 catalogue items after normalization, got ${items.length}`);
+  if (items.length !== expectedCount) {
+    throw new Error(
+      `Expected ${expectedCount} catalogue items after normalization, got ${items.length}`,
+    );
   }
 
   return items;
 }
 
 export const SCOPE_LABELS: Record<PublicCatalogueScope, string> = {
-  "base-themes": "Base / themes",
+  foundations: "Foundations",
+  themes: "Themes",
+  forms: "Forms",
+  overlays: "Overlays",
+  navigation: "Navigation",
+  disclosure: "Disclosure",
+  "data-display": "Data display",
+  feedback: "Feedback",
+  layout: "Layout",
   "core-ui": "Core UI",
   "game-display": "Game / display",
   patterns: "Patterns",

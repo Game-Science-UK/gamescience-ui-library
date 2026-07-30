@@ -147,6 +147,10 @@ function prepareScenario(theme: ThemeName) {
           "@radix-ui/react-slot": "^1.2.3",
           "@radix-ui/react-label": "^2.1.7",
           "@radix-ui/react-progress": "^1.1.7",
+          "@radix-ui/react-dialog": "^1.1.14",
+          "@radix-ui/react-select": "^2.2.5",
+          "@radix-ui/react-checkbox": "^1.3.2",
+          "@radix-ui/react-tabs": "^1.1.12",
         },
         devDependencies: {
           "@types/react": "^19.1.8",
@@ -209,6 +213,11 @@ export default defineConfig({
   installItem("base", dir, installed);
   installItem(`theme-${theme}`, dir, installed);
   installItem("join-flow", dir, installed);
+  installItem("dialog", dir, installed);
+  installItem("select", dir, installed);
+  installItem("card", dir, installed);
+  installItem("checkbox", dir, installed);
+  installItem("tabs", dir, installed);
 
   const bridge = readFileSync(bridgeSource, "utf8");
   writeFileSync(path.join(dir, "src/gamescience-tw4-bridge.css"), bridge);
@@ -233,6 +242,12 @@ import { createRoot } from "react-dom/client";
 import { GameScienceProvider } from "@/providers/gamescience-provider";
 import { ParticipantJoinFlow } from "@/patterns/join/participant-join-flow";
 import { ParticipantShell } from "@/templates/participant-shell/participant-shell";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import "@/styles.css";
 
 createRoot(document.getElementById("root")!).render(
@@ -248,6 +263,15 @@ createRoot(document.getElementById("root")!).render(
           onSubmitCode={() => undefined}
           onSubmitIdentity={() => undefined}
         />
+        <Card className="mt-4">
+          <CardHeader><CardTitle>Primitives</CardTitle></CardHeader>
+          <CardContent className="grid gap-3">
+            <div className="flex items-center gap-2"><Checkbox id="ready" /><label htmlFor="ready">Ready</label></div>
+            <Select><SelectTrigger><SelectValue placeholder="Pick" /></SelectTrigger><SelectContent><SelectItem value="a">A</SelectItem></SelectContent></Select>
+            <Tabs defaultValue="one"><TabsList><TabsTrigger value="one">One</TabsTrigger></TabsList><TabsContent value="one">Tab</TabsContent></Tabs>
+            <Dialog><DialogTrigger asChild><Button>Open</Button></DialogTrigger><DialogContent><DialogTitle>OK</DialogTitle></DialogContent></Dialog>
+          </CardContent>
+        </Card>
         <div aria-hidden="true" className="hidden">
 ${utilityProbe}
         </div>
@@ -280,7 +304,7 @@ function assertMetadata(dir: string) {
   if (!versionTs.includes(`"${GAMESCIENCE_UI_VERSION}"`)) {
     throw new Error("installed version.ts mismatch");
   }
-  for (const stale of ["0.1.0", "0.2.0"]) {
+  for (const stale of ["0.1.0", "0.2.0", "0.2.1"]) {
     if (stale === GAMESCIENCE_UI_VERSION) continue;
     if (guidance.includes(stale) || JSON.stringify(metadata).includes(stale)) {
       throw new Error(`consumer metadata still references stale ${stale}`);

@@ -103,6 +103,9 @@ function buildCatalogue() {
       props: item.catalogue.props ?? [],
       uses: item.registryDependencies ?? [],
       deprecatedAlternatives: item.catalogue.preferOver ?? [],
+      family: item.catalogue.family,
+      interactive: item.catalogue.interactive,
+      portal: item.catalogue.portal,
       version: REGISTRY_VERSION,
     };
   }

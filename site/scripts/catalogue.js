@@ -2,7 +2,15 @@ import { escapeHtml } from "./escape-html.js";
 import { withBase } from "./site-path.js";
 
 const SCOPE_LABELS = {
-  "base-themes": "Base / themes",
+  foundations: "Foundations",
+  themes: "Themes",
+  forms: "Forms",
+  overlays: "Overlays",
+  navigation: "Navigation",
+  disclosure: "Disclosure",
+  "data-display": "Data display",
+  feedback: "Feedback",
+  layout: "Layout",
   "core-ui": "Core UI",
   "game-display": "Game / display",
   patterns: "Patterns",
@@ -15,15 +23,19 @@ async function loadSiteData() {
   return response.json();
 }
 
-function matchesFilters(item, { query, scope, context }) {
-  if (scope && item.scope !== scope) return false;
+function matchesFilters(item, { query, scope, context, portal, interactive }) {
+  if (scope && item.scope !== scope && item.family !== scope) return false;
   if (context) {
     const contexts = item.contexts ?? [];
     const ok = contexts.includes("all") || contexts.includes(context);
     if (!ok) return false;
   }
+  if (portal === "yes" && item.portal !== true) return false;
+  if (portal === "no" && item.portal === true) return false;
+  if (interactive === "yes" && item.interactive === false) return false;
+  if (interactive === "no" && item.interactive === true) return false;
   if (query) {
-    const hay = `${item.title} ${item.name} ${item.description}`.toLowerCase();
+    const hay = `${item.title} ${item.name} ${item.description} ${item.family ?? ""}`.toLowerCase();
     if (!hay.includes(query)) return false;
   }
   return true;
@@ -37,6 +49,17 @@ function renderItem(item) {
   const contexts =
     item.contextLabel ||
     ((item.contexts ?? []).includes("all") ? "All contexts" : (item.contexts ?? []).join(" · "));
+  const family = SCOPE_LABELS[item.family] ?? SCOPE_LABELS[item.scope] ?? item.scope;
+  const flags = [
+    item.portal === true ? "Portal" : null,
+    item.interactive === false
+      ? "Non-interactive"
+      : item.interactive === true
+        ? "Interactive"
+        : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   const article = document.createElement("article");
   article.className = "card catalogue-item";
@@ -55,7 +78,7 @@ function renderItem(item) {
 
   const meta = document.createElement("p");
   meta.className = "muted";
-  meta.textContent = `${SCOPE_LABELS[item.scope] ?? item.scope} · ${contexts}`;
+  meta.textContent = `${family} · ${contexts}${flags ? ` · ${flags}` : ""}`;
 
   const dep = document.createElement("p");
   dep.className = "muted";
@@ -92,34 +115,35 @@ async function main() {
   const queryInput = document.getElementById("filter-query");
   const scopeInput = document.getElementById("filter-scope");
   const contextInput = document.getElementById("filter-context");
+  const portalInput = document.getElementById("filter-portal");
+  const interactiveInput = document.getElementById("filter-interactive");
 
   function refresh() {
     const filters = {
       query: (queryInput?.value ?? "").trim().toLowerCase(),
       scope: scopeInput?.value ?? "",
       context: contextInput?.value ?? "",
+      portal: portalInput?.value ?? "",
+      interactive: interactiveInput?.value ?? "",
     };
-    const visible = items.filter((item) => matchesFilters(item, filters));
-    list.replaceChildren(...visible.map(renderItem));
-    if (count) count.textContent = String(visible.length);
-    if (empty) empty.hidden = visible.length > 0;
+    list.replaceChildren();
+    let shown = 0;
+    for (const item of items) {
+      if (!matchesFilters(item, filters)) continue;
+      list.append(renderItem(item));
+      shown += 1;
+    }
+    if (count) count.textContent = String(shown);
+    if (empty) empty.hidden = shown > 0;
   }
 
-  queryInput?.addEventListener("input", refresh);
-  scopeInput?.addEventListener("change", refresh);
-  contextInput?.addEventListener("change", refresh);
+  for (const el of [queryInput, scopeInput, contextInput, portalInput, interactiveInput]) {
+    el?.addEventListener("input", refresh);
+    el?.addEventListener("change", refresh);
+  }
   refresh();
-
-  // Keep escapeHtml referenced so architecture checks know catalogue uses it for any HTML paths.
-  void escapeHtml;
 }
 
 main().catch((error) => {
   console.error(error);
-  const list = document.getElementById("catalogue-list");
-  if (list) {
-    const p = document.createElement("p");
-    p.textContent = String(error.message || error);
-    list.replaceChildren(p);
-  }
 });

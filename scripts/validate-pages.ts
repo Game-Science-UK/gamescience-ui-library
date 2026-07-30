@@ -8,7 +8,7 @@ import {
   composeUpgradeBrief,
 } from "../site/scripts/compose-markdown-core.js";
 import { GAMESCIENCE_UI_VERSION } from "../src/lib/version.ts";
-import { registryItems } from "./registry-manifest.ts";
+import { registryItems, REGISTRY_VERSION } from "./registry-manifest.ts";
 import {
   PAGES_SITE_PATH,
   PAGES_SITE_URL,
@@ -264,11 +264,13 @@ function validateSitePages() {
       fail(`site-data.json version mismatch: ${String(siteData.version)}`);
     }
     if (
-      siteData.itemCount !== 24 ||
+      siteData.itemCount !== registryItems.length ||
       !Array.isArray(siteData.catalogue) ||
-      siteData.catalogue.length !== 24
+      siteData.catalogue.length !== registryItems.length
     ) {
-      fail("site-data.json must contain exactly 24 normalized catalogue items");
+      fail(
+        `site-data.json must contain exactly ${registryItems.length} normalized catalogue items (REGISTRY_VERSION=${REGISTRY_VERSION})`,
+      );
     }
     for (const item of siteData.catalogue ?? []) {
       for (const field of [
@@ -278,6 +280,7 @@ function validateSitePages() {
         "description",
         "contexts",
         "contextLabel",
+        "family",
         "dependencies",
         "rawRegistryUrl",
         "versionedRegistryUrl",

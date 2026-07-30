@@ -13,7 +13,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const FIXED_DATE = "2026-07-29";
 
 function loadConfig() {
-  return compileMigrationConfig(["0.1.0", "0.2.0", "0.2.1"]);
+  return compileMigrationConfig(["0.1.0", "0.2.0", "0.3.0"]);
 }
 
 const CONTEXT_MARKERS = [
@@ -48,7 +48,7 @@ function assertSharedContextGuidance(md: string, registryUrl: string) {
 describe("compose-markdown-core", () => {
   const config = loadConfig();
   const registryUrl =
-    "https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/r/{name}.json";
+    "https://game-science-uk.github.io/gamescience-ui-library/versions/0.3.0/r/{name}.json";
 
   it("includes contextModel module exactly once in compiled config", () => {
     expect(config.modules.contextModel).toContain("Experience context model");
@@ -59,7 +59,7 @@ describe("compose-markdown-core", () => {
   it("composes citadel participant-only audit lovable-tw4", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
-      version: "0.2.1",
+      version: "0.3.0",
       registryUrl,
       theme: "citadel",
       mode: "audit",
@@ -85,7 +85,7 @@ describe("compose-markdown-core", () => {
   it("composes gamescience participant+facilitator incremental", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
-      version: "0.2.1",
+      version: "0.3.0",
       registryUrl,
       theme: "gamescience",
       mode: "incremental",
@@ -105,7 +105,7 @@ describe("compose-markdown-core", () => {
   it("composes citadel all-three-context full tailwind3", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
-      version: "0.2.1",
+      version: "0.3.0",
       registryUrl,
       theme: "citadel",
       mode: "full",
@@ -125,7 +125,7 @@ describe("compose-markdown-core", () => {
   it("composes unknown-context legacy project guidance", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
-      version: "0.2.1",
+      version: "0.3.0",
       registryUrl,
       theme: "gamescience",
       mode: "audit",
@@ -144,7 +144,7 @@ describe("compose-markdown-core", () => {
   it("composes shared-display incremental unknown stack", () => {
     const md = composeMigrationBrief({
       modules: config.modules,
-      version: "0.2.1",
+      version: "0.3.0",
       registryUrl,
       theme: "gamescience",
       mode: "incremental",
@@ -169,7 +169,7 @@ describe("compose-markdown-core", () => {
       for (const theme of ["gamescience", "citadel"] as const) {
         const md = composeStartBrief({
           modules: config.modules,
-          version: "0.2.1",
+          version: "0.3.0",
           registryUrl,
           theme,
           contexts: [...contexts],
@@ -191,7 +191,7 @@ describe("compose-markdown-core", () => {
       const md = composeUpgradeBrief({
         modules: config.modules,
         fromVersion: "0.2.0",
-        toVersion: "0.2.1",
+        toVersion: "0.3.0",
         registryUrl,
         theme: "citadel",
         comparisonHarness: false,
@@ -203,7 +203,7 @@ describe("compose-markdown-core", () => {
       expect(md).toContain("upgrade brief");
       expect(md).toContain("Context-model compatibility review");
       expect(md).toContain("0.2.0");
-      expect(md).toContain("0.2.1");
+      expect(md).toContain("0.3.0");
       expect(md).toContain("Overwrite policy");
       expect(md).toContain(`existing project mapping (${status})`);
       expect(md).toContain("Avoid restructuring routes merely because a new registry version");
