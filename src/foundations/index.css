@@ -32,6 +32,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.gs-panel {
+  border-width: var(--border-width-panel);
+}
+
 :focus-visible {
   outline: none;
   box-shadow: var(--shadow-focus);

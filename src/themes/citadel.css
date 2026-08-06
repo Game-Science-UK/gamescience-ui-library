@@ -103,6 +103,9 @@
 
   --shadow-card: 0 0 0 1px hsl(195 100% 48% / 0.18), 0 12px 32px rgb(0 0 0 / 0.34);
 
+  --shadow-panel-depth: 0 12px 32px rgb(0 0 0 / 0.34);
+  --shadow-panel-overlay-depth: 0 24px 64px rgb(0 0 0 / 0.55);
+
   --shadow-overlay: 0 0 0 1px hsl(195 100% 48% / 0.3), 0 24px 64px rgb(0 0 0 / 0.55);
 
   --shadow-focus: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--focus-ring) / 0.75);
@@ -233,10 +236,6 @@
       var(--scope-corner-size) var(--scope-corner-width) no-repeat,
     linear-gradient(var(--scope-corner-color), var(--scope-corner-color)) bottom right /
       var(--scope-corner-width) var(--scope-corner-size) no-repeat;
-}
-
-[data-theme="citadel"] .gs-panel[data-emphasis="strong"] {
-  --scope-corner-color: hsl(var(--accent));
 }
 
 [data-theme="citadel"]
@@ -456,12 +455,17 @@
 [data-theme="citadel"] .gs-panel[data-elevation="raised"] {
   background: hsl(var(--surface-raised) / 0.9);
   box-shadow:
-    var(--shadow-card),
+    var(--shadow-panel-depth),
     inset 0 1px 0 hsl(var(--foreground) / 0.04);
 }
 
+[data-theme="citadel"] .gs-panel[data-elevation="overlay"] {
+  box-shadow: var(--shadow-panel-overlay-depth);
+}
+
 [data-theme="citadel"] .gs-panel[data-emphasis="strong"] {
-  box-shadow: var(--shadow-card), var(--glow-cobalt);
+  border-color: hsl(var(--border-strong) / var(--panel-border-alpha));
+  box-shadow: var(--shadow-panel-depth), var(--glow-cobalt);
 }
 
 [data-theme="citadel"] .gs-panel > .gs-panel-content {
