@@ -81,6 +81,13 @@ Bug-fix packaging patch. No new UI APIs.
 9. Confirm `src/lib/version.ts` and guidance report `0.3.0`.
 10. See [primitive-layer.md](./primitive-layer.md).
 
+## 0.5.0 → 0.5.1 (Citadel Panel chrome)
+
+See the dedicated note: [migrations/0.5.0-to-0.5.1.md](./migrations/0.5.0-to-0.5.1.md).
+
+Patch: Citadel Panel strong-emphasis corners, 1px borders, and border colour
+alignment. Reinstall `base` + `theme-citadel` when on Citadel.
+
 ## 0.4.1 → 0.5.0 (Game domain components)
 
 See the dedicated note: [migrations/0.4.1-to-0.5.0.md](./migrations/0.4.1-to-0.5.0.md).
