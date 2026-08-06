@@ -81,6 +81,15 @@ Bug-fix packaging patch. No new UI APIs.
 9. Confirm `src/lib/version.ts` and guidance report `0.3.0`.
 10. See [primitive-layer.md](./primitive-layer.md).
 
+## 0.4.0 → 0.4.1 (Button asChild + migration governance)
+
+See the dedicated note: [migrations/0.4.0-to-0.4.1.md](./migrations/0.4.0-to-0.4.1.md).
+
+Summary: Button `asChild` + `loading` no longer crashes; migration briefs require
+canonical project state, coverage language A–D, mixed-context and visual-loss
+reporting. `SharedDisplayLobby` API unchanged. Pin `versions/0.4.1` and reinstall
+`button` (and `base` for guidance/version metadata).
+
 ## 0.3.0 → 0.4.0 (Citadel theme + Storybook coverage)
 
 0.4.0 refines Citadel theme identity against the live HUD audit and expands

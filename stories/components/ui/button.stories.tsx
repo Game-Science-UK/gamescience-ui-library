@@ -104,3 +104,23 @@ export const Emphasis: Story = {
     </ButtonGroup>
   ),
 };
+
+/** asChild + loading must keep a single Slot child (spinner is inside the link). */
+export const AsChildLoadingLink: Story = {
+  name: "As child / Loading link",
+  render: () => (
+    <StoryFrame>
+      <ButtonGroup orientation="vertical" className="w-full max-w-sm p-6">
+        <Button asChild>
+          <a href="#join">Join session</a>
+        </Button>
+        <Button asChild loading>
+          <a href="#join">Joining…</a>
+        </Button>
+        <Button asChild disabled>
+          <a href="#join">Unavailable</a>
+        </Button>
+      </ButtonGroup>
+    </StoryFrame>
+  ),
+};

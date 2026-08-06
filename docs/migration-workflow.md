@@ -33,12 +33,20 @@ Generated briefs include **exactly one** Tailwind branch (`tailwind3`,
 
 ## Output requirements
 
-Generated briefs include architecture rules, the experience context model, file
-ownership, audit tables (component + context), overwrite policy,
-theme/stack/context guidance, validation, cleanup, a migration record at
-`src/docs/gamescience-ui-migration.md`, and a project context record at
-`src/docs/gamescience-ui-contexts.md`.
+Generated briefs include architecture rules, the experience context model,
+mixed-context route detection, file ownership, audit tables (component +
+context + mixed-context branches), coverage reporting (concepts A–D), project
+state record guidance, slice reconciliation, visual-loss review, overwrite
+policy, theme/stack/context guidance, validation, cleanup, a migration record at
+`src/docs/gamescience-ui-migration.md`, a project context record at
+`src/docs/gamescience-ui-contexts.md`, and a machine-readable state file at
+`src/docs/gamescience-ui-state.json`.
 
 Migrate audits finish with a **Context architecture recommendation** and a
 **Registry coverage backlog** (primitive gap / reusable component / pattern /
 template / application-specific / insufficient evidence).
+
+See also: [coverage-reporting.md](./coverage-reporting.md),
+[project-state-record.md](./project-state-record.md),
+[pattern-composition.md](./pattern-composition.md),
+[context-model.md](./context-model.md).

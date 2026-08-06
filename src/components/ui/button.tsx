@@ -47,6 +47,59 @@ export interface ButtonProps
   loading?: boolean;
 }
 
+const loadingIndicator = (
+  <Loader2 className="relative z-[2] size-4 animate-spin" aria-hidden="true" data-slot="loading" />
+);
+
+function requireSingleElement(
+  children: React.ReactNode,
+  componentName: string,
+): React.ReactElement {
+  const list = React.Children.toArray(children).filter((child) => {
+    if (child === null || child === undefined || typeof child === "boolean") return false;
+    return true;
+  });
+
+  if (list.length !== 1 || !React.isValidElement(list[0])) {
+    throw new Error(
+      `${componentName}: asChild requires exactly one valid React element child. ` +
+        `Received ${list.length} child(ren). Wrap the interactive element (for example \`<a>\` or \`<Link>\`) as the only child.`,
+    );
+  }
+
+  return list[0];
+}
+
+function composeEventHandlers<E extends React.SyntheticEvent>(
+  theirs?: ((event: E) => void) | undefined,
+  ours?: ((event: E) => void) | undefined,
+) {
+  return (event: E) => {
+    ours?.(event);
+    if (!event.defaultPrevented) {
+      theirs?.(event);
+    }
+  };
+}
+
+function preventActivationWhenInactive(isInactive: boolean) {
+  return (event: React.SyntheticEvent) => {
+    if (!isInactive) return;
+    event.preventDefault();
+    event.stopPropagation();
+  };
+}
+
+function preventKeyboardActivationWhenInactive(isInactive: boolean) {
+  return (event: React.KeyboardEvent) => {
+    if (!isInactive) return;
+    if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+}
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -58,28 +111,78 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading = false,
       disabled,
       children,
+      onClick,
+      onKeyDown,
       ...props
     },
     ref,
   ) => {
-    const Comp = asChild ? Slot : "button";
-    const isDisabled = disabled || loading;
+    const isInactive = Boolean(disabled || loading);
+    const classes = cn(buttonVariants({ intent, size, emphasis }), className);
+
+    if (asChild) {
+      const child = requireSingleElement(children, "Button") as React.ReactElement<{
+        children?: React.ReactNode;
+        onClick?: React.MouseEventHandler;
+        onKeyDown?: React.KeyboardEventHandler;
+        className?: string;
+      }>;
+      const childProps = child.props;
+
+      // Slot must receive exactly one element. Inject the spinner into that
+      // element's children — never as a sibling of the Slot child.
+      // Guard activation on the child itself so it runs before the child's
+      // original handlers (Radix Slot composes child handlers first).
+      const slotted = React.cloneElement(child, {
+        children: (
+          <>
+            {loading ? loadingIndicator : null}
+            {childProps.children}
+          </>
+        ),
+        onClick: composeEventHandlers(
+          childProps.onClick,
+          preventActivationWhenInactive(isInactive),
+        ),
+        onKeyDown: composeEventHandlers(
+          childProps.onKeyDown,
+          preventKeyboardActivationWhenInactive(isInactive),
+        ),
+      });
+
+      return (
+        <Slot
+          className={cn(classes, isInactive && "pointer-events-none opacity-50")}
+          ref={ref as React.Ref<HTMLElement>}
+          aria-busy={loading || undefined}
+          aria-disabled={isInactive || undefined}
+          data-disabled={isInactive ? "" : undefined}
+          data-emphasis={emphasis ?? "default"}
+          data-size={size ?? "md"}
+          onClick={onClick}
+          onKeyDown={onKeyDown}
+          {...props}
+        >
+          {slotted}
+        </Slot>
+      );
+    }
 
     return (
-      <Comp
-        className={cn(buttonVariants({ intent, size, emphasis }), className)}
+      <button
+        className={classes}
         ref={ref}
-        disabled={isDisabled}
+        disabled={isInactive}
         aria-busy={loading || undefined}
         data-emphasis={emphasis ?? "default"}
         data-size={size ?? "md"}
+        onClick={onClick}
+        onKeyDown={onKeyDown}
         {...props}
       >
-        {loading ? (
-          <Loader2 className="relative z-[2] size-4 animate-spin" aria-hidden="true" />
-        ) : null}
+        {loading ? loadingIndicator : null}
         {children}
-      </Comp>
+      </button>
     );
   },
 );

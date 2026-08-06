@@ -109,19 +109,36 @@ Locate:
 
 Check for records such as:
 
+- `src/docs/gamescience-ui-state.json` (canonical machine-readable inventory when present)
 - `src/docs/gamescience-ui-migration.md`
 - `src/docs/gamescience-ui-contexts.md`
 - `src/docs/gamescience-ui-update-history.md`
 
-Determine:
+When `gamescience-ui-state.json` is present, use it to determine:
 
-- current pinned registry version
-- active theme
-- contexts in use
+- current registry version
 - installed registry items
+- active theme
+- contexts
+- known local forks
+- retained deviations
+- known upstream issues
+- migrated surfaces
+
+If the JSON record and `components.json` disagree:
+
+- report the disagreement
+- prefer machine-readable package/registry configuration for the current pin
+- do not overwrite uncertain files
+- reconcile the state record after review
+
+Do not require the state file to exist. Fall back to existing inspection when
+absent.
+
+Also determine:
+
 - locally modified registry-managed files
 - application-owned components
-- documented deviations
 - Tailwind version
 - React version
 - current build and validation commands

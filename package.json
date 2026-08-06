@@ -1,6 +1,6 @@
 {
   "name": "@gamescience/ui-library",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "type": "module",
   "description": "GameScience.ai React design library and shadcn registry for multiplayer learning games",
@@ -31,6 +31,7 @@
     "smoke:pages": "tsx scripts/smoke-pages-install.ts",
     "smoke:tailwind4": "tsx scripts/smoke-tailwind4-install.ts",
     "smoke:primitives": "tsx scripts/smoke-primitives-install.ts",
+    "smoke:button-as-child": "tsx scripts/smoke-button-as-child.ts",
     "pages:build:versioned": "npm run registry:build && PAGES_STAGE=versioned tsx scripts/build-pages.ts",
     "pages:build:latest": "PAGES_STAGE=latest tsx scripts/build-pages.ts",
     "pages:validate:versioned": "PAGES_VALIDATE_MODE=versioned tsx scripts/validate-pages.ts",

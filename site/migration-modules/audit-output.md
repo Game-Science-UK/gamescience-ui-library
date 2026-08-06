@@ -56,6 +56,18 @@ contexts may be absent legitimately. Do not force all three contexts.
 
 Use `unclassified` when evidence is insufficient.
 
+### Required mixed-context branch table
+
+When a route renders different shells or patterns by role or loaded session
+state, complete one row per branch (see Mixed-context routes).
+
+| Route | Branch condition | Branch context | Root provider context | Match | Recommendation |
+| ----- | ---------------- | -------------- | --------------------- | ----- | -------------- |
+|       |                  |                |                       |       |                |
+
+Do not report shell adoption as architecturally complete until provider context
+matches every migrated branch.
+
 ### Stack support classification
 
 Do **not** infer registry stack support solely from the names of published

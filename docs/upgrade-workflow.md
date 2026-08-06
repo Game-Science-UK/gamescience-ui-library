@@ -16,7 +16,8 @@ GameScience registry consumer between immutable versions.
 - Optionally declare whether the project has an explicit context model:
   `yes` | `partial` | `no` | `unknown`
 
-Typical examples: `0.2.0` → `0.2.1`, `0.2.1` → `0.3.0`, `0.3.0` → `0.4.0`.
+Typical examples: `0.2.0` → `0.2.1`, `0.2.1` → `0.3.0`, `0.3.0` → `0.4.0`,
+`0.4.0` → `0.4.1`.
 
 For 0.3.0+, install new primitives only as needed; do not replace all local
 shadcn inventory automatically. See [migration-notes.md](./migration-notes.md)

@@ -99,9 +99,20 @@ function ApplicationRoot() {
 - Context can change with navigation.
 - Provider state should remain at the highest practical application boundary.
 - Routing determines context; context does not authorise routing.
+- Do not infer facilitator context merely because the signed-in identity is a
+  facilitator or host.
 
 Do not recommend nested providers for ordinary route groups. Helper names such
 as `resolveExperienceContext` are examples, not required APIs.
+
+### Mixed-context routes
+
+When one route renders different shells or patterns by role or loaded session
+state (for example host vs participant lobby), audit each branch against the
+root provider context. Prefer separate routes when jobs, privacy or interaction
+models differ. Do not report shell adoption as complete until every branch’s
+provider context is verified. See the Migrate brief module **Mixed-context
+routes** and [coverage-reporting.md](./coverage-reporting.md).
 
 ### 5. Not every application requires all three contexts
 

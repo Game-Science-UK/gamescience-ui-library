@@ -5,17 +5,24 @@ Report:
 1. Project stack detected
 2. Theme and contexts selected (targets, not roles)
 3. Registry version installed (**{{VERSION}}**)
-4. Registry items installed
+4. Registry items installed (must match `gamescience-ui-state.json`)
 5. Existing components mapped
 6. Files overwritten
 7. Application-owned files preserved
 8. Local forks removed
-9. Game-specific visuals retained
+9. Game-specific visuals retained **and** any application-owned visuals removed
 10. API gaps / upstream defects discovered
 11. Validation results
 12. Migration record location (`src/docs/gamescience-ui-migration.md`)
 13. Context record location (`src/docs/gamescience-ui-contexts.md`)
-14. Remaining work and recommended next slice
+14. Project state record (`src/docs/gamescience-ui-state.json`)
+15. Coverage summary using concepts A–D (migrated surfaces / within-surface
+    registry coverage / whole-application coverage / remaining local inventory)
+16. Mixed-context route findings
+17. Remaining work and recommended next slice
+
+Never claim whole-application primitive replacement from evidence limited to a
+few migrated surfaces.
 
 ### Context architecture recommendation
 

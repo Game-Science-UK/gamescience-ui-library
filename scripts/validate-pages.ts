@@ -199,7 +199,7 @@ function validateRelativeDocLinks(fileName: string, content: string) {
     }
 
     const relative = pathname.slice(docsUrlPrefix.length);
-    if (!relative || relative.includes("/") || relative.includes("..")) {
+    if (!relative || relative.includes("..") || path.isAbsolute(relative)) {
       fail(`${label}: relative link ${href} targets unexpected path ${pathname}`);
       continue;
     }

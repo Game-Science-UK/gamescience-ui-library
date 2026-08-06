@@ -6,7 +6,8 @@
 
 Behaviour:
 
-1. Audit all relevant surfaces (component table + context audit table)
+1. Audit all relevant surfaces (component table + context audit table +
+   mixed-context branch table)
 2. Establish a rollback point
 3. Choose **one** context-appropriate vertical slice
 4. Install foundations (`@gamescience/base`) and selected theme only
@@ -14,8 +15,11 @@ Behaviour:
 6. Resolve active context from route or project configuration
 7. Migrate one shell and one pattern composition for that slice
 8. Validate privacy and interaction contract for the migrated context
-9. Stop before restructuring every route
-10. Produce a next-step recommendation
+9. Reconcile `gamescience-ui-state.json` with the Markdown migration record
+10. Record visual-loss decisions when a complete pattern replaces local chrome
+11. Stop before restructuring every route
+12. Produce a next-step recommendation using coverage concepts A–D
 
 Do not interpret this mode as permission for a destructive rewrite or default
-route renaming.
+route renaming. Do not claim whole-application registry coverage from a single
+slice.

@@ -32,6 +32,18 @@ const CONTEXT_MARKERS = [
   "implement all three by default",
 ] as const;
 
+const GOVERNANCE_MARKERS = [
+  "Coverage reporting",
+  "Migrated-surface coverage",
+  "Whole-application registry coverage",
+  "gamescience-ui-state.json",
+  "Slice reconciliation",
+  "Mixed-context routes",
+  "Visual-loss review",
+  "Required mixed-context branch table",
+  "Primitives: 100% registry-owned",
+] as const;
+
 function assertSharedContextGuidance(md: string, registryUrl: string) {
   for (const marker of CONTEXT_MARKERS) {
     expect(md).toContain(marker);
@@ -43,6 +55,14 @@ function assertSharedContextGuidance(md: string, registryUrl: string) {
     /facilitator context (grants|equals|means) facilitator (authority|permission)/i,
   );
   expect(md).not.toMatch(/\/gamescience-ui-library\/r\/\{name\}\.json\n/);
+}
+
+function assertMigrationGovernance(md: string) {
+  for (const marker of GOVERNANCE_MARKERS) {
+    expect(md).toContain(marker);
+  }
+  // Forbidden coverage claim must appear only as a negative example in guidance.
+  expect(md).toMatch(/Do \*\*not\*\* write:[\s\S]*Primitives: 100% registry-owned/);
 }
 
 describe("compose-markdown-core", () => {
@@ -69,6 +89,7 @@ describe("compose-markdown-core", () => {
       generatedAt: FIXED_DATE,
     });
     assertSharedContextGuidance(md, registryUrl);
+    assertMigrationGovernance(md);
     expect(md).toContain("MODE: AUDIT ONLY — DO NOT MODIFY FILES");
     expect(md).toContain("citadel");
     expect(md).toContain("Pacific primary");
@@ -100,6 +121,7 @@ describe("compose-markdown-core", () => {
       generatedAt: FIXED_DATE,
     });
     assertSharedContextGuidance(md, registryUrl);
+    assertMigrationGovernance(md);
     expect(md).toContain("MODE: SAFE INCREMENTAL MIGRATION");
     expect(md).toContain("multiple contexts");
     expect(md).toContain("context-appropriate vertical slice");
@@ -124,6 +146,7 @@ describe("compose-markdown-core", () => {
       generatedAt: FIXED_DATE,
     });
     assertSharedContextGuidance(md, registryUrl);
+    assertMigrationGovernance(md);
     expect(md).toContain("MODE: FULL VISUAL ALIGNMENT");
     expect(md).toContain("Migrate context by context");
     expect(md).toContain("inventing a fourth context");
@@ -163,6 +186,7 @@ describe("compose-markdown-core", () => {
       generatedAt: FIXED_DATE,
     });
     assertSharedContextGuidance(md, registryUrl);
+    assertMigrationGovernance(md);
     expect(md).toContain("Detect from project");
     expect(md).toContain("Uncertain — payload inspection required");
     expect(md).toContain("unclassified");
@@ -183,6 +207,7 @@ describe("compose-markdown-core", () => {
       generatedAt: FIXED_DATE,
     });
     assertSharedContextGuidance(md, registryUrl);
+    assertMigrationGovernance(md);
     expect(md).toContain("shared-display lobby");
     expect(md).toContain("no participant-private information");
     expect(md).toContain("| Tailwind integration | detect |");

@@ -26,6 +26,10 @@ export const PUBLIC_PAGES_DOCS = [
   "start-project-workflow.md",
   "upgrade-workflow.md",
   "public-pages-policy.md",
+  "project-state-record.md",
+  "coverage-reporting.md",
+  "pattern-composition.md",
+  "migrations/0.4.0-to-0.4.1.md",
 ] as const;
 
 export type PublicPagesDoc = (typeof PUBLIC_PAGES_DOCS)[number];
@@ -49,6 +53,10 @@ export const PUBLIC_PAGES_DOC_MARKERS: Record<PublicPagesDoc, string> = {
   "start-project-workflow.md": "Start project workflow",
   "upgrade-workflow.md": "Upgrade workflow",
   "public-pages-policy.md": "Public Pages policy",
+  "project-state-record.md": "Project state record",
+  "coverage-reporting.md": "Coverage reporting",
+  "pattern-composition.md": "Pattern composition",
+  "migrations/0.4.0-to-0.4.1.md": "0.4.0 → 0.4.1",
 };
 
 /** Companion CSS published beside the Tailwind 4 integration guide. */
@@ -82,5 +90,20 @@ export function buildVersionJson(options?: { version?: string; siteUrl?: string 
     catalogueUrl: versionedCatalogueUrl(version, siteUrl),
     latestCatalogueUrl: latestCatalogueUrl(siteUrl),
     siteUrl,
+  };
+}
+
+/** Machine-readable release metadata published beside the versioned registry. */
+export function buildReleaseManifest(options?: { version?: string; siteUrl?: string }) {
+  const version = options?.version ?? PAGES_VERSION;
+  const siteUrl = options?.siteUrl ?? PAGES_SITE_URL;
+  return {
+    version,
+    previousVersion: "0.4.0",
+    releaseType: "patch" as const,
+    changedItems: ["button", "base"],
+    addedItems: [] as string[],
+    removedItems: [] as string[],
+    migrationNotes: `${siteUrl}/docs/migrations/0.4.0-to-0.4.1.md`,
   };
 }

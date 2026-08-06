@@ -47,6 +47,10 @@ Prefer one root provider:
 - Active context may change with routing.
 - Do not nest theme or context providers for ordinary route groups.
 - Routing determines context; context does not authorise routing.
+- Do not infer facilitator context merely because the signed-in identity is a
+  facilitator or host.
+- When a route has host/participant branches, audit each branch against the root
+  provider context (see Mixed-context routes).
 
 ### Shared-display privacy contract
 

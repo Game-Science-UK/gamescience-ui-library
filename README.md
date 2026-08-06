@@ -94,7 +94,7 @@ Prefer the **versioned** consumer config:
 ```json
 {
   "registries": {
-    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.4.0/r/{name}.json"
+    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.4.1/r/{name}.json"
   }
 }
 ```
@@ -131,7 +131,7 @@ npm run pages:serve
 
 ## Versioning
 
-Current version: **0.4.0** (`GAMESCIENCE_UI_VERSION`). Includes the complete standard primitive layer plus Citadel HUD theme refinements.
+Current version: **0.4.1** (`GAMESCIENCE_UI_VERSION`). Includes the complete standard primitive layer plus Citadel HUD theme refinements.
 
 Installed registry components are project-local source. Updates do not automatically propagate across Lovable projects. Record the installed version in each consuming app. Prefer tagged/versioned registry URLs over unversioned `main` in production.
 

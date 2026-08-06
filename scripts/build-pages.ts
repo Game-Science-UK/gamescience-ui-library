@@ -16,6 +16,7 @@ import {
   PAGES_VERSION,
   PUBLIC_PAGES_BRIDGE_CSS,
   PUBLIC_PAGES_DOCS,
+  buildReleaseManifest,
   buildVersionJson,
   latestRegistryTemplate,
   versionedRegistryTemplate,
@@ -87,7 +88,9 @@ function writePublicDocs(writeDocsIndex: (docsOut: string, extraDocs: string[]) 
         "](./tailwind-v4-bridge.css)",
       );
     }
-    writeFileSync(path.join(docsOut, name), content);
+    const outPath = path.join(docsOut, name);
+    mkdirSync(path.dirname(outPath), { recursive: true });
+    writeFileSync(outPath, content);
   }
 
   const bridgeSource = path.join(root, "consumer/tailwind-v4-bridge.css");
@@ -180,6 +183,10 @@ function writeVersionedCandidate() {
   mkdirSync(versionRoot, { recursive: true });
   copyRegistryTree(versionRoot);
   writeFileSync(path.join(versionRoot, "version.json"), JSON.stringify(versionJson, null, 2));
+  writeFileSync(
+    path.join(versionRoot, "release-manifest.json"),
+    JSON.stringify(buildReleaseManifest(), null, 2),
+  );
 
   mkdirSync(releasesDir, { recursive: true });
   const lockPath = path.join(releasesDir, `${PAGES_VERSION}.lock.json`);

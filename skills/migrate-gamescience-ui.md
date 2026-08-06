@@ -407,11 +407,25 @@ Do **not** delete files solely because they are not from the registry.
 
 ## 11. Record
 
+Before completing a slice, reconcile the canonical inventories. Do not append
+only a narrative slice note.
+
+Create or update `src/docs/gamescience-ui-state.json` with:
+
+- `registryVersion` / `registryUrl` / theme / stack / contexts
+- `installedItems` (must be current; remove obsolete entries)
+- `migratedSurfaces` (path, route, context, registry items, app-owned)
+- `localForks`, `retainedDeviations`, `knownIssues`
+
 Create or update `src/docs/gamescience-ui-migration.md` with:
 
 - Registry version / URL / theme / contexts / mode / date
 - Tailwind integration branch
-- Migrated registry items
+- Migrated registry items (**same list as the JSON record**)
+- Coverage summary using concepts A–D (never claim whole-app “100% primitives”
+  from a few migrated surfaces)
+- Mixed-context branch findings
+- Visual-loss decisions when patterns replaced local chrome
 - Replaced local components
 - Retained application components and game-specific visuals
 - Local deviations and upstream issues

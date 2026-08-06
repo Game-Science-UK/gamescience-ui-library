@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": "0.4.1",
+  "registryUrl": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.4.1/r/{name}.json",
+  "theme": "citadel",
+  "stack": {
+    "tailwind": "3",
+    "react": "18",
+    "router": "react-router-dom"
+  },
+  "contexts": ["participant", "facilitator", "shared-display"],
+  "installedItems": [
+    "base",
+    "theme-citadel",
+    "panel",
+    "sonner",
+    "button",
+    "badge",
+    "alert",
+    "progress",
+    "spinner",
+    "game-code-input",
+    "connection-status",
+    "participant-identity",
+    "participant-status",
+    "waiting-state",
+    "room-code-display",
+    "display-heading",
+    "participant-count-display",
+    "participant-shell",
+    "facilitator-shell",
+    "shared-display-shell",
+    "join-flow",
+    "lobby",
+    "shared-display-lobby"
+  ],
+  "migratedSurfaces": [
+    {
+      "id": "participant-join",
+      "path": "src/pages/JoinGame.tsx",
+      "route": "/join",
+      "context": "participant",
+      "status": "migrated",
+      "registryItems": ["participant-shell", "join-flow"],
+      "applicationOwned": ["session lookup", "join networking", "analytics", "BackgroundPlayer"]
+    },
+    {
+      "id": "facilitator-host-lobby",
+      "path": "src/pages/Lobby.tsx",
+      "route": "/lobby/:sessionId",
+      "context": "facilitator",
+      "status": "migrated",
+      "registryItems": ["facilitator-shell", "lobby"],
+      "applicationOwned": ["start-game mutation", "heartbeat"],
+      "notes": "Host branch only; participant branch remains local — mixed-context route"
+    },
+    {
+      "id": "shared-display-waiting-room",
+      "path": "src/components/display/DisplayWaitingRoom.tsx",
+      "route": "/display/:sessionId",
+      "context": "shared-display",
+      "status": "migrated",
+      "registryItems": ["shared-display-shell", "shared-display-lobby"],
+      "applicationOwned": ["QR join panel", "BackgroundDisplay"]
+    }
+  ],
+  "localForks": [
+    {
+      "path": "src/components/ui/ConnectionStatus.tsx",
+      "status": "pending-review",
+      "registryTarget": "connection-status"
+    }
+  ],
+  "retainedDeviations": [
+    {
+      "id": "substrate-radar-waiting-room",
+      "classification": "intentionally-removed-visual",
+      "detail": "SubstrateRadar dropped from waiting room when adopting SharedDisplayLobby; restore as shell sibling if product requires it"
+    }
+  ],
+  "knownIssues": [
+    {
+      "id": "button-as-child-loading",
+      "source": "registry",
+      "status": "resolved-in-0.4.1"
+    }
+  ]
+}
