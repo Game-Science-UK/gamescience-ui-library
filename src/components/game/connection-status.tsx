@@ -2,7 +2,6 @@ import { Loader2, RefreshCw, Wifi, WifiOff } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
-import type { ConnectionState } from "@/types/game";
 
 type ConnectionStatusProps =
   | {
@@ -23,7 +22,7 @@ type ConnectionStatusProps =
       className?: string;
     };
 
-const defaultLabels: Record<ConnectionState, string> = {
+const defaultLabels: Record<"connected" | "reconnecting" | "offline", string> = {
   connected: "Connected",
   reconnecting: "Reconnecting",
   offline: "Disconnected",

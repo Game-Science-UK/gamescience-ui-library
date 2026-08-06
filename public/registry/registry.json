@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "gamescience",
   "homepage": "https://gamescience.ai",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "items": [
     {
       "name": "base",
@@ -65,6 +65,11 @@
           "path": "src/lib/accessibility.ts",
           "type": "registry:lib",
           "target": "src/lib/accessibility.ts"
+        },
+        {
+          "path": "src/lib/connection.ts",
+          "type": "registry:lib",
+          "target": "src/lib/connection.ts"
         },
         {
           "path": "src/lib/version.ts",
@@ -369,6 +374,166 @@
           "path": "src/components/game/waiting-state.tsx",
           "type": "registry:component",
           "target": "src/components/game/waiting-state.tsx"
+        }
+      ]
+    },
+    {
+      "name": "countdown",
+      "type": "registry:component",
+      "title": "Countdown",
+      "description": "Semantic elapsed or remaining time display. Does not calculate time — pass a formatted value.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/countdown.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/countdown.tsx"
+        }
+      ]
+    },
+    {
+      "name": "phase-progress",
+      "type": "registry:component",
+      "title": "Phase Progress",
+      "description": "Discrete phase or step progression without owning the game phase model.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/badge"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/phase-progress.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/phase-progress.tsx"
+        }
+      ]
+    },
+    {
+      "name": "connection-banner",
+      "type": "registry:component",
+      "title": "Connection Banner",
+      "description": "Significant connection interruption banner. Complements compact ConnectionStatus and blocking WaitingState.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/connection-banner.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/connection-banner.tsx"
+        }
+      ]
+    },
+    {
+      "name": "phase-header",
+      "type": "registry:component",
+      "title": "Phase Header",
+      "description": "Compact participant/game surface header with eyebrow, phase pill, and trailing status slots.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/phase-header.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/phase-header.tsx"
+        }
+      ]
+    },
+    {
+      "name": "phase-directive",
+      "type": "registry:component",
+      "title": "Phase Directive",
+      "description": "Current-task instruction or phase guidance with plain, strip, or panel treatments.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/panel"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/phase-directive.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/phase-directive.tsx"
+        }
+      ]
+    },
+    {
+      "name": "role-panel",
+      "type": "registry:component",
+      "title": "Role Panel",
+      "description": "Participant role summary with optional priorities disclosure, identity slot, and private objective.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/panel",
+        "@gamescience/separator"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/role-panel.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/role-panel.tsx"
+        }
+      ]
+    },
+    {
+      "name": "vote-status",
+      "type": "registry:component",
+      "title": "Vote Status",
+      "description": "Aggregate voting progress without owning vote logic. Auto mode uses pips for small rooms.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/progress"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/vote-status.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/vote-status.tsx"
+        }
+      ]
+    },
+    {
+      "name": "outcome-summary",
+      "type": "registry:component",
+      "title": "Outcome Summary",
+      "description": "High-level outcome, description, optional metrics and actions. Does not own outcome taxonomy.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/panel",
+        "@gamescience/badge"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/outcome-summary.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/outcome-summary.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sticky-action-bar",
+      "type": "registry:component",
+      "title": "Sticky Action Bar",
+      "description": "Mobile participant action region anchored to the bottom of the active surface.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/sticky-action-bar.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/sticky-action-bar.tsx"
         }
       ]
     },
@@ -1156,7 +1321,7 @@
       "name": "separator",
       "type": "registry:ui",
       "title": "Separator",
-      "description": "Visual content separator.",
+      "description": "Visual content separator with optional hairline treatment.",
       "registryDependencies": [
         "@gamescience/base"
       ],

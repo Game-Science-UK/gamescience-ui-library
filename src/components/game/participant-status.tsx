@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/cn";
 import type { ConnectionState, ReadinessState } from "@/types/game";
+import { toCompactConnectionState } from "@/lib/connection";
 import { ConnectionStatus } from "./connection-status";
 
 export interface ParticipantStatusProps {
@@ -32,6 +33,8 @@ function ParticipantStatus({
   className,
   compact = false,
 }: ParticipantStatusProps) {
+  const compactConnection = toCompactConnectionState(connection);
+
   return (
     <div
       className={cn(
@@ -45,9 +48,7 @@ function ParticipantStatus({
       <div className="min-w-0">
         <p className="truncate font-label text-foreground">{displayName}</p>
         <div className="mt-1">
-          {connection === "connected" ? <ConnectionStatus state="connected" /> : null}
-          {connection === "reconnecting" ? <ConnectionStatus state="reconnecting" /> : null}
-          {connection === "offline" ? <ConnectionStatus state="offline" /> : null}
+          <ConnectionStatus state={compactConnection} />
         </div>
       </div>
       <Badge intent={readinessIntent[readiness]}>{readinessLabel[readiness]}</Badge>

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sticky-action-bar",
+  "type": "registry:component",
+  "title": "Sticky Action Bar",
+  "description": "Mobile participant action region anchored to the bottom of the active surface.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/sticky-action-bar.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/sticky-action-bar.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface StickyActionBarProps extends React.HTMLAttributes<HTMLDivElement> {\n  status?: React.ReactNode;\n  children: React.ReactNode;\n  intent?: \"neutral\" | \"information\" | \"warning\" | \"critical\";\n  sticky?: boolean;\n}\n\nconst intentBorder: Record<NonNullable<StickyActionBarProps[\"intent\"]>, string> = {\n  neutral: \"border-border\",\n  information: \"border-information/40\",\n  warning: \"border-warning/40\",\n  critical: \"border-danger/40\",\n};\n\nfunction StickyActionBar({\n  status,\n  children,\n  intent = \"neutral\",\n  sticky = true,\n  className,\n  ...props\n}: StickyActionBarProps) {\n  return (\n    <div\n      data-intent={intent}\n      data-sticky={sticky ? \"true\" : \"false\"}\n      className={cn(\n        \"gs-sticky-action-bar w-full max-w-content border-t bg-background/95\",\n        intentBorder[intent],\n        sticky && \"sticky bottom-0 z-30\",\n        className,\n      )}\n      {...props}\n    >\n      <div className=\"px-4 pb-[var(--action-bar-safe-bottom,1rem)] pt-[var(--action-bar-pad-top,1rem)]\">\n        {status ? <div className=\"mb-3\">{status}</div> : null}\n        <div className=\"flex flex-col gap-2\">{children}</div>\n      </div>\n    </div>\n  );\n}\n\nStickyActionBar.displayName = \"StickyActionBar\";\n\nexport { StickyActionBar };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.5.0",
+    "namespace": "@gamescience"
+  }
+}

@@ -29,7 +29,9 @@ export const PUBLIC_PAGES_DOCS = [
   "project-state-record.md",
   "coverage-reporting.md",
   "pattern-composition.md",
+  "game-domain-components.md",
   "migrations/0.4.0-to-0.4.1.md",
+  "migrations/0.4.1-to-0.5.0.md",
 ] as const;
 
 export type PublicPagesDoc = (typeof PUBLIC_PAGES_DOCS)[number];
@@ -56,7 +58,9 @@ export const PUBLIC_PAGES_DOC_MARKERS: Record<PublicPagesDoc, string> = {
   "project-state-record.md": "Project state record",
   "coverage-reporting.md": "Coverage reporting",
   "pattern-composition.md": "Pattern composition",
+  "game-domain-components.md": "Game domain components",
   "migrations/0.4.0-to-0.4.1.md": "0.4.0 → 0.4.1",
+  "migrations/0.4.1-to-0.5.0.md": "0.4.1 → 0.5.0",
 };
 
 /** Companion CSS published beside the Tailwind 4 integration guide. */
@@ -99,11 +103,29 @@ export function buildReleaseManifest(options?: { version?: string; siteUrl?: str
   const siteUrl = options?.siteUrl ?? PAGES_SITE_URL;
   return {
     version,
-    previousVersion: "0.4.0",
-    releaseType: "patch" as const,
-    changedItems: ["button", "base"],
-    addedItems: [] as string[],
+    previousVersion: "0.4.1",
+    releaseType: "minor" as const,
+    addedItems: [
+      "countdown",
+      "phase-progress",
+      "connection-banner",
+      "phase-header",
+      "phase-directive",
+      "role-panel",
+      "vote-status",
+      "outcome-summary",
+      "sticky-action-bar",
+    ],
+    changedItems: [
+      "base",
+      "theme-gamescience",
+      "theme-citadel",
+      "separator",
+      "connection-status",
+      "participant-status",
+      "join-flow",
+    ],
     removedItems: [] as string[],
-    migrationNotes: `${siteUrl}/docs/migrations/0.4.0-to-0.4.1.md`,
+    migrationNotes: `${siteUrl}/docs/migrations/0.4.1-to-0.5.0.md`,
   };
 }

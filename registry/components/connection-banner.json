@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "connection-banner",
+  "type": "registry:component",
+  "title": "Connection Banner",
+  "description": "Significant connection interruption banner. Complements compact ConnectionStatus and blocking WaitingState.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/connection-banner.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/connection-banner.tsx",
+      "content": "import { Loader2, Wifi, WifiOff } from \"lucide-react\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\nimport type { ConnectionState } from \"@/types/game\";\n\nexport interface ConnectionBannerProps extends React.HTMLAttributes<HTMLDivElement> {\n  state: ConnectionState;\n  title?: string;\n  description?: string;\n  action?: React.ReactNode;\n  treatment?: \"inline\" | \"banner\";\n}\n\nconst defaults: Record<\n  ConnectionState,\n  { title: string; description: string; intent: \"success\" | \"information\" | \"warning\" | \"danger\" }\n> = {\n  connected: {\n    title: \"Connected\",\n    description: \"Live connection restored.\",\n    intent: \"success\",\n  },\n  restored: {\n    title: \"Connection restored\",\n    description: \"You are back online.\",\n    intent: \"success\",\n  },\n  connecting: {\n    title: \"Connecting\",\n    description: \"Establishing a live connection…\",\n    intent: \"information\",\n  },\n  reconnecting: {\n    title: \"Reconnecting\",\n    description: \"Trying to restore your session…\",\n    intent: \"warning\",\n  },\n  degraded: {\n    title: \"Unstable connection\",\n    description: \"Some updates may be delayed.\",\n    intent: \"warning\",\n  },\n  disconnected: {\n    title: \"Disconnected\",\n    description: \"Live updates are paused until you reconnect.\",\n    intent: \"danger\",\n  },\n  offline: {\n    title: \"Offline\",\n    description: \"Check your network, then retry.\",\n    intent: \"danger\",\n  },\n  paused: {\n    title: \"Connection paused\",\n    description: \"Updates are paused.\",\n    intent: \"danger\",\n  },\n};\n\nconst intentSurface: Record<(typeof defaults)[ConnectionState][\"intent\"], string> = {\n  success: \"border-success/40 bg-success/10 text-foreground\",\n  information: \"border-information/40 bg-information/10 text-foreground\",\n  warning: \"border-warning/40 bg-warning/10 text-foreground\",\n  danger: \"border-danger/40 bg-danger/10 text-foreground\",\n};\n\nfunction ConnectionBanner({\n  state,\n  title,\n  description,\n  action,\n  treatment = \"banner\",\n  className,\n  ...props\n}: ConnectionBannerProps) {\n  const preset = defaults[state];\n  const resolvedTitle = title ?? preset.title;\n  const resolvedDescription = description ?? preset.description;\n  const spinning = state === \"connecting\" || state === \"reconnecting\";\n  const Icon = state === \"connected\" || state === \"restored\" ? Wifi : spinning ? Loader2 : WifiOff;\n\n  return (\n    <div\n      role=\"status\"\n      aria-live=\"polite\"\n      data-state={state}\n      data-intent={preset.intent}\n      data-treatment={treatment}\n      className={cn(\n        \"gs-connection-banner gs-alert flex flex-wrap items-start gap-3 rounded-panel border p-panel-sm\",\n        intentSurface[preset.intent],\n        treatment === \"inline\" && \"rounded-control p-2\",\n        className,\n      )}\n      {...props}\n    >\n      <span\n        className={cn(\n          \"gs-connection-marker mt-1 size-2.5 shrink-0 rounded-full\",\n          preset.intent === \"success\" && \"bg-success\",\n          preset.intent === \"information\" && \"bg-information\",\n          preset.intent === \"warning\" && \"bg-warning\",\n          preset.intent === \"danger\" && \"bg-danger\",\n        )}\n        aria-hidden=\"true\"\n      />\n      <Icon\n        className={cn(\"mt-0.5 size-4 shrink-0\", spinning && \"animate-spin\")}\n        aria-hidden=\"true\"\n      />\n      <div className=\"min-w-0 flex-1 space-y-1\">\n        <p className=\"gs-label\">{resolvedTitle}</p>\n        <p className=\"gs-body text-muted-foreground\">{resolvedDescription}</p>\n      </div>\n      {action ? <div className=\"shrink-0\">{action}</div> : null}\n    </div>\n  );\n}\n\nConnectionBanner.displayName = \"ConnectionBanner\";\n\nexport { ConnectionBanner };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.5.0",
+    "namespace": "@gamescience"
+  }
+}

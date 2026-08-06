@@ -33,3 +33,14 @@ default output when absent, and not weaken room-code legibility.
 
 Until then: compose application-owned visuals as siblings; record visual-loss
 decisions when a pattern replaces local chrome.
+
+## Domain components before patterns (0.5.0)
+
+For discussion, voting, and results screens, compose reusable domain components
+first (`countdown`, `phase-header`, `phase-directive`, `role-panel`,
+`vote-status`, `outcome-summary`, `sticky-action-bar`, etc.). See
+[game-domain-components.md](./game-domain-components.md).
+
+Do **not** expect published DiscussionView / VoteView / Results patterns yet.
+Keep those as application compositions until multiple projects share a stable
+contract.

@@ -33,6 +33,23 @@ When upgrading to **0.3.0**:
 - Quarantine unused local inventory only after validation.
 - High-level game patterns remain a separate discovery process.
 
+### 0.4.1 → 0.5.0 notes
+
+When upgrading to **0.5.0**:
+
+- Update the pin to the immutable `0.5.0` registry URL.
+- Reinstall `base` and the active theme for typography / glow-critical /
+  action-bar token updates; reinstall `separator` for `treatment="hairline"`.
+- Install new domain items **on demand** only
+  (`countdown`, `phase-progress`, `connection-banner`, `phase-header`,
+  `phase-directive`, `role-panel`, `vote-status`, `outcome-summary`,
+  `sticky-action-bar`).
+- Do **not** automatically replace local discussion, vote, or results views.
+- Adopt domain components incrementally; keep timing, voting mutations, role
+  resolution, outcome taxonomy, charts, radar, and choreography application-owned.
+- Record which local components were replaced in the project state record.
+- Full DiscussionView / VoteView / Results patterns remain deferred.
+
 ## Context-model compatibility review
 
 Project context-model status (composer selection): **{{CONTEXT_MODEL_STATUS}}**

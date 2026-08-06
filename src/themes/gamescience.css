@@ -97,6 +97,25 @@
     hsl(214 45% 95%) 45%,
     hsl(221 40% 93%) 100%
   );
+
+  --font-data: var(--font-mono);
+  --glow-critical: var(--shadow-focus);
+  --action-bar-pad-top: 1rem;
+  --action-bar-safe-bottom: max(1rem, env(safe-area-inset-bottom));
+  --action-bar-bleed: linear-gradient(
+    to top,
+    hsl(var(--background)) 35%,
+    hsl(var(--background) / 0.85) 70%,
+    transparent
+  );
+}
+
+[data-theme="gamescience"] .gs-separator[data-treatment="hairline"] {
+  background: hsl(var(--border));
+}
+
+[data-theme="gamescience"] .gs-sticky-action-bar {
+  background-image: var(--action-bar-bleed);
 }
 
 [data-theme="gamescience"][data-context="shared-display"] {

@@ -43,6 +43,12 @@ policy, theme/stack/context guidance, validation, cleanup, a migration record at
 `src/docs/gamescience-ui-state.json`.
 
 Migrate audits finish with a **Context architecture recommendation** and a
+Map local discussion / vote / results chrome to domain targets when contracts
+match: `countdown`, `phase-progress`, `connection-banner`, `phase-header`,
+`phase-directive`, `role-panel`, `vote-status`, `outcome-summary`,
+`sticky-action-bar`. Preserve timing, voting, role resolution, outcome taxonomy,
+charts, radar, and choreography as application-owned.
+
 **Registry coverage backlog** (primitive gap / reusable component / pattern /
 template / application-specific / insufficient evidence).
 

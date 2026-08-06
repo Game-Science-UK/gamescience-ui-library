@@ -24,9 +24,12 @@ Install high-level patterns first for selected contexts, for example:
 - shared-display: `@gamescience/shared-display-shell`, `@gamescience/shared-display-lobby`
 
 The registry includes the complete standard primitive layer (forms, overlays,
-menus, data display, feedback). Install individual primitives only when a
-pattern does not cover the need. Do **not** install the entire primitive
-catalogue automatically.
+menus, data display, feedback) and reusable game/domain components
+(`countdown`, `phase-progress`, `connection-banner`, `phase-header`,
+`phase-directive`, `role-panel`, `vote-status`, `outcome-summary`,
+`sticky-action-bar`). Install individual primitives or domain components only
+when a pattern does not cover the need and the game requires that concept. Do
+**not** install the entire primitive or domain catalogue automatically.
 
 ### Provider and routing
 

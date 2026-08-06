@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "vote-status",
+  "type": "registry:component",
+  "title": "Vote Status",
+  "description": "Aggregate voting progress without owning vote logic. Auto mode uses pips for small rooms.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/progress"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/vote-status.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/vote-status.tsx",
+      "content": "import * as React from \"react\";\nimport { Progress } from \"@/components/ui/progress\";\nimport { cn } from \"@/lib/cn\";\n\n/** Use pips when total is at or below this threshold; otherwise Progress bar. */\nexport const VOTE_STATUS_PIP_THRESHOLD = 8;\n\nexport interface VoteStatusProps extends React.HTMLAttributes<HTMLDivElement> {\n  voted: number;\n  total: number;\n  anonymous?: boolean;\n  locked?: boolean;\n  treatment?: \"bare\" | \"framed\";\n  progress?: \"pips\" | \"bar\" | \"auto\";\n  size?: \"sm\" | \"md\";\n  label?: string;\n}\n\nfunction VoteStatus({\n  voted,\n  total,\n  anonymous = false,\n  locked = false,\n  treatment = \"bare\",\n  progress = \"auto\",\n  size = \"md\",\n  label,\n  className,\n  ...props\n}: VoteStatusProps) {\n  const safeTotal = Math.max(0, total);\n  const safeVoted = Math.min(Math.max(0, voted), safeTotal || voted);\n  const mode =\n    progress === \"auto\"\n      ? safeTotal > 0 && safeTotal <= VOTE_STATUS_PIP_THRESHOLD\n        ? \"pips\"\n        : \"bar\"\n      : progress;\n  const percent = safeTotal > 0 ? Math.round((safeVoted / safeTotal) * 100) : 0;\n  const summary = [\n    `${safeVoted} of ${safeTotal} votes received`,\n    anonymous ? \"anonymous voting\" : null,\n    locked ? \"voting locked\" : null,\n  ]\n    .filter(Boolean)\n    .join(\", \");\n\n  return (\n    <div\n      role=\"status\"\n      aria-live=\"polite\"\n      data-locked={locked ? \"true\" : \"false\"}\n      data-anonymous={anonymous ? \"true\" : \"false\"}\n      data-progress={mode}\n      className={cn(\n        \"gs-vote-status space-y-2\",\n        treatment === \"framed\" && \"rounded-panel border border-border bg-surface p-panel-sm\",\n        className,\n      )}\n      {...props}\n    >\n      <div className=\"flex flex-wrap items-center justify-between gap-2\">\n        <p\n          className={cn(\n            \"gs-label text-foreground\",\n            size === \"sm\" && \"text-[length:var(--type-scale-micro)]\",\n          )}\n        >\n          {label ?? `${safeVoted} / ${safeTotal}`}\n          {anonymous ? <span className=\"ms-2 text-muted-foreground\">Anonymous</span> : null}\n          {locked ? <span className=\"ms-2 text-warning\">Locked</span> : null}\n        </p>\n      </div>\n\n      {mode === \"pips\" ? (\n        <ul className=\"flex flex-wrap gap-1.5\" aria-hidden=\"true\">\n          {Array.from({ length: safeTotal }, (_, index) => {\n            const filled = index < safeVoted;\n            return (\n              <li\n                key={index}\n                className={cn(\n                  \"size-2.5 rounded-full border\",\n                  filled ? \"border-primary bg-primary\" : \"border-border bg-muted\",\n                )}\n              />\n            );\n          })}\n        </ul>\n      ) : (\n        <Progress value={percent} aria-label={`${safeVoted} of ${safeTotal} votes`} />\n      )}\n\n      <p className=\"sr-only\">{summary}</p>\n    </div>\n  );\n}\n\nVoteStatus.displayName = \"VoteStatus\";\n\nexport { VoteStatus };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.5.0",
+    "namespace": "@gamescience"
+  }
+}

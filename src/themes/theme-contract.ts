@@ -46,6 +46,7 @@ export const REQUIRED_THEME_TOKENS = [
   "--font-display",
   "--font-body",
   "--font-mono",
+  "--font-data",
   "--font-weight-heading",
   "--font-weight-label",
   "--font-weight-body",

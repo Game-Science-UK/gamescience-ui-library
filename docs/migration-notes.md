@@ -81,6 +81,14 @@ Bug-fix packaging patch. No new UI APIs.
 9. Confirm `src/lib/version.ts` and guidance report `0.3.0`.
 10. See [primitive-layer.md](./primitive-layer.md).
 
+## 0.4.1 → 0.5.0 (Game domain components)
+
+See the dedicated note: [migrations/0.4.1-to-0.5.0.md](./migrations/0.4.1-to-0.5.0.md).
+
+Adds Countdown, PhaseProgress, ConnectionBanner, PhaseHeader, PhaseDirective,
+RolePanel, VoteStatus, OutcomeSummary, StickyActionBar. Install on demand.
+Higher-level discussion/vote/results patterns remain deferred.
+
 ## 0.4.0 → 0.4.1 (Button asChild + migration governance)
 
 See the dedicated note: [migrations/0.4.0-to-0.4.1.md](./migrations/0.4.0-to-0.4.1.md).

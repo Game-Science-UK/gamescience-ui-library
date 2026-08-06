@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "countdown",
+  "type": "registry:component",
+  "title": "Countdown",
+  "description": "Semantic elapsed or remaining time display. Does not calculate time — pass a formatted value.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/countdown.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/countdown.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport type CountdownIntent = \"neutral\" | \"information\" | \"warning\" | \"critical\";\nexport type CountdownState = \"idle\" | \"running\" | \"paused\" | \"expired\";\n\nexport interface CountdownProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Pre-formatted time string from the application (component does not compute time). */\n  formattedTime: string;\n  label?: string;\n  intent?: CountdownIntent;\n  state?: CountdownState;\n  treatment?: \"inline\" | \"contained\";\n  size?: \"sm\" | \"md\" | \"lg\";\n  /** Full accessible phrase, e.g. \"1 minute 24 seconds remaining\". */\n  accessibleLabel?: string;\n}\n\nconst intentClass: Record<CountdownIntent, string> = {\n  neutral: \"text-muted-foreground\",\n  information: \"text-information\",\n  warning: \"text-warning\",\n  critical: \"text-danger\",\n};\n\nconst stateIntentFallback: Record<CountdownState, CountdownIntent> = {\n  idle: \"neutral\",\n  running: \"information\",\n  paused: \"warning\",\n  expired: \"critical\",\n};\n\nconst sizeClass: Record<NonNullable<CountdownProps[\"size\"]>, string> = {\n  sm: \"text-[length:var(--type-scale-label)]\",\n  md: \"text-[length:var(--type-scale-code)]\",\n  lg: \"text-[length:var(--type-scale-title)]\",\n};\n\nconst Countdown = React.forwardRef<HTMLDivElement, CountdownProps>(\n  (\n    {\n      formattedTime,\n      label,\n      intent,\n      state = \"idle\",\n      treatment = \"inline\",\n      size = \"md\",\n      accessibleLabel,\n      className,\n      ...props\n    },\n    ref,\n  ) => {\n    const resolvedIntent = intent ?? stateIntentFallback[state];\n\n    return (\n      <div\n        ref={ref}\n        role=\"timer\"\n        aria-live=\"off\"\n        aria-label={accessibleLabel ?? (label ? `${formattedTime}, ${label}` : formattedTime)}\n        data-intent={resolvedIntent}\n        data-state={state}\n        data-treatment={treatment}\n        className={cn(\n          \"gs-countdown inline-flex items-center gap-2\",\n          intentClass[resolvedIntent],\n          treatment === \"contained\" &&\n            \"rounded-control border border-border bg-surface px-3 py-1.5 shadow-control\",\n          className,\n        )}\n        {...props}\n      >\n        {state === \"running\" ? (\n          <span\n            className=\"gs-countdown-marker size-1.5 shrink-0 rounded-full bg-current motion-safe:animate-pulse\"\n            aria-hidden=\"true\"\n          />\n        ) : null}\n        <span className={cn(\"gs-data tabular-nums\", sizeClass[size])}>{formattedTime}</span>\n        {label ? <span className=\"gs-micro text-muted-foreground\">{label}</span> : null}\n      </div>\n    );\n  },\n);\nCountdown.displayName = \"Countdown\";\n\nexport { Countdown };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.5.0",
+    "namespace": "@gamescience"
+  }
+}

@@ -1,10 +1,10 @@
 {
   "name": "GameScience UI",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "registryNamespace": "@gamescience",
-  "registryUrl": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.4.1/r/{name}.json",
+  "registryUrl": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.5.0/r/{name}.json",
   "latestRegistryUrl": "https://game-science-uk.github.io/gamescience-ui-library/r/{name}.json",
-  "catalogueUrl": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.4.1/agent-catalogue.json",
+  "catalogueUrl": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.5.0/agent-catalogue.json",
   "themeRule": "One active theme per application",
   "contexts": [
     "participant",

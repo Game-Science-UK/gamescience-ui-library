@@ -7,6 +7,7 @@ import { GameCodeInput } from "@/components/game/game-code-input";
 import { ParticipantIdentity } from "@/components/game/participant-identity";
 import { WaitingState } from "@/components/game/waiting-state";
 import { cn } from "@/lib/cn";
+import { toCompactConnectionState } from "@/lib/connection";
 import type { ConnectionState } from "@/types/game";
 
 export type ParticipantJoinStep =
@@ -55,7 +56,9 @@ function ParticipantJoinFlow({
               Enter the code from the shared display, then choose how you appear in the room.
             </PanelDescription>
           </div>
-          {step !== "enter-code" ? <ConnectionStatus state={connection} /> : null}
+          {step !== "enter-code" ? (
+            <ConnectionStatus state={toCompactConnectionState(connection)} />
+          ) : null}
         </div>
       </PanelHeader>
 

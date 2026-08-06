@@ -4,22 +4,35 @@ import * as SeparatorPrimitive from "@radix-ui/react-separator";
 
 import { cn } from "@/lib/cn";
 
+export interface SeparatorProps extends React.ComponentPropsWithoutRef<
+  typeof SeparatorPrimitive.Root
+> {
+  /** `hairline` uses theme hairline treatment (Citadel muted strong border). */
+  treatment?: "default" | "hairline";
+}
+
 const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
->(({ className, orientation = "horizontal", decorative = true, ...props }, ref) => (
-  <SeparatorPrimitive.Root
-    ref={ref}
-    decorative={decorative}
-    orientation={orientation}
-    className={cn(
-      "gs-separator shrink-0 bg-border",
-      orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
-      className,
-    )}
-    {...props}
-  />
-));
+  SeparatorProps
+>(
+  (
+    { className, orientation = "horizontal", decorative = true, treatment = "default", ...props },
+    ref,
+  ) => (
+    <SeparatorPrimitive.Root
+      ref={ref}
+      decorative={decorative}
+      orientation={orientation}
+      data-treatment={treatment}
+      className={cn(
+        "gs-separator shrink-0 bg-border",
+        orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
 Separator.displayName = SeparatorPrimitive.Root.displayName;
 
 export { Separator };

@@ -151,6 +151,7 @@ function prepareScenario(theme: ThemeName) {
           "@radix-ui/react-select": "^2.2.5",
           "@radix-ui/react-checkbox": "^1.3.2",
           "@radix-ui/react-tabs": "^1.1.12",
+          "@radix-ui/react-separator": "^1.1.7",
         },
         devDependencies: {
           "@types/react": "^19.1.8",
@@ -218,6 +219,20 @@ export default defineConfig({
   installItem("card", dir, installed);
   installItem("checkbox", dir, installed);
   installItem("tabs", dir, installed);
+  for (const item of [
+    "countdown",
+    "phase-progress",
+    "connection-banner",
+    "phase-header",
+    "phase-directive",
+    "role-panel",
+    "vote-status",
+    "outcome-summary",
+    "sticky-action-bar",
+    "separator",
+  ]) {
+    installItem(item, dir, installed);
+  }
 
   const bridge = readFileSync(bridgeSource, "utf8");
   writeFileSync(path.join(dir, "src/gamescience-tw4-bridge.css"), bridge);
@@ -247,6 +262,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Countdown } from "@/components/game/countdown";
+import { PhaseProgress } from "@/components/game/phase-progress";
+import { ConnectionBanner } from "@/components/game/connection-banner";
+import { PhaseHeader } from "@/components/game/phase-header";
+import { RolePanel } from "@/components/game/role-panel";
+import { VoteStatus } from "@/components/game/vote-status";
+import { OutcomeSummary } from "@/components/game/outcome-summary";
+import { StickyActionBar } from "@/components/game/sticky-action-bar";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import "@/styles.css";
 
@@ -272,6 +296,15 @@ createRoot(document.getElementById("root")!).render(
             <Dialog><DialogTrigger asChild><Button>Open</Button></DialogTrigger><DialogContent><DialogTitle>OK</DialogTitle></DialogContent></Dialog>
           </CardContent>
         </Card>
+        <div className="mt-4 space-y-3">
+          <PhaseHeader eyebrow={<span className="gs-label">Brand</span>} phase={<Badge>Vote</Badge>} trailing={<Countdown formattedTime="00:30" state="running" />} />
+          <ConnectionBanner state="reconnecting" />
+          <PhaseProgress steps={[{ id: "a", label: "A", status: "complete" }, { id: "b", label: "B", status: "active" }]} />
+          <RolePanel role={{ title: "Analyst" }} priorities={["One"]} defaultExpanded />
+          <VoteStatus voted={1} total={3} />
+          <OutcomeSummary outcome={{ title: "Stable", intent: "success" }} />
+          <StickyActionBar><Button type="button">Continue</Button></StickyActionBar>
+        </div>
         <div aria-hidden="true" className="hidden">
 ${utilityProbe}
         </div>

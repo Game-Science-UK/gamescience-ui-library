@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "phase-directive",
+  "type": "registry:component",
+  "title": "Phase Directive",
+  "description": "Current-task instruction or phase guidance with plain, strip, or panel treatments.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/panel"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/phase-directive.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/phase-directive.tsx",
+      "content": "import * as React from \"react\";\nimport { Panel } from \"@/components/ui/panel\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface PhaseDirectiveProps extends React.HTMLAttributes<HTMLDivElement> {\n  eyebrow?: string;\n  children: React.ReactNode;\n  treatment?: \"plain\" | \"strip\" | \"panel\";\n  intent?: \"information\" | \"warning\" | \"critical\";\n}\n\nconst intentRule: Record<NonNullable<PhaseDirectiveProps[\"intent\"]>, string> = {\n  information: \"border-l-information\",\n  warning: \"border-l-warning\",\n  critical: \"border-l-danger\",\n};\n\nfunction PhaseDirective({\n  eyebrow,\n  children,\n  treatment = \"plain\",\n  intent = \"information\",\n  className,\n  ...props\n}: PhaseDirectiveProps) {\n  const eyebrowNode = eyebrow ? (\n    <p className=\"gs-label gs-eyebrow gs-eyebrow-dotted mb-2 text-muted-foreground\">{eyebrow}</p>\n  ) : null;\n\n  const body = <div className=\"gs-body text-foreground\">{children}</div>;\n\n  if (treatment === \"plain\") {\n    return (\n      <div\n        data-treatment={treatment}\n        data-intent={intent}\n        className={cn(\"gs-phase-directive\", className)}\n        {...props}\n      >\n        {eyebrowNode}\n        {body}\n      </div>\n    );\n  }\n\n  if (treatment === \"strip\") {\n    return (\n      <div\n        data-treatment={treatment}\n        data-intent={intent}\n        className={cn(\n          \"gs-phase-directive rounded-control border border-l-4 border-border bg-surface-subtle px-4 py-3\",\n          intentRule[intent],\n          className,\n        )}\n        {...props}\n      >\n        {eyebrowNode}\n        {body}\n      </div>\n    );\n  }\n\n  return (\n    <div\n      data-treatment={treatment}\n      data-intent={intent}\n      className={cn(\"gs-phase-directive\", className)}\n      {...props}\n    >\n      <Panel elevation=\"raised\" padding=\"md\" emphasis=\"strong\">\n        {eyebrowNode}\n        {body}\n      </Panel>\n    </div>\n  );\n}\n\nPhaseDirective.displayName = \"PhaseDirective\";\n\nexport { PhaseDirective };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.5.0",
+    "namespace": "@gamescience"
+  }
+}

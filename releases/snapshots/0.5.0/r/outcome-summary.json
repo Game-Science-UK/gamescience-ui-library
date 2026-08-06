@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "outcome-summary",
+  "type": "registry:component",
+  "title": "Outcome Summary",
+  "description": "High-level outcome, description, optional metrics and actions. Does not own outcome taxonomy.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/panel",
+    "@gamescience/badge"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/outcome-summary.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/outcome-summary.tsx",
+      "content": "import * as React from \"react\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Panel, PanelDescription, PanelHeader, PanelTitle } from \"@/components/ui/panel\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface OutcomeSummaryData {\n  label?: string;\n  title: string;\n  description?: string;\n  intent: \"information\" | \"success\" | \"warning\" | \"critical\";\n}\n\nexport interface OutcomeSummaryMetric {\n  label: string;\n  value: React.ReactNode;\n  intent?: \"neutral\" | \"information\" | \"success\" | \"warning\" | \"critical\";\n}\n\nexport interface OutcomeSummaryProps extends React.HTMLAttributes<HTMLDivElement> {\n  outcome: OutcomeSummaryData;\n  metrics?: OutcomeSummaryMetric[];\n  actions?: React.ReactNode;\n  density?: \"participant\" | \"facilitator\" | \"shared-display\";\n}\n\nconst badgeIntent: Record<\n  OutcomeSummaryData[\"intent\"],\n  \"information\" | \"success\" | \"warning\" | \"danger\"\n> = {\n  information: \"information\",\n  success: \"success\",\n  warning: \"warning\",\n  critical: \"danger\",\n};\n\nfunction OutcomeSummary({\n  outcome,\n  metrics = [],\n  actions,\n  density = \"participant\",\n  className,\n  ...props\n}: OutcomeSummaryProps) {\n  return (\n    <div\n      data-intent={outcome.intent}\n      data-density={density}\n      className={cn(\"gs-outcome-summary\", className)}\n      {...props}\n    >\n      <Panel\n        elevation=\"raised\"\n        emphasis=\"strong\"\n        padding={density === \"shared-display\" ? \"lg\" : \"md\"}\n      >\n        <PanelHeader>\n          {outcome.label ? (\n            <Badge intent={badgeIntent[outcome.intent]} treatment=\"outlined\">\n              {outcome.label}\n            </Badge>\n          ) : null}\n          <PanelTitle className={cn(density === \"shared-display\" && \"gs-display\", \"mt-2\")}>\n            {outcome.title}\n          </PanelTitle>\n          {outcome.description ? (\n            <PanelDescription className=\"gs-body\">{outcome.description}</PanelDescription>\n          ) : null}\n        </PanelHeader>\n\n        {metrics.length > 0 ? (\n          <dl className=\"mt-4 grid gap-3 sm:grid-cols-2\">\n            {metrics.map((metric) => (\n              <div\n                key={metric.label}\n                className=\"rounded-control border border-border bg-surface-subtle p-3\"\n                data-intent={metric.intent ?? \"neutral\"}\n              >\n                <dt className=\"gs-label text-muted-foreground\">{metric.label}</dt>\n                <dd className=\"gs-data mt-1 text-foreground\">{metric.value}</dd>\n              </div>\n            ))}\n          </dl>\n        ) : null}\n\n        {actions ? <div className=\"mt-4 flex flex-wrap gap-2\">{actions}</div> : null}\n      </Panel>\n    </div>\n  );\n}\n\nOutcomeSummary.displayName = \"OutcomeSummary\";\n\nexport { OutcomeSummary };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.5.0",
+    "namespace": "@gamescience"
+  }
+}

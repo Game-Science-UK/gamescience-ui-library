@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "phase-header",
+  "type": "registry:component",
+  "title": "Phase Header",
+  "description": "Compact participant/game surface header with eyebrow, phase pill, and trailing status slots.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/phase-header.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/phase-header.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface PhaseHeaderProps extends React.HTMLAttributes<HTMLElement> {\n  eyebrow?: React.ReactNode;\n  phase: React.ReactNode;\n  trailing?: React.ReactNode;\n  intent?: \"neutral\" | \"information\" | \"warning\" | \"critical\";\n  sticky?: boolean;\n}\n\nconst intentBorder: Record<NonNullable<PhaseHeaderProps[\"intent\"]>, string> = {\n  neutral: \"border-border\",\n  information: \"border-information/50\",\n  warning: \"border-warning/50\",\n  critical: \"border-danger/50\",\n};\n\nfunction PhaseHeader({\n  eyebrow,\n  phase,\n  trailing,\n  intent = \"neutral\",\n  sticky = false,\n  className,\n  ...props\n}: PhaseHeaderProps) {\n  return (\n    <header\n      data-intent={intent}\n      data-sticky={sticky ? \"true\" : \"false\"}\n      className={cn(\n        \"gs-phase-header flex w-full max-w-content items-center justify-between gap-3 border-b bg-background/90 px-4 py-3 backdrop-blur-sm\",\n        intentBorder[intent],\n        sticky && \"sticky top-0 z-30\",\n        className,\n      )}\n      {...props}\n    >\n      <div className=\"min-w-0 flex-1\">{eyebrow}</div>\n      <div className=\"shrink-0\">{phase}</div>\n      <div className=\"flex min-w-0 flex-1 justify-end\">{trailing}</div>\n    </header>\n  );\n}\n\nPhaseHeader.displayName = \"PhaseHeader\";\n\nexport { PhaseHeader };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.5.0",
+    "namespace": "@gamescience"
+  }
+}

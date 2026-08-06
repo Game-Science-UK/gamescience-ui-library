@@ -24,14 +24,26 @@ Classification must be one of:
 
 Do **not** default to “Registry target: none / Action: keep”.
 
-| Existing implementation     | Registry target        | Classification              | Proposed action       | Risk   |
-| --------------------------- | ---------------------- | --------------------------- | --------------------- | ------ |
-| example: TechButton         | @gamescience/button    | Existing registry target    | replace               | low    |
-| example: Dialog             | @gamescience/dialog    | Existing registry target    | replace local shadcn  | low    |
-| example: custom join screen | @gamescience/join-flow | Existing registry target    | incremental migration | medium |
-| example: WebSocket hook     | none                   | Application-specific        | preserve              | high   |
-| example: Stat tile          | none                   | Registry coverage candidate | backlog               | medium |
-| example: radar visual       | none                   | Application-specific        | retain                | low    |
+| Existing implementation     | Registry target         | Classification              | Proposed action       | Risk   |
+| --------------------------- | ----------------------- | --------------------------- | --------------------- | ------ |
+| example: TechButton         | @gamescience/button     | Existing registry target    | replace               | low    |
+| example: Dialog             | @gamescience/dialog     | Existing registry target    | replace local shadcn  | low    |
+| example: custom join screen | @gamescience/join-flow  | Existing registry target    | incremental migration | medium |
+| example: WebSocket hook     | none                    | Application-specific        | preserve              | high   |
+| example: Stat tile          | none                    | Registry coverage candidate | backlog               | medium |
+| example: local Countdown    | @gamescience/countdown  | Existing registry target    | replace presentation  | low    |
+| example: local RolePanel    | @gamescience/role-panel | Existing registry target    | migrate chrome only   | medium |
+| example: radar visual       | none                    | Application-specific        | retain                | low    |
+
+When mapping local discussion / vote / results chrome, prefer these domain
+targets when the contract matches:
+
+`countdown`, `phase-progress`, `connection-banner`, `phase-header`,
+`phase-directive`, `role-panel`, `vote-status`, `outcome-summary`,
+`sticky-action-bar`.
+
+Preserve application-owned timing logic, voting mutations, role resolution,
+outcome taxonomy, charts, radar, choreography, and private data rules.
 
 For every missing registry target, assess:
 

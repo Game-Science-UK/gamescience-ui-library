@@ -105,4 +105,8 @@
   --type-scale-body: 1rem;
   --type-scale-label: 0.875rem;
   --type-scale-code: 1.125rem;
+  --type-scale-micro: 0.75rem;
+
+  /* Numeric/data face — maps to mono; not a sans label font */
+  --font-data: var(--font-mono);
 }

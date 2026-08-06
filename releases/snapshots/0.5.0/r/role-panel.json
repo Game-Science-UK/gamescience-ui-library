@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "role-panel",
+  "type": "registry:component",
+  "title": "Role Panel",
+  "description": "Participant role summary with optional priorities disclosure, identity slot, and private objective.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/panel",
+    "@gamescience/separator"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/role-panel.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/role-panel.tsx",
+      "content": "import { ChevronDown } from \"lucide-react\";\nimport * as React from \"react\";\nimport { Panel, PanelDescription, PanelHeader, PanelTitle } from \"@/components/ui/panel\";\nimport { Separator } from \"@/components/ui/separator\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface RolePanelRole {\n  title: string;\n  subtitle?: string;\n}\n\nexport interface RolePanelObjective {\n  title: string;\n  goal?: string;\n}\n\nexport interface RolePanelProps extends Omit<React.HTMLAttributes<HTMLDivElement>, \"role\"> {\n  role: RolePanelRole;\n  priorities?: string[];\n  objective?: RolePanelObjective;\n  identity?: React.ReactNode;\n  privateLabel?: string;\n  defaultExpanded?: boolean;\n  expanded?: boolean;\n  onExpandedChange?: (expanded: boolean) => void;\n}\n\nfunction RolePanel({\n  role,\n  priorities = [],\n  objective,\n  identity,\n  privateLabel = \"Private objective\",\n  defaultExpanded = false,\n  expanded: expandedProp,\n  onExpandedChange,\n  className,\n  ...props\n}: RolePanelProps) {\n  const [uncontrolled, setUncontrolled] = React.useState(defaultExpanded);\n  const expanded = expandedProp ?? uncontrolled;\n  const setExpanded = (next: boolean) => {\n    if (expandedProp === undefined) setUncontrolled(next);\n    onExpandedChange?.(next);\n  };\n\n  return (\n    <div className={cn(\"gs-role-panel\", className)} {...props}>\n      <Panel elevation=\"raised\" padding=\"md\">\n        <PanelHeader className=\"flex flex-row items-start gap-3\">\n          {identity ? <div className=\"shrink-0\">{identity}</div> : null}\n          <div className=\"min-w-0 flex-1\">\n            <PanelTitle>{role.title}</PanelTitle>\n            {role.subtitle ? <PanelDescription>{role.subtitle}</PanelDescription> : null}\n          </div>\n        </PanelHeader>\n\n        {priorities.length > 0 ? (\n          <div className=\"mt-2\">\n            <button\n              type=\"button\"\n              className=\"gs-pressable gs-touch-target inline-flex items-center gap-2 rounded-control px-1 py-1 text-left focus-visible:shadow-focus\"\n              aria-expanded={expanded}\n              onClick={() => setExpanded(!expanded)}\n            >\n              <span className=\"gs-label text-muted-foreground\">Priorities</span>\n              <ChevronDown\n                className={cn(\n                  \"size-4 text-muted-foreground transition-transform duration-[var(--duration-fast)] motion-reduce:transition-none\",\n                  expanded && \"rotate-180\",\n                )}\n                aria-hidden=\"true\"\n              />\n            </button>\n            {expanded ? (\n              <ol className=\"mt-2 list-decimal space-y-1 pl-5\">\n                {priorities.map((item) => (\n                  <li key={item} className=\"gs-body text-foreground\">\n                    {item}\n                  </li>\n                ))}\n              </ol>\n            ) : null}\n          </div>\n        ) : null}\n\n        {objective ? (\n          <>\n            <Separator treatment=\"hairline\" className=\"my-4\" />\n            <div className=\"rounded-control border border-border bg-surface-subtle p-3\">\n              <p className=\"gs-label gs-eyebrow text-accent\">{privateLabel}</p>\n              <p className=\"gs-title mt-1 text-foreground\">{objective.title}</p>\n              {objective.goal ? (\n                <p className=\"gs-body mt-1 text-muted-foreground\">{objective.goal}</p>\n              ) : null}\n            </div>\n          </>\n        ) : null}\n      </Panel>\n    </div>\n  );\n}\n\nRolePanel.displayName = \"RolePanel\";\n\nexport { RolePanel };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "0.5.0",
+    "namespace": "@gamescience"
+  }
+}

@@ -71,6 +71,7 @@
   --font-display: "Hanken Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
   --font-body: "Hanken Grotesk", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "Geist", "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --font-data: var(--font-mono);
 
   --font-weight-heading: 800;
   --font-weight-label: 600;
@@ -162,6 +163,8 @@
   --glow-cobalt: 0 0 12px hsl(228 76% 50% / 0.4);
   --glow-warning: 0 0 12px hsl(42 100% 67% / 0.5);
   --glow-danger: 0 0 12px hsl(0 100% 71% / 0.5);
+  /* Canonical public critical role aliases danger; app --glow-critical maps here */
+  --glow-critical: var(--glow-danger);
   /* Back-compat aliases used by existing rules */
   --glow-emphasis: var(--glow-cobalt);
   --glow-information: var(--glow-pacific);
@@ -477,6 +480,53 @@
 
 [data-theme="citadel"] .gs-separator {
   background: hsl(var(--border-strong) / var(--hairline-alpha));
+}
+
+[data-theme="citadel"] .gs-separator[data-treatment="hairline"] {
+  background: hsl(var(--border-strong) / var(--hairline-alpha));
+}
+
+[data-theme="citadel"] .gs-eyebrow-dotted {
+  color: hsl(var(--primary));
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+[data-theme="citadel"] .gs-countdown[data-intent="critical"],
+[data-theme="citadel"] .gs-countdown[data-state="expired"] {
+  color: hsl(var(--danger));
+  text-shadow: var(--glow-critical);
+}
+
+[data-theme="citadel"]
+  .gs-phase-directive[data-treatment="panel"][data-intent="critical"]
+  .gs-panel,
+[data-theme="citadel"] .gs-outcome-summary[data-intent="critical"] .gs-panel {
+  --scope-corner-color: hsl(var(--danger));
+  box-shadow: var(--glow-critical);
+}
+
+[data-theme="citadel"] .gs-phase-directive[data-treatment="panel"][data-intent="warning"] .gs-panel,
+[data-theme="citadel"] .gs-outcome-summary[data-intent="warning"] .gs-panel {
+  --scope-corner-color: hsl(var(--warning));
+  box-shadow: var(--glow-warning);
+}
+
+[data-theme="citadel"]
+  .gs-phase-directive[data-treatment="panel"][data-intent="information"]
+  .gs-panel,
+[data-theme="citadel"] .gs-outcome-summary[data-intent="information"] .gs-panel {
+  --scope-corner-color: hsl(var(--primary));
+  box-shadow: var(--glow-information);
+}
+
+[data-theme="citadel"] .gs-outcome-summary[data-intent="success"] .gs-panel {
+  --scope-corner-color: hsl(var(--success));
+}
+
+[data-theme="citadel"] .gs-sticky-action-bar {
+  background-image: var(--action-bar-bleed);
 }
 
 [data-theme="citadel"] .gs-empty {

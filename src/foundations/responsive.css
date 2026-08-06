@@ -20,6 +20,7 @@
   --type-scale-body: 1.0625rem;
   --type-scale-label: 0.9375rem;
   --type-scale-code: 1.25rem;
+  --type-scale-micro: 0.75rem;
 }
 
 [data-context="facilitator"] {
@@ -39,6 +40,7 @@
   --type-scale-body: 0.9375rem;
   --type-scale-label: 0.8125rem;
   --type-scale-code: 1rem;
+  --type-scale-micro: 0.6875rem;
 }
 
 [data-context="shared-display"] {
@@ -55,6 +57,7 @@
   --type-scale-body: clamp(1.25rem, 1.2vw + 1rem, 1.75rem);
   --type-scale-label: clamp(1rem, 0.8vw + 0.75rem, 1.25rem);
   --type-scale-code: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+  --type-scale-micro: clamp(0.875rem, 0.5vw + 0.65rem, 1rem);
   --radius-panel: 1.25rem;
 }
 

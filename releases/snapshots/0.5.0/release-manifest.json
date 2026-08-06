@@ -1,0 +1,27 @@
+{
+  "version": "0.5.0",
+  "previousVersion": "0.4.1",
+  "releaseType": "minor",
+  "addedItems": [
+    "countdown",
+    "phase-progress",
+    "connection-banner",
+    "phase-header",
+    "phase-directive",
+    "role-panel",
+    "vote-status",
+    "outcome-summary",
+    "sticky-action-bar"
+  ],
+  "changedItems": [
+    "base",
+    "theme-gamescience",
+    "theme-citadel",
+    "separator",
+    "connection-status",
+    "participant-status",
+    "join-flow"
+  ],
+  "removedItems": [],
+  "migrationNotes": "https://game-science-uk.github.io/gamescience-ui-library/docs/migrations/0.4.1-to-0.5.0.md"
+}

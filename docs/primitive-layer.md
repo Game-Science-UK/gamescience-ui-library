@@ -31,7 +31,11 @@ wiring — not every primitive.
 
 ## Higher-level components are evidence-driven
 
-Compositions such as Stat, CopyableValue, SelectionGrid, VotingGrid, or
+0.5.0 adds reusable **game/domain components** (Countdown, PhaseHeader,
+VoteStatus, and related items) above this primitive layer. Install them only
+when needed — see [game-domain-components.md](./game-domain-components.md).
+
+Further compositions such as Stat, CopyableValue, SelectionGrid, VotingGrid, or
 BriefingPanel are **not** added merely because one project uses them. Later
 audits decide which repeated compositions deserve registry promotion. See
 [registry-coverage-backlog.md](./registry-coverage-backlog.md).

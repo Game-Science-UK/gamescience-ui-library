@@ -13,7 +13,20 @@ export type GameStage =
 
 export type StageStatus = "not-started" | "ready" | "active" | "paused" | "complete" | "locked";
 
-export type ConnectionState = "connected" | "reconnecting" | "offline";
+/**
+ * Connection presentation states.
+ * Compact `ConnectionStatus` uses `connected` | `reconnecting` | `offline`.
+ * `ConnectionBanner` may use the broader set.
+ */
+export type ConnectionState =
+  | "connected"
+  | "connecting"
+  | "reconnecting"
+  | "degraded"
+  | "disconnected"
+  | "offline"
+  | "paused"
+  | "restored";
 
 export type ReadinessState = "not-ready" | "ready" | "submitted" | "waiting";
 
