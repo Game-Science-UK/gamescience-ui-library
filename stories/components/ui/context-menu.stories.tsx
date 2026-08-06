@@ -4,6 +4,9 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuSeparator,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { StoryFrame } from "../../_utils/story-frame";
@@ -29,6 +32,31 @@ export const Playground: Story = {
           <ContextMenuItem>Pin participant</ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuItem>Remove from session</ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    </StoryFrame>
+  ),
+};
+
+export const WithSubmenu: Story = {
+  render: () => (
+    <StoryFrame>
+      <ContextMenu>
+        <ContextMenuTrigger className="flex h-32 w-full max-w-sm items-center justify-center rounded-control border border-dashed text-sm text-muted-foreground">
+          Right-click for nested actions
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem>Copy session link</ContextMenuItem>
+          <ContextMenuSub>
+            <ContextMenuSubTrigger>Move participant</ContextMenuSubTrigger>
+            <ContextMenuSubContent>
+              <ContextMenuItem>North sector</ContextMenuItem>
+              <ContextMenuItem>South sector</ContextMenuItem>
+              <ContextMenuItem>East sector</ContextMenuItem>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+          <ContextMenuSeparator />
+          <ContextMenuItem>Mute participant</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
     </StoryFrame>

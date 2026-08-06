@@ -12,8 +12,26 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Connected: Story = {
+  args: { state: "connected" },
+  render: (args) => (
+    <StoryFrame>
+      <ConnectionBanner {...args} />
+    </StoryFrame>
+  ),
+};
+
 export const Reconnecting: Story = {
   args: { state: "reconnecting" },
+  render: (args) => (
+    <StoryFrame>
+      <ConnectionBanner {...args} />
+    </StoryFrame>
+  ),
+};
+
+export const Degraded: Story = {
+  args: { state: "degraded" },
   render: (args) => (
     <StoryFrame>
       <ConnectionBanner {...args} />
@@ -32,6 +50,33 @@ export const Disconnected: Story = {
 
 export const Restored: Story = {
   args: { state: "restored" },
+  render: (args) => (
+    <StoryFrame>
+      <ConnectionBanner {...args} />
+    </StoryFrame>
+  ),
+};
+
+export const Paused: Story = {
+  args: { state: "paused" },
+  render: (args) => (
+    <StoryFrame>
+      <ConnectionBanner {...args} />
+    </StoryFrame>
+  ),
+};
+
+export const InlineTreatment: Story = {
+  args: { state: "reconnecting", treatment: "inline" },
+  render: (args) => (
+    <StoryFrame>
+      <ConnectionBanner {...args} />
+    </StoryFrame>
+  ),
+};
+
+export const BannerTreatment: Story = {
+  args: { state: "offline", treatment: "banner" },
   render: (args) => (
     <StoryFrame>
       <ConnectionBanner {...args} />

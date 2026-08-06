@@ -20,6 +20,18 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
+export const ParticipantBare: Story = {
+  parameters: { viewport: { defaultViewport: "participant" } },
+  globals: { context: "participant" },
+  render: () => (
+    <ParticipantShell>
+      <p className="gs-body text-muted-foreground">
+        Bare participant shell with default framing and no header or footer slots.
+      </p>
+    </ParticipantShell>
+  ),
+};
+
 export const ParticipantWithHeaderFooter: Story = {
   parameters: { viewport: { defaultViewport: "participant" } },
   globals: { context: "participant" },
@@ -50,6 +62,18 @@ export const ParticipantWithHeaderFooter: Story = {
   ),
 };
 
+export const FacilitatorBare: Story = {
+  parameters: { viewport: { defaultViewport: "facilitator" } },
+  globals: { context: "facilitator" },
+  render: () => (
+    <FacilitatorShell>
+      <p className="text-muted-foreground">
+        Bare facilitator shell using default title framing and no action slot.
+      </p>
+    </FacilitatorShell>
+  ),
+};
+
 export const FacilitatorWithActions: Story = {
   parameters: { viewport: { defaultViewport: "facilitator" } },
   globals: { context: "facilitator" },
@@ -63,6 +87,18 @@ export const FacilitatorWithActions: Story = {
         Main content area for facilitator patterns and operational panels.
       </p>
     </FacilitatorShell>
+  ),
+};
+
+export const SharedDisplayBare: Story = {
+  parameters: { viewport: { defaultViewport: "sharedDisplay" } },
+  globals: { context: "shared-display" },
+  render: () => (
+    <SharedDisplayShell>
+      <p className="gs-display text-center text-muted-foreground">
+        Bare shared-display shell without a lobby pattern.
+      </p>
+    </SharedDisplayShell>
   ),
 };
 

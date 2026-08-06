@@ -52,3 +52,31 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const FirstPage: Story = {
+  render: () => (
+    <StoryFrame>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" aria-disabled className="pointer-events-none opacity-50" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#" isActive>
+              1
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">2</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">3</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </StoryFrame>
+  ),
+};

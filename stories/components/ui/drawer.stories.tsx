@@ -46,3 +46,29 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const OpenByDefault: Story = {
+  render: () => (
+    <StoryFrame>
+      <Drawer defaultOpen>
+        <DrawerTrigger asChild>
+          <Button>Open drawer</Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Session lobby</DrawerTitle>
+            <DrawerDescription>
+              Waiting for the facilitator to start the briefing stage.
+            </DrawerDescription>
+          </DrawerHeader>
+          <DrawerFooter>
+            <Button>Ready</Button>
+            <DrawerClose asChild>
+              <Button intent="outline">Leave</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </StoryFrame>
+  ),
+};

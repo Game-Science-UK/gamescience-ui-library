@@ -34,3 +34,20 @@ export const Gallery: Story = {
     </StoryFrame>
   ),
 };
+
+export const CardPlaceholder: Story = {
+  render: () => (
+    <StoryFrame className="max-w-sm">
+      <div className="space-y-3 rounded-panel border p-4">
+        <Skeleton className="h-5 w-2/3" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-4/5" />
+        <Skeleton className="h-24 w-full rounded-panel" />
+        <div className="flex gap-2">
+          <Skeleton className="h-9 flex-1 rounded-control" />
+          <Skeleton className="h-9 flex-1 rounded-control" />
+        </div>
+      </div>
+    </StoryFrame>
+  ),
+};

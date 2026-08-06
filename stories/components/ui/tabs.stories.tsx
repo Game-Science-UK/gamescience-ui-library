@@ -27,3 +27,22 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const DisabledTab: Story = {
+  render: () => (
+    <StoryFrame>
+      <Tabs defaultValue="live" className="w-full max-w-md">
+        <TabsList>
+          <TabsTrigger value="live">Live</TabsTrigger>
+          <TabsTrigger value="history">History</TabsTrigger>
+          <TabsTrigger value="settings" disabled>
+            Settings
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="live">Active session participants and votes.</TabsContent>
+        <TabsContent value="history">Past sessions and exported results.</TabsContent>
+        <TabsContent value="settings">Timer, scoring, and display preferences.</TabsContent>
+      </Tabs>
+    </StoryFrame>
+  ),
+};

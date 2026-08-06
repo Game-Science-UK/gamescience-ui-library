@@ -4,6 +4,7 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -41,6 +42,30 @@ export const SidesGallery: Story = {
           </Sheet>
         ))}
       </div>
+    </StoryFrame>
+  ),
+};
+
+export const WithFooter: Story = {
+  render: () => (
+    <StoryFrame>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button>Open sheet with footer</Button>
+        </SheetTrigger>
+        <SheetContent side="right">
+          <SheetHeader>
+            <SheetTitle>Join session</SheetTitle>
+            <SheetDescription>
+              Confirm your display name before entering the lobby.
+            </SheetDescription>
+          </SheetHeader>
+          <SheetFooter>
+            <Button>Continue</Button>
+            <Button intent="outline">Cancel</Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </StoryFrame>
   ),
 };

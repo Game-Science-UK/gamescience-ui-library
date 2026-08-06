@@ -49,3 +49,29 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const SimpleLinks: Story = {
+  render: () => (
+    <StoryFrame>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" className="inline-flex h-9 items-center px-4 text-sm">
+              Briefing
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" className="inline-flex h-9 items-center px-4 text-sm">
+              Vote
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" className="inline-flex h-9 items-center px-4 text-sm">
+              Debrief
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </StoryFrame>
+  ),
+};

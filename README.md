@@ -53,6 +53,7 @@ npm install
 | `npm run build-storybook`          | Static Storybook                               |
 | `npm run theme:check`              | Theme token contract                           |
 | `npm run architecture:check`       | Architecture contract rules                    |
+| `npm run storybook:coverage`       | Storybook coverage for public exports          |
 | `npm run registry:build`           | Build static registry                          |
 | `npm run registry:validate`        | Validate registry + catalogue                  |
 | `npm run registry:serve`           | Serve registry on :4343                        |

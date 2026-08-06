@@ -1,2 +1,2 @@
 /** Installed GameScience UI library version metadata. */
-export const GAMESCIENCE_UI_VERSION = "0.5.1";
+export const GAMESCIENCE_UI_VERSION = "0.5.2";

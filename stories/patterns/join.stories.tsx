@@ -38,6 +38,30 @@ export const EnterCode: Story = {
   ),
 };
 
+export const InvalidCode: Story = {
+  ...participantStory,
+  render: () => (
+    <ParticipantShell>
+      <ParticipantJoinFlow
+        step="enter-code"
+        code="XXXX"
+        displayName=""
+        codeError="That code was not recognised"
+        {...joinFlowProps}
+      />
+    </ParticipantShell>
+  ),
+};
+
+export const SubmittingCode: Story = {
+  ...participantStory,
+  render: () => (
+    <ParticipantShell>
+      <ParticipantJoinFlow step="submitting" code="B7K2" displayName="" {...joinFlowProps} />
+    </ParticipantShell>
+  ),
+};
+
 export const EnterIdentity: Story = {
   ...participantStory,
   render: () => (

@@ -26,6 +26,22 @@ export const Neutral: Story = {
   ),
 };
 
+export const Information: Story = {
+  args: {
+    eyebrow: <span className="gs-label">Session</span>,
+    phase: <Badge intent="information">Briefing</Badge>,
+    intent: "information",
+    trailing: (
+      <Countdown formattedTime="02:00" intent="information" state="running" treatment="inline" />
+    ),
+  },
+  render: (args) => (
+    <StoryFrame className="p-0">
+      <PhaseHeader {...args} />
+    </StoryFrame>
+  ),
+};
+
 export const Warning: Story = {
   args: {
     eyebrow: <span className="gs-label">Session</span>,

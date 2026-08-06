@@ -26,3 +26,42 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const FallbackOnly: Story = {
+  render: () => (
+    <StoryFrame>
+      <div className="flex items-center gap-4">
+        <Avatar>
+          <AvatarFallback>AM</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback>JP</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback>?</AvatarFallback>
+        </Avatar>
+      </div>
+    </StoryFrame>
+  ),
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <StoryFrame>
+      <div className="flex items-end gap-4">
+        <Avatar className="size-8">
+          <AvatarImage src="https://github.com/shadcn.png" alt="Small avatar" />
+          <AvatarFallback>SM</AvatarFallback>
+        </Avatar>
+        <Avatar className="size-10">
+          <AvatarImage src="https://github.com/shadcn.png" alt="Default avatar" />
+          <AvatarFallback>MD</AvatarFallback>
+        </Avatar>
+        <Avatar className="size-14">
+          <AvatarImage src="https://github.com/shadcn.png" alt="Large avatar" />
+          <AvatarFallback>LG</AvatarFallback>
+        </Avatar>
+      </div>
+    </StoryFrame>
+  ),
+};

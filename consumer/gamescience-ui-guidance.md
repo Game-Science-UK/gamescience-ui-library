@@ -1,6 +1,6 @@
 # GameScience UI — consumer agent guidance
 
-Installed library version: **0.5.1**
+Installed library version: **0.5.2**
 
 ## Registry
 
@@ -8,13 +8,13 @@ Installed library version: **0.5.1**
 - Preferred (pinned) registry URL:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/0.5.1/r/{name}.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/0.5.2/r/{name}.json
 ```
 
 - Agent catalogue:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/0.5.1/agent-catalogue.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/0.5.2/agent-catalogue.json
 ```
 
 - Local installed metadata: `src/docs/gamescience-ui.json`

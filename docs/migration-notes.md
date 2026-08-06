@@ -81,6 +81,13 @@ Bug-fix packaging patch. No new UI APIs.
 9. Confirm `src/lib/version.ts` and guidance report `0.3.0`.
 10. See [primitive-layer.md](./primitive-layer.md).
 
+## 0.5.1 → 0.5.2 (Storybook coverage)
+
+See the dedicated note: [migrations/0.5.1-to-0.5.2.md](./migrations/0.5.1-to-0.5.2.md).
+
+Patch: Storybook depth + `storybook:coverage` gate. No component API or theme
+contract changes. Optional pin; reinstall `base` only for version metadata.
+
 ## 0.5.0 → 0.5.1 (Citadel Panel chrome)
 
 See the dedicated note: [migrations/0.5.0-to-0.5.1.md](./migrations/0.5.0-to-0.5.1.md).

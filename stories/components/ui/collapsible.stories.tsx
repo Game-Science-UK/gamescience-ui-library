@@ -28,3 +28,20 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const OpenByDefault: Story = {
+  render: () => (
+    <StoryFrame>
+      <Collapsible defaultOpen className="w-full max-w-md space-y-2">
+        <CollapsibleTrigger asChild>
+          <Button intent="outline" className="w-full justify-between">
+            Session details
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="rounded-control border p-4 text-sm text-muted-foreground">
+          Stage: Briefing · Code: GS-4821 · Facilitator: Jordan Lee
+        </CollapsibleContent>
+      </Collapsible>
+    </StoryFrame>
+  ),
+};

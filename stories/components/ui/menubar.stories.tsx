@@ -47,3 +47,25 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const WithDisabledItem: Story = {
+  render: () => (
+    <StoryFrame>
+      <Menubar>
+        <MenubarMenu>
+          <MenubarTrigger>Session</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>
+              Start briefing <MenubarShortcut>⌘B</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem disabled>Advance stage</MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>
+              End session <MenubarShortcut>⌘Q</MenubarShortcut>
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    </StoryFrame>
+  ),
+};

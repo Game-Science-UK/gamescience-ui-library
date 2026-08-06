@@ -44,3 +44,43 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const ShortPath: Story = {
+  render: () => (
+    <StoryFrame>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Sessions</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Briefing</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </StoryFrame>
+  ),
+};
+
+export const CustomSeparator: Story = {
+  render: () => (
+    <StoryFrame>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator>/</BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Facilitator</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator>/</BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbPage>Live session</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </StoryFrame>
+  ),
+};

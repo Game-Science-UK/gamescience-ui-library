@@ -24,3 +24,31 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const SquareRatio: Story = {
+  render: () => (
+    <StoryFrame>
+      <div className="w-full max-w-xs">
+        <AspectRatio ratio={1}>
+          <div className="flex h-full w-full items-center justify-center rounded-control bg-muted text-sm font-medium">
+            1:1 participant tile
+          </div>
+        </AspectRatio>
+      </div>
+    </StoryFrame>
+  ),
+};
+
+export const PortraitRatio: Story = {
+  render: () => (
+    <StoryFrame>
+      <div className="w-full max-w-xs">
+        <AspectRatio ratio={3 / 4}>
+          <div className="flex h-full w-full items-center justify-center rounded-control border bg-surface-raised text-sm font-medium">
+            3:4 briefing card
+          </div>
+        </AspectRatio>
+      </div>
+    </StoryFrame>
+  ),
+};

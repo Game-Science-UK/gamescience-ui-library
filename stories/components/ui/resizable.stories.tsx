@@ -31,3 +31,24 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const Vertical: Story = {
+  args: { direction: "vertical" },
+  render: (args) => (
+    <StoryFrame>
+      <ResizablePanelGroup {...args} className="min-h-64 max-w-md rounded-control border">
+        <ResizablePanel defaultSize={40} minSize={20}>
+          <div className="flex h-full items-center justify-center p-6 text-sm text-muted-foreground">
+            Scenario brief
+          </div>
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={60} minSize={20}>
+          <div className="flex h-full items-center justify-center p-6 text-sm text-muted-foreground">
+            Participant responses
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </StoryFrame>
+  ),
+};

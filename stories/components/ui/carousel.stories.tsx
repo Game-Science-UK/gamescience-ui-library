@@ -40,3 +40,47 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const Loop: Story = {
+  render: () => (
+    <StoryFrame>
+      <div className="mx-auto max-w-sm px-12">
+        <Carousel opts={{ loop: true }}>
+          <CarouselContent>
+            {slides.map((stage) => (
+              <CarouselItem key={stage}>
+                <div className="flex aspect-video items-center justify-center rounded-control border bg-muted text-sm font-medium">
+                  {stage} stage
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+    </StoryFrame>
+  ),
+};
+
+export const Vertical: Story = {
+  render: () => (
+    <StoryFrame>
+      <div className="mx-auto h-64 max-w-xs px-12">
+        <Carousel orientation="vertical" className="h-full">
+          <CarouselContent className="h-full">
+            {slides.map((stage) => (
+              <CarouselItem key={stage}>
+                <div className="flex h-40 items-center justify-center rounded-control border bg-muted text-sm font-medium">
+                  {stage} stage
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+    </StoryFrame>
+  ),
+};

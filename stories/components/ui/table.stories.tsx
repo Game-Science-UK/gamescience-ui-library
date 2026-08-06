@@ -51,3 +51,60 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const Striped: Story = {
+  render: () => (
+    <StoryFrame>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Sector</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {participants.map((participant, index) => (
+            <TableRow
+              key={participant.name}
+              className={index % 2 === 1 ? "bg-muted/50" : undefined}
+            >
+              <TableCell className="font-medium">{participant.name}</TableCell>
+              <TableCell>{participant.status}</TableCell>
+              <TableCell>{participant.sector}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </StoryFrame>
+  ),
+};
+
+export const WithoutCaption: Story = {
+  render: () => (
+    <StoryFrame>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Stage</TableHead>
+            <TableHead>Duration</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Briefing</TableCell>
+            <TableCell>5 min</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Vote</TableCell>
+            <TableCell>2 min</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Debrief</TableCell>
+            <TableCell>8 min</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </StoryFrame>
+  ),
+};

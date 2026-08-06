@@ -31,3 +31,23 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const OpenByDefault: Story = {
+  render: () => (
+    <StoryFrame>
+      <Popover defaultOpen>
+        <PopoverTrigger asChild>
+          <Button intent="outline">Session status</Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <div className="space-y-2">
+            <p className="text-sm font-medium">Vote stage open</p>
+            <p className="text-sm text-muted-foreground">
+              8 of 12 participants have submitted their decisions.
+            </p>
+          </div>
+        </PopoverContent>
+      </Popover>
+    </StoryFrame>
+  ),
+};

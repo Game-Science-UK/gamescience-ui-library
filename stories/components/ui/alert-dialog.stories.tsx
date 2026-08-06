@@ -47,3 +47,27 @@ export const ConfirmDestructiveAction: Story = {
     </StoryFrame>
   ),
 };
+
+export const ConfirmSaveChanges: Story = {
+  render: () => (
+    <StoryFrame>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button>Save facilitator notes</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Save changes before advancing?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Unsaved notes will be lost if you continue without saving.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Keep editing</AlertDialogCancel>
+            <AlertDialogAction>Save and continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </StoryFrame>
+  ),
+};

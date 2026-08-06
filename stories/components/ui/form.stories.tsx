@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import * as React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,6 +44,45 @@ export const Playground: Story = {
                   <FormLabel>Display name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter your name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Join session</Button>
+          </form>
+        </Form>
+      </StoryFrame>
+    );
+  },
+};
+
+export const ValidationError: Story = {
+  render: function Render() {
+    const form = useForm<JoinFormValues>({
+      defaultValues: { displayName: "" },
+    });
+
+    React.useEffect(() => {
+      form.setError("displayName", {
+        type: "required",
+        message: "Display name is required",
+      });
+    }, [form]);
+
+    return (
+      <StoryFrame>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(() => undefined)} className="w-full max-w-sm space-y-4">
+            <FormField
+              control={form.control}
+              name="displayName"
+              rules={{ required: "Display name is required" }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Display name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your name" aria-invalid {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

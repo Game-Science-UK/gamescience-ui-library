@@ -28,3 +28,22 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const Horizontal: Story = {
+  render: () => (
+    <StoryFrame>
+      <ScrollArea className="w-full max-w-sm whitespace-nowrap rounded-control border">
+        <div className="flex w-max gap-4 p-4">
+          {["Briefing", "Vote", "Debrief", "Results", "Archive"].map((stage) => (
+            <div
+              key={stage}
+              className="flex h-24 w-32 shrink-0 items-center justify-center rounded-control border bg-muted text-sm font-medium"
+            >
+              {stage}
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
+    </StoryFrame>
+  ),
+};

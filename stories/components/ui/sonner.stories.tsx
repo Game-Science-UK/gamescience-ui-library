@@ -28,3 +28,32 @@ export const Playground: Story = {
     </StoryFrame>
   ),
 };
+
+export const SuccessAndError: Story = {
+  render: () => (
+    <StoryFrame>
+      <Toaster />
+      <div className="flex max-w-xs flex-col gap-3">
+        <Button
+          onClick={() =>
+            toast.success("Vote recorded", {
+              description: "Your decision was submitted to the facilitator.",
+            })
+          }
+        >
+          Trigger success toast
+        </Button>
+        <Button
+          intent="danger"
+          onClick={() =>
+            toast.error("Connection lost", {
+              description: "Reconnect to continue participating in the session.",
+            })
+          }
+        >
+          Trigger error toast
+        </Button>
+      </div>
+    </StoryFrame>
+  ),
+};

@@ -123,6 +123,24 @@ export const FacilitatorParticipantsJoining: Story = {
   ),
 };
 
+export const FacilitatorDisconnectedParticipant: Story = {
+  parameters: { viewport: { defaultViewport: "facilitator" } },
+  globals: { context: "facilitator" },
+  render: () => (
+    <FacilitatorShell subtitle="Lobby · connection issues">
+      <FacilitatorLobby
+        session={activeLobbyFixture.session}
+        participants={activeLobbyFixture.participants.filter(
+          (participant) =>
+            participant.connection === "offline" || participant.connection === "reconnecting",
+        )}
+        status="active"
+        onStart={() => undefined}
+      />
+    </FacilitatorShell>
+  ),
+};
+
 export const FacilitatorReady: Story = {
   parameters: { viewport: { defaultViewport: "facilitator" } },
   globals: { context: "facilitator" },
@@ -183,6 +201,20 @@ export const SharedDisplayReady: Story = {
   render: () => (
     <SharedDisplayShell>
       <SharedDisplayLobby session={readyLobbyFixture.session} status="ready" />
+    </SharedDisplayShell>
+  ),
+};
+
+export const SharedDisplayCustomInstruction: Story = {
+  parameters: { viewport: { defaultViewport: "sharedDisplay" } },
+  globals: { context: "shared-display" },
+  render: () => (
+    <SharedDisplayShell>
+      <SharedDisplayLobby
+        session={activeLobbyFixture.session}
+        status="active"
+        instruction="Scan the QR code at your table, then enter this room code"
+      />
     </SharedDisplayShell>
   ),
 };

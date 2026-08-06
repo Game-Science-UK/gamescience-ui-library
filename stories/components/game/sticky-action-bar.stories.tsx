@@ -36,12 +36,39 @@ export const WithStatus: Story = {
   ),
 };
 
+export const Information: Story = {
+  render: () => (
+    <StoryFrame className="flex min-h-[50vh] flex-col justify-end p-0">
+      <StickyActionBar
+        intent="information"
+        status={<span className="gs-label">Waiting for the room to advance</span>}
+      >
+        <Button type="button" intent="outline" className="w-full" disabled>
+          Locked
+        </Button>
+      </StickyActionBar>
+    </StoryFrame>
+  ),
+};
+
 export const Warning: Story = {
   render: () => (
     <StoryFrame className="flex min-h-[50vh] flex-col justify-end p-0">
       <StickyActionBar intent="warning" status={<span className="gs-label">Time running out</span>}>
         <Button type="button" intent="danger" className="w-full">
           Lock in
+        </Button>
+      </StickyActionBar>
+    </StoryFrame>
+  ),
+};
+
+export const Critical: Story = {
+  render: () => (
+    <StoryFrame className="flex min-h-[50vh] flex-col justify-end p-0">
+      <StickyActionBar intent="critical" status={<span className="gs-label">Final seconds</span>}>
+        <Button type="button" intent="danger" className="w-full">
+          Submit now
         </Button>
       </StickyActionBar>
     </StoryFrame>
