@@ -1,0 +1,39 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# GameScience UI Library
+
+Approved React design library and shadcn registry for GameScience.ai multiplayer learning games.
+
+Use this Storybook to inspect **rendered** components, patterns, and context shells before installing from the registry. Storybook is the visual reference; the versioned registry on GitHub Pages is the install source of truth.
+
+## Theme and Context toolbars
+
+Every story is wrapped in `GameScienceProvider`. Use the Storybook toolbar controls:
+
+- **Theme** — `gamescience` or `citadel` (application theme only; set once at the root)
+- **Context** — `participant`, `facilitator`, or `shared-display` (experience context, not a theme)
+
+Do not nest providers, pass `theme` props to components, or mix themes on one screen.
+
+## How to choose UI
+
+1. Prefer a complete **pattern** under Components → Examples → Patterns
+2. Then domain components (phase, vote, lobby chrome, display)
+3. Then core UI primitives
+4. Compose new surfaces from approved pieces before inventing primitives
+
+## Registry vs Storybook
+
+| Surface | Role |
+| --- | --- |
+| Published registry (`/v/x.y.z/`) | Installable items agents and apps consume |
+| Hosted Storybook (`/storybook/`) | Rendered docs and interaction reference |
+| `agent-catalogue.json` | Machine-readable catalogue for selection |
+
+Pin consumers to a registry version. Storybook on Pages tracks `main` and may show work ahead of the latest tagged registry release.
+
+## Docs layout
+
+Component docs use a **centered**, fitted canvas by default. Patterns, shells, and reference screens stay **fullscreen** so you see the full experience framing.

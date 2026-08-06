@@ -8,7 +8,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Accordion",
+  title: "Components/Accordion",
   component: Accordion,
   tags: ["autodocs"],
 } satisfies Meta<typeof Accordion>;

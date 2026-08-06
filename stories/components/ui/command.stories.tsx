@@ -14,7 +14,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Command",
+  title: "Components/Command",
   component: Command,
   tags: ["autodocs"],
 } satisfies Meta<typeof Command>;

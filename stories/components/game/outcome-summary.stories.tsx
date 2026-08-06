@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/OutcomeSummary",
+  title: "Components/OutcomeSummary",
   component: OutcomeSummary,
   tags: ["autodocs"],
 } satisfies Meta<typeof OutcomeSummary>;

@@ -3,7 +3,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Resizable",
+  title: "Components/Resizable",
   component: ResizablePanelGroup,
   tags: ["autodocs"],
 } satisfies Meta<typeof ResizablePanelGroup>;

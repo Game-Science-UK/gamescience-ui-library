@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Tabs",
+  title: "Components/Tabs",
   component: Tabs,
   tags: ["autodocs"],
 } satisfies Meta<typeof Tabs>;

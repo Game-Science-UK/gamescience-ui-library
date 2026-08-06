@@ -12,7 +12,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/ContextMenu",
+  title: "Components/ContextMenu",
   component: ContextMenu,
   tags: ["autodocs"],
 } satisfies Meta<typeof ContextMenu>;

@@ -1,6 +1,6 @@
 # GameScience Registry
 
-Version: 0.5.4
+Version: 1.0.0
 Base URL: http://localhost:4343
 
 ## Examples

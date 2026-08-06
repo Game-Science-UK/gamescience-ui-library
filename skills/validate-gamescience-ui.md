@@ -252,7 +252,7 @@ Follow exactly one branch:
 ### Tailwind 3
 
 - `tailwind.config.*` retained and authoritative
-- semantic colours mapped through `hsl(var(--token))` (or the project’s
+- semantic colours mapped through `oklch(var(--token))` (or the project’s
   equivalent contract mapping)
 - `@tailwind base/components/utilities` retained
 - `tailwind-v4-bridge.css` not installed or imported

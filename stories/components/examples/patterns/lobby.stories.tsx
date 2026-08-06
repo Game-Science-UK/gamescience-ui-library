@@ -1,16 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ParticipantJoinFlow } from "@/patterns/join";
-import { FacilitatorLobby, SharedDisplayLobby } from "@/patterns/lobby";
+import { FacilitatorLobby } from "@/patterns/lobby";
 import { activeLobbyFixture, emptyLobbyFixture, readyLobbyFixture } from "@/fixtures/lobby";
-import { FacilitatorShell, ParticipantShell, SharedDisplayShell } from "@/templates";
+import { FacilitatorShell, ParticipantShell } from "@/templates";
+import { ParticipantJoinFlow } from "@/patterns/join";
 
 const meta = {
-  title: "Patterns/Lobby",
+  title: "Components/Examples/Patterns/Lobby",
   parameters: {
+    layout: "fullscreen",
     docs: {
       description: {
         component:
-          "Join and lobby patterns across participant, facilitator, and shared-display contexts. Same fixtures, context-appropriate presentation.",
+          "Facilitator and participant lobby states. Shared-display lobby lives under Shared Display Lobby.",
       },
     },
   },
@@ -172,49 +173,5 @@ export const FacilitatorStartDisabled: Story = {
         onStart={() => undefined}
       />
     </FacilitatorShell>
-  ),
-};
-
-export const SharedDisplayJoin: Story = {
-  parameters: { viewport: { defaultViewport: "sharedDisplay" } },
-  globals: { context: "shared-display" },
-  render: () => (
-    <SharedDisplayShell>
-      <SharedDisplayLobby session={emptyLobbyFixture.session} status="not-started" />
-    </SharedDisplayShell>
-  ),
-};
-
-export const SharedDisplayWaiting: Story = {
-  parameters: { viewport: { defaultViewport: "sharedDisplay" } },
-  globals: { context: "shared-display" },
-  render: () => (
-    <SharedDisplayShell>
-      <SharedDisplayLobby session={activeLobbyFixture.session} status="active" />
-    </SharedDisplayShell>
-  ),
-};
-
-export const SharedDisplayReady: Story = {
-  parameters: { viewport: { defaultViewport: "sharedDisplay" } },
-  globals: { context: "shared-display" },
-  render: () => (
-    <SharedDisplayShell>
-      <SharedDisplayLobby session={readyLobbyFixture.session} status="ready" />
-    </SharedDisplayShell>
-  ),
-};
-
-export const SharedDisplayCustomInstruction: Story = {
-  parameters: { viewport: { defaultViewport: "sharedDisplay" } },
-  globals: { context: "shared-display" },
-  render: () => (
-    <SharedDisplayShell>
-      <SharedDisplayLobby
-        session={activeLobbyFixture.session}
-        status="active"
-        instruction="Scan the QR code at your table, then enter this room code"
-      />
-    </SharedDisplayShell>
   ),
 };

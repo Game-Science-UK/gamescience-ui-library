@@ -20,8 +20,16 @@ import { ParticipantShell } from "@/templates/participant-shell/participant-shel
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/Domain compositions",
-  parameters: { layout: "fullscreen" },
+  title: "Components/Examples/Game Surfaces",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        component:
+          "Phase, vote, and outcome compositions using approved game components inside context shells. Not published as registry patterns.",
+      },
+    },
+  },
 } satisfies Meta;
 
 export default meta;
@@ -31,7 +39,7 @@ type Story = StoryObj;
 export const ParticipantDiscussionComposition: Story = {
   name: "Participant discussion composition",
   render: () => (
-    <StoryFrame className="p-0">
+    <StoryFrame variant="full" className="p-0">
       <ParticipantShell
         header={
           <PhaseHeader
@@ -76,7 +84,7 @@ export const ParticipantDiscussionComposition: Story = {
 export const ParticipantVoteComposition: Story = {
   name: "Participant vote composition",
   render: () => (
-    <StoryFrame className="p-0">
+    <StoryFrame variant="full" className="p-0">
       <ParticipantShell
         header={
           <PhaseHeader

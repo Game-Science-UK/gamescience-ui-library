@@ -7,7 +7,7 @@ const intents = ["default", "primary", "success", "warning", "danger", "informat
 const treatments = ["solid", "subtle", "outlined"] as const;
 
 const meta = {
-  title: "Components/UI/Badge",
+  title: "Components/Badge",
   component: Badge,
   tags: ["autodocs"],
   argTypes: {

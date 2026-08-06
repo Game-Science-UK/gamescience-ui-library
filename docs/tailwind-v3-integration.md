@@ -17,9 +17,9 @@ does not determine router integration.
 It does **not** install a Tailwind 3 config, a Tailwind 4 bridge, or a framework
 router.
 
-Semantic colour tokens are authored as **HSL triplets** (for example
-`221 83% 53%`), not complete `hsl()` values. Themes implement every token in
-`src/themes/theme-contract.ts`.
+Semantic colour tokens are authored as **OKLCH channel triplets** (for example
+`0.545 0.215 262.7`), not complete `oklch()` values. Themes implement every
+token in `src/themes/theme-contract.ts`.
 
 ## Application ownership
 
@@ -30,7 +30,7 @@ They must:
 1. Keep existing `@tailwind base`, `@tailwind components`, and
    `@tailwind utilities` directives
 2. Import the stack-agnostic foundation CSS and **exactly one** theme CSS
-3. Map GameScience semantic tokens through `hsl(var(--token))` (and related
+3. Map GameScience semantic tokens through `oklch(var(--token))` (and related
    `var(--token)` mappings for non-colour tokens)
 4. **Not** install or import `tailwind-v4-bridge.css`
 
@@ -51,8 +51,8 @@ Do not place `@tailwind` directives inside GameScience foundation files.
 
 Derive the map from the registry token contract
 (`src/themes/theme-contract.ts`) and the library’s own Tailwind 3 config. The
-colour channels use HSL triplets with optional alpha via
-`hsl(var(--token) / <alpha-value>)`.
+colour channels use OKLCH triplets with optional alpha via
+`oklch(var(--token) / <alpha-value>)`.
 
 ```ts
 // tailwind.config.ts
@@ -63,54 +63,54 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "hsl(var(--background) / <alpha-value>)",
-        foreground: "hsl(var(--foreground) / <alpha-value>)",
+        background: "oklch(var(--background) / <alpha-value>)",
+        foreground: "oklch(var(--foreground) / <alpha-value>)",
         surface: {
-          DEFAULT: "hsl(var(--surface) / <alpha-value>)",
-          subtle: "hsl(var(--surface-subtle) / <alpha-value>)",
-          raised: "hsl(var(--surface-raised) / <alpha-value>)",
-          overlay: "hsl(var(--surface-overlay) / <alpha-value>)",
+          DEFAULT: "oklch(var(--surface) / <alpha-value>)",
+          subtle: "oklch(var(--surface-subtle) / <alpha-value>)",
+          raised: "oklch(var(--surface-raised) / <alpha-value>)",
+          overlay: "oklch(var(--surface-overlay) / <alpha-value>)",
         },
         border: {
-          DEFAULT: "hsl(var(--border) / <alpha-value>)",
-          strong: "hsl(var(--border-strong) / <alpha-value>)",
+          DEFAULT: "oklch(var(--border) / <alpha-value>)",
+          strong: "oklch(var(--border-strong) / <alpha-value>)",
         },
-        "focus-ring": "hsl(var(--focus-ring) / <alpha-value>)",
+        "focus-ring": "oklch(var(--focus-ring) / <alpha-value>)",
         primary: {
-          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
-          hover: "hsl(var(--primary-hover) / <alpha-value>)",
-          active: "hsl(var(--primary-active) / <alpha-value>)",
-          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
+          DEFAULT: "oklch(var(--primary) / <alpha-value>)",
+          hover: "oklch(var(--primary-hover) / <alpha-value>)",
+          active: "oklch(var(--primary-active) / <alpha-value>)",
+          foreground: "oklch(var(--primary-foreground) / <alpha-value>)",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
-          hover: "hsl(var(--secondary-hover) / <alpha-value>)",
-          active: "hsl(var(--secondary-active) / <alpha-value>)",
-          foreground: "hsl(var(--secondary-foreground) / <alpha-value>)",
+          DEFAULT: "oklch(var(--secondary) / <alpha-value>)",
+          hover: "oklch(var(--secondary-hover) / <alpha-value>)",
+          active: "oklch(var(--secondary-active) / <alpha-value>)",
+          foreground: "oklch(var(--secondary-foreground) / <alpha-value>)",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
-          foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
+          DEFAULT: "oklch(var(--accent) / <alpha-value>)",
+          foreground: "oklch(var(--accent-foreground) / <alpha-value>)",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted) / <alpha-value>)",
-          foreground: "hsl(var(--muted-foreground) / <alpha-value>)",
+          DEFAULT: "oklch(var(--muted) / <alpha-value>)",
+          foreground: "oklch(var(--muted-foreground) / <alpha-value>)",
         },
         success: {
-          DEFAULT: "hsl(var(--success) / <alpha-value>)",
-          foreground: "hsl(var(--success-foreground) / <alpha-value>)",
+          DEFAULT: "oklch(var(--success) / <alpha-value>)",
+          foreground: "oklch(var(--success-foreground) / <alpha-value>)",
         },
         warning: {
-          DEFAULT: "hsl(var(--warning) / <alpha-value>)",
-          foreground: "hsl(var(--warning-foreground) / <alpha-value>)",
+          DEFAULT: "oklch(var(--warning) / <alpha-value>)",
+          foreground: "oklch(var(--warning-foreground) / <alpha-value>)",
         },
         danger: {
-          DEFAULT: "hsl(var(--danger) / <alpha-value>)",
-          foreground: "hsl(var(--danger-foreground) / <alpha-value>)",
+          DEFAULT: "oklch(var(--danger) / <alpha-value>)",
+          foreground: "oklch(var(--danger-foreground) / <alpha-value>)",
         },
         information: {
-          DEFAULT: "hsl(var(--information) / <alpha-value>)",
-          foreground: "hsl(var(--information-foreground) / <alpha-value>)",
+          DEFAULT: "oklch(var(--information) / <alpha-value>)",
+          foreground: "oklch(var(--information-foreground) / <alpha-value>)",
         },
       },
       borderRadius: {

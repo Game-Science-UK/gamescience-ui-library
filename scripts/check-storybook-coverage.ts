@@ -198,13 +198,13 @@ const ALLOWLIST = new Set([
 
 /** Root components that must have a dedicated story file importing them. */
 const REQUIRED_STORY_ROOTS: Array<{ name: string; storyGlobHint: string }> = [
-  // Patterns & shells
-  { name: "ParticipantJoinFlow", storyGlobHint: "stories/patterns" },
-  { name: "FacilitatorLobby", storyGlobHint: "stories/patterns" },
-  { name: "SharedDisplayLobby", storyGlobHint: "stories/patterns" },
-  { name: "ParticipantShell", storyGlobHint: "stories/templates" },
-  { name: "FacilitatorShell", storyGlobHint: "stories/templates" },
-  { name: "SharedDisplayShell", storyGlobHint: "stories/templates" },
+  // Patterns & shells (Examples IA)
+  { name: "ParticipantJoinFlow", storyGlobHint: "stories/components/examples/patterns" },
+  { name: "FacilitatorLobby", storyGlobHint: "stories/components/examples/patterns" },
+  { name: "SharedDisplayLobby", storyGlobHint: "stories/components/examples/patterns" },
+  { name: "ParticipantShell", storyGlobHint: "stories/components/examples" },
+  { name: "FacilitatorShell", storyGlobHint: "stories/components/examples" },
+  { name: "SharedDisplayShell", storyGlobHint: "stories/components/examples" },
 ];
 
 function walk(dir: string, out: string[] = []) {
@@ -293,35 +293,45 @@ function main() {
     }
   }
 
-  // Minimum depth: join / lobby / shells must expose multiple states.
+  // Minimum depth: join / lobby / shared-display lobby / shells must expose multiple states.
   const joinStories = [...storyTextByFile.entries()].find(([file]) =>
-    file.endsWith("stories/patterns/join.stories.tsx"),
+    file.endsWith("stories/components/examples/patterns/join-flow.stories.tsx"),
   )?.[1];
   const lobbyStories = [...storyTextByFile.entries()].find(([file]) =>
-    file.endsWith("stories/patterns/lobby.stories.tsx"),
+    file.endsWith("stories/components/examples/patterns/lobby.stories.tsx"),
+  )?.[1];
+  const sharedDisplayLobbyStories = [...storyTextByFile.entries()].find(([file]) =>
+    file.endsWith("stories/components/examples/patterns/shared-display-lobby.stories.tsx"),
   )?.[1];
   const shellStories = [...storyTextByFile.entries()].find(([file]) =>
-    file.endsWith("stories/templates/shells.stories.tsx"),
+    file.endsWith("stories/components/examples/shells.stories.tsx"),
   )?.[1];
 
   for (const required of ["InvalidCode", "EnterIdentity", "Waiting", "Disconnected"]) {
     if (!joinStories || !new RegExp(`export const ${required}\\b`).test(joinStories)) {
-      failures.push(`Patterns/Join missing required story export ${required}`);
+      failures.push(
+        `Components/Examples/Patterns/Join Flow missing required story export ${required}`,
+      );
     }
   }
-  for (const required of [
-    "FacilitatorEmpty",
-    "FacilitatorReady",
-    "SharedDisplayJoin",
-    "SharedDisplayReady",
-  ]) {
+  for (const required of ["FacilitatorEmpty", "FacilitatorReady"]) {
     if (!lobbyStories || !new RegExp(`export const ${required}\\b`).test(lobbyStories)) {
-      failures.push(`Patterns/Lobby missing required story export ${required}`);
+      failures.push(`Components/Examples/Patterns/Lobby missing required story export ${required}`);
+    }
+  }
+  for (const required of ["SharedDisplayJoin", "SharedDisplayReady"]) {
+    if (
+      !sharedDisplayLobbyStories ||
+      !new RegExp(`export const ${required}\\b`).test(sharedDisplayLobbyStories)
+    ) {
+      failures.push(
+        `Components/Examples/Patterns/Shared Display Lobby missing required story export ${required}`,
+      );
     }
   }
   for (const required of ["ParticipantBare", "FacilitatorBare", "SharedDisplayBare"]) {
     if (!shellStories || !new RegExp(`export const ${required}\\b`).test(shellStories)) {
-      failures.push(`Templates/Shells missing required story export ${required}`);
+      failures.push(`Components/Examples/Shells missing required story export ${required}`);
     }
   }
 

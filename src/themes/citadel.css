@@ -11,51 +11,51 @@
 
 [data-theme="citadel"] {
   /* Page and surfaces — field #051A33, surface #0C233C, surface-2 #102B49 */
-  --background: 213 76% 11%;
-  --foreground: 210 76% 95%;
+  --background: 0.216 0.053 254.7;
+  --foreground: 0.957 0.017 248.0;
 
-  --surface-subtle: 213 68% 12%;
-  --surface: 211 67% 14%;
-  --surface-raised: 211 64% 17%;
-  --surface-overlay: 213 76% 9%;
+  --surface-subtle: 0.227 0.051 254.8;
+  --surface: 0.252 0.055 252.2;
+  --surface-raised: 0.282 0.062 252.2;
+  --surface-overlay: 0.195 0.045 254.0;
 
   /* Borders and focus */
-  --border: 211 50% 22%;
-  --border-strong: 195 100% 48%;
-  --focus-ring: 195 100% 48%;
+  --border: 0.331 0.061 251.6;
+  --border-strong: 0.733 0.149 231.4;
+  --focus-ring: 0.733 0.149 231.4;
 
   /* Primary — Pacific #00B8F5; CTA ink ~#04253A */
-  --primary: 195 100% 48%;
-  --primary-hover: 195 100% 42%;
-  --primary-active: 195 100% 36%;
-  --primary-foreground: 205 87% 12%;
+  --primary: 0.733 0.149 231.4;
+  --primary-hover: 0.664 0.134 231.2;
+  --primary-active: 0.593 0.119 230.8;
+  --primary-foreground: 0.247 0.055 244.2;
 
   /* Secondary — body text role ~#C8D3E0 */
-  --secondary: 212 64% 18%;
-  --secondary-hover: 212 60% 22%;
-  --secondary-active: 212 58% 26%;
-  --secondary-foreground: 212 24% 83%;
+  --secondary: 0.290 0.067 253.6;
+  --secondary-hover: 0.328 0.074 253.6;
+  --secondary-active: 0.366 0.082 253.5;
+  --secondary-foreground: 0.863 0.019 251.6;
 
   /* Accent — Cobalt #1E49E2 */
-  --accent: 228 76% 50%;
-  --accent-foreground: 210 76% 95%;
+  --accent: 0.482 0.237 265.8;
+  --accent-foreground: 0.957 0.017 248.0;
 
   /* Muted — #6B7C90 */
-  --muted: 212 54% 17%;
-  --muted-foreground: 212 14% 49%;
+  --muted: 0.280 0.054 253.1;
+  --muted-foreground: 0.579 0.035 251.9;
 
   /* Status — success #4ADE80, warning #FFC857, critical #FF6B6B */
-  --success: 142 69% 58%;
-  --success-foreground: 213 76% 9%;
+  --success: 0.800 0.182 151.8;
+  --success-foreground: 0.195 0.045 254.0;
 
-  --warning: 42 100% 67%;
-  --warning-foreground: 213 76% 9%;
+  --warning: 0.870 0.144 85.5;
+  --warning-foreground: 0.195 0.045 254.0;
 
-  --danger: 0 100% 71%;
-  --danger-foreground: 213 76% 9%;
+  --danger: 0.712 0.181 22.8;
+  --danger-foreground: 0.195 0.045 254.0;
 
-  --information: 195 100% 48%;
-  --information-foreground: 205 87% 12%;
+  --information: 0.733 0.149 231.4;
+  --information-foreground: 0.247 0.055 244.2;
 
   /* Shape */
   --radius-control: 0;
@@ -99,16 +99,16 @@
   --content-max-width: 72rem;
 
   /* Shadows */
-  --shadow-control: 0 0 0 1px hsl(195 100% 48% / 0.24), 0 4px 14px rgb(0 0 0 / 0.38);
+  --shadow-control: 0 0 0 1px oklch(0.733 0.149 231.4 / 0.24), 0 4px 14px rgb(0 0 0 / 0.38);
 
-  --shadow-card: 0 0 0 1px hsl(195 100% 48% / 0.18), 0 12px 32px rgb(0 0 0 / 0.34);
+  --shadow-card: 0 0 0 1px oklch(0.733 0.149 231.4 / 0.18), 0 12px 32px rgb(0 0 0 / 0.34);
 
   --shadow-panel-depth: 0 12px 32px rgb(0 0 0 / 0.34);
   --shadow-panel-overlay-depth: 0 24px 64px rgb(0 0 0 / 0.55);
 
-  --shadow-overlay: 0 0 0 1px hsl(195 100% 48% / 0.3), 0 24px 64px rgb(0 0 0 / 0.55);
+  --shadow-overlay: 0 0 0 1px oklch(0.733 0.149 231.4 / 0.3), 0 24px 64px rgb(0 0 0 / 0.55);
 
-  --shadow-focus: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--focus-ring) / 0.75);
+  --shadow-focus: 0 0 0 2px oklch(var(--background)), 0 0 0 4px oklch(var(--focus-ring) / 0.75);
 
   /* Motion — --easing-out from audit */
   --duration-fast: 100ms;
@@ -123,11 +123,11 @@
 
   /* Shell */
   --gs-shell-gradient:
-    radial-gradient(ellipse at 50% -10%, hsl(195 100% 48% / 0.12), transparent 42%),
-    linear-gradient(180deg, hsl(213 76% 11%), hsl(213 80% 8%));
+    radial-gradient(ellipse at 50% -10%, oklch(0.733 0.149 231.4 / 0.12), transparent 42%),
+    linear-gradient(180deg, oklch(0.216 0.053 254.7), oklch(0.183 0.043 253.1));
 
   /* Extension tokens — consumed by theme-scoped component/shell rules */
-  --shell-grid-color: 195 100% 48%;
+  --shell-grid-color: 0.733 0.149 231.4;
   --shell-grid-dot-alpha: 0.18;
   --shell-grid-size-participant: 32px;
   --shell-grid-size-display: 40px;
@@ -138,8 +138,8 @@
     ellipse at center,
     transparent 0%,
     transparent 50%,
-    hsl(213 76% 11% / 0.28) 88%,
-    hsl(213 76% 11% / 0.55) 100%
+    oklch(0.216 0.053 254.7 / 0.28) 88%,
+    oklch(0.216 0.053 254.7 / 0.55) 100%
   );
 
   --panel-surface-alpha: 0.7;
@@ -155,17 +155,17 @@
   --scope-corner-size-lg: 16px;
   --scope-corner-width: 2px;
   --scope-corner-offset: -1px;
-  --scope-corner-color: hsl(var(--border-strong));
+  --scope-corner-color: oklch(var(--border-strong));
 
   --hairline-alpha: 0.3;
   --overlay-scrim-alpha: 0.72;
 
   /* Glow roles — pacific / cobalt / warning / critical */
-  --glow-pacific: 0 0 12px hsl(195 100% 48% / 0.4);
-  --glow-pacific-strong: 0 0 24px hsl(195 100% 48% / 0.6);
-  --glow-cobalt: 0 0 12px hsl(228 76% 50% / 0.4);
-  --glow-warning: 0 0 12px hsl(42 100% 67% / 0.5);
-  --glow-danger: 0 0 12px hsl(0 100% 71% / 0.5);
+  --glow-pacific: 0 0 12px oklch(0.733 0.149 231.4 / 0.4);
+  --glow-pacific-strong: 0 0 24px oklch(0.733 0.149 231.4 / 0.6);
+  --glow-cobalt: 0 0 12px oklch(0.482 0.237 265.8 / 0.4);
+  --glow-warning: 0 0 12px oklch(0.870 0.144 85.5 / 0.5);
+  --glow-danger: 0 0 12px oklch(0.712 0.181 22.8 / 0.5);
   /* Canonical public critical role aliases danger; app --glow-critical maps here */
   --glow-critical: var(--glow-danger);
   /* Back-compat aliases used by existing rules */
@@ -176,8 +176,8 @@
   --action-bar-safe-bottom: max(1.5rem, env(safe-area-inset-bottom));
   --action-bar-bleed: linear-gradient(
     to top,
-    hsl(213 76% 11% / 0.95),
-    hsl(213 76% 11% / 0.5) 70%,
+    oklch(0.216 0.053 254.7 / 0.95),
+    oklch(0.216 0.053 254.7 / 0.5) 70%,
     transparent
   );
 }
@@ -240,12 +240,12 @@
 
 [data-theme="citadel"]
   .gs-button[data-emphasis="strong"]:not(:disabled):not([aria-disabled="true"]) {
-  --scope-corner-color: hsl(var(--primary-foreground));
+  --scope-corner-color: oklch(var(--primary-foreground));
 }
 
 [data-theme="citadel"] .gs-button[data-emphasis="strong"]:disabled::before,
 [data-theme="citadel"] .gs-button[data-emphasis="strong"][aria-disabled="true"]::before {
-  --scope-corner-color: hsl(var(--border-strong));
+  --scope-corner-color: oklch(var(--border-strong));
   opacity: 0.55;
 }
 
@@ -269,8 +269,8 @@
 [data-theme="citadel"] .gs-button[data-emphasis="strong"]:disabled,
 [data-theme="citadel"] .gs-button[data-emphasis="strong"][aria-disabled="true"] {
   background: transparent;
-  color: hsl(var(--muted-foreground));
-  border: 1px solid hsl(var(--border-strong));
+  color: oklch(var(--muted-foreground));
+  border: 1px solid oklch(var(--border-strong));
   box-shadow: none;
   opacity: 1;
 }
@@ -291,35 +291,35 @@
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-input {
-  background: hsl(var(--background) / var(--input-surface-alpha));
-  border-color: hsl(var(--border-strong) / var(--input-border-alpha));
-  color: hsl(var(--foreground));
+  background: oklch(var(--background) / var(--input-surface-alpha));
+  border-color: oklch(var(--border-strong) / var(--input-border-alpha));
+  color: oklch(var(--foreground));
   box-shadow: none;
   border-radius: var(--radius-control);
   font-family: var(--font-body);
 }
 
 [data-theme="citadel"] .gs-input:hover:not(:disabled):not([aria-invalid="true"]) {
-  border-color: hsl(var(--border-strong) / var(--input-border-hover-alpha));
+  border-color: oklch(var(--border-strong) / var(--input-border-hover-alpha));
 }
 
 [data-theme="citadel"] .gs-input:focus-visible {
-  border-color: hsl(var(--focus-ring));
+  border-color: oklch(var(--focus-ring));
   box-shadow: none;
   outline: none;
 }
 
 [data-theme="citadel"] .gs-input::placeholder {
-  color: hsl(var(--muted-foreground));
+  color: oklch(var(--muted-foreground));
 }
 
 [data-theme="citadel"] .gs-input[aria-invalid="true"] {
-  border-color: hsl(var(--danger));
+  border-color: oklch(var(--danger));
 }
 
 [data-theme="citadel"] .gs-input[aria-invalid="true"]:focus-visible {
   box-shadow: none;
-  border-color: hsl(var(--danger));
+  border-color: oklch(var(--danger));
 }
 
 [data-theme="citadel"] .gs-label {
@@ -330,7 +330,7 @@
 }
 
 [data-theme="citadel"] .gs-eyebrow {
-  color: hsl(var(--primary));
+  color: oklch(var(--primary));
 }
 
 /* -------------------------------------------------------------------------- */
@@ -339,8 +339,8 @@
 
 [data-theme="citadel"] .gs-checkbox,
 [data-theme="citadel"] .gs-radio {
-  border-color: hsl(var(--border-strong) / 0.45);
-  background: hsl(var(--background) / var(--input-surface-alpha));
+  border-color: oklch(var(--border-strong) / 0.45);
+  background: oklch(var(--background) / var(--input-surface-alpha));
 }
 
 [data-theme="citadel"] .gs-checkbox {
@@ -353,33 +353,33 @@
 
 [data-theme="citadel"] .gs-checkbox[data-state="checked"],
 [data-theme="citadel"] .gs-radio[data-state="checked"] {
-  border-color: hsl(var(--primary));
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
+  border-color: oklch(var(--primary));
+  background: oklch(var(--primary));
+  color: oklch(var(--primary-foreground));
   box-shadow: var(--glow-pacific);
 }
 
 [data-theme="citadel"] .gs-switch {
   border-radius: var(--radius-control);
-  background: hsl(var(--muted));
+  background: oklch(var(--muted));
 }
 
 [data-theme="citadel"] .gs-switch[data-state="checked"] {
-  background: hsl(var(--primary));
+  background: oklch(var(--primary));
   box-shadow: var(--glow-pacific);
 }
 
 [data-theme="citadel"] .gs-select-trigger {
-  background: hsl(var(--background) / var(--input-surface-alpha));
-  border-color: hsl(var(--border-strong) / var(--input-border-alpha));
+  background: oklch(var(--background) / var(--input-surface-alpha));
+  border-color: oklch(var(--border-strong) / var(--input-border-alpha));
   border-radius: var(--radius-control);
-  color: hsl(var(--foreground));
+  color: oklch(var(--foreground));
   box-shadow: none;
 }
 
 [data-theme="citadel"] .gs-select-trigger:focus,
 [data-theme="citadel"] .gs-select-trigger:focus-visible {
-  border-color: hsl(var(--focus-ring));
+  border-color: oklch(var(--focus-ring));
   box-shadow: none;
   outline: none;
 }
@@ -387,32 +387,32 @@
 [data-theme="citadel"] .gs-select-content,
 [data-theme="citadel"] .gs-popover-content,
 [data-theme="citadel"] .gs-dropdown-content {
-  background: hsl(var(--surface-raised));
-  border-color: hsl(var(--border-strong) / 0.28);
+  background: oklch(var(--surface-raised));
+  border-color: oklch(var(--border-strong) / 0.28);
   border-radius: var(--radius-control);
   box-shadow: var(--shadow-overlay);
 }
 
 [data-theme="citadel"] .gs-slider-track {
   border-radius: 0;
-  background: hsl(var(--muted));
+  background: oklch(var(--muted));
 }
 
 [data-theme="citadel"] .gs-slider-range {
-  background: hsl(var(--primary));
+  background: oklch(var(--primary));
 }
 
 [data-theme="citadel"] .gs-slider-thumb {
   border-radius: 0;
-  border-color: hsl(var(--primary));
-  background: hsl(var(--background));
+  border-color: oklch(var(--primary));
+  background: oklch(var(--background));
   box-shadow: var(--glow-pacific);
 }
 
 [data-theme="citadel"] .gs-tabs-list {
   border-radius: var(--radius-control);
-  background: hsl(var(--surface) / var(--panel-surface-alpha));
-  border: 1px solid hsl(var(--border-strong) / 0.18);
+  background: oklch(var(--surface) / var(--panel-surface-alpha));
+  border: 1px solid oklch(var(--border-strong) / 0.18);
 }
 
 [data-theme="citadel"] .gs-tabs-trigger {
@@ -424,13 +424,13 @@
 }
 
 [data-theme="citadel"] .gs-tabs-trigger[data-state="active"] {
-  background: hsl(var(--primary) / 0.12);
-  color: hsl(var(--primary));
-  box-shadow: inset 0 -2px 0 hsl(var(--primary));
+  background: oklch(var(--primary) / 0.12);
+  color: oklch(var(--primary));
+  box-shadow: inset 0 -2px 0 oklch(var(--primary));
 }
 
 [data-theme="citadel"] .gs-accordion-item {
-  border-color: hsl(var(--border-strong) / 0.2);
+  border-color: oklch(var(--border-strong) / 0.2);
 }
 
 [data-theme="citadel"] .gs-accordion-trigger {
@@ -445,18 +445,18 @@
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-panel {
-  background: hsl(var(--surface) / var(--panel-surface-alpha));
-  border: var(--border-width-panel) solid hsl(var(--border-strong) / var(--panel-border-alpha));
+  background: oklch(var(--surface) / var(--panel-surface-alpha));
+  border: var(--border-width-panel) solid oklch(var(--border-strong) / var(--panel-border-alpha));
   border-radius: var(--radius-panel);
   backdrop-filter: blur(var(--panel-blur));
   box-shadow: none;
 }
 
 [data-theme="citadel"] .gs-panel[data-elevation="raised"] {
-  background: hsl(var(--surface-raised) / 0.9);
+  background: oklch(var(--surface-raised) / 0.9);
   box-shadow:
     var(--shadow-panel-depth),
-    inset 0 1px 0 hsl(var(--foreground) / 0.04);
+    inset 0 1px 0 oklch(var(--foreground) / 0.04);
 }
 
 [data-theme="citadel"] .gs-panel[data-elevation="overlay"] {
@@ -464,7 +464,7 @@
 }
 
 [data-theme="citadel"] .gs-panel[data-emphasis="strong"] {
-  border-color: hsl(var(--border-strong) / var(--panel-border-alpha));
+  border-color: oklch(var(--border-strong) / var(--panel-border-alpha));
   box-shadow: var(--shadow-panel-depth), var(--glow-cobalt);
 }
 
@@ -475,23 +475,23 @@
 }
 
 [data-theme="citadel"] .gs-card {
-  background: hsl(var(--surface) / var(--panel-surface-alpha));
-  border: 1px solid hsl(var(--border-strong) / var(--panel-border-alpha));
+  background: oklch(var(--surface) / var(--panel-surface-alpha));
+  border: 1px solid oklch(var(--border-strong) / var(--panel-border-alpha));
   border-radius: var(--radius-card);
   backdrop-filter: blur(var(--panel-blur));
   box-shadow: none;
 }
 
 [data-theme="citadel"] .gs-separator {
-  background: hsl(var(--border-strong) / var(--hairline-alpha));
+  background: oklch(var(--border-strong) / var(--hairline-alpha));
 }
 
 [data-theme="citadel"] .gs-separator[data-treatment="hairline"] {
-  background: hsl(var(--border-strong) / var(--hairline-alpha));
+  background: oklch(var(--border-strong) / var(--hairline-alpha));
 }
 
 [data-theme="citadel"] .gs-eyebrow-dotted {
-  color: hsl(var(--primary));
+  color: oklch(var(--primary));
   font-family: var(--font-mono);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -499,7 +499,7 @@
 
 [data-theme="citadel"] .gs-countdown[data-intent="critical"],
 [data-theme="citadel"] .gs-countdown[data-state="expired"] {
-  color: hsl(var(--danger));
+  color: oklch(var(--danger));
   text-shadow: var(--glow-critical);
 }
 
@@ -507,13 +507,13 @@
   .gs-phase-directive[data-treatment="panel"][data-intent="critical"]
   .gs-panel,
 [data-theme="citadel"] .gs-outcome-summary[data-intent="critical"] .gs-panel {
-  --scope-corner-color: hsl(var(--danger));
+  --scope-corner-color: oklch(var(--danger));
   box-shadow: var(--glow-critical);
 }
 
 [data-theme="citadel"] .gs-phase-directive[data-treatment="panel"][data-intent="warning"] .gs-panel,
 [data-theme="citadel"] .gs-outcome-summary[data-intent="warning"] .gs-panel {
-  --scope-corner-color: hsl(var(--warning));
+  --scope-corner-color: oklch(var(--warning));
   box-shadow: var(--glow-warning);
 }
 
@@ -521,12 +521,12 @@
   .gs-phase-directive[data-treatment="panel"][data-intent="information"]
   .gs-panel,
 [data-theme="citadel"] .gs-outcome-summary[data-intent="information"] .gs-panel {
-  --scope-corner-color: hsl(var(--primary));
+  --scope-corner-color: oklch(var(--primary));
   box-shadow: var(--glow-information);
 }
 
 [data-theme="citadel"] .gs-outcome-summary[data-intent="success"] .gs-panel {
-  --scope-corner-color: hsl(var(--success));
+  --scope-corner-color: oklch(var(--success));
 }
 
 [data-theme="citadel"] .gs-sticky-action-bar {
@@ -534,9 +534,9 @@
 }
 
 [data-theme="citadel"] .gs-empty {
-  border-color: hsl(var(--border-strong) / 0.25);
+  border-color: oklch(var(--border-strong) / 0.25);
   border-radius: var(--radius-panel);
-  background: hsl(var(--surface) / 0.4);
+  background: oklch(var(--surface) / 0.4);
 }
 
 [data-theme="citadel"] .gs-table {
@@ -548,12 +548,12 @@
   font-weight: var(--font-weight-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
-  border-bottom-color: hsl(var(--border-strong) / 0.25);
+  color: oklch(var(--muted-foreground));
+  border-bottom-color: oklch(var(--border-strong) / 0.25);
 }
 
 [data-theme="citadel"] .gs-table td {
-  border-bottom-color: hsl(var(--border) / 0.8);
+  border-bottom-color: oklch(var(--border) / 0.8);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -571,9 +571,9 @@
 }
 
 [data-theme="citadel"] .gs-badge[data-intent="information"][data-treatment="outlined"] {
-  color: hsl(var(--information));
-  border-color: hsl(var(--information));
-  background: hsl(var(--information) / 0.08);
+  color: oklch(var(--information));
+  border-color: oklch(var(--information));
+  background: oklch(var(--information) / 0.08);
 }
 
 [data-theme="citadel"] .gs-badge[data-treatment="outlined"] {
@@ -581,8 +581,8 @@
 }
 
 [data-theme="citadel"] .gs-badge[data-treatment="subtle"][data-intent="information"] {
-  color: hsl(var(--information));
-  background: hsl(var(--information) / 0.12);
+  color: oklch(var(--information));
+  background: oklch(var(--information) / 0.12);
   border-color: transparent;
 }
 
@@ -597,19 +597,19 @@
 }
 
 [data-theme="citadel"] .gs-alert[data-intent="information"] {
-  border-color: hsl(var(--information));
+  border-color: oklch(var(--information));
 }
 
 [data-theme="citadel"] .gs-alert[data-intent="success"] {
-  border-color: hsl(var(--success));
+  border-color: oklch(var(--success));
 }
 
 [data-theme="citadel"] .gs-alert[data-intent="warning"] {
-  border-color: hsl(var(--warning));
+  border-color: oklch(var(--warning));
 }
 
 [data-theme="citadel"] .gs-alert[data-intent="danger"] {
-  border-color: hsl(var(--danger));
+  border-color: oklch(var(--danger));
 }
 
 /* -------------------------------------------------------------------------- */
@@ -617,13 +617,13 @@
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-dialog-overlay {
-  background: hsl(var(--background) / var(--overlay-scrim-alpha));
+  background: oklch(var(--background) / var(--overlay-scrim-alpha));
 }
 
 [data-theme="citadel"] .gs-dialog-content,
 [data-theme="citadel"] .gs-sheet-content {
-  background: hsl(var(--surface) / 0.92);
-  border-color: hsl(var(--border-strong) / 0.28);
+  background: oklch(var(--surface) / 0.92);
+  border-color: oklch(var(--border-strong) / 0.28);
   border-radius: var(--radius-overlay);
   backdrop-filter: blur(var(--panel-blur));
   box-shadow: var(--shadow-overlay);
@@ -635,9 +635,9 @@
 }
 
 [data-theme="citadel"] .gs-tooltip-content {
-  background: hsl(var(--surface-raised));
-  color: hsl(var(--foreground));
-  border: 1px solid hsl(var(--border-strong) / 0.35);
+  background: oklch(var(--surface-raised));
+  color: oklch(var(--foreground));
+  border: 1px solid oklch(var(--border-strong) / 0.35);
   border-radius: var(--radius-control);
   font-family: var(--font-mono);
   letter-spacing: 0.06em;
@@ -646,8 +646,8 @@
 
 [data-theme="citadel"] .gs-toaster [data-sonner-toast],
 [data-theme="citadel"] .gs-toaster .toast {
-  background: hsl(var(--surface) / 0.92) !important;
-  border-color: hsl(var(--border-strong) / 0.3) !important;
+  background: oklch(var(--surface) / 0.92) !important;
+  border-color: oklch(var(--border-strong) / 0.3) !important;
   border-radius: var(--radius-control) !important;
   backdrop-filter: blur(var(--panel-blur));
 }
@@ -657,25 +657,25 @@
 /* -------------------------------------------------------------------------- */
 
 [data-theme="citadel"] .gs-progress {
-  background: hsl(var(--surface-subtle));
-  border: 1px solid hsl(var(--border-strong) / 0.18);
+  background: oklch(var(--surface-subtle));
+  border: 1px solid oklch(var(--border-strong) / 0.18);
   border-radius: 0;
   overflow: hidden;
 }
 
 [data-theme="citadel"] .gs-progress-indicator {
-  background: hsl(var(--primary));
-  box-shadow: 0 0 10px hsl(var(--primary) / 0.4);
+  background: oklch(var(--primary));
+  box-shadow: 0 0 10px oklch(var(--primary) / 0.4);
 }
 
 [data-theme="citadel"] .gs-skeleton {
-  background: hsl(var(--surface-raised));
+  background: oklch(var(--surface-raised));
   border-radius: var(--radius-control);
   background-image: linear-gradient(
     90deg,
-    hsl(var(--surface-raised)),
-    hsl(var(--border-strong) / 0.12),
-    hsl(var(--surface-raised))
+    oklch(var(--surface-raised)),
+    oklch(var(--border-strong) / 0.12),
+    oklch(var(--surface-raised))
   );
   background-size: 200% 100%;
   animation: gs-citadel-skeleton 1.4s var(--ease-standard) infinite;
@@ -720,16 +720,16 @@
 }
 
 [data-theme="citadel"] .gs-spinner::before {
-  border-top-color: hsl(var(--primary));
-  border-right-color: hsl(var(--primary));
-  border-bottom-color: hsl(var(--primary));
+  border-top-color: oklch(var(--primary));
+  border-right-color: oklch(var(--primary));
+  border-bottom-color: oklch(var(--primary));
   animation: gs-citadel-spinner-spin 1200ms linear infinite;
 }
 
 [data-theme="citadel"] .gs-spinner::after {
   inset: 18%;
-  border-top-color: hsl(var(--primary) / 0.6);
-  border-right-color: hsl(var(--primary) / 0.6);
+  border-top-color: oklch(var(--primary) / 0.6);
+  border-right-color: oklch(var(--primary) / 0.6);
   animation: gs-citadel-spinner-spin-reverse 1600ms linear infinite;
 }
 
@@ -767,7 +767,7 @@
   [data-theme="citadel"] .gs-spinner::before {
     inset: 30%;
     border-radius: 50%;
-    background: hsl(var(--primary));
+    background: oklch(var(--primary));
     box-shadow: var(--glow-pacific);
     animation: gs-citadel-spinner-pulse 1600ms ease-in-out infinite;
   }
@@ -785,7 +785,7 @@
 }
 
 [data-theme="citadel"][data-context="shared-display"] .gs-display {
-  color: hsl(var(--primary));
+  color: oklch(var(--primary));
   text-shadow: var(--glow-pacific-strong);
 }
 
@@ -794,11 +794,11 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   font-variant-numeric: tabular-nums;
-  color: hsl(var(--foreground));
+  color: oklch(var(--foreground));
 }
 
 [data-theme="citadel"][data-context="shared-display"] .gs-mono {
-  color: hsl(var(--primary));
+  color: oklch(var(--primary));
   text-shadow: var(--glow-pacific);
 }
 
@@ -837,7 +837,7 @@
   opacity: 0.3;
   background-image: radial-gradient(
     circle,
-    hsl(var(--shell-grid-color) / var(--shell-grid-dot-alpha)) 1px,
+    oklch(var(--shell-grid-color) / var(--shell-grid-dot-alpha)) 1px,
     transparent 1px
   );
   background-size: var(--shell-grid-size-participant) var(--shell-grid-size-participant);
@@ -852,7 +852,7 @@
   opacity: 0.45;
   background-image: radial-gradient(
     circle,
-    hsl(var(--shell-grid-color) / 0.028) 1px,
+    oklch(var(--shell-grid-color) / 0.028) 1px,
     transparent 1px
   );
   background-size: 48px 48px;
@@ -866,13 +866,13 @@
   pointer-events: none;
   z-index: 0;
   background-image:
-    linear-gradient(hsl(210 76% 95% / var(--shell-grid-line-alpha)) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(210 76% 95% / var(--shell-grid-line-alpha)) 1px, transparent 1px),
-    radial-gradient(circle, hsl(var(--shell-grid-color) / 0.18) 1px, transparent 1px),
+    linear-gradient(oklch(0.957 0.017 248.0 / var(--shell-grid-line-alpha)) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.957 0.017 248.0 / var(--shell-grid-line-alpha)) 1px, transparent 1px),
+    radial-gradient(circle, oklch(var(--shell-grid-color) / 0.18) 1px, transparent 1px),
     repeating-linear-gradient(
       0deg,
       transparent 0 3px,
-      hsl(210 76% 95% / var(--shell-scanline-alpha)) 3px 4px
+      oklch(0.957 0.017 248.0 / var(--shell-scanline-alpha)) 3px 4px
     );
   background-size:
     200px 200px,

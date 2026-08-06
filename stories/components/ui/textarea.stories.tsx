@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Textarea",
+  title: "Components/Textarea",
   component: Textarea,
   tags: ["autodocs"],
   argTypes: {

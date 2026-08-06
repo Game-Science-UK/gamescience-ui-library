@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Skeleton",
+  title: "Components/Skeleton",
   component: Skeleton,
   tags: ["autodocs"],
 } satisfies Meta<typeof Skeleton>;

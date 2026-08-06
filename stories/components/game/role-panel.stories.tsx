@@ -5,7 +5,7 @@ import { RolePanel } from "@/components/game/role-panel";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/RolePanel",
+  title: "Components/RolePanel",
   component: RolePanel,
   tags: ["autodocs"],
 } satisfies Meta<typeof RolePanel>;

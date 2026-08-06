@@ -3,7 +3,7 @@ import { Progress } from "@/components/ui/progress";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Progress",
+  title: "Components/Progress",
   component: Progress,
   tags: ["autodocs"],
   argTypes: {

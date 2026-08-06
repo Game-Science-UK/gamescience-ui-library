@@ -14,7 +14,7 @@ const keyStates: Array<{ connection: ConnectionState; readiness: ReadinessState;
   ];
 
 const meta = {
-  title: "Components/Game/ParticipantStatus",
+  title: "Components/ParticipantStatus",
   component: ParticipantStatus,
   tags: ["autodocs"],
   decorators: [

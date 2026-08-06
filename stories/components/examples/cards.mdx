@@ -1,0 +1,21 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as CardStories from "../ui/card.stories";
+import * as PanelStories from "../ui/panel.stories";
+
+<Meta title="Components/Examples/Cards" />
+
+# Cards
+
+Use **Panel** for operational game surfaces (lobby chrome, phase content, facilitator consoles). Use **Card** for denser content blocks inside those surfaces.
+
+Avoid inventing `GlassCard` or theme-named card forks. Elevation and emphasis come from semantic props (`elevation`, `emphasis`) and theme tokens.
+
+## Panel
+
+<Canvas of={PanelStories.Playground} />
+
+## Card
+
+<Canvas of={CardStories.Playground} />
+
+Compose Card + Badge + Table for facilitator lists; keep networking and scoring outside these primitives.

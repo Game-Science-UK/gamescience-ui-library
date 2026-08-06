@@ -3,7 +3,7 @@ import { Panel, PanelDescription, PanelHeader, PanelTitle } from "@/components/u
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Panel",
+  title: "Components/Panel",
   component: Panel,
   tags: ["autodocs"],
   argTypes: {

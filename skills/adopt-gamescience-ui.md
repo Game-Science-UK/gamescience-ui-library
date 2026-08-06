@@ -142,7 +142,7 @@ Inspect `package.json`, the CSS entry, and config authority.
 **Tailwind 3**
 
 - retain `tailwind.config.ts` (or `.js`)
-- merge required semantic token mappings through `hsl(var(--token))`
+- merge required semantic token mappings through `oklch(var(--token))`
 - retain `@tailwind base/components/utilities`
 - do **not** install or import `tailwind-v4-bridge.css`
 - follow public `docs/tailwind-v3-integration.md`

@@ -4,7 +4,7 @@ import { ButtonGroup } from "@/components/ui/button-group";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/ButtonGroup",
+  title: "Components/ButtonGroup",
   component: ButtonGroup,
   tags: ["autodocs"],
 } satisfies Meta<typeof ButtonGroup>;

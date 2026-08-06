@@ -6,8 +6,9 @@ import { activeSessionFixture, readySessionFixture } from "@/fixtures/session";
 import { FacilitatorShell, ParticipantShell, SharedDisplayShell } from "@/templates";
 
 const meta = {
-  title: "Templates/Shells",
+  title: "Components/Examples/Shells",
   parameters: {
+    layout: "fullscreen",
     docs: {
       description: {
         component:

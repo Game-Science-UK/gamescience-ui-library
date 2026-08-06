@@ -18,7 +18,7 @@ const participants = [
 ];
 
 const meta = {
-  title: "Components/UI/Table",
+  title: "Components/Table",
   component: Table,
   tags: ["autodocs"],
 } satisfies Meta<typeof Table>;

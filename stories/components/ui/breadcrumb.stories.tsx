@@ -11,7 +11,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Breadcrumb",
+  title: "Components/Breadcrumb",
   component: Breadcrumb,
   tags: ["autodocs"],
 } satisfies Meta<typeof Breadcrumb>;

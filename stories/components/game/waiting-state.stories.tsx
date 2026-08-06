@@ -3,12 +3,12 @@ import { WaitingState } from "@/components/game/waiting-state";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/WaitingState",
+  title: "Components/WaitingState",
   component: WaitingState,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <StoryFrame className="flex min-h-[16rem] items-center justify-center">
+      <StoryFrame className="flex items-center justify-center py-8">
         <Story />
       </StoryFrame>
     ),

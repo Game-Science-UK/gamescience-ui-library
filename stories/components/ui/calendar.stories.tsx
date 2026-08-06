@@ -5,7 +5,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Calendar",
+  title: "Components/Calendar",
   component: Calendar,
   tags: ["autodocs"],
 } satisfies Meta<typeof Calendar>;

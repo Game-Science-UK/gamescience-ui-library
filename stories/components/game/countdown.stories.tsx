@@ -3,7 +3,7 @@ import { Countdown } from "@/components/game/countdown";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/Countdown",
+  title: "Components/Countdown",
   component: Countdown,
   tags: ["autodocs"],
   args: {

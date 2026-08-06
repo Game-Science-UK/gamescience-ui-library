@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/PhaseHeader",
+  title: "Components/PhaseHeader",
   component: PhaseHeader,
   tags: ["autodocs"],
 } satisfies Meta<typeof PhaseHeader>;

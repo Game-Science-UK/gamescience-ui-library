@@ -3,7 +3,7 @@ import { PhaseProgress } from "@/components/game/phase-progress";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/PhaseProgress",
+  title: "Components/PhaseProgress",
   component: PhaseProgress,
   tags: ["autodocs"],
 } satisfies Meta<typeof PhaseProgress>;

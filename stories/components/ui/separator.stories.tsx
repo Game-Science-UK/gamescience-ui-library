@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Separator",
+  title: "Components/Separator",
   component: Separator,
   tags: ["autodocs"],
 } satisfies Meta<typeof Separator>;

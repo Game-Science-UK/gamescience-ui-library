@@ -18,7 +18,7 @@ type JoinFormValues = {
 };
 
 const meta = {
-  title: "Components/UI/Form",
+  title: "Components/Form",
   tags: ["autodocs"],
 } satisfies Meta;
 

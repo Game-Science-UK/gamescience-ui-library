@@ -4,7 +4,7 @@ import { GameCodeInput } from "@/components/game/game-code-input";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/GameCodeInput",
+  title: "Components/GameCodeInput",
   component: GameCodeInput,
   tags: ["autodocs"],
   parameters: {

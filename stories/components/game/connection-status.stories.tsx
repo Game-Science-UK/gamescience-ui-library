@@ -3,7 +3,7 @@ import { ConnectionStatus } from "@/components/game/connection-status";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/ConnectionStatus",
+  title: "Components/ConnectionStatus",
   component: ConnectionStatus,
   tags: ["autodocs"],
 } satisfies Meta<typeof ConnectionStatus>;

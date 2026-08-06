@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Checkbox",
+  title: "Components/Checkbox",
   component: Checkbox,
   tags: ["autodocs"],
   argTypes: {

@@ -4,7 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Slider",
+  title: "Components/Slider",
   component: Slider,
   tags: ["autodocs"],
   argTypes: {

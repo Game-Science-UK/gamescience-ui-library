@@ -14,7 +14,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/AlertDialog",
+  title: "Components/AlertDialog",
   component: AlertDialog,
   tags: ["autodocs"],
 } satisfies Meta<typeof AlertDialog>;

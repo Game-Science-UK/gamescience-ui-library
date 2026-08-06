@@ -12,7 +12,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Sheet",
+  title: "Components/Sheet",
   component: Sheet,
   tags: ["autodocs"],
 } satisfies Meta<typeof Sheet>;

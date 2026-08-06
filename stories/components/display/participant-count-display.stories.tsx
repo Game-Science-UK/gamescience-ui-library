@@ -4,12 +4,12 @@ import { activeSessionFixture, emptySessionFixture } from "@/fixtures/session";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Display/ParticipantCountDisplay",
+  title: "Components/ParticipantCountDisplay",
   component: ParticipantCountDisplay,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <StoryFrame className="flex min-h-[12rem] items-center justify-center">
+      <StoryFrame className="flex items-center justify-center py-6">
         <Story />
       </StoryFrame>
     ),

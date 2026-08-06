@@ -8,6 +8,7 @@ import { ConnectionStatus } from "@/components/game/connection-status";
 const meta = {
   title: "Templates/Reference Screens",
   parameters: {
+    layout: "fullscreen",
     docs: {
       description: {
         component:

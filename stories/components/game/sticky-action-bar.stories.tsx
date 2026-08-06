@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/StickyActionBar",
+  title: "Components/StickyActionBar",
   tags: ["autodocs"],
 } satisfies Meta;
 

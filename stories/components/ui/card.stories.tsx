@@ -11,7 +11,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Card",
+  title: "Components/Card",
   component: Card,
   tags: ["autodocs"],
 } satisfies Meta<typeof Card>;

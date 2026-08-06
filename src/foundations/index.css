@@ -12,21 +12,21 @@
  */
 
 html {
-  background-color: hsl(var(--background));
+  background-color: oklch(var(--background));
   min-height: 100%;
 }
 
 *,
 *::before,
 *::after {
-  border-color: hsl(var(--border));
+  border-color: oklch(var(--border));
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background-color: oklch(var(--background));
+  color: oklch(var(--foreground));
   font-family: var(--font-body);
   font-weight: var(--font-weight-body);
   -webkit-font-smoothing: antialiased;

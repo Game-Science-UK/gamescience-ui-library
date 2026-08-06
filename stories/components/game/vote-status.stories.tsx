@@ -3,7 +3,7 @@ import { VoteStatus } from "@/components/game/vote-status";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/VoteStatus",
+  title: "Components/VoteStatus",
   component: VoteStatus,
   tags: ["autodocs"],
 } satisfies Meta<typeof VoteStatus>;

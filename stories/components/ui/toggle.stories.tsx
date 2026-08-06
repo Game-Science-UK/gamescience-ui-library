@@ -4,7 +4,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Toggle",
+  title: "Components/Toggle",
   component: Toggle,
   tags: ["autodocs"],
   argTypes: {

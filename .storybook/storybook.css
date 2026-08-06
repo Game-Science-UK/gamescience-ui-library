@@ -1,0 +1,29 @@
+/**
+ * Docs preview chrome: surface colour lives on the Storybook block,
+ * not on nested story wrappers (avoids tall double-framed canvases).
+ */
+
+.docs-story {
+  background: oklch(var(--background)) !important;
+  color: oklch(var(--foreground));
+  /* Centered Canvas layout uses min-height: 100vh — docs blocks must hug content. */
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+.sbdocs-preview {
+  background: oklch(var(--background));
+}
+
+.docs-story [scale],
+.docs-story .innerZoomElementWrapper,
+.docs-story > div {
+  min-height: 0 !important;
+  height: auto !important;
+  align-items: flex-start !important;
+}
+
+.sb-show-main.sb-main-centered #storybook-root {
+  background: oklch(var(--background));
+  color: oklch(var(--foreground));
+}

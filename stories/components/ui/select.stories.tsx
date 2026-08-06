@@ -11,7 +11,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Select",
+  title: "Components/Select",
   component: Select,
   tags: ["autodocs"],
 } satisfies Meta<typeof Select>;

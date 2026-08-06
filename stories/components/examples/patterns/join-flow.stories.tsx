@@ -10,8 +10,9 @@ const joinFlowProps = {
 };
 
 const meta = {
-  title: "Patterns/Join",
+  title: "Components/Examples/Patterns/Join Flow",
   parameters: {
+    layout: "fullscreen",
     docs: {
       description: {
         component:

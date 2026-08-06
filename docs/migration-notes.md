@@ -81,6 +81,14 @@ Bug-fix packaging patch. No new UI APIs.
 9. Confirm `src/lib/version.ts` and guidance report `0.3.0`.
 10. See [primitive-layer.md](./primitive-layer.md).
 
+## 0.5.4 → 1.0.0 (OKLCH colour contract)
+
+See the dedicated note: [migrations/0.5.4-to-1.0.0.md](./migrations/0.5.4-to-1.0.0.md).
+
+Major: colour tokens are OKLCH channels; replace `hsl(var(--token))` with
+`oklch(var(--token))`, reinstall `base` + themes (+ `button`). GameScience
+background is white; secondary Button has no drop shadow.
+
 ## 0.5.3 → 0.5.4 (Migrate ledger evidence + Pages deploy)
 
 See the dedicated note: [migrations/0.5.3-to-0.5.4.md](./migrations/0.5.3-to-0.5.4.md).

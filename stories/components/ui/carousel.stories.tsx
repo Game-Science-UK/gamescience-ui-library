@@ -11,7 +11,7 @@ import { StoryFrame } from "../../_utils/story-frame";
 const slides = ["Briefing", "Vote", "Debrief"];
 
 const meta = {
-  title: "Components/UI/Carousel",
+  title: "Components/Carousel",
   component: Carousel,
   tags: ["autodocs"],
 } satisfies Meta<typeof Carousel>;

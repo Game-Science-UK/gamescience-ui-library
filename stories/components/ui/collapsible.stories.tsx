@@ -4,7 +4,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Collapsible",
+  title: "Components/Collapsible",
   component: Collapsible,
   tags: ["autodocs"],
 } satisfies Meta<typeof Collapsible>;

@@ -4,7 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Switch",
+  title: "Components/Switch",
   component: Switch,
   tags: ["autodocs"],
   argTypes: {

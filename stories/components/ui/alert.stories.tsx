@@ -3,7 +3,7 @@ import { Alert } from "@/components/ui/alert";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Alert",
+  title: "Components/Alert",
   component: Alert,
   tags: ["autodocs"],
   argTypes: {

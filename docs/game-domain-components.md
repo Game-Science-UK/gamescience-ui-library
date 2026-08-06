@@ -87,7 +87,7 @@ Remain local:
 </StickyActionBar>
 ```
 
-See Storybook **Components/Game/Domain compositions** for participant discussion
+See Storybook **Components/Examples/Game Surfaces** for participant discussion
 and vote reference assemblies. Those stories are not published registry patterns.
 
 ## Spacing / outer layout

@@ -3,7 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/ScrollArea",
+  title: "Components/ScrollArea",
   component: ScrollArea,
   tags: ["autodocs"],
 } satisfies Meta<typeof ScrollArea>;

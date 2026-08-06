@@ -11,7 +11,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Pagination",
+  title: "Components/Pagination",
   component: Pagination,
   tags: ["autodocs"],
 } satisfies Meta<typeof Pagination>;

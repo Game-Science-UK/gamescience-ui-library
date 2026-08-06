@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Input",
+  title: "Components/Input",
   component: Input,
   tags: ["autodocs"],
   argTypes: {

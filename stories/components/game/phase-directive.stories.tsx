@@ -3,7 +3,7 @@ import { PhaseDirective } from "@/components/game/phase-directive";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/PhaseDirective",
+  title: "Components/PhaseDirective",
   component: PhaseDirective,
   tags: ["autodocs"],
   args: {

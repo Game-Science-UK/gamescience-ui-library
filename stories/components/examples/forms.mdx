@@ -1,0 +1,20 @@
+import { Meta, Unstyled } from "@storybook/addon-docs/blocks";
+import { FormsGallery } from "./gallery/forms-gallery";
+
+<Meta title="Components/Examples/Forms" />
+
+# Forms
+
+Form compositions use approved primitives: `Label`, `Input`, `Textarea`, `Checkbox`, `Switch`, `RadioGroup`, `Select`, `Slider`, `InputOTP`, and `Form` helpers from React Hook Form.
+
+Prefer semantic props (`disabled`, `loading` on actions) and keep validation / submit ownership in the application.
+
+## Form control gallery
+
+<Unstyled>
+  <FormsGallery />
+</Unstyled>
+
+## Hook Form pattern
+
+See the dedicated [Form](?path=/docs/components-form--docs) component docs for field wiring. Game join identity and code entry should reuse `GameCodeInput` / join patterns rather than reinventing OTP layouts.

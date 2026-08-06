@@ -8,7 +8,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/InputOTP",
+  title: "Components/InputOTP",
   tags: ["autodocs"],
 } satisfies Meta;
 

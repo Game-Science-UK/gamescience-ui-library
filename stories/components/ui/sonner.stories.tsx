@@ -4,7 +4,7 @@ import { Toaster, toast } from "@/components/ui/sonner";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Sonner",
+  title: "Components/Sonner",
   component: Toaster,
   tags: ["autodocs"],
 } satisfies Meta<typeof Toaster>;

@@ -4,7 +4,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/ToggleGroup",
+  title: "Components/ToggleGroup",
   tags: ["autodocs"],
   parameters: {
     docs: {

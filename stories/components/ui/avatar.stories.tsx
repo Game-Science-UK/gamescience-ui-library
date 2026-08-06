@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Avatar",
+  title: "Components/Avatar",
   component: Avatar,
   tags: ["autodocs"],
 } satisfies Meta<typeof Avatar>;

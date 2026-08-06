@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "previousVersion": "0.5.4",
+  "releaseType": "major",
+  "addedItems": [],
+  "changedItems": [
+    "base",
+    "theme-gamescience",
+    "theme-citadel",
+    "button"
+  ],
+  "removedItems": [],
+  "migrationNotes": "https://game-science-uk.github.io/gamescience-ui-library/docs/migrations/0.5.4-to-1.0.0.md"
+}

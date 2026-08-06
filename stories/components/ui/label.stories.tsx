@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Label",
+  title: "Components/Label",
   component: Label,
   tags: ["autodocs"],
 } satisfies Meta<typeof Label>;

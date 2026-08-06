@@ -13,7 +13,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Dialog",
+  title: "Components/Dialog",
   component: Dialog,
   tags: ["autodocs"],
 } satisfies Meta<typeof Dialog>;

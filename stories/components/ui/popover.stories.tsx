@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Popover",
+  title: "Components/Popover",
   component: Popover,
   tags: ["autodocs"],
 } satisfies Meta<typeof Popover>;

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/ConnectionBanner",
+  title: "Components/ConnectionBanner",
   component: ConnectionBanner,
   tags: ["autodocs"],
 } satisfies Meta<typeof ConnectionBanner>;

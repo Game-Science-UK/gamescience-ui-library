@@ -10,7 +10,7 @@ import {
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/NavigationMenu",
+  title: "Components/NavigationMenu",
   component: NavigationMenu,
   tags: ["autodocs"],
 } satisfies Meta<typeof NavigationMenu>;

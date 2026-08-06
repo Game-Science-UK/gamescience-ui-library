@@ -4,7 +4,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/HoverCard",
+  title: "Components/HoverCard",
   component: HoverCard,
   tags: ["autodocs"],
 } satisfies Meta<typeof HoverCard>;

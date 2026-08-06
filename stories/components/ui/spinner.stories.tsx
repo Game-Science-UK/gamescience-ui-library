@@ -3,7 +3,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/Spinner",
+  title: "Components/Spinner",
   component: Spinner,
   tags: ["autodocs"],
 } satisfies Meta<typeof Spinner>;

@@ -3,7 +3,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/UI/AspectRatio",
+  title: "Components/AspectRatio",
   component: AspectRatio,
   tags: ["autodocs"],
 } satisfies Meta<typeof AspectRatio>;

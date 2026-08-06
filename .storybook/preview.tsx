@@ -4,6 +4,8 @@ import type { ExperienceContext, GameTheme } from "../src/themes/theme-contract"
 import "../src/dev/tailwind3-entry.css";
 import "../src/foundations/index.css";
 import "../src/themes/index.css";
+import { GameScienceDocsContainer } from "./docs-container";
+import "./storybook.css";
 
 const preview: Preview = {
   globalTypes: {
@@ -38,11 +40,51 @@ const preview: Preview = {
     context: "participant",
   },
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
+    options: {
+      storySort: {
+        method: "alphabetical",
+        order: [
+          "Introduction",
+          "Foundations",
+          [
+            "Colors",
+            "Themes",
+            "Typography",
+            "Animations",
+            "Across themes",
+          ],
+          "Components",
+          [
+            "Examples",
+            [
+              "All Components",
+              "Patterns",
+              ["Join Flow", "Lobby", "Shared Display Lobby"],
+              "Shells",
+              "Forms",
+              "Cards",
+              "Game Surfaces",
+            ],
+            "*",
+          ],
+          "Templates",
+        ],
+      },
+    },
+    backgrounds: {
+      default: "surface",
+      values: [
+        { name: "surface", value: "oklch(var(--background))" },
+        { name: "muted", value: "oklch(var(--muted))" },
+      ],
+    },
     docs: {
+      toc: true,
+      container: GameScienceDocsContainer,
       description: {
         component:
-          "Global Theme and Context toolbar controls wrap stories in GameScienceProvider, which syncs data-theme/data-context onto document.documentElement so portals inherit tokens.",
+          "Use the Theme and Context toolbar controls. Stories wrap in GameScienceProvider, which syncs data-theme/data-context onto document.documentElement so portals inherit tokens.",
       },
     },
     controls: {
@@ -77,7 +119,13 @@ const preview: Preview = {
       const experience = (context.globals.context as ExperienceContext) ?? "participant";
 
       return (
-        <GameScienceProvider theme={theme} context={experience}>
+        <GameScienceProvider
+          theme={theme}
+          context={experience}
+          // Provider defaults include min-h-screen + bg-background for apps; docs/canvas
+          // chrome owns the surface colour and must hug content height.
+          className="min-h-0 bg-transparent"
+        >
           <Story />
         </GameScienceProvider>
       );

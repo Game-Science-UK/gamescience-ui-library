@@ -4,7 +4,7 @@ import { ParticipantIdentity } from "@/components/game/participant-identity";
 import { StoryFrame } from "../../_utils/story-frame";
 
 const meta = {
-  title: "Components/Game/ParticipantIdentity",
+  title: "Components/ParticipantIdentity",
   component: ParticipantIdentity,
   tags: ["autodocs"],
   decorators: [

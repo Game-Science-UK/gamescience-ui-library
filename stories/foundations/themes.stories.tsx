@@ -42,14 +42,3 @@ export const TokenSurfaces: Story = {
     </div>
   ),
 };
-
-export const TypographyScale: Story = {
-  render: () => (
-    <div className="space-y-3 p-6">
-      <p className="gs-display">Display</p>
-      <p className="gs-title">Title</p>
-      <p className="gs-body">Body copy for participant and facilitator reading.</p>
-      <p className="gs-label text-muted-foreground">Label / meta</p>
-    </div>
-  ),
-};
