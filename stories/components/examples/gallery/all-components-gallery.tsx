@@ -163,7 +163,9 @@ export function AllComponentsGallery() {
           </AccordionItem>
           <AccordionItem value="b">
             <AccordionTrigger>Is it styled?</AccordionTrigger>
-            <AccordionContent>Yes. It comes with default styles that match the theme.</AccordionContent>
+            <AccordionContent>
+              Yes. It comes with default styles that match the theme.
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="c">
             <AccordionTrigger>Is it animated?</AccordionTrigger>
@@ -203,7 +205,7 @@ export function AllComponentsGallery() {
 
       <ComponentWrapper name="aspect-ratio" className="max-w-sm">
         <AspectRatio ratio={16 / 9} className="w-full overflow-hidden rounded-card bg-muted">
-          <div className="flex h-full items-center justify-center gs-label text-muted-foreground">
+          <div className="gs-label flex h-full items-center justify-center text-muted-foreground">
             16:9
           </div>
         </AspectRatio>
@@ -273,7 +275,7 @@ export function AllComponentsGallery() {
           <CarouselContent>
             {["Briefing", "Vote", "Reveal"].map((label) => (
               <CarouselItem key={label}>
-                <div className="flex h-28 items-center justify-center rounded-card border border-border gs-title">
+                <div className="gs-title flex h-28 items-center justify-center rounded-card border border-border">
                   {label}
                 </div>
               </CarouselItem>
@@ -298,7 +300,7 @@ export function AllComponentsGallery() {
               Collapsible
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="rounded-card border border-border p-3 gs-body text-muted-foreground">
+          <CollapsibleContent className="gs-body rounded-card border border-border p-3 text-muted-foreground">
             Disclosure content for facilitator-only notes.
           </CollapsibleContent>
         </Collapsible>
@@ -306,7 +308,7 @@ export function AllComponentsGallery() {
 
       <ComponentWrapper name="context-menu">
         <ContextMenu>
-          <ContextMenuTrigger className="flex h-24 w-48 items-center justify-center rounded-card border border-dashed border-border gs-body text-muted-foreground">
+          <ContextMenuTrigger className="gs-body flex h-24 w-48 items-center justify-center rounded-card border border-dashed border-border text-muted-foreground">
             Right click
           </ContextMenuTrigger>
           <ContextMenuContent>
@@ -324,7 +326,9 @@ export function AllComponentsGallery() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Confirm start</DialogTitle>
-              <DialogDescription>Review participants before starting the session.</DialogDescription>
+              <DialogDescription>
+                Review participants before starting the session.
+              </DialogDescription>
             </DialogHeader>
           </DialogContent>
         </Dialog>
@@ -373,7 +377,9 @@ export function AllComponentsGallery() {
           <HoverCardTrigger asChild>
             <Button intent="ghost">Hover card</Button>
           </HoverCardTrigger>
-          <HoverCardContent className="gs-body">Quick identity peek for a participant.</HoverCardContent>
+          <HoverCardContent className="gs-body">
+            Quick identity peek for a participant.
+          </HoverCardContent>
         </HoverCard>
       </ComponentWrapper>
 
@@ -489,18 +495,18 @@ export function AllComponentsGallery() {
       <ComponentWrapper name="resizable" className="max-w-lg">
         <ResizablePanelGroup direction="horizontal" className="min-h-32 w-full rounded-card border">
           <ResizablePanel defaultSize={50}>
-            <div className="flex h-full items-center justify-center gs-label">One</div>
+            <div className="gs-label flex h-full items-center justify-center">One</div>
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={50}>
-            <div className="flex h-full items-center justify-center gs-label">Two</div>
+            <div className="gs-label flex h-full items-center justify-center">Two</div>
           </ResizablePanel>
         </ResizablePanelGroup>
       </ComponentWrapper>
 
       <ComponentWrapper name="scroll-area" className="max-w-sm">
         <ScrollArea className="h-32 w-full rounded-card border border-border p-3">
-          <div className="space-y-2 gs-body text-muted-foreground">
+          <div className="gs-body space-y-2 text-muted-foreground">
             {Array.from({ length: 8 }, (_, i) => (
               <p key={i}>Scrollable row {i + 1}</p>
             ))}

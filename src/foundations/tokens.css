@@ -6,42 +6,42 @@
 
 :root {
   /* Colour */
-  --background: 1.000 0.000 0;
+  --background: 1 0 0;
   --foreground: 0.206 0.039 265.5;
 
-  --surface: 1.000 0.000 0;
+  --surface: 1 0 0;
   --surface-subtle: 0.984 0.003 247.9;
-  --surface-raised: 1.000 0.000 0;
-  --surface-overlay: 1.000 0.000 0;
+  --surface-raised: 1 0 0;
+  --surface-overlay: 1 0 0;
 
-  --border: 0.926 0.013 255.0;
-  --border-strong: 0.710 0.035 256.8;
+  --border: 0.926 0.013 255;
+  --border-strong: 0.71 0.035 256.8;
   --focus-ring: 0.545 0.215 262.7;
 
   --primary: 0.545 0.215 262.7;
   --primary-hover: 0.499 0.217 262.7;
   --primary-active: 0.453 0.194 262.7;
-  --primary-foreground: 1.000 0.000 0;
+  --primary-foreground: 1 0 0;
 
   --secondary: 0.968 0.007 247.9;
-  --secondary-hover: 0.926 0.013 255.0;
-  --secondary-active: 0.869 0.020 253.4;
+  --secondary-hover: 0.926 0.013 255;
+  --secondary-active: 0.869 0.02 253.4;
   --secondary-foreground: 0.206 0.039 265.5;
 
   --accent: 0.678 0.148 238.1;
-  --accent-foreground: 1.000 0.000 0;
+  --accent-foreground: 1 0 0;
 
   --muted: 0.968 0.007 247.9;
-  --muted-foreground: 0.556 0.040 256.8;
+  --muted-foreground: 0.556 0.04 256.8;
 
   --success: 0.599 0.158 149.7;
-  --success-foreground: 1.000 0.000 0;
-  --warning: 0.770 0.165 70.6;
+  --success-foreground: 1 0 0;
+  --warning: 0.77 0.165 70.6;
   --warning-foreground: 0.284 0.063 53.9;
   --danger: 0.579 0.214 27.2;
-  --danger-foreground: 1.000 0.000 0;
+  --danger-foreground: 1 0 0;
   --information: 0.678 0.148 238.1;
-  --information-foreground: 1.000 0.000 0;
+  --information-foreground: 1 0 0;
 
   /* Shape */
   --radius-control: 0.5rem;

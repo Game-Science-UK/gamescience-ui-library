@@ -12,12 +12,12 @@
 [data-theme="citadel"] {
   /* Page and surfaces — field #051A33, surface #0C233C, surface-2 #102B49 */
   --background: 0.216 0.053 254.7;
-  --foreground: 0.957 0.017 248.0;
+  --foreground: 0.957 0.017 248;
 
   --surface-subtle: 0.227 0.051 254.8;
   --surface: 0.252 0.055 252.2;
   --surface-raised: 0.282 0.062 252.2;
-  --surface-overlay: 0.195 0.045 254.0;
+  --surface-overlay: 0.195 0.045 254;
 
   /* Borders and focus */
   --border: 0.331 0.061 251.6;
@@ -31,28 +31,28 @@
   --primary-foreground: 0.247 0.055 244.2;
 
   /* Secondary — body text role ~#C8D3E0 */
-  --secondary: 0.290 0.067 253.6;
+  --secondary: 0.29 0.067 253.6;
   --secondary-hover: 0.328 0.074 253.6;
   --secondary-active: 0.366 0.082 253.5;
   --secondary-foreground: 0.863 0.019 251.6;
 
   /* Accent — Cobalt #1E49E2 */
   --accent: 0.482 0.237 265.8;
-  --accent-foreground: 0.957 0.017 248.0;
+  --accent-foreground: 0.957 0.017 248;
 
   /* Muted — #6B7C90 */
-  --muted: 0.280 0.054 253.1;
+  --muted: 0.28 0.054 253.1;
   --muted-foreground: 0.579 0.035 251.9;
 
   /* Status — success #4ADE80, warning #FFC857, critical #FF6B6B */
-  --success: 0.800 0.182 151.8;
-  --success-foreground: 0.195 0.045 254.0;
+  --success: 0.8 0.182 151.8;
+  --success-foreground: 0.195 0.045 254;
 
-  --warning: 0.870 0.144 85.5;
-  --warning-foreground: 0.195 0.045 254.0;
+  --warning: 0.87 0.144 85.5;
+  --warning-foreground: 0.195 0.045 254;
 
   --danger: 0.712 0.181 22.8;
-  --danger-foreground: 0.195 0.045 254.0;
+  --danger-foreground: 0.195 0.045 254;
 
   --information: 0.733 0.149 231.4;
   --information-foreground: 0.247 0.055 244.2;
@@ -164,7 +164,7 @@
   --glow-pacific: 0 0 12px oklch(0.733 0.149 231.4 / 0.4);
   --glow-pacific-strong: 0 0 24px oklch(0.733 0.149 231.4 / 0.6);
   --glow-cobalt: 0 0 12px oklch(0.482 0.237 265.8 / 0.4);
-  --glow-warning: 0 0 12px oklch(0.870 0.144 85.5 / 0.5);
+  --glow-warning: 0 0 12px oklch(0.87 0.144 85.5 / 0.5);
   --glow-danger: 0 0 12px oklch(0.712 0.181 22.8 / 0.5);
   /* Canonical public critical role aliases danger; app --glow-critical maps here */
   --glow-critical: var(--glow-danger);
@@ -866,13 +866,17 @@
   pointer-events: none;
   z-index: 0;
   background-image:
-    linear-gradient(oklch(0.957 0.017 248.0 / var(--shell-grid-line-alpha)) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0.957 0.017 248.0 / var(--shell-grid-line-alpha)) 1px, transparent 1px),
+    linear-gradient(oklch(0.957 0.017 248 / var(--shell-grid-line-alpha)) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      oklch(0.957 0.017 248 / var(--shell-grid-line-alpha)) 1px,
+      transparent 1px
+    ),
     radial-gradient(circle, oklch(var(--shell-grid-color) / 0.18) 1px, transparent 1px),
     repeating-linear-gradient(
       0deg,
       transparent 0 3px,
-      oklch(0.957 0.017 248.0 / var(--shell-scanline-alpha)) 3px 4px
+      oklch(0.957 0.017 248 / var(--shell-scanline-alpha)) 3px 4px
     );
   background-size:
     200px 200px,

@@ -3,42 +3,42 @@
  */
 
 [data-theme="gamescience"] {
-  --background: 1.000 0.000 0;
+  --background: 1 0 0;
   --foreground: 0.206 0.039 265.5;
 
-  --surface: 1.000 0.000 0;
-  --surface-subtle: 0.967 0.006 255.0;
-  --surface-raised: 1.000 0.000 0;
-  --surface-overlay: 1.000 0.000 0;
+  --surface: 1 0 0;
+  --surface-subtle: 0.967 0.006 255;
+  --surface-raised: 1 0 0;
+  --surface-overlay: 1 0 0;
 
-  --border: 0.902 0.016 255.0;
+  --border: 0.902 0.016 255;
   --border-strong: 0.623 0.044 256.8;
   --focus-ring: 0.545 0.215 262.7;
 
   --primary: 0.545 0.215 262.7;
-  --primary-hover: 0.490 0.215 264.3;
+  --primary-hover: 0.49 0.215 264.3;
   --primary-active: 0.423 0.181 265.6;
-  --primary-foreground: 1.000 0.000 0;
+  --primary-foreground: 1 0 0;
 
-  --secondary: 0.951 0.009 255.0;
-  --secondary-hover: 0.902 0.016 255.0;
+  --secondary: 0.951 0.009 255;
+  --secondary-hover: 0.902 0.016 255;
   --secondary-active: 0.837 0.022 253.4;
   --secondary-foreground: 0.271 0.059 265.2;
 
   --accent: 0.631 0.101 183.5;
-  --accent-foreground: 1.000 0.000 0;
+  --accent-foreground: 1 0 0;
 
   --muted: 0.952 0.008 247.9;
   --muted-foreground: 0.514 0.036 256.8;
 
   --success: 0.568 0.121 157.8;
-  --success-foreground: 1.000 0.000 0;
+  --success-foreground: 1 0 0;
   --warning: 0.747 0.159 70.7;
   --warning-foreground: 0.284 0.063 53.9;
   --danger: 0.557 0.209 27.5;
-  --danger-foreground: 1.000 0.000 0;
-  --information: 0.570 0.152 248.4;
-  --information-foreground: 1.000 0.000 0;
+  --danger-foreground: 1 0 0;
+  --information: 0.57 0.152 248.4;
+  --information-foreground: 1 0 0;
 
   --radius-control: 0.625rem;
   --radius-card: 0.875rem;
@@ -94,7 +94,7 @@
   --gs-shell-gradient: linear-gradient(
     160deg,
     oklch(0.984 0.003 247.9) 0%,
-    oklch(0.958 0.010 255.0) 45%,
+    oklch(0.958 0.01 255) 45%,
     oklch(0.938 0.014 265.9) 100%
   );
 

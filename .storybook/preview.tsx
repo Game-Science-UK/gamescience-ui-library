@@ -47,13 +47,7 @@ const preview: Preview = {
         order: [
           "Introduction",
           "Foundations",
-          [
-            "Colors",
-            "Themes",
-            "Typography",
-            "Animations",
-            "Across themes",
-          ],
+          ["Colors", "Themes", "Typography", "Animations", "Across themes"],
           "Components",
           [
             "Examples",

@@ -26,15 +26,19 @@ export const TypographyDemo: Story = {
     <div className="w-full max-w-3xl space-y-6 text-foreground">
       <h1 className="gs-display scroll-m-20 tracking-tight">Briefing: Operation Horizon</h1>
       <p className="gs-body leading-7 text-foreground">
-        Once the room code is live, participants join from their phones while the shared display holds
-        the lobby. Facilitators keep the session moving — the library only presents state you pass in.
+        Once the room code is live, participants join from their phones while the shared display
+        holds the lobby. Facilitators keep the session moving — the library only presents state you
+        pass in.
       </p>
       <h2 className="gs-title mt-10 scroll-m-20 border-b border-border pb-2 tracking-tight first:mt-0">
         The facilitator plan
       </h2>
       <p className="gs-body leading-7">
         Keep the lobby open until the cohort looks ready, then confirm start. Prefer a{" "}
-        <a href="#phase-directive" className="font-medium text-primary underline underline-offset-4">
+        <a
+          href="#phase-directive"
+          className="font-medium text-primary underline underline-offset-4"
+        >
           phase directive
         </a>{" "}
         when you need a single clear instruction on every surface.
@@ -79,7 +83,9 @@ export const TypographyDemo: Story = {
             </tr>
             <tr className="border-t border-border even:bg-muted/40">
               <td className="gs-body border border-border px-4 py-2">gs-label / gs-micro</td>
-              <td className="gs-body border border-border px-4 py-2">Meta, captions, dense chrome</td>
+              <td className="gs-body border border-border px-4 py-2">
+                Meta, captions, dense chrome
+              </td>
             </tr>
           </tbody>
         </table>

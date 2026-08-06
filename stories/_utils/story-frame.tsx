@@ -23,7 +23,5 @@ export function StoryFrame({
     return <div className={cn("w-full text-foreground", className)}>{children}</div>;
   }
 
-  return (
-    <div className={cn("w-full max-w-3xl text-foreground", className)}>{children}</div>
-  );
+  return <div className={cn("w-full max-w-3xl text-foreground", className)}>{children}</div>;
 }
