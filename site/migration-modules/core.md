@@ -15,8 +15,12 @@ Treat migration as a **closed coverage ledger**, not a sequence of successful
 slices. Build/test green proves a slice did not break; it does not prove the
 application has been comprehensively reconciled against the registry.
 
-Before rewriting UI, inventory render branches and create an obligation ledger.
-Validate every slice across coverage dimensions A–E (source, call-site,
-render-path, theme-contract, visual/behavioural). In full visual alignment,
-proceed through the approved plan without routine continuation prompts, then run
-an independent coverage-reconstruction audit before declaring complete.
+Before rewriting UI, inventory render branches, create an obligation ledger and
+reconcile discovery counts against ledger rows. Validate every slice across
+coverage dimensions A–E with concrete evidence references (not bare booleans).
+Use Storybook
+(`https://game-science-uk.github.io/gamescience-ui-library/storybook/`) as the
+rendered reference with matching theme/context/variant/state; registry JSON
+remains authoritative for installed source. In full visual alignment, proceed
+through low/medium-risk planned slices without routine continuation prompts,
+then run an independent coverage-reconstruction audit before declaring complete.

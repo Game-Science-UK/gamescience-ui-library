@@ -81,6 +81,14 @@ Bug-fix packaging patch. No new UI APIs.
 9. Confirm `src/lib/version.ts` and guidance report `0.3.0`.
 10. See [primitive-layer.md](./primitive-layer.md).
 
+## 0.5.3 → 0.5.4 (Migrate ledger evidence + Pages deploy)
+
+See the dedicated note: [migrations/0.5.3-to-0.5.4.md](./migrations/0.5.3-to-0.5.4.md).
+
+Patch: concrete A–E evidence references, discovery reconciliation, Storybook
+reference phase, and Pages deploy-from-`main` only. No component API or theme
+contract changes. Optional pin; reinstall `base` only for version metadata.
+
 ## 0.5.2 → 0.5.3 (Hosted Storybook + migration coverage)
 
 See the dedicated note: [migrations/0.5.2-to-0.5.3.md](./migrations/0.5.2-to-0.5.3.md).

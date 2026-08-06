@@ -217,6 +217,7 @@ git push -u origin HEAD
 ```
 
 `main` pushes trigger `.github/workflows/deploy-pages.yml`.
+Tag pushes do **not** deploy Pages — tags are release markers only.
 
 ### 10. Tag (preferred)
 
@@ -228,6 +229,7 @@ git push origin v{nextVersion}
 ```
 
 Only create/push tags when releasing. Do not move an existing tag.
+Confirm Pages from the `main` workflow run, not a tag run.
 
 ### 11. Confirm publish
 

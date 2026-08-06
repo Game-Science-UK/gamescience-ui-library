@@ -102,4 +102,5 @@ https://game-science-uk.github.io/gamescience-ui-library/versions/0.2.1/r/{name}
 ```
 
 - Published `versions/0.1.0/...` and `releases/0.1.0.lock.json` remain immutable.
-- Unversioned `/r/{name}.json` tracks latest stable published from `main` / release tags.
+- Unversioned `/r/{name}.json` tracks latest stable published from `main`
+  (release tags are markers only and do not trigger Pages deploys).

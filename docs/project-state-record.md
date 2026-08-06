@@ -15,23 +15,26 @@ Schema and reconciliation rules are defined in the Migrate composer module
 
 ## Required fields (schemaVersion 2)
 
-| Field / group                       | Purpose                                                    |
-| ----------------------------------- | ---------------------------------------------------------- |
-| `registry.version` / `registry.url` | Pinned immutable release                                   |
-| `registry.theme` / `registry.stack` | Single active theme and Tailwind branch                    |
-| `payloadIntegrity`                  | Byte/hash verification of installed upstream-managed files |
-| `tokenContract`                     | Required utilities/variables and any missing mappings      |
-| `obligations`                       | Closed coverage ledger with dispositions and A–E evidence  |
-| `coverage`                          | Counts by disposition, including `unclassified`            |
-| `installedItems`                    | Canonical installed registry item names                    |
-| `migratedSurfaces`                  | Routes/components migrated, with context and items         |
-| `localForks`                        | Local UI still pending review or replacement               |
-| `sanctionedExceptions`              | Named approved deviations from call-site purity            |
-| `retainedDeviations`                | Explicit app-owned keep decisions                          |
-| `knownIssues`                       | Upstream or local defects                                  |
+| Field / group                       | Purpose                                                              |
+| ----------------------------------- | -------------------------------------------------------------------- |
+| `registry.version` / `registry.url` | Pinned immutable release                                             |
+| `registry.theme` / `registry.stack` | Single active theme and Tailwind branch                              |
+| `payloadIntegrity`                  | Byte/hash verification of installed upstream-managed files           |
+| `tokenContract`                     | Required utilities/variables and any missing mappings                |
+| `obligations`                       | Closed coverage ledger with dispositions and A–E evidence references |
+| `discoveryReconciliation`           | Discovered vs ledgered counts (must reach zero unexplained diffs)    |
+| `coverage`                          | Counts by disposition, including `unclassified`                      |
+| `installedItems`                    | Canonical installed registry item names                              |
+| `migratedSurfaces`                  | Routes/components migrated, with context and items                   |
+| `localForks`                        | Local UI still pending review or replacement                         |
+| `sanctionedExceptions`              | Named approved deviations from call-site purity                      |
+| `retainedDeviations`                | Explicit app-owned keep decisions                                    |
+| `knownIssues`                       | Upstream or local defects                                            |
+| `evidenceRoot`                      | Artefact directory (prefer `docs/gamescience-ui/evidence`)           |
 
 SchemaVersion 1 records remain readable but should be upgraded when continuing
-a migration engagement.
+a migration engagement. Bare A–E booleans are insufficient for full-alignment
+`migrated` dispositions — prefer structured evidence objects.
 
 ## Rules
 
@@ -40,8 +43,9 @@ a migration engagement.
 - Generate from evidence; do not narrate completion the ledger cannot support.
 - Markdown `gamescience-ui-migration.md` installed-item tables and obligation
   summaries must match JSON.
-- Full alignment complete requires `coverage.unclassified === 0` and no open
-  in-scope obligations.
+- Full alignment complete requires `coverage.unclassified === 0`, no open
+  in-scope obligations, and discovery reconciliation with zero unexplained
+  differences.
 - When JSON and `components.json` disagree, prefer the pin in `components.json`,
   then reconcile the state file.
 

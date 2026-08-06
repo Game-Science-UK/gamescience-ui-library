@@ -13,7 +13,9 @@
 11. Use the versioned registry URL only
 12. No unreviewed overwrite (`--diff` before `--overwrite`)
 13. No broad delete-and-rebuild migration
-14. No raw theme styling in migrated screens — derive identity from the installed theme CSS
+14. No raw **component-identity** theme styling in migrated screens — derive
+    chrome from the installed theme CSS. Allowed: charts, maps, canvas/SVG,
+    game-state visualisation. Disallowed: local Panel/Button/Input identity.
 15. No automatic redesign of game-specific visuals
 16. Do not require all three contexts; use only surfaces the experience needs
 17. Enforce the shared-display privacy contract wherever that context exists
@@ -26,4 +28,12 @@
 24. No migrated surface may retain unsanctioned theme-identity overrides
 25. Full alignment requires an independent post-migration coverage audit
 26. Full alignment proceeds through the approved plan without routine continuation prompts
-27. Screenshot validation must compare consumer output with registry reference states
+27. Screenshot validation must compare consumer output with matching Storybook
+    reference states (theme, context, variant, state)
+28. Full alignment requires zero unexplained discovery-to-ledger differences
+29. A–E evidence for `migrated` obligations must include concrete references,
+    not bare booleans
+
+Storybook rendered reference:
+`https://game-science-uk.github.io/gamescience-ui-library/storybook/`
+Registry JSON remains authoritative for installed source payloads.

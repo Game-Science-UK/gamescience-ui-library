@@ -41,6 +41,72 @@ comprehensively reconciled against the registry.
 A slice or full alignment is complete only when obligations are dispositioned
 and backed by independent evidence across five coverage dimensions (A–E below).
 
+### Evidence references (not bare booleans)
+
+A–E status must reference concrete proof. A boolean without an artefact,
+command result, source location, computed-style result or visual reference is
+insufficient for full-alignment completion — otherwise the final audit only
+reconciles one assertion set against another.
+
+Prefer structured evidence objects (fields may be omitted when not applicable,
+but `status` alone is never enough for `migrated`):
+
+```json
+{
+  "evidence": {
+    "source": {
+      "status": "pass",
+      "items": ["input"],
+      "payloadHash": "sha256:…",
+      "files": ["src/components/ui/input.tsx"]
+    },
+    "callSite": {
+      "status": "pass",
+      "consumers": ["src/pages/CreateSession.tsx:84"],
+      "purityScan": "pass"
+    },
+    "renderPath": {
+      "status": "pass",
+      "branches": ["default", "submitting", "error"]
+    },
+    "themeContract": {
+      "status": "pass",
+      "utilities": ["h-control-md", "ring-focus-ring"],
+      "computedStyleFixture": "create-session"
+    },
+    "visual": {
+      "status": "pass",
+      "story": "components-ui-input--default",
+      "theme": "citadel",
+      "context": "facilitator",
+      "variant": "default",
+      "consumerRoute": "/create-session",
+      "consumerState": "default",
+      "screenshot": "docs/gamescience-ui/evidence/slice-01/create-session-input.png"
+    }
+  }
+}
+```
+
+### Evidence storage
+
+Store comparison artefacts under a project-local path, preferably outside `src`:
+
+```text
+docs/gamescience-ui/evidence/
+├── slice-01/
+│   ├── join-default.png
+│   ├── join-error.png
+│   └── comparison.json
+└── final/
+    ├── create-session-input.png
+    └── coverage-audit.json
+```
+
+Record paths or external artefact identifiers consistently in the ledger and
+`gamescience-ui-state.json`. Do not force-commit large screenshot sets when that
+conflicts with project practice — still record the path or artefact id used.
+
 ## Example triggers
 
 - Migrate this Lovable game to GameScience UI
@@ -73,8 +139,23 @@ Default when unspecified:
 | Input | Default                                      |
 | ----- | -------------------------------------------- |
 | Theme | preserve detected theme; ask if ambiguous    |
-| Mode  | safe incremental                             |
+| Mode  | interpret user intent (table below)          |
 | Stack | detect from project                          |
+
+### Mode from user intent
+
+Do not silently collapse a broad alignment request into a one-slice exercise.
+
+| User intent                                              | Mode                  |
+| -------------------------------------------------------- | --------------------- |
+| Try the registry on one screen                           | safe incremental      |
+| Migrate incrementally / migrate one slice                | safe incremental      |
+| Migrate this project (no breadth stated)                 | safe incremental      |
+| Complete migration / fully align / make registry-driven  | full visual alignment |
+| Full visual alignment                                    | full visual alignment |
+
+If intent is ambiguous between “try one screen” and “complete alignment”, ask
+once before proceeding.
 
 Example override:
 
@@ -97,6 +178,33 @@ project-specific plan. Generated guidance must include exactly one Tailwind
 stack branch.
 
 Do not pin the project to the unversioned latest URL.
+
+## Storybook reference
+
+Use the published Storybook as the canonical **rendered** reference:
+
+```text
+https://game-science-uk.github.io/gamescience-ui-library/storybook/
+```
+
+Use Storybook for:
+
+- API confirmation
+- variants, treatments and interactive states
+- theme and experience-context previews
+- expected component composition
+
+**Authority split (non-negotiable):**
+
+| Source           | Authority                                              |
+| ---------------- | ------------------------------------------------------ |
+| Registry JSON    | Installed files, dependencies, payload equality        |
+| Storybook        | Intended rendered behaviour and visual/state contracts |
+| Docs / composer  | Migration procedure                                    |
+
+Do not compare unmatched themes, contexts, variants or states. A consumer
+Citadel `Button` with `emphasis="strong"` must be compared to that Storybook
+state — not a default Gamescience Button story.
 
 ## Core migration flow
 
@@ -164,7 +272,9 @@ Do not:
 11. Use the versioned registry URL only
 12. No unreviewed overwrite (`--diff` before `--overwrite`)
 13. No broad delete-and-rebuild migration
-14. No raw theme styling in migrated screens — derive identity from the installed theme CSS
+14. No raw **component-identity** theme styling in migrated screens — derive
+    chrome from the installed theme CSS (see Allowed vs disallowed identity
+    styling below)
 15. No automatic redesign of game-specific visuals
 16. Do not require all three contexts; use only surfaces the experience needs
 17. Enforce the shared-display privacy contract wherever that context exists
@@ -177,7 +287,31 @@ Do not:
 24. No migrated surface may retain unsanctioned theme-identity overrides
 25. Full alignment requires an independent post-migration coverage audit
 26. Full alignment proceeds through the approved plan without routine continuation prompts
-27. Screenshot validation must compare consumer output with registry reference states
+27. Screenshot validation must compare consumer output with matching Storybook
+    reference states (theme, context, variant, treatment, state)
+28. Full alignment requires zero unexplained difference between discovered
+    in-scope UI responsibilities and ledgered obligations
+29. A–E evidence for `migrated` obligations must include concrete references,
+    not bare booleans
+
+### Allowed vs disallowed identity styling
+
+**Allowed** (application data visualisation / game content — do not force into
+tokens):
+
+- dynamic chart colours
+- map / sector colours
+- canvas / SVG effects
+- game-state visualisation
+- option identity colour supplied as a documented semantic variable
+
+**Disallowed** (component identity / chrome):
+
+- local recreation of Panel surface
+- local Button hover / active / disabled treatment
+- local Input border, height or focus ring
+- local typography system replacing registry text roles
+- arbitrary colours on registry primitives to “make them look right”
 
 ## Five coverage dimensions
 
@@ -345,6 +479,22 @@ Perform the audit required by `audit-gamescience-ui` before changing code, or
 reuse a fresh existing audit when the user supplies one that still matches the
 repository.
 
+### Audit freshness
+
+An audit is **stale** (must not be reused) when any of the following changed
+after it was produced:
+
+- registry pin / version URL
+- route tree
+- UI component inventory
+- theme or foundation CSS
+- Tailwind config or Tailwind 4 bridge
+- package lock
+- files belonging to an in-scope migration slice
+
+Prefer repository hashes or modified-file checks over a wall-clock duration
+alone. When stale, re-run discovery before rewriting UI.
+
 Then replace informal backlog language with a canonical **migration obligation
 ledger**. Create it before changing application files.
 
@@ -379,10 +529,33 @@ Build the ledger from:
 - local component inventories
 - imported UI primitives
 - raw HTML controls (`button`, `input`, `select`, `textarea`, etc.)
+- semantic wrappers that disguise raw controls or fork registry variants
+  (see Call-site purity scan)
 - styling overrides (`style={{}}`, arbitrary colours, identity `className`s)
 - registry catalogue availability
 - theme and token usage
 - responsive and context variants
+
+### Discovery reconciliation
+
+A closed ledger is only useful when discovery itself is complete. Before
+declaring full alignment — and after building the initial ledger — reconcile
+discovered in-scope UI with ledger rows:
+
+| Discovery category   | Discovered | Ledgered | Difference |
+| -------------------- | ---------: | -------: | ---------: |
+| Routes               |            |          |            |
+| Render branches      |            |          |            |
+| Local UI components  |            |          |            |
+| Raw controls         |            |          |            |
+| Semantic wrappers    |            |          |            |
+| Registry imports     |            |          |            |
+| Identity overrides   |            |          |            |
+
+**Full alignment requires zero unexplained difference** between discovered
+in-scope UI responsibilities and ledgered obligations. A missing component that
+never entered the ledger is invisible to later A–E gates — treat unexplained
+gaps as blockers.
 
 Also produce the existing audit artefacts:
 
@@ -465,6 +638,38 @@ Example shape:
 4. Each generated rule has a non-empty, valid declaration
 5. Representative components have expected computed values in the browser
 
+### Compiled-selector test strategy
+
+Distinguish two failure classes — string search alone is insufficient:
+
+| Failure                | Example                                         |
+| ---------------------- | ----------------------------------------------- |
+| Utility not generated  | `.h-control-md` missing from production CSS     |
+| Utility generated empty / invalid | `.h-control-md { height: ; }` or unresolved var |
+
+For each required utility:
+
+1. Search final production CSS for the selector
+2. Parse the declaration block
+3. Verify the expected property exists
+4. Verify referenced CSS variables exist upstream
+5. In the browser, verify the computed value on a representative fixture
+
+### CSS import / cascade order
+
+Validate that the selected theme wins after foundations, Tailwind layers and
+application CSS. Exact order is stack-dependent; detect at least:
+
+1. foundation tokens load before theme
+2. Tailwind layers do not wipe required semantics
+3. exactly one selected theme is imported
+4. application CSS does not reset registry tokens afterward
+5. local `:root` tokens do not shadow the selected theme incorrectly
+6. legacy `.dark` (or equivalent) scopes are never activated as a second theme
+
+Fail when both themes are imported, when app CSS undoes registry chrome, or
+when inactive dark scopes shadow the selected theme.
+
 Example computed-style assertions:
 
 ```text
@@ -507,22 +712,51 @@ Then:
 5. Load fonts at the application layer
 6. Mount Sonner through the approved toaster only
 7. Run payload integrity and token-contract gates on installed foundations
+8. Run the **post-install dependency / cache sanity gate** (below)
 
 Do not install unselected themes or unused context shells at this stage.
 
 Use `--diff` before `--overwrite` for any file that already exists.
 
+### Post-install dependency / cache sanity gate
+
+After major registry installs or syncs that change the module graph — not after
+every low-risk slice — run this mechanical check before visual validation:
+
+1. `npm ls react react-dom` (and Radix packages where relevant)
+2. Confirm a single React instance; investigate duplicates
+3. Restart the dev server
+4. Clear the Vite cache only when the module graph changed materially
+5. Reload a minimal route and confirm it is not a blank screen before proceeding
+
+Do not clear caches blindly every slice. Do treat blank screens / invalid hook
+calls after dependency changes as a known mechanical failure mode, not as
+visual-contract failure.
+
 ## 8. Mode behaviour
+
+### Risk classification for automatic continuation
+
+| Risk    | Examples                                                         | Behaviour                                      |
+| ------- | ---------------------------------------------------------------- | ---------------------------------------------- |
+| Low     | Direct primitive replacement with matching API                   | Continue automatically in full mode            |
+| Medium  | Domain component adoption preserving application logic           | Continue after A–E pass in full mode           |
+| High    | Route split, visual removal, privacy, destructive cleanup        | Stop for confirmation                          |
+| Blocked | Unresolved upstream contract, security/auth change, token break  | Stop; escalate or mark `upstream-gap`          |
+
+Do not classify a complex shared-display replacement as “medium” merely to
+continue. When unsure, treat as high.
 
 ### Safe incremental
 
-1. Build the obligation ledger and render-path inventory
+1. Build the obligation ledger, discovery reconciliation and render-path inventory
 2. Establish a rollback point
 3. Choose **one** context-appropriate vertical slice from the ledger
 4. Install foundations and selected theme only
 5. Establish one root `GameScienceProvider`
 6. Resolve active context from route or project configuration
-7. Migrate one shell and one pattern composition for that slice
+7. Migrate one shell and one pattern composition for that slice — do not stall
+   at Panel-only swaps when the ledger requires pattern/shell coverage
 8. Validate all applicable A–E dimensions for the slice
 9. Stop before restructuring every route
 10. Produce a next-step recommendation with remaining open obligations
@@ -536,27 +770,26 @@ route renaming.
 
 After target identity, scope and rollback are confirmed:
 
-1. Build the complete obligation ledger and ordered slice plan
-2. Validate stack and token contract
+1. Build the complete obligation ledger, discovery reconciliation and slice plan
+2. Validate stack and token contract (including CSS import/cascade order)
 3. Migrate foundations and prove **one** vertical slice before broader work
-4. Proceed through low- and medium-risk slices without asking for bare continuation
-5. Stop only for:
+4. Proceed through **low- and medium-risk** slices without asking for bare continuation
+5. Stop for **high** / **blocked** risk, or for:
    - ambiguous product decisions
    - destructive actions
    - unresolved upstream gaps that block obligations
    - security or authorisation changes
    - failed validation that cannot be corrected safely
-   - genuinely high-risk visual trade-offs
 6. Split only materially divergent compositions
 7. Preserve application-owned routes where they remain clear
 8. Avoid broad route renaming without functional need
 9. Classify blocked work as `upstream-gap` with structured proposals
 10. Remove redundant forks after validation
-11. Run the independent whole-application coverage audit
+11. Run the independent whole-application coverage audit (methodology below)
 12. Declare **Full alignment complete** or **Full alignment incomplete**
 
-A passing slice must lead automatically into the next planned slice.
-“Continue?” must not be required after routine green slices.
+A passing slice must lead automatically into the next planned low/medium-risk
+slice. “Continue?” must not be required after routine green slices.
 
 Full mode is **not** permission for a destructive rewrite.
 
@@ -675,6 +908,19 @@ For every migrated surface, detect and classify:
 - duplicate local variants of registry components
 - typography classes superseded by registry semantics
 
+Also discover **semantic wrappers** that disguise raw controls or fork registry
+identity:
+
+- components that return a single raw control (`PrimaryAction` → `<button>`)
+- thin wrappers around registry components that re-skin identity
+  (`StatusButton` → `<Button className="…">`)
+- local CVA / variant factories duplicating registry variants
+- helper functions returning identity class strings (`statusBtn()`)
+- inline styling functions that recreate hover/active/disabled treatment
+
+Wrappers count as call-site obligations. Migrating the underlying registry file
+without replacing the wrapper is incomplete.
+
 Classification:
 
 **Allowed**
@@ -682,22 +928,24 @@ Classification:
 - layout and positioning
 - responsive placement
 - application-owned sizing where the registry API intentionally permits it
-- game-specific graphics
+- game-specific graphics and data visualisation (charts, maps, canvas/SVG)
 - documented sanctioned exceptions
+- option/game-state colour via documented semantic variables
 
 **Disallowed**
 
-- colour identity
+- colour identity on chrome / primitives
 - component height intended to come from the registry
 - borders, radii, shadows and focus treatment
 - typography identity
-- state colours
+- state colours for controls
 - hover/active/disabled treatment
 - visual overrides compensating for a missing token mapping
+- local recreation of Panel / Button / Input surfaces
 
 Every disallowed result must be removed or recorded as a named approved
 deviation. Installing a registry primitive does not count if call sites still
-override its identity or keep raw controls.
+override its identity or keep raw controls / wrappers.
 
 ### C. Render-path gate
 
@@ -705,30 +953,74 @@ Reconcile the slice against the render-path inventory. Hidden, error,
 loading, disconnected, outcome and fallback branches count. Primary-path-only
 migration is incomplete.
 
+#### State-interaction matrix
+
+Join render-path branches with interactive component states. For each migrated
+interactive control on the slice, complete:
+
+| Surface | Component | Default | Hover | Focus | Active | Disabled | Loading | Error |
+| ------- | --------- | ------- | ----- | ----- | ------ | -------- | ------- | ----- |
+
+Particularly required for Button, Input, Select, Dialog, Checkbox, form
+validation, join flow and facilitator controls. Checking only the default
+appearance is incomplete.
+
 ### D. Theme-contract gate
 
 Re-run the token-contract checks for utilities and variables exercised by the
-slice. Fail if required classes are absent from compiled CSS or compute to
+slice, including the compiled-selector strategy and CSS import/cascade order.
+Fail if required classes are absent from compiled CSS or compute to
 empty/incorrect values.
 
 ### E. Visual / behavioural gate
 
-Compare registry reference states to consumer implementation states. A
-screenshot of the migrated application alone is not sufficient.
+Compare **matching** Storybook reference states to consumer implementation
+states. A screenshot of the migrated application alone is not sufficient.
 
-At minimum where applicable:
+#### Storybook reference phase
 
-- default, hover, focus, active, disabled
-- error states
-- relevant viewport
-- relevant theme
-- relevant experience context
+For each migrated registry item:
+
+1. Locate its Storybook story at
+   `https://game-science-uk.github.io/gamescience-ui-library/storybook/`
+2. Select matching theme
+3. Select matching experience context
+4. Select matching variant / treatment / state
+5. Capture or inspect the reference
+6. Compare it with the consumer state
+
+Record for each comparison:
+
+| Field           | Value |
+| --------------- | ----- |
+| Story           |       |
+| Theme           |       |
+| Context         |       |
+| Variant         |       |
+| Consumer route  |       |
+| Consumer state  |       |
+
+#### Two kinds of visual comparison
+
+**Component contract comparison** (story vs consumer control):
+
+- height, border, radius, type scale, intent, focus, state treatment
+
+**Composition comparison** (page / shell vs expected layout):
+
+- spacing, layout hierarchy, shell placement, viewport, visual loss
+
+A consumer page must **not** be expected to pixel-match a component story as a
+whole. Fail component-contract mismatches; treat composition mismatches as
+layout/shell obligations.
 
 Comparison methods:
 
 - automated screenshot diff where practical
 - computed-style contract checks
 - structured manual visual inspection for complex scenes
+
+Store artefacts under `docs/gamescience-ui/evidence/` (or recorded equivalent).
 
 Record results such as:
 
@@ -744,9 +1036,22 @@ Also validate:
 - overlay portals
 - shared-display privacy when applicable
 - no legacy toast usage on migrated call sites
-- no duplicate React or Radix dependencies introduced
-- Vite/tooling caches cleared after major syncs when blank screens or duplicate
-  React symptoms appear
+- post-install dependency/cache sanity already passed after dependency changes
+
+### Retained-approved regression check
+
+Registry work can still break retained application visuals through global CSS.
+For every `retained-approved` visual on a touched route, verify:
+
+- still renders
+- expected position
+- no token collision
+- no overflow
+- no opacity loss
+- no z-index regression
+
+Applies especially to radar, corner brackets, bespoke backgrounds, charts and
+game choreography. “Retained” without a survival check is incomplete.
 
 Do not continue to the next slice while required checks fail.
 
@@ -754,11 +1059,14 @@ Do not continue to the next slice while required checks fail.
 
 After each slice:
 
-1. Update obligation statuses with evidence flags for A–E
-2. Record sanctioned exceptions by name
-3. Record upstream gaps with structured proposals
-4. Update `gamescience-ui-state.json` and Markdown records from evidence
-5. Do not narrate completion that the ledger cannot support
+1. Update obligation statuses with **evidence references** for A–E (not bare
+   booleans)
+2. Update discovery reconciliation counts if new responsibilities were found
+3. Record sanctioned exceptions by name
+4. Record upstream gaps with structured proposals
+5. Record retained-approved regression results for touched routes
+6. Update `gamescience-ui-state.json` and Markdown records from evidence
+7. Do not narrate completion that the ledger cannot support
 
 Open obligations remain visible. Do not hide them behind “slice green”.
 
@@ -834,8 +1142,7 @@ Do **not** delete files solely because they are not from the registry.
 
 ## 15. Independent whole-application coverage audit
 
-For full visual alignment, this step is **mandatory**. Do not treat
-`validate-gamescience-ui` as optional “when useful”.
+For full visual alignment, this step is **mandatory**.
 
 After all planned slices are complete, run a fresh audit from repository state
 without trusting:
@@ -844,18 +1151,22 @@ without trusting:
 - the migration record
 - the list of installed components
 - previous “done” classifications
+- prior A–E boolean flags without artefacts
 
 Independently rediscover:
 
 - application surfaces
 - render branches
 - local components
-- raw controls
+- raw controls and semantic wrappers
+- identity overrides
 - legacy styling
-- token contract
+- token contract and CSS cascade order
 - registry payload drift
 - unused installed items
 - unresolved registry gaps
+
+Rebuild discovery reconciliation and require zero unexplained difference.
 
 Then reconcile:
 
@@ -865,11 +1176,16 @@ vs
 actual repository
 vs
 runtime result
+vs
+Storybook reference states for migrated items
 ```
 
-Hand off to `validate-gamescience-ui` in **coverage-reconstruction mode**:
-rebuild coverage evidence from the repository and runtime, then compare it to
-the obligation ledger. Architecture compliance alone is not enough.
+Execute the shared validation doctrine used by `validate-gamescience-ui` in
+**coverage-reconstruction mode** (rebuild coverage evidence from repository and
+runtime, then compare to the obligation ledger). Invoke that skill where the
+host supports cross-skill hand-off; otherwise run the same methodology in-place.
+Architecture compliance alone is not enough — the independent methodology
+matters more than formally switching skills.
 
 Full visual alignment cannot be declared until these agree.
 
@@ -913,14 +1229,48 @@ fields. Prefer this shape (schemaVersion 2):
       "target": "@gamescience/input",
       "disposition": "migrated",
       "evidence": {
-        "source": true,
-        "callSite": true,
-        "renderPath": true,
-        "themeContract": true,
-        "visual": true
+        "source": {
+          "status": "pass",
+          "items": ["input"],
+          "payloadHash": "sha256:…",
+          "files": ["src/components/ui/input.tsx"]
+        },
+        "callSite": {
+          "status": "pass",
+          "consumers": ["src/pages/CreateSession.tsx:84"],
+          "purityScan": "pass"
+        },
+        "renderPath": {
+          "status": "pass",
+          "branches": ["default", "submitting", "error"]
+        },
+        "themeContract": {
+          "status": "pass",
+          "utilities": ["h-control-md", "ring-focus-ring"],
+          "computedStyleFixture": "create-session"
+        },
+        "visual": {
+          "status": "pass",
+          "story": "components-ui-input--default",
+          "theme": "citadel",
+          "context": "facilitator",
+          "variant": "default",
+          "consumerRoute": "/create-session",
+          "consumerState": "default",
+          "screenshot": "docs/gamescience-ui/evidence/slice-01/create-session-input.png"
+        }
       }
     }
   ],
+  "discoveryReconciliation": {
+    "routes": { "discovered": 0, "ledgered": 0, "difference": 0 },
+    "renderBranches": { "discovered": 0, "ledgered": 0, "difference": 0 },
+    "localUiComponents": { "discovered": 0, "ledgered": 0, "difference": 0 },
+    "rawControls": { "discovered": 0, "ledgered": 0, "difference": 0 },
+    "semanticWrappers": { "discovered": 0, "ledgered": 0, "difference": 0 },
+    "registryImports": { "discovered": 0, "ledgered": 0, "difference": 0 },
+    "identityOverrides": { "discovered": 0, "ledgered": 0, "difference": 0 }
+  },
   "coverage": {
     "total": 112,
     "migrated": 94,
@@ -934,12 +1284,15 @@ fields. Prefer this shape (schemaVersion 2):
   "localForks": [],
   "sanctionedExceptions": [],
   "retainedDeviations": [],
-  "knownIssues": []
+  "knownIssues": [],
+  "evidenceRoot": "docs/gamescience-ui/evidence"
 }
 ```
 
-The record must be generated from evidence, not manually narrated after the
-work. Markdown reports must reconcile against this JSON.
+Booleans for A–E are not sufficient in schemaVersion 2 records for
+`migrated` dispositions. The record must be generated from evidence, not
+manually narrated after the work. Markdown reports must reconcile against this
+JSON.
 
 Also create or update:
 
@@ -953,13 +1306,15 @@ Migration Markdown must include:
 - Tailwind integration branch
 - Migrated registry items (**same list as the JSON record**)
 - Coverage summary using dimensions A–E and obligation counts
-- Render-path inventory summary
-- Payload integrity and token-contract results
+- Discovery reconciliation table
+- Render-path inventory and state-interaction matrix summary
+- Payload integrity and token-contract results (including CSS order)
 - Mixed-context branch findings
 - Visual-loss decisions when patterns replaced local chrome
-- Reference-vs-consumer visual comparison results
-- Replaced local components
-- Retained application components and game-specific visuals
+- Storybook reference-vs-consumer comparison results (story/theme/context/state)
+- Evidence artefact locations
+- Replaced local components and semantic wrappers
+- Retained application components, game-specific visuals and regression checks
 - Sanctioned exceptions and upstream gap proposals
 - Remaining open obligations and next recommended slice
 - Authorisation findings still outstanding (separate)
@@ -990,11 +1345,14 @@ Allowed only when:
 
 - all in-scope obligations have final dispositions
 - zero unclassified obligations remain
-- all `migrated` obligations pass A–E coverage
-- all retained deviations are explicitly approved
+- discovery reconciliation shows zero unexplained differences
+- all `migrated` obligations pass A–E coverage with concrete evidence references
+- Storybook comparisons used matching theme / context / variant / state
+- all retained deviations are explicitly approved and regression-checked on
+  touched routes
 - all upstream gaps are listed and do not masquerade as migrated
 - payload integrity passes
-- token contract passes
+- token contract passes (compiled selectors + CSS cascade order)
 - final independent audit reconciles with the ledger
 - typecheck, lint, tests and build pass
 - required runtime and visual checks pass
@@ -1046,5 +1404,16 @@ reference-vs-consumer visuals.
 
 ### Follow-up
 
-Next recommended slice, upstream registry work, or hand-off to
-`validate-gamescience-ui` / `sync-gamescience-ui` as appropriate.
+Next recommended slice, upstream registry work, or apply the shared validation
+doctrine / invoke `validate-gamescience-ui` or `sync-gamescience-ui` where
+supported.
+
+---
+
+## Module note (maintainers)
+
+This skill is the canonical authored orchestrator for Lovable / agent hosts.
+Shared doctrine also lives in `site/migration-modules/*` for the Pages Migrate
+composer. Prefer evolving doctrine in those modules and keeping this skill as
+the lifecycle, stop conditions and output contract — generate thinner deployed
+skills from modules when the host benefits from shorter prompts.
