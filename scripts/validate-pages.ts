@@ -220,6 +220,7 @@ function validateSitePages() {
   const requiredPages = [
     "index.html",
     "catalogue/index.html",
+    "storybook/index.html",
     "start/index.html",
     "upgrade/index.html",
     "migrate/index.html",
@@ -230,6 +231,18 @@ function validateSitePages() {
   ];
   for (const relative of requiredPages) {
     assertExists(path.join(pagesDist, relative), relative);
+  }
+
+  const storybookIndex = path.join(pagesDist, "storybook/index.html");
+  if (existsSync(storybookIndex)) {
+    const storybookHtml = readFileSync(storybookIndex, "utf8");
+    // Storybook 9 ships relative asset URLs (base './') for subpath hosting.
+    if (!storybookHtml.includes("sb-manager") || !storybookHtml.includes("CONFIG_TYPE")) {
+      fail("storybook/index.html does not look like a Storybook manager build");
+    }
+    if (existsSync(path.join(pagesDist, "storybook/registry"))) {
+      fail("storybook/ must not embed public/registry — set Vite publicDir: false");
+    }
   }
 
   const indexHtml = readFileSync(path.join(pagesDist, "index.html"), "utf8");
@@ -244,6 +257,9 @@ function validateSitePages() {
   }
   if (!indexHtml.includes("/docs/context-model.md")) {
     fail("homepage missing link to /docs/context-model.md");
+  }
+  if (!indexHtml.includes(`${PAGES_SITE_PATH}/storybook/`)) {
+    fail("homepage missing Storybook nav link");
   }
   for (const label of ["Participant", "Facilitator", "Shared display"]) {
     if (!indexHtml.includes(label)) {
@@ -441,6 +457,7 @@ function validateSitePages() {
   }
 
   // First-party absolute Pages links in HTML must resolve under pages-dist.
+  // storybook/ is a third-party static app; its internal asset graph is not checked here.
   for (const relative of [
     "index.html",
     "catalogue/index.html",
@@ -706,9 +723,15 @@ function main() {
       if (relative.includes("node_modules") || relative.includes("tmp/")) {
         fail(`prohibited path in pages-dist: ${relative}`);
       }
+      // Storybook's vendor bundle may mention localhost in comments/strings; scan site+registry only.
+      const isStorybookAsset = relative === "storybook" || relative.startsWith("storybook/");
       if (relative.endsWith(".map")) fail(`source map published: ${relative}`);
       const full = path.join(pagesDist, relative);
-      if (statSync(full).isFile() && (relative.endsWith(".json") || relative.endsWith(".html"))) {
+      if (
+        !isStorybookAsset &&
+        statSync(full).isFile() &&
+        (relative.endsWith(".json") || relative.endsWith(".html"))
+      ) {
         scanForForbidden(readFileSync(full, "utf8"), relative);
       }
     }

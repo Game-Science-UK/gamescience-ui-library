@@ -11,7 +11,7 @@ The GameScience registry is a publicly readable static shadcn registry that dist
 - Namespace: `@gamescience`
 - Local serve URL (default): `http://localhost:4343`
 - GitHub Pages latest: `https://game-science-uk.github.io/gamescience-ui-library/r/{name}.json`
-- GitHub Pages versioned (recommended): `https://game-science-uk.github.io/gamescience-ui-library/versions/0.5.2/r/{name}.json`
+- GitHub Pages versioned (recommended): `https://game-science-uk.github.io/gamescience-ui-library/versions/0.5.3/r/{name}.json`
 - Configurable local override via `GAMESCIENCE_REGISTRY_URL`
 
 ## Build and serve locally

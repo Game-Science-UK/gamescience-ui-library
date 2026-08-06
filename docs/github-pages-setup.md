@@ -36,10 +36,20 @@ Onboarding site routes (also unversioned latest):
 ```text
 /
 /catalogue/
+/storybook/
 /start/
 /upgrade/
 /migrate/
 /docs/migration-config.json
+```
+
+Hosted Storybook is published from `storybook-static` during `pages:build:latest`.
+CI runs `npm run build-storybook` before the Pages stages. Locally, build Storybook
+first:
+
+```bash
+npm run build-storybook
+npm run pages:build
 ```
 
 Local preview after a full Pages build:

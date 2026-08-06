@@ -8,6 +8,7 @@ Only approved consumer documentation and site assets are published to GitHub Pag
 - Tailwind 4 bridge CSS
 - Compiled `migration-config.json` and inspection modules under `/docs/migration/`
 - Onboarding site pages under `/`, `/catalogue/`, `/start/`, `/upgrade/`, `/migrate/`
+- Hosted Storybook under `/storybook/` (built from `storybook-static`)
 - Registry JSON under `/r/` and immutable `/versions/{version}/`
 
 ## Not allowed

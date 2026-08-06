@@ -80,6 +80,24 @@ state, complete one row per branch (see Mixed-context routes).
 Do not report shell adoption as architecturally complete until provider context
 matches every migrated branch.
 
+### Required render-path inventory
+
+For every major route or stateful screen, list meaningful branches and states
+(loading, empty, error, disconnected, phase/workflow states, mobile/desktop,
+context variants, legacy fallbacks). Do not treat a file as a single migration
+unit.
+
+### Required migration obligation ledger
+
+Before rewriting UI, produce an obligation ledger. Each row is one UI
+responsibility on one render branch:
+
+| ID  | Surface | Branch/state | Responsibility | Current | Target | Status |
+| --- | ------- | ------------ | -------------- | ------- | ------ | ------ |
+
+Every in-scope obligation must eventually reach exactly one final disposition:
+`migrated`, `retained-approved`, `upstream-gap`, or `out-of-scope-approved`.
+
 ### Stack support classification
 
 Do **not** infer registry stack support solely from the names of published

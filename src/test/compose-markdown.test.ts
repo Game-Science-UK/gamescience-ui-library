@@ -34,13 +34,17 @@ const CONTEXT_MARKERS = [
 
 const GOVERNANCE_MARKERS = [
   "Coverage reporting",
-  "Migrated-surface coverage",
-  "Whole-application registry coverage",
+  "Source coverage",
+  "Call-site coverage",
+  "Render-path coverage",
+  "Theme-contract coverage",
+  "closed coverage ledger",
   "gamescience-ui-state.json",
   "Slice reconciliation",
   "Mixed-context routes",
   "Visual-loss review",
   "Required mixed-context branch table",
+  "Required migration obligation ledger",
   "Primitives: 100% registry-owned",
 ] as const;
 
@@ -148,10 +152,12 @@ describe("compose-markdown-core", () => {
     assertSharedContextGuidance(md, registryUrl);
     assertMigrationGovernance(md);
     expect(md).toContain("MODE: FULL VISUAL ALIGNMENT");
-    expect(md).toContain("Migrate context by context");
-    expect(md).toContain("inventing a fourth context");
+    expect(md).toContain("complete obligation ledger");
+    expect(md).toContain("without asking for bare continuation");
+    expect(md).toContain("Full alignment complete");
     expect(md).toContain("Stack guidance — Tailwind 3");
     expect(md).toContain("Do **not** install or import `tailwind-v4-bridge.css`");
+    expect(md).toContain("Prove the token contract");
     expect(md).not.toContain("Stack guidance — Tailwind 4\n");
     expect(md).toContain("shared-display");
   });

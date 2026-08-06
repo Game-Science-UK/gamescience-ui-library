@@ -1,6 +1,6 @@
 ---
 name: audit-gamescience-ui
-description: Use when performing a read-only audit of a Lovable or React project against the GameScience UI registry. Inspects stack, theme, routes, contexts and local UI inventory; inspects registry payloads rather than relying only on documentation; maps local primitives to registry items; produces context audit, registry coverage backlog, separate authorisation findings and a recommended first migration slice. Corresponds to Audit only in the Migrate composer. Never modifies files. This is the only GameScience UI skill permitted to claim "No files changed" as a formal outcome.
+description: Use when performing a read-only audit of a Lovable or React project against the GameScience UI registry. Inspects stack, theme, routes, contexts, render branches and local UI inventory; inspects registry payloads rather than relying only on documentation; maps local primitives to registry items; produces context audit, render-path inventory, migration obligation ledger, registry coverage backlog, separate authorisation findings and a recommended first migration slice. Corresponds to Audit only in the Migrate composer. Never modifies files. This is the only GameScience UI skill permitted to claim "No files changed" as a formal outcome.
 ---
 
 # Audit GameScience UI
@@ -300,7 +300,29 @@ Every audit must finish with:
 - First context vertical slice
 - Context-related registry gaps
 
-## 8. Produce the registry coverage backlog
+## 8. Produce the render-path inventory and obligation ledger
+
+File- and route-level inventories are not enough. For every major route or
+stateful screen, list meaningful branches and states:
+
+- conditional / switch branches
+- loading, empty, error, disconnected
+- mobile / desktop compositions
+- participant / facilitator / display variants
+- pre-game, active-phase, voting, outcome, completion
+- legacy compatibility fallbacks
+
+Then produce a **migration obligation ledger**. Each row is one UI
+responsibility on one render branch:
+
+| ID | Surface | Branch/state | Responsibility | Current | Target | Status |
+| -- | ------- | ------------ | -------------- | ------- | ------ | ------ |
+
+Also inventory raw HTML controls and styling overrides that would block
+call-site purity after install (`style={{}}`, arbitrary colours, identity
+`className`s on registry components).
+
+## 9. Produce the registry coverage backlog
 
 | Existing implementation | Proposed registry layer | Evidence | Contexts | Reuse likelihood | Recommendation |
 | ----------------------- | ----------------------- | -------- | -------- | ---------------- | -------------- |
@@ -323,7 +345,11 @@ Classify backlog rows as:
 - Application-specific
 - Insufficient evidence
 
-## 9. Separate authorisation findings
+For recurring compositions without an adequate registry target, draft a
+structured upstream-gap proposal (layer, API, variants, consumers, blocked
+obligation IDs) rather than only listing a backlog row.
+
+## 10. Separate authorisation findings
 
 Report security / authority findings in their own section.
 
@@ -339,7 +365,7 @@ unless the surface cannot be classified safely without it.
 
 Do not implement auth changes in this skill.
 
-## 10. Recommend the first migration slice
+## 11. Recommend the first migration slice
 
 Recommend exactly one first vertical slice.
 
@@ -365,7 +391,7 @@ Output:
 
 Do not implement the slice here.
 
-## 11. Final output
+## 12. Final output
 
 Report:
 
@@ -407,9 +433,17 @@ Include the full table.
 
 Include the full table and architecture recommendation.
 
+### Render-path inventory
+
+Summarise branch/state coverage per major surface.
+
+### Obligation ledger
+
+Include the ledger table and counts by provisional status.
+
 ### Registry coverage backlog
 
-Include the backlog table.
+Include the backlog table and any structured upstream-gap proposals.
 
 ### Authorisation findings
 

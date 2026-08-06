@@ -1,6 +1,6 @@
 ---
 name: validate-gamescience-ui
-description: Use when checking an existing GameScience UI implementation for compliance without upgrading or migrating it. Verifies immutable registry pin, provider placement, theme selection, route-to-context mapping, shared-display privacy, portal theme propagation, semantic tokens, Tailwind 3 or 4 integration, Sonner usage, dependencies, accessibility, build/test health and project records. Detects theme, stack and contexts unless overridden. Does not install, overwrite or upgrade unless explicitly handed off to another skill.
+description: Use when checking an existing GameScience UI implementation for compliance without upgrading or migrating it. Verifies immutable registry pin, provider placement, theme selection, route-to-context mapping, shared-display privacy, portal theme propagation, semantic tokens, Tailwind 3 or 4 integration, Sonner usage, dependencies, accessibility, build/test health and project records. Supports coverage-reconstruction mode for post-migration ledger reconciliation (rediscover surfaces, render branches, call-site purity, payload integrity and token contract from repository/runtime). Detects theme, stack and contexts unless overridden. Does not install, overwrite or upgrade unless explicitly handed off to another skill.
 ---
 
 # Validate GameScience UI
@@ -93,10 +93,42 @@ Record:
 - pinned registry version and URL
 - latest immutable registry version (for drift awareness only)
 - requested focus area if any (theme, shared-display, Tailwind, etc.)
+- validation mode: compliance (default) or coverage-reconstruction
 - available scripts for typecheck / lint / test / build
 
 If the project has no GameScience adoption evidence, stop and recommend
 `adopt-gamescience-ui` or `audit-gamescience-ui`.
+
+### Coverage-reconstruction mode
+
+Use when handed off from `migrate-gamescience-ui` after planned slices, or when
+the user asks to prove full-alignment coverage.
+
+In this mode, do **not** trust slice notes, prior “done” classifications, or the
+installed-item list as authoritative. Independently rediscover from repository
+and runtime:
+
+- application surfaces and render branches
+- local components and raw HTML controls
+- legacy / identity styling overrides
+- registry payload drift (byte/hash compare, including transitive files)
+- token contract (required utilities/variables present in config **and**
+  compiled CSS)
+- unused installed items
+- unresolved registry gaps
+
+Then reconcile:
+
+```text
+planned obligation ledger
+vs
+actual repository
+vs
+runtime result
+```
+
+Report obligation dispositions and coverage dimensions A–E. Architecture
+compliance alone is not enough to certify full alignment.
 
 ## 2. Verify immutable registry pin
 
@@ -359,6 +391,15 @@ Cover at least:
 - accessibility
 - build and test health
 - project records
+
+In coverage-reconstruction mode, also cover:
+
+- obligation ledger reconciliation
+- render-path inventory completeness
+- call-site purity
+- payload integrity (including transitive theme/foundation files)
+- token-contract compiled-CSS proof
+- reference-vs-consumer visual/computed-style checks where practical
 
 ### Stack support
 

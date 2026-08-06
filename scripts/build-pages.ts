@@ -25,6 +25,7 @@ import { writeSitePages } from "./write-site-pages.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const registrySource = path.join(root, "public/registry");
+const storybookSource = path.join(root, "storybook-static");
 const pagesDist = path.join(root, "pages-dist");
 const releasesDir = path.join(root, "releases");
 const snapshotsDir = path.join(releasesDir, "snapshots");
@@ -230,6 +231,20 @@ function writeVersionedCandidate() {
   console.log(`[pages:build] run pages:validate:versioned then npm run pages:build:latest`);
 }
 
+function publishStorybook() {
+  const indexPath = path.join(storybookSource, "index.html");
+  if (!existsSync(indexPath)) {
+    throw new Error(
+      "storybook-static is missing. Run npm run build-storybook before pages:build:latest.",
+    );
+  }
+
+  const target = path.join(pagesDist, "storybook");
+  rmSync(target, { recursive: true, force: true });
+  cpSync(storybookSource, target, { recursive: true });
+  console.log(`[pages:build] published Storybook at /storybook/`);
+}
+
 function promoteLatestFromVersioned() {
   const versionRoot = path.join(pagesDist, "versions", PAGES_VERSION);
   if (!existsSync(versionRoot)) {
@@ -250,10 +265,12 @@ function promoteLatestFromVersioned() {
   rmSync(path.join(pagesDist, "start"), { recursive: true, force: true });
   rmSync(path.join(pagesDist, "upgrade"), { recursive: true, force: true });
   rmSync(path.join(pagesDist, "migrate"), { recursive: true, force: true });
+  rmSync(path.join(pagesDist, "storybook"), { recursive: true, force: true });
   rmSync(path.join(pagesDist, "assets"), { recursive: true, force: true });
 
   const { writeDocsIndex } = writeSitePages(pagesDist);
   writePublicDocs(writeDocsIndex);
+  publishStorybook();
   writeFileSync(path.join(pagesDist, ".nojekyll"), "");
 
   console.log(`[pages:build] stage=latest promoted unversioned /r from versions/${PAGES_VERSION}`);

@@ -105,6 +105,7 @@ function shellLayout(options: {
   const nav = [
     ["/", "Home"],
     ["/catalogue/", "Catalogue"],
+    ["/storybook/", "Storybook"],
     ["/start/", "Start"],
     ["/upgrade/", "Upgrade"],
     ["/migrate/", "Migrate"],

@@ -71,6 +71,10 @@ npm install
 npm run storybook
 ```
 
+Hosted static Storybook is published with GitHub Pages at
+`/gamescience-ui-library/storybook/` (main nav → Storybook). Build it before a
+local Pages latest stage: `npm run build-storybook`.
+
 Global toolbar controls:
 
 - **Theme:** gamescience | citadel

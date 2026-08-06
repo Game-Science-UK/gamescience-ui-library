@@ -17,10 +17,14 @@ Router / framework detection is separate:
 3. Import exactly one theme CSS file
 4. Retain the project `tailwind.config.ts` (or `.js`)
 5. Merge the required semantic token mappings from the installed token contract /
-   `docs/tailwind-v3-integration.md`
+   `docs/tailwind-v3-integration.md` — including control heights
+   (`h-control-*`), primary/secondary hover/active, and focus-ring mappings
 6. Retain existing `@tailwind base`, `@tailwind components`, and
    `@tailwind utilities` directives
 7. Do **not** install or import `tailwind-v4-bridge.css`
+8. Prove the token contract: required utilities must appear in production CSS
+   with non-empty declarations, and representative controls must compute to
+   expected sizes/state colours. Config presence alone is not enough.
 
 ### Application CSS shape
 

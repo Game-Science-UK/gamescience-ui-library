@@ -7,31 +7,41 @@ src/docs/gamescience-ui-state.json
 ```
 
 This file is **not** a registry runtime dependency. Agents and humans use it to
-keep installed-item inventories, migrated surfaces, local forks and known issues
-current after every slice.
+keep installed-item inventories, obligation ledgers, coverage evidence, migrated
+surfaces, local forks and known issues current after every slice.
 
 Schema and reconciliation rules are defined in the Migrate composer module
 `project-state-record` (inlined into migration briefs) and summarised below.
 
-## Required fields (schemaVersion 1)
+## Required fields (schemaVersion 2)
 
-| Field                             | Purpose                                            |
-| --------------------------------- | -------------------------------------------------- |
-| `registryVersion` / `registryUrl` | Pinned immutable release                           |
-| `theme`                           | Single active theme                                |
-| `stack`                           | Tailwind / React / router detection                |
-| `contexts`                        | Experience contexts in use                         |
-| `installedItems`                  | Canonical installed registry item names            |
-| `migratedSurfaces`                | Routes/components migrated, with context and items |
-| `localForks`                      | Local UI still pending review or replacement       |
-| `retainedDeviations`              | Explicit app-owned keep decisions                  |
-| `knownIssues`                     | Upstream or local defects                          |
+| Field / group                       | Purpose                                                    |
+| ----------------------------------- | ---------------------------------------------------------- |
+| `registry.version` / `registry.url` | Pinned immutable release                                   |
+| `registry.theme` / `registry.stack` | Single active theme and Tailwind branch                    |
+| `payloadIntegrity`                  | Byte/hash verification of installed upstream-managed files |
+| `tokenContract`                     | Required utilities/variables and any missing mappings      |
+| `obligations`                       | Closed coverage ledger with dispositions and A–E evidence  |
+| `coverage`                          | Counts by disposition, including `unclassified`            |
+| `installedItems`                    | Canonical installed registry item names                    |
+| `migratedSurfaces`                  | Routes/components migrated, with context and items         |
+| `localForks`                        | Local UI still pending review or replacement               |
+| `sanctionedExceptions`              | Named approved deviations from call-site purity            |
+| `retainedDeviations`                | Explicit app-owned keep decisions                          |
+| `knownIssues`                       | Upstream or local defects                                  |
+
+SchemaVersion 1 records remain readable but should be upgraded when continuing
+a migration engagement.
 
 ## Rules
 
 - No secrets, tokens, host keys or credentials.
 - Update after every migration or sync slice.
-- Markdown `gamescience-ui-migration.md` installed-item tables must match JSON.
+- Generate from evidence; do not narrate completion the ledger cannot support.
+- Markdown `gamescience-ui-migration.md` installed-item tables and obligation
+  summaries must match JSON.
+- Full alignment complete requires `coverage.unclassified === 0` and no open
+  in-scope obligations.
 - When JSON and `components.json` disagree, prefer the pin in `components.json`,
   then reconcile the state file.
 

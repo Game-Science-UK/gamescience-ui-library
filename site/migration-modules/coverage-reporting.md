@@ -1,39 +1,75 @@
 ## Coverage reporting
 
-Migration reports must distinguish **four** different concepts. Never collapse
-them into a single “100% coverage” claim.
+Treat migration as a **closed coverage ledger**, not a sequence of successful
+slices. Migration reports must distinguish **five** independently measured
+dimensions. Never collapse them into a single “100% coverage” claim.
 
-### A. Migrated-surface coverage
+### A. Source coverage
 
-Which routes or components have been migrated in this project.
+Are the correct registry-owned files installed and byte-equal to the immutable
+release (including transitive theme, foundation, provider and dependency files)?
+
+### B. Call-site coverage
+
+Are application surfaces actually using those items correctly — without raw
+controls, identity `className` overrides, inline theme styles, or obsolete
+local fallbacks?
+
+### C. Render-path coverage
+
+Do all meaningful states and branches for a surface use the intended
+implementation? File- or route-level “migrated” claims are insufficient.
 
 Example:
 
-| Surface                     | Status       |
-| --------------------------- | ------------ |
-| Participant join            | migrated     |
-| Facilitator host lobby      | migrated     |
-| Shared-display waiting room | migrated     |
-| Participant non-host lobby  | not migrated |
+```text
+Game.tsx:
+- loading: retained-approved
+- discussion: migrated
+- voting: migrated
+- outcome: migrated
+- disconnected: retained-approved
+- unknown-phase fallback: removed
+```
 
-### B. Registry coverage within migrated surfaces
+### D. Theme-contract coverage
 
-Whether the primitives, components, patterns and shells **used by those specific
-surfaces** are registry-managed.
+Does the consumer build resolve the registry styling contract? Required CSS
+variables and Tailwind utilities must exist in config/bridge **and** appear in
+compiled CSS with non-empty declarations. Computed styles for representative
+controls must match expected dimensions and state tokens.
 
-Prefer wording such as:
+### E. Visual and behavioural coverage
 
-> All primitives used by the migrated surfaces are registry-managed.
+Does the running application match registry reference states and continue to
+work? Compare consumer output to registry references — a consumer-only
+screenshot is not enough.
 
-### C. Whole-application registry coverage
+### Obligation ledger
 
-Whether the **entire** application has been audited and migrated. This is a
-separate claim and requires a full inventory of imports and local UI.
+Every in-scope UI obligation must end in exactly one disposition:
 
-### D. Remaining local inventory
+| Disposition             | Meaning                                      |
+| ----------------------- | -------------------------------------------- |
+| `migrated`              | Registry target adopted; A–E evidence passes |
+| `retained-approved`     | Explicitly kept as application-owned         |
+| `upstream-gap`          | Needs a new or extended registry item        |
+| `out-of-scope-approved` | Intentionally excluded from this engagement  |
 
-Local shadcn files, forks, wrappers and application-owned components still in
-the repository — including files unused by migrated surfaces.
+No unclassified obligations may remain when declaring full alignment complete.
+
+### Legacy surface language (still useful)
+
+When summarising for humans, you may still group obligations as:
+
+| Surface                     | Status              |
+| --------------------------- | ------------------- |
+| Participant join            | migrated            |
+| Facilitator host lobby      | migrated            |
+| Shared-display waiting room | migrated            |
+| Participant non-host lobby  | open / not migrated |
+
+But the ledger and A–E evidence are authoritative.
 
 ### Forbidden wording
 
@@ -42,9 +78,17 @@ Do **not** write:
 - `Primitives: 100% registry-owned`
 - `Full application migrated`
 - `Complete registry coverage`
+- `Full alignment complete`
 
-unless the full application has been inspected and every imported primitive has
-been verified.
+unless:
+
+- the full obligation ledger has final dispositions
+- zero unclassified obligations remain
+- migrated obligations pass A–E
+- payload integrity and token contract pass
+- an independent coverage audit reconciles ledger, repository and runtime
 
 When only entry surfaces (join / lobby / shared-display lobby) were migrated,
 say so explicitly and keep whole-application coverage marked incomplete.
+
+Build/test green is never sufficient evidence of coverage completeness.

@@ -1,0 +1,11 @@
+{
+  "version": "0.5.3",
+  "previousVersion": "0.5.2",
+  "releaseType": "patch",
+  "addedItems": [],
+  "changedItems": [
+    "base"
+  ],
+  "removedItems": [],
+  "migrationNotes": "https://game-science-uk.github.io/gamescience-ui-library/docs/migrations/0.5.2-to-0.5.3.md"
+}

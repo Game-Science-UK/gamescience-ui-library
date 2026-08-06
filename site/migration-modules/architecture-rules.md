@@ -17,3 +17,13 @@
 15. No automatic redesign of game-specific visuals
 16. Do not require all three contexts; use only surfaces the experience needs
 17. Enforce the shared-display privacy contract wherever that context exists
+18. File installation is not evidence of call-site migration
+19. Route migration is not evidence that all render branches are migrated
+20. Build success is not evidence that registry utilities or tokens resolve
+21. Release manifests are not evidence of payload equality; verify actual files
+22. Every in-scope UI obligation must have a final disposition
+23. No full-alignment completion with unclassified obligations
+24. No migrated surface may retain unsanctioned theme-identity overrides
+25. Full alignment requires an independent post-migration coverage audit
+26. Full alignment proceeds through the approved plan without routine continuation prompts
+27. Screenshot validation must compare consumer output with registry reference states
