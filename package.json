@@ -1,6 +1,6 @@
 {
   "name": "@gamescience/ui-library",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "type": "module",
   "description": "GameScience.ai React design library and shadcn registry for multiplayer learning games",

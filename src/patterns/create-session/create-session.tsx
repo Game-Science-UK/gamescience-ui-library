@@ -42,79 +42,80 @@ function CreateSession({
   const ready = createdCode !== undefined && createdCode !== "";
 
   return (
-    <Panel
-      elevation="raised"
-      padding="md"
+    <div
       data-state={ready ? "ready" : "editing"}
-      className={cn("gs-create-session space-y-5", className)}
+      className={cn("gs-create-session mx-auto w-full max-w-md", className)}
       {...props}
     >
-      <PanelHeader>
-        <PanelTitle>Create session</PanelTitle>
-        <PanelDescription>
-          Create a room and share the generated code. Game-specific setup stays in your application.
-        </PanelDescription>
-      </PanelHeader>
+      <Panel elevation="raised" padding="md" className="space-y-5">
+        <PanelHeader>
+          <PanelTitle>Create session</PanelTitle>
+          <PanelDescription>
+            Create a room and share the generated code. Game-specific setup stays in your
+            application.
+          </PanelDescription>
+        </PanelHeader>
 
-      {ready ? (
-        <div className="space-y-4">
-          <RoomCodeDisplay code={createdCode} label="Share this code to join" />
-          <p className="gs-body text-center text-muted-foreground">
-            Session ready. Share the code with participants to begin.
-          </p>
-        </div>
-      ) : (
-        <form
-          className="space-y-5"
-          onSubmit={(event) => {
-            event.preventDefault();
-            if (!isSubmitting && !submitDisabledReason) onSubmit();
-          }}
-        >
-          {onHostNameChange ? (
+        {ready ? (
+          <div className="space-y-4">
+            <RoomCodeDisplay code={createdCode} label="Share this code to join" />
+            <p className="gs-body text-center text-muted-foreground">
+              Session ready. Share the code with participants to begin.
+            </p>
+          </div>
+        ) : (
+          <form
+            className="space-y-5"
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (!isSubmitting && !submitDisabledReason) onSubmit();
+            }}
+          >
+            {onHostNameChange ? (
+              <div className="space-y-2">
+                <Label htmlFor="create-session-host-name">Your name</Label>
+                <Input
+                  id="create-session-host-name"
+                  placeholder="Facilitator name (optional)"
+                  value={hostName ?? ""}
+                  onChange={(event) => onHostNameChange(event.target.value)}
+                  disabled={isSubmitting}
+                />
+              </div>
+            ) : null}
+
             <div className="space-y-2">
-              <Label htmlFor="create-session-host-name">Your name</Label>
+              <Label htmlFor="create-session-name">Session name</Label>
               <Input
-                id="create-session-host-name"
-                placeholder="Facilitator name (optional)"
-                value={hostName ?? ""}
-                onChange={(event) => onHostNameChange(event.target.value)}
+                id="create-session-name"
+                placeholder="e.g. Team Alpha training"
+                value={sessionName}
+                onChange={(event) => onSessionNameChange(event.target.value)}
                 disabled={isSubmitting}
               />
             </div>
-          ) : null}
 
-          <div className="space-y-2">
-            <Label htmlFor="create-session-name">Session name</Label>
-            <Input
-              id="create-session-name"
-              placeholder="e.g. Team Alpha training"
-              value={sessionName}
-              onChange={(event) => onSessionNameChange(event.target.value)}
-              disabled={isSubmitting}
-            />
-          </div>
+            {configSlot ? <div className="gs-create-session-config">{configSlot}</div> : null}
 
-          {configSlot ? <div className="gs-create-session-config">{configSlot}</div> : null}
+            <Button
+              type="submit"
+              intent="primary"
+              emphasis="strong"
+              size="lg"
+              loading={isSubmitting}
+              disabled={Boolean(submitDisabledReason)}
+              className="w-full"
+            >
+              {isSubmitting ? "Creating…" : "Create session"}
+            </Button>
 
-          <Button
-            type="submit"
-            intent="primary"
-            emphasis="strong"
-            size="lg"
-            loading={isSubmitting}
-            disabled={Boolean(submitDisabledReason)}
-            className="w-full"
-          >
-            {isSubmitting ? "Creating…" : "Create session"}
-          </Button>
-
-          {submitDisabledReason ? (
-            <p className="gs-body text-muted-foreground">{submitDisabledReason}</p>
-          ) : null}
-        </form>
-      )}
-    </Panel>
+            {submitDisabledReason ? (
+              <p className="gs-body text-muted-foreground">{submitDisabledReason}</p>
+            ) : null}
+          </form>
+        )}
+      </Panel>
+    </div>
   );
 }
 

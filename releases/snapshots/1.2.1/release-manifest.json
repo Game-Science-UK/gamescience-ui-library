@@ -1,0 +1,12 @@
+{
+  "version": "1.2.1",
+  "previousVersion": "1.2.0",
+  "releaseType": "patch",
+  "addedItems": [],
+  "changedItems": [
+    "create-session",
+    "join-flow"
+  ],
+  "removedItems": [],
+  "migrationNotes": "https://game-science-uk.github.io/gamescience-ui-library/docs/migrations/1.2.0-to-1.2.1.md"
+}

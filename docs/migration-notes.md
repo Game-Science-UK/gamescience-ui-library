@@ -110,6 +110,14 @@ See the dedicated note: [migrations/1.1.1-to-1.2.0.md](./migrations/1.1.1-to-1.2
 
 Minor: adds the `create-session` facilitator pattern. Additive only.
 
+## 1.2.0 → 1.2.1 (Create-session / join-flow layout correction)
+
+See the dedicated note: [migrations/1.2.0-to-1.2.1.md](./migrations/1.2.0-to-1.2.1.md).
+
+Patch: `create-session` and `join-flow` panels now use a `max-w-md` wrapper; the
+`create-session` `data-state` moved to the wrapper. No API or token changes.
+Reinstall those two patterns only.
+
 ## 0.5.3 → 0.5.4 (Migrate ledger evidence + Pages deploy)
 
 See the dedicated note: [migrations/0.5.3-to-0.5.4.md](./migrations/0.5.3-to-0.5.4.md).

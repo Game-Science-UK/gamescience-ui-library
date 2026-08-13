@@ -47,111 +47,118 @@ function ParticipantJoinFlow({
   const isSubmitting = step === "submitting";
 
   return (
-    <Panel className={cn("mx-auto w-full max-w-content", className)} elevation="raised">
-      <PanelHeader>
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <PanelTitle>{sessionTitle}</PanelTitle>
-            <PanelDescription>
-              Enter the code from the shared display, then choose how you appear in the room.
-            </PanelDescription>
+    <div className={cn("mx-auto w-full max-w-md", className)}>
+      <Panel elevation="raised">
+        <PanelHeader>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <PanelTitle>{sessionTitle}</PanelTitle>
+              <PanelDescription>
+                Enter the code from the shared display, then choose how you appear in the room.
+              </PanelDescription>
+            </div>
+            {step !== "enter-code" ? (
+              <ConnectionStatus state={toCompactConnectionState(connection)} />
+            ) : null}
           </div>
-          {step !== "enter-code" ? (
-            <ConnectionStatus state={toCompactConnectionState(connection)} />
-          ) : null}
-        </div>
-      </PanelHeader>
+        </PanelHeader>
 
-      {step === "enter-code" || (step === "submitting" && !displayName) ? (
-        <form
-          className="space-y-4"
-          onSubmit={(event) => {
-            event.preventDefault();
-            onSubmitCode();
-          }}
-        >
-          <GameCodeInput
-            value={code}
-            onChange={onCodeChange}
-            error={codeError}
-            disabled={isSubmitting}
-          />
-          {codeError ? (
-            <Alert intent="danger" title="Unable to join">
-              Check the code and try again. Codes are usually four to six characters.
-            </Alert>
-          ) : null}
-          <ButtonGroup>
-            <Button
-              type="submit"
-              intent="primary"
-              emphasis="strong"
-              size="lg"
-              loading={isSubmitting}
-              className="w-full"
-            >
-              Continue
-            </Button>
-          </ButtonGroup>
-        </form>
-      ) : null}
+        {step === "enter-code" || (step === "submitting" && !displayName) ? (
+          <form
+            className="space-y-4"
+            onSubmit={(event) => {
+              event.preventDefault();
+              onSubmitCode();
+            }}
+          >
+            <GameCodeInput
+              value={code}
+              onChange={onCodeChange}
+              error={codeError}
+              disabled={isSubmitting}
+            />
+            {codeError ? (
+              <Alert intent="danger" title="Unable to join">
+                Check the code and try again. Codes are usually four to six characters.
+              </Alert>
+            ) : null}
+            <ButtonGroup>
+              <Button
+                type="submit"
+                intent="primary"
+                emphasis="strong"
+                size="lg"
+                loading={isSubmitting}
+                className="w-full"
+              >
+                Continue
+              </Button>
+            </ButtonGroup>
+          </form>
+        ) : null}
 
-      {step === "enter-identity" || (step === "submitting" && Boolean(displayName)) ? (
-        <form
-          className="space-y-4"
-          onSubmit={(event) => {
-            event.preventDefault();
-            onSubmitIdentity();
-          }}
-        >
-          <GameCodeInput value={code} onChange={onCodeChange} disabled hint="Room code confirmed" />
-          <ParticipantIdentity
-            value={displayName}
-            onChange={onDisplayNameChange}
-            error={identityError}
-            disabled={isSubmitting}
-          />
-          <ButtonGroup>
-            <Button
-              type="submit"
-              intent="primary"
-              emphasis="strong"
-              size="lg"
-              loading={isSubmitting}
-              className="w-full"
-            >
-              Join lobby
-            </Button>
-          </ButtonGroup>
-        </form>
-      ) : null}
+        {step === "enter-identity" || (step === "submitting" && Boolean(displayName)) ? (
+          <form
+            className="space-y-4"
+            onSubmit={(event) => {
+              event.preventDefault();
+              onSubmitIdentity();
+            }}
+          >
+            <GameCodeInput
+              value={code}
+              onChange={onCodeChange}
+              disabled
+              hint="Room code confirmed"
+            />
+            <ParticipantIdentity
+              value={displayName}
+              onChange={onDisplayNameChange}
+              error={identityError}
+              disabled={isSubmitting}
+            />
+            <ButtonGroup>
+              <Button
+                type="submit"
+                intent="primary"
+                emphasis="strong"
+                size="lg"
+                loading={isSubmitting}
+                className="w-full"
+              >
+                Join lobby
+              </Button>
+            </ButtonGroup>
+          </form>
+        ) : null}
 
-      {step === "waiting" ? (
-        <WaitingState
-          title="Waiting for the session to start"
-          description="You are in the lobby. Keep this screen open until the facilitator begins."
-        />
-      ) : null}
-
-      {step === "reconnecting" ? (
-        <div className="space-y-4">
-          <ConnectionStatus state="reconnecting" attempt={2} />
+        {step === "waiting" ? (
           <WaitingState
-            title="Reconnecting to the session"
-            description="Your place in the lobby is preserved while we reconnect."
+            title="Waiting for the session to start"
+            description="You are in the lobby. Keep this screen open until the facilitator begins."
           />
-        </div>
-      ) : null}
+        ) : null}
 
-      {step === "disconnected" ? (
-        <div className="space-y-4">
-          <Alert intent="warning" title="Connection lost">
-            You are offline. Retry when your network is available.
-          </Alert>
-          <ConnectionStatus state="offline" onRetry={onRetry} />
-        </div>
-      ) : null}
-    </Panel>
+        {step === "reconnecting" ? (
+          <div className="space-y-4">
+            <ConnectionStatus state="reconnecting" attempt={2} />
+            <WaitingState
+              title="Reconnecting to the session"
+              description="Your place in the lobby is preserved while we reconnect."
+            />
+          </div>
+        ) : null}
+
+        {step === "disconnected" ? (
+          <div className="space-y-4">
+            <Alert intent="warning" title="Connection lost">
+              You are offline. Retry when your network is available.
+            </Alert>
+            <ConnectionStatus state="offline" onRetry={onRetry} />
+          </div>
+        ) : null}
+      </Panel>
+    </div>
   );
 }
 
