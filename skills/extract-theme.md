@@ -1040,6 +1040,23 @@ It must:
 - create release manifest and migration notes
 - promote unversioned latest only after validation
 
+### Mechanical registration checklist
+
+The brief must require the build agent to register the theme through these concrete steps. Adding a theme is additive, so it is a minor release, not an in-place re-cut of the current lock. A valid CSS file alone does not register a theme — the slug is enforced by a hardcoded union in the registry source.
+
+1. Create `src/themes/{theme-slug}.css` declaring every `REQUIRED_THEME_TOKENS` token from `src/themes/theme-contract.ts`, scoped under `[data-theme="{theme-slug}"]`, plus any theme-scoped treatment rules (`gs-*` selectors / context overrides).
+2. Add `"{theme-slug}"` to `SUPPORTED_THEMES` in `src/themes/theme-contract.ts`. The `GameTheme` type derives from this array and `GameScienceProvider` asserts against it, so an unregistered slug throws at runtime.
+3. Add `@import "./{theme-slug}.css";` to `src/themes/index.css` — this is the single entry Storybook and consumers import; without it the theme CSS never loads.
+4. Add a `{ value: "{theme-slug}", title: "{Theme Name}" }` item to the `theme` toolbar `globalTypes` in `.storybook/preview.tsx` so the theme is selectable in Storybook.
+5. In `scripts/registry-manifest.ts` (the source of truth — the generated JSON is produced by `registry:build`, never hand-edited):
+   - Widen the catalogue union type `themes: Array<"gamescience" | "citadel">` to include `"{theme-slug}"`.
+   - Add a `registryItems` entry with `type: "registry:theme"`, `category: "theme"`, `registryDependencies: ["base"]`, one `registry:file` pointing at the CSS, and a `catalogue` block with `themes: ["{theme-slug}"]`.
+   - Add `"{theme-slug}"` to the `themes` array of every theme-agnostic item (components, patterns, templates) so the agent catalogue reflects support.
+6. Update the remaining hardcoded theme lists where the new theme must be covered by smokes/tests: the `ThemeName` unions and theme loops in `scripts/smoke-*.ts`, the `themes` array in `scripts/write-site-pages.ts`, and the theme loop in `src/test/compose-markdown.test.ts`.
+7. Regenerate registry artifacts with `npm run registry:build` (writes `registry/**`, `public/registry/**`, and `consumer/**`).
+8. Verify the token contract with `npm run theme:check` (it iterates `SUPPORTED_THEMES`, so the new theme is validated automatically once registered).
+9. Publish as a new immutable release via the `release-registry` workflow (minor bump): version bump, migration note, new `releases/{version}.lock.json` + snapshot, push. Do not re-cut an old lock or use `update-registry` for a new item.
+
 ### Validation
 
 Require the repository's complete validation suite, including:

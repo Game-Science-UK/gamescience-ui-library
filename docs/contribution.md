@@ -26,11 +26,37 @@
 
 ## Add a theme
 
-1. Add `src/themes/<name>.css` implementing every token in `theme-contract.ts`
-2. Add the theme to `SUPPORTED_THEMES`
-3. Add Storybook toolbar entry
-4. Add registry theme item
-5. Run `npm run theme:check`
+A valid CSS file alone does not register a theme — the slug is enforced by a
+hardcoded union in the registry source. Adding a theme is additive, so it ships
+as a new minor release (never re-cut a prior lock, and never use
+`update-registry` for a new item).
+
+1. Add `src/themes/<name>.css` implementing every token in `theme-contract.ts`,
+   scoped under `[data-theme="<name>"]`, plus any theme-scoped treatment rules.
+2. Add `<name>` to `SUPPORTED_THEMES` in `src/themes/theme-contract.ts`
+   (`GameScienceProvider` asserts against this list and throws on an unknown slug).
+3. Add `@import "./<name>.css";` to `src/themes/index.css` — the single entry
+   that Storybook and consumers import; without it the theme never loads.
+4. Add a `{ value: "<name>", title: "<Name>" }` entry to the `theme` toolbar
+   `globalTypes` in `.storybook/preview.tsx`.
+5. Register in `scripts/registry-manifest.ts` (source of truth — the generated
+   JSON under `registry/**`, `public/registry/**`, and `consumer/**` is produced
+   by `npm run registry:build`, never hand-edited):
+   - Widen the catalogue union type `themes: Array<"gamescience" | "citadel">`.
+   - Add a `registryItems` entry: `type: "registry:theme"`, `category: "theme"`,
+     `registryDependencies: ["base"]`, one `registry:file` pointing at the CSS,
+     and a `catalogue` block with `themes: ["<name>"]`.
+   - Add `<name>` to the `themes` array of every theme-agnostic item
+     (components, patterns, templates).
+6. Update remaining hardcoded theme lists: the `ThemeName` unions and theme
+   loops in `scripts/smoke-*.ts`, the `themes` array in
+   `scripts/write-site-pages.ts`, and the theme loop in
+   `src/test/compose-markdown.test.ts`.
+7. Regenerate with `npm run registry:build`.
+8. Run `npm run theme:check` (iterates `SUPPORTED_THEMES`, so the new theme is
+   validated once registered).
+9. Publish via the `release-registry` workflow (minor bump): version bump,
+   migration note, new `releases/<version>.lock.json` + snapshot, push.
 
 ## Pull requests
 
