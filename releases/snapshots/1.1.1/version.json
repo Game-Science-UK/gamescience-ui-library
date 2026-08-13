@@ -1,0 +1,10 @@
+{
+  "name": "gamescience-ui-library",
+  "version": "1.1.1",
+  "registryNamespace": "@gamescience",
+  "registryBase": "https://game-science-uk.github.io/gamescience-ui-library/versions/1.1.1/r/{name}.json",
+  "latestRegistryBase": "https://game-science-uk.github.io/gamescience-ui-library/r/{name}.json",
+  "catalogueUrl": "https://game-science-uk.github.io/gamescience-ui-library/versions/1.1.1/agent-catalogue.json",
+  "latestCatalogueUrl": "https://game-science-uk.github.io/gamescience-ui-library/agent-catalogue.json",
+  "siteUrl": "https://game-science-uk.github.io/gamescience-ui-library"
+}

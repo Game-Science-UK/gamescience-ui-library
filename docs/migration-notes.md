@@ -89,6 +89,21 @@ Major: colour tokens are OKLCH channels; replace `hsl(var(--token))` with
 `oklch(var(--token))`, reinstall `base` + themes (+ `button`). GameScience
 background is white; secondary Button has no drop shadow.
 
+## 1.0.0 → 1.1.0 (Game-agnostic pattern suite)
+
+See the dedicated note: [migrations/1.0.0-to-1.1.0.md](./migrations/1.0.0-to-1.1.0.md).
+
+Minor: nine game-agnostic patterns (`decision`, `timed-round`, `briefing`,
+`scripted-reveal`, `results`, `debrief`, `facilitator-console`,
+`shared-display-game`, `attention-takeover`) and four domain components
+(`option-selector`, `intensity-selector`, `stat`, `rating`). Additive only.
+
+## 1.1.0 → 1.1.1 (Consumer guidance enumerates all patterns)
+
+See the dedicated note: [migrations/1.1.0-to-1.1.1.md](./migrations/1.1.0-to-1.1.1.md).
+
+Patch: `base` guidance now names the full pattern suite. Reinstall `base` only.
+
 ## 0.5.3 → 0.5.4 (Migrate ledger evidence + Pages deploy)
 
 See the dedicated note: [migrations/0.5.3-to-0.5.4.md](./migrations/0.5.3-to-0.5.4.md).

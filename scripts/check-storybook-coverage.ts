@@ -331,9 +331,7 @@ function main() {
       !sharedDisplayLobbyStories ||
       !new RegExp(`export const ${required}\\b`).test(sharedDisplayLobbyStories)
     ) {
-      failures.push(
-        `Patterns/Shared Display Lobby missing required story export ${required}`,
-      );
+      failures.push(`Patterns/Shared Display Lobby missing required story export ${required}`);
     }
   }
   for (const required of ["ParticipantBare", "FacilitatorBare", "SharedDisplayBare"]) {

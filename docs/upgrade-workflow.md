@@ -18,7 +18,7 @@ GameScience registry consumer between immutable versions.
 
 Typical examples: `0.2.0` → `0.2.1`, `0.2.1` → `0.3.0`, `0.3.0` → `0.4.0`,
 `0.4.1` → `0.5.0`, `0.5.0` → `0.5.1`, `0.5.1` → `0.5.2`, `0.5.2` → `0.5.3`,
-`0.5.3` → `0.5.4`, `0.5.4` → `1.0.0`.
+`0.5.3` → `0.5.4`, `0.5.4` → `1.0.0`, `1.0.0` → `1.1.0`, `1.1.0` → `1.1.1`.
 
 For 0.3.0+, install new primitives only as needed; do not replace all local
 shadcn inventory automatically. See [migration-notes.md](./migration-notes.md)

@@ -64,17 +64,7 @@ const preview: Preview = {
             "Attention Takeover",
           ],
           "Components",
-          [
-            "Examples",
-            [
-              "All Components",
-              "Shells",
-              "Forms",
-              "Cards",
-              "Game Surfaces",
-            ],
-            "*",
-          ],
+          ["Examples", ["All Components", "Shells", "Forms", "Cards", "Game Surfaces"], "*"],
           "Templates",
         ],
       },
