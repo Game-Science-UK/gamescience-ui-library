@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stat",
+  "type": "registry:component",
+  "title": "Stat",
+  "description": "Single metric tile for score, viability, and aggregate grids. Value is application-owned.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/stat.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/stat.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport type StatIntent = \"neutral\" | \"information\" | \"success\" | \"warning\" | \"critical\";\n\nexport interface StatProps extends React.HTMLAttributes<HTMLDivElement> {\n  label: string;\n  value: React.ReactNode;\n  hint?: string;\n  intent?: StatIntent;\n  size?: \"sm\" | \"md\" | \"lg\";\n}\n\nconst intentClass: Record<StatIntent, string> = {\n  neutral: \"text-foreground\",\n  information: \"text-information\",\n  success: \"text-success\",\n  warning: \"text-warning\",\n  critical: \"text-danger\",\n};\n\nconst sizeClass: Record<NonNullable<StatProps[\"size\"]>, string> = {\n  sm: \"text-[length:var(--type-scale-code)]\",\n  md: \"text-[length:var(--type-scale-title)]\",\n  lg: \"text-[length:var(--type-scale-display)]\",\n};\n\n/**\n * Single metric tile for score, viability, and aggregate grids.\n * Owning value is the application's responsibility; this presents it with semantic intent.\n */\nfunction Stat({\n  label,\n  value,\n  hint,\n  intent = \"neutral\",\n  size = \"md\",\n  className,\n  ...props\n}: StatProps) {\n  return (\n    <div\n      data-intent={intent}\n      data-size={size}\n      className={cn(\n        \"gs-stat rounded-panel border border-border bg-surface-subtle p-panel-md\",\n        className,\n      )}\n      {...props}\n    >\n      <p className=\"gs-label text-muted-foreground\">{label}</p>\n      <p className={cn(\"gs-data mt-1 tabular-nums\", sizeClass[size], intentClass[intent])}>\n        {value}\n      </p>\n      {hint ? <p className=\"gs-micro mt-1 text-muted-foreground\">{hint}</p> : null}\n    </div>\n  );\n}\n\nStat.displayName = \"Stat\";\n\nexport { Stat };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

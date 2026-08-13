@@ -1,7 +1,7 @@
-# Game domain components (0.5.0)
+# Game domain components (0.5.0 → 1.1.0)
 
-Reusable game/domain components for discussion, voting, and results compositions.
-They sit above primitives and below application-owned patterns:
+Reusable game/domain components for discussion, decision, and results compositions.
+They sit above primitives and below patterns:
 
 ```text
 foundations → themes → primitives → game/domain components → context patterns → app logic
@@ -12,31 +12,39 @@ by default.
 
 ## Semantic contract
 
-| Item             | Registry                         | Owns                                     | Does not own                |
-| ---------------- | -------------------------------- | ---------------------------------------- | --------------------------- |
-| Countdown        | `@gamescience/countdown`         | Presentation of a formatted time value   | Time math, thresholds       |
-| PhaseProgress    | `@gamescience/phase-progress`    | Discrete step UI                         | Phase model / rounds        |
-| ConnectionBanner | `@gamescience/connection-banner` | Banner chrome for connection states      | Sockets / heartbeat         |
-| PhaseHeader      | `@gamescience/phase-header`      | Compact header slots                     | Shell headers, instructions |
-| PhaseDirective   | `@gamescience/phase-directive`   | Instruction treatments                   | Phase choreography          |
-| RolePanel        | `@gamescience/role-panel`        | Role summary + disclosure                | Role resolution             |
-| VoteStatus       | `@gamescience/vote-status`       | Aggregate vote progress                  | Vote mutations / identity   |
-| OutcomeSummary   | `@gamescience/outcome-summary`   | Outcome presentation via semantic intent | Outcome taxonomy            |
-| StickyActionBar  | `@gamescience/sticky-action-bar` | Bottom action region layout              | Vote state / routing        |
+| Item              | Registry                          | Owns                                     | Does not own                |
+| ----------------- | --------------------------------- | ---------------------------------------- | --------------------------- |
+| Countdown         | `@gamescience/countdown`          | Presentation of a formatted time value   | Time math, thresholds       |
+| PhaseProgress     | `@gamescience/phase-progress`     | Discrete step UI                         | Phase model / rounds        |
+| ConnectionBanner  | `@gamescience/connection-banner`  | Banner chrome for connection states      | Sockets / heartbeat         |
+| PhaseHeader       | `@gamescience/phase-header`       | Compact header slots                     | Shell headers, instructions |
+| PhaseDirective    | `@gamescience/phase-directive`    | Instruction treatments                   | Phase choreography          |
+| RolePanel         | `@gamescience/role-panel`         | Role summary + disclosure                | Role resolution             |
+| VoteStatus        | `@gamescience/vote-status`        | Aggregate vote progress                  | Vote mutations / identity   |
+| OutcomeSummary    | `@gamescience/outcome-summary`    | Outcome presentation via semantic intent | Outcome taxonomy            |
+| StickyActionBar   | `@gamescience/sticky-action-bar`  | Bottom action region layout              | Vote state / routing        |
+| OptionSelector    | `@gamescience/option-selector`    | Single-choice option list presentation   | Commit, scoring, reveal     |
+| IntensitySelector | `@gamescience/intensity-selector` | Discrete conviction/scale value input    | Meaning/semantics of scale  |
+| Stat              | `@gamescience/stat`               | Metric tile presentation                 | Metric sourcing / taxonomy  |
+| Rating            | `@gamescience/rating`             | Star rating input + display              | Submitting / aggregation    |
 
 ## Context suitability
 
-| Item             | Contexts                                                  |
-| ---------------- | --------------------------------------------------------- |
-| Countdown        | all                                                       |
-| PhaseProgress    | all                                                       |
-| ConnectionBanner | all                                                       |
-| PhaseHeader      | participant (primary)                                     |
-| PhaseDirective   | participant, facilitator                                  |
-| RolePanel        | participant                                               |
-| VoteStatus       | participant, facilitator, shared-display (aggregate only) |
-| OutcomeSummary   | all                                                       |
-| StickyActionBar  | participant                                               |
+| Item              | Contexts                                                  |
+| ----------------- | --------------------------------------------------------- |
+| Countdown         | all                                                       |
+| PhaseProgress     | all                                                       |
+| ConnectionBanner  | all                                                       |
+| PhaseHeader       | participant (primary)                                     |
+| PhaseDirective    | participant, facilitator                                  |
+| RolePanel         | participant                                               |
+| VoteStatus        | participant, facilitator, shared-display (aggregate only) |
+| OutcomeSummary    | all                                                       |
+| StickyActionBar   | participant                                               |
+| OptionSelector    | participant                                               |
+| IntensitySelector | participant                                               |
+| Stat              | participant, facilitator, shared-display                  |
+| Rating            | participant                                               |
 
 Suitability is catalogue guidance, not a runtime error.
 
@@ -57,8 +65,9 @@ Do **not** use application `p-*` / `d-*` classes in registry source.
 - Prefer FacilitatorShell / DisplayHeading for facilitator and shared-display
   chrome instead of PhaseHeader.
 - Prefer composing Panel + Badge locally when you only need a one-off card.
-- Keep DiscussionView / VoteView / Results patterns application-owned until
-  multi-project contracts stabilize.
+- Prefer the published `decision`, `results`, and `debrief` patterns over
+  hand-assembling the discussion / vote / results domain components; see
+  [pattern-composition.md](./pattern-composition.md).
 
 ## Application ownership
 

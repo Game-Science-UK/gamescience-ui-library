@@ -37,6 +37,7 @@ export const PUBLIC_PAGES_DOCS = [
   "migrations/0.5.2-to-0.5.3.md",
   "migrations/0.5.3-to-0.5.4.md",
   "migrations/0.5.4-to-1.0.0.md",
+  "migrations/1.0.0-to-1.1.0.md",
 ] as const;
 
 export type PublicPagesDoc = (typeof PUBLIC_PAGES_DOCS)[number];
@@ -71,6 +72,7 @@ export const PUBLIC_PAGES_DOC_MARKERS: Record<PublicPagesDoc, string> = {
   "migrations/0.5.2-to-0.5.3.md": "0.5.2 → 0.5.3",
   "migrations/0.5.3-to-0.5.4.md": "0.5.3 → 0.5.4",
   "migrations/0.5.4-to-1.0.0.md": "0.5.4 → 1.0.0",
+  "migrations/1.0.0-to-1.1.0.md": "1.0.0 → 1.1.0",
 };
 
 /** Companion CSS published beside the Tailwind 4 integration guide. */
@@ -113,11 +115,25 @@ export function buildReleaseManifest(options?: { version?: string; siteUrl?: str
   const siteUrl = options?.siteUrl ?? PAGES_SITE_URL;
   return {
     version,
-    previousVersion: "0.5.4",
-    releaseType: "major" as const,
-    addedItems: [] as string[],
-    changedItems: ["base", "theme-gamescience", "theme-citadel", "button"] as string[],
+    previousVersion: "1.0.0",
+    releaseType: "minor" as const,
+    addedItems: [
+      "decision",
+      "timed-round",
+      "briefing",
+      "scripted-reveal",
+      "results",
+      "debrief",
+      "facilitator-console",
+      "shared-display-game",
+      "attention-takeover",
+      "option-selector",
+      "intensity-selector",
+      "stat",
+      "rating",
+    ] as string[],
+    changedItems: [] as string[],
     removedItems: [] as string[],
-    migrationNotes: `${siteUrl}/docs/migrations/0.5.4-to-1.0.0.md`,
+    migrationNotes: `${siteUrl}/docs/migrations/1.0.0-to-1.1.0.md`,
   };
 }

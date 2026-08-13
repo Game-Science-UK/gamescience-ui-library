@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "results",
+  "type": "registry:block",
+  "title": "Results",
+  "description": "Staged outcome reveal composing outcome summary with a stat grid.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/outcome-summary",
+    "@gamescience/stat"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/results/results.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/results/results.tsx",
+      "content": "import * as React from \"react\";\nimport { OutcomeSummary, type OutcomeSummaryData } from \"@/components/game/outcome-summary\";\nimport { Stat, type StatIntent } from \"@/components/game/stat\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface ResultsStat {\n  label: string;\n  value: React.ReactNode;\n  intent?: StatIntent;\n  hint?: string;\n}\n\nexport interface ResultsProps extends React.HTMLAttributes<HTMLDivElement> {\n  outcome: OutcomeSummaryData;\n  stats?: ResultsStat[];\n  actions?: React.ReactNode;\n  density?: \"participant\" | \"facilitator\" | \"shared-display\";\n}\n\n/**\n * Staged outcome reveal: a headline OutcomeSummary plus a Stat grid for detailed,\n * public-safe metrics. Owning values stay application-side.\n */\nfunction Results({\n  outcome,\n  stats = [],\n  actions,\n  density = \"participant\",\n  className,\n  ...props\n}: ResultsProps) {\n  return (\n    <div\n      data-density={density}\n      className={cn(\"gs-results w-full max-w-content space-y-4\", className)}\n      {...props}\n    >\n      <OutcomeSummary outcome={outcome} actions={actions} density={density} />\n\n      {stats.length > 0 ? (\n        <dl\n          className={cn(\n            \"grid gap-3\",\n            density === \"shared-display\" ? \"sm:grid-cols-3\" : \"sm:grid-cols-2\",\n          )}\n        >\n          {stats.map((stat) => (\n            <Stat\n              key={stat.label}\n              label={stat.label}\n              value={stat.value}\n              intent={stat.intent}\n              hint={stat.hint}\n              size={density === \"shared-display\" ? \"lg\" : \"md\"}\n            />\n          ))}\n        </dl>\n      ) : null}\n    </div>\n  );\n}\n\nResults.displayName = \"Results\";\n\nexport { Results };\n"
+    },
+    {
+      "path": "src/patterns/results/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/results/index.ts",
+      "content": "export { Results, type ResultsProps, type ResultsStat } from \"./results\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

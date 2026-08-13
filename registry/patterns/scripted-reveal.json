@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scripted-reveal",
+  "type": "registry:block",
+  "title": "Scripted Reveal",
+  "description": "Timed mid-round announcement and reveal with countdown, announce, revealed, and complete steps.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/badge",
+    "@gamescience/button",
+    "@gamescience/panel",
+    "@gamescience/countdown"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/scripted-reveal/scripted-reveal.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/scripted-reveal/scripted-reveal.tsx",
+      "content": "import * as React from \"react\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { Panel, PanelDescription, PanelHeader, PanelTitle } from \"@/components/ui/panel\";\nimport { Countdown } from \"@/components/game/countdown\";\nimport { cn } from \"@/lib/cn\";\n\nexport type ScriptedRevealStep = \"countdown\" | \"announce\" | \"revealed\" | \"complete\";\n\nexport interface ScriptedRevealProps extends React.HTMLAttributes<HTMLDivElement> {\n  step: ScriptedRevealStep;\n  eyebrow?: string;\n  headline: string;\n  description?: string;\n  intent?: \"information\" | \"success\" | \"warning\" | \"critical\";\n  countdown?: { formattedTime: string; accessibleLabel?: string };\n  onAcknowledge?: () => void;\n}\n\nconst stepIntent: Record<ScriptedRevealStep, NonNullable<ScriptedRevealProps[\"intent\"]>> = {\n  countdown: \"information\",\n  announce: \"information\",\n  revealed: \"success\",\n  complete: \"success\",\n};\n\nconst stepBadge: Record<ScriptedRevealStep, string> = {\n  countdown: \"Incoming\",\n  announce: \"Announcement\",\n  revealed: \"Revealed\",\n  complete: \"Complete\",\n};\n\nconst badgeIntent: Record<\n  NonNullable<ScriptedRevealProps[\"intent\"]>,\n  \"information\" | \"success\" | \"warning\" | \"danger\"\n> = {\n  information: \"information\",\n  success: \"success\",\n  warning: \"warning\",\n  critical: \"danger\",\n};\n\n/**\n * Timed mid-round announcement / reveal. Owns only presentation and pacing hooks;\n * the application drives the step and the underlying content.\n */\nfunction ScriptedReveal({\n  step,\n  eyebrow = \"Event\",\n  headline,\n  description,\n  intent,\n  countdown,\n  onAcknowledge,\n  className,\n  ...props\n}: ScriptedRevealProps) {\n  const resolvedIntent = intent ?? stepIntent[step];\n\n  return (\n    <div\n      data-step={step}\n      data-intent={resolvedIntent}\n      className={cn(\n        \"gs-scripted-reveal mx-auto flex w-full max-w-content flex-col items-center justify-center gap-[var(--section-gap)] text-center\",\n        className,\n      )}\n      {...props}\n    >\n      <Panel elevation=\"raised\" emphasis=\"strong\" padding=\"lg\" className=\"w-full max-w-4xl\">\n        <PanelHeader>\n          <div className=\"flex flex-col items-center gap-3\">\n            <Badge intent={badgeIntent[resolvedIntent]} treatment=\"outlined\">\n              {stepBadge[step]}\n            </Badge>\n            <p className=\"gs-label gs-eyebrow gs-eyebrow-dotted text-muted-foreground\">{eyebrow}</p>\n            <PanelTitle className=\"gs-display\">{headline}</PanelTitle>\n            {description ? (\n              <PanelDescription className=\"gs-body\">{description}</PanelDescription>\n            ) : null}\n          </div>\n        </PanelHeader>\n\n        {step === \"countdown\" && countdown ? (\n          <div className=\"flex justify-center\">\n            <Countdown\n              formattedTime={countdown.formattedTime}\n              state=\"running\"\n              treatment=\"contained\"\n              size=\"lg\"\n              accessibleLabel={countdown.accessibleLabel}\n            />\n          </div>\n        ) : null}\n\n        {step !== \"countdown\" && onAcknowledge ? (\n          <div className=\"mt-4 flex justify-center\">\n            <Button\n              type=\"button\"\n              intent=\"primary\"\n              emphasis=\"strong\"\n              size=\"lg\"\n              onClick={onAcknowledge}\n            >\n              {step === \"complete\" ? \"Continue\" : \"Acknowledge\"}\n            </Button>\n          </div>\n        ) : null}\n      </Panel>\n    </div>\n  );\n}\n\nScriptedReveal.displayName = \"ScriptedReveal\";\n\nexport { ScriptedReveal };\n"
+    },
+    {
+      "path": "src/patterns/scripted-reveal/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/scripted-reveal/index.ts",
+      "content": "export {\n  ScriptedReveal,\n  type ScriptedRevealProps,\n  type ScriptedRevealStep,\n} from \"./scripted-reveal\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

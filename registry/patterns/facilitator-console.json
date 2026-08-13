@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "facilitator-console",
+  "type": "registry:block",
+  "title": "Facilitator Console",
+  "description": "Session control strip with pause/resume/advance/end, participant status, connection state, and progress.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/badge",
+    "@gamescience/button",
+    "@gamescience/panel",
+    "@gamescience/progress",
+    "@gamescience/connection-status",
+    "@gamescience/participant-status"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/facilitator-console/facilitator-console.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/facilitator-console/facilitator-console.tsx",
+      "content": "import * as React from \"react\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { ButtonGroup } from \"@/components/ui/button-group\";\nimport { Panel, PanelDescription, PanelHeader, PanelTitle } from \"@/components/ui/panel\";\nimport { Progress } from \"@/components/ui/progress\";\nimport { ConnectionStatus } from \"@/components/game/connection-status\";\nimport { ParticipantStatus } from \"@/components/game/participant-status\";\nimport { cn } from \"@/lib/cn\";\nimport type { ParticipantSummary, SessionSummary, StageStatus } from \"@/types/game\";\n\nexport interface FacilitatorConsoleProps extends React.HTMLAttributes<HTMLDivElement> {\n  session: SessionSummary;\n  participants: ParticipantSummary[];\n  status: StageStatus;\n  phaseLabel?: string;\n  progressValue?: number;\n  progressLabel?: string;\n  onPause?: () => void;\n  onResume?: () => void;\n  onAdvance?: () => void;\n  onEnd?: () => void;\n  /** Privacy-safe facilitator-only slot. The application injects its own hidden state. */\n  privateSlot?: React.ReactNode;\n}\n\nfunction FacilitatorConsole({\n  session,\n  participants,\n  status,\n  phaseLabel = \"In session\",\n  progressValue,\n  progressLabel,\n  onPause,\n  onResume,\n  onAdvance,\n  onEnd,\n  privateSlot,\n  className,\n  ...props\n}: FacilitatorConsoleProps) {\n  const isPaused = status === \"paused\";\n  const isComplete = status === \"complete\" || status === \"locked\";\n  const connectedCount = participants.filter(\n    (participant) => participant.connection === \"connected\",\n  ).length;\n\n  return (\n    <div\n      data-status={status}\n      className={cn(\n        \"gs-facilitator-console grid gap-4 lg:grid-cols-[300px_minmax(0,1fr)]\",\n        className,\n      )}\n      {...props}\n    >\n      <Panel elevation=\"raised\" className=\"space-y-4\">\n        <PanelHeader>\n          <PanelTitle>{session.title ?? \"Session control\"}</PanelTitle>\n          <PanelDescription>\n            {session.code} · Advance, pause, or end the room. Hidden state below stays\n            facilitator-only.\n          </PanelDescription>\n        </PanelHeader>\n\n        <div className=\"flex flex-wrap items-center gap-2\">\n          <Badge intent=\"information\" treatment=\"outlined\">\n            {phaseLabel}\n          </Badge>\n          <Badge\n            intent={isComplete ? \"default\" : isPaused ? \"warning\" : \"success\"}\n            treatment=\"outlined\"\n          >\n            {status}\n          </Badge>\n          <ConnectionStatus state=\"connected\" label={`${connectedCount} connected`} />\n        </div>\n\n        {progressValue !== undefined ? (\n          <Progress value={progressValue} label={progressLabel ?? \"Round progress\"} />\n        ) : null}\n\n        <ButtonGroup orientation=\"vertical\">\n          {onPause && !isPaused && !isComplete ? (\n            <Button type=\"button\" intent=\"outline\" onClick={onPause}>\n              Pause\n            </Button>\n          ) : null}\n          {onResume && isPaused ? (\n            <Button type=\"button\" intent=\"primary\" onClick={onResume}>\n              Resume\n            </Button>\n          ) : null}\n          {onAdvance && !isComplete ? (\n            <Button type=\"button\" intent=\"primary\" emphasis=\"strong\" onClick={onAdvance}>\n              Advance\n            </Button>\n          ) : null}\n          {onEnd ? (\n            <Button type=\"button\" intent=\"danger\" onClick={onEnd}>\n              End session\n            </Button>\n          ) : null}\n        </ButtonGroup>\n\n        {privateSlot ? (\n          <div className=\"rounded-panel border border-dashed border-border bg-surface-subtle p-panel-sm\">\n            <p className=\"gs-micro text-muted-foreground\">Facilitator-only</p>\n            {privateSlot}\n          </div>\n        ) : null}\n      </Panel>\n\n      <Panel elevation=\"subtle\" padding=\"md\">\n        <PanelHeader>\n          <PanelTitle>Participants</PanelTitle>\n          <PanelDescription>\n            {connectedCount} connected · {participants.length} joined\n          </PanelDescription>\n        </PanelHeader>\n        {participants.length === 0 ? (\n          <p className=\"gs-body text-muted-foreground\">No participants connected.</p>\n        ) : (\n          <ul className=\"grid gap-2 sm:grid-cols-2 xl:grid-cols-3\">\n            {participants.map((participant) => (\n              <li key={participant.id}>\n                <ParticipantStatus\n                  displayName={participant.displayName}\n                  connection={participant.connection}\n                  readiness={participant.readiness}\n                />\n              </li>\n            ))}\n          </ul>\n        )}\n      </Panel>\n    </div>\n  );\n}\n\nFacilitatorConsole.displayName = \"FacilitatorConsole\";\n\nexport { FacilitatorConsole };\n"
+    },
+    {
+      "path": "src/patterns/facilitator-console/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/facilitator-console/index.ts",
+      "content": "export { FacilitatorConsole, type FacilitatorConsoleProps } from \"./facilitator-console\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

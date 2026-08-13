@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "gamescience",
   "homepage": "https://gamescience.ai",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "items": [
     {
       "name": "base",
@@ -521,6 +521,76 @@
       ]
     },
     {
+      "name": "option-selector",
+      "type": "registry:component",
+      "title": "Option Selector",
+      "description": "Single-choice option list for decision and vote compositions. Owns selection presentation only.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/option-selector.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/option-selector.tsx"
+        }
+      ]
+    },
+    {
+      "name": "intensity-selector",
+      "type": "registry:component",
+      "title": "Intensity Selector",
+      "description": "Discrete 0..max intensity or conviction selector for sealed commitments. Owns only value presentation.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/intensity-selector.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/intensity-selector.tsx"
+        }
+      ]
+    },
+    {
+      "name": "stat",
+      "type": "registry:component",
+      "title": "Stat",
+      "description": "Single metric tile for score, viability, and aggregate grids. Value is application-owned.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/game/stat.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/stat.tsx"
+        }
+      ]
+    },
+    {
+      "name": "rating",
+      "type": "registry:component",
+      "title": "Rating",
+      "description": "Star rating for debrief and reflection compositions. Owns only star presentation.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "src/components/game/rating.tsx",
+          "type": "registry:component",
+          "target": "src/components/game/rating.tsx"
+        }
+      ]
+    },
+    {
       "name": "sticky-action-bar",
       "type": "registry:component",
       "title": "Sticky Action Bar",
@@ -665,6 +735,241 @@
           "path": "src/patterns/lobby/shared-display-lobby.tsx",
           "type": "registry:block",
           "target": "src/patterns/lobby/shared-display-lobby.tsx"
+        }
+      ]
+    },
+    {
+      "name": "decision",
+      "type": "registry:block",
+      "title": "Decision",
+      "description": "Core sealed → declaration → negotiation → lock → resolve decision loop. A vote is the degenerate sealed → resolved case.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/badge",
+        "@gamescience/button",
+        "@gamescience/panel",
+        "@gamescience/phase-directive",
+        "@gamescience/waiting-state",
+        "@gamescience/option-selector",
+        "@gamescience/intensity-selector",
+        "@gamescience/outcome-summary"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/decision/decision.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/decision/decision.tsx"
+        },
+        {
+          "path": "src/patterns/decision/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/decision/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "timed-round",
+      "type": "registry:block",
+      "title": "Timed Round",
+      "description": "Round/beat container wrapping injected content with countdown, phase progress, directive, and action footer.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/countdown",
+        "@gamescience/phase-header",
+        "@gamescience/phase-progress",
+        "@gamescience/phase-directive",
+        "@gamescience/sticky-action-bar"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/timed-round/timed-round.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/timed-round/timed-round.tsx"
+        },
+        {
+          "path": "src/patterns/timed-round/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/timed-round/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "briefing",
+      "type": "registry:block",
+      "title": "Briefing",
+      "description": "Paced slide-deck walkthrough with phase progress, panel body, and previous/next/complete controls.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/button",
+        "@gamescience/panel",
+        "@gamescience/phase-progress"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/briefing/briefing.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/briefing/briefing.tsx"
+        },
+        {
+          "path": "src/patterns/briefing/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/briefing/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "scripted-reveal",
+      "type": "registry:block",
+      "title": "Scripted Reveal",
+      "description": "Timed mid-round announcement and reveal with countdown, announce, revealed, and complete steps.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/badge",
+        "@gamescience/button",
+        "@gamescience/panel",
+        "@gamescience/countdown"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/scripted-reveal/scripted-reveal.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/scripted-reveal/scripted-reveal.tsx"
+        },
+        {
+          "path": "src/patterns/scripted-reveal/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/scripted-reveal/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "results",
+      "type": "registry:block",
+      "title": "Results",
+      "description": "Staged outcome reveal composing outcome summary with a stat grid.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/outcome-summary",
+        "@gamescience/stat"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/results/results.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/results/results.tsx"
+        },
+        {
+          "path": "src/patterns/results/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/results/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "debrief",
+      "type": "registry:block",
+      "title": "Debrief",
+      "description": "Facilitated reflection with What/So What/Now What sections, rating, and responses.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/accordion",
+        "@gamescience/textarea",
+        "@gamescience/rating"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/debrief/debrief.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/debrief/debrief.tsx"
+        },
+        {
+          "path": "src/patterns/debrief/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/debrief/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "facilitator-console",
+      "type": "registry:block",
+      "title": "Facilitator Console",
+      "description": "Session control strip with pause/resume/advance/end, participant status, connection state, and progress.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/badge",
+        "@gamescience/button",
+        "@gamescience/panel",
+        "@gamescience/progress",
+        "@gamescience/connection-status",
+        "@gamescience/participant-status"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/facilitator-console/facilitator-console.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/facilitator-console/facilitator-console.tsx"
+        },
+        {
+          "path": "src/patterns/facilitator-console/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/facilitator-console/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "shared-display-game",
+      "type": "registry:block",
+      "title": "Shared Display Game",
+      "description": "In-game shared-display states (waiting, active, reveal, results, debrief).",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/badge",
+        "@gamescience/display-heading",
+        "@gamescience/phase-progress"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/shared-display-game/shared-display-game.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/shared-display-game/shared-display-game.tsx"
+        },
+        {
+          "path": "src/patterns/shared-display-game/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/shared-display-game/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "attention-takeover",
+      "type": "registry:block",
+      "title": "Attention Takeover",
+      "description": "Full-surface 'watch the display' attention redirect with optional countdown.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/badge",
+        "@gamescience/button",
+        "@gamescience/countdown"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/attention-takeover/attention-takeover.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/attention-takeover/attention-takeover.tsx"
+        },
+        {
+          "path": "src/patterns/attention-takeover/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/attention-takeover/index.ts"
         }
       ]
     },

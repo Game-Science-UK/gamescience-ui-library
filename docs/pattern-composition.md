@@ -34,13 +34,24 @@ default output when absent, and not weaken room-code legibility.
 Until then: compose application-owned visuals as siblings; record visual-loss
 decisions when a pattern replaces local chrome.
 
-## Domain components before patterns (0.5.0)
+## Domain components before patterns (0.5.0 → 1.1.0)
 
-For discussion, voting, and results screens, compose reusable domain components
-first (`countdown`, `phase-header`, `phase-directive`, `role-panel`,
-`vote-status`, `outcome-summary`, `sticky-action-bar`, etc.). See
+For discussion, decision, and results screens, prefer a complete registry pattern
+first:
+
+- `decision` — the core sealed → declaration → negotiation → lock → resolve loop
+  (a vote is the degenerate `sealed → resolved` case).
+- `timed-round` — round/beat container (countdown + phase progress + directive).
+- `briefing` / `scripted-reveal` — paced walkthroughs and timed announcements.
+- `results` / `debrief` — staged outcome reveal and facilitated reflection.
+- `facilitator-console` / `shared-display-game` / `attention-takeover` — session
+  controls, in-game shared-display states, and watch-the-display takeover.
+
+Patterns compose the reusable domain components (`countdown`, `phase-header`,
+`phase-directive`, `vote-status`, `outcome-summary`, `option-selector`,
+`intensity-selector`, `stat`, `rating`, etc.). Fall back to composing those
+components directly only when a pattern's contract does not fit; see
 [game-domain-components.md](./game-domain-components.md).
 
-Do **not** expect published DiscussionView / VoteView / Results patterns yet.
-Keep those as application compositions until multiple projects share a stable
-contract.
+Patterns own presentation and beat choreography only — never networking, scoring,
+auth, stage authority, or game-specific content. Inject those via props/children.

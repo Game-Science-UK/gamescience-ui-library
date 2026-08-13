@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rating",
+  "type": "registry:component",
+  "title": "Rating",
+  "description": "Star rating for debrief and reflection compositions. Owns only star presentation.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/rating.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/rating.tsx",
+      "content": "import { Star } from \"lucide-react\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface RatingProps extends Omit<React.HTMLAttributes<HTMLDivElement>, \"onChange\"> {\n  value?: number;\n  max?: number;\n  onChange?: (value: number) => void;\n  readOnly?: boolean;\n  label?: string;\n}\n\n/**\n * Star rating for debrief and reflection compositions.\n * Owns only the star presentation; score semantics stay application-owned.\n */\nfunction Rating({\n  value = 0,\n  max = 5,\n  onChange,\n  readOnly = false,\n  label = \"Rating\",\n  className,\n  ...props\n}: RatingProps) {\n  const safeMax = Math.max(1, Math.floor(max));\n  const safeValue = Math.min(Math.max(0, value), safeMax);\n\n  if (readOnly) {\n    return (\n      <div\n        role=\"img\"\n        aria-label={`${safeValue} out of ${safeMax}`}\n        data-value={safeValue}\n        className={cn(\"gs-rating inline-flex items-center gap-1\", className)}\n        {...props}\n      >\n        {Array.from({ length: safeMax }, (_, index) => {\n          const filled = index < safeValue;\n          return (\n            <Star\n              key={index}\n              aria-hidden=\"true\"\n              className={cn(\n                \"size-5\",\n                filled ? \"fill-warning text-warning\" : \"fill-transparent text-muted-foreground\",\n              )}\n            />\n          );\n        })}\n        <span className=\"sr-only\">\n          {label}: {safeValue} out of {safeMax}\n        </span>\n      </div>\n    );\n  }\n\n  return (\n    <div\n      role=\"radiogroup\"\n      aria-label={label}\n      data-value={safeValue}\n      className={cn(\"gs-rating inline-flex items-center gap-1\", className)}\n      {...props}\n    >\n      {Array.from({ length: safeMax }, (_, index) => {\n        const step = index + 1;\n        const filled = step <= safeValue;\n        return (\n          <button\n            key={step}\n            type=\"button\"\n            role=\"radio\"\n            aria-checked={filled}\n            aria-label={`${step} out of ${safeMax}`}\n            onClick={() => onChange?.(step)}\n            className={cn(\n              \"gs-pressable focus-visible:shadow-focus focus-visible:outline-none\",\n              \"rounded-sm\",\n            )}\n          >\n            <Star\n              aria-hidden=\"true\"\n              className={cn(\n                \"size-6\",\n                filled ? \"fill-warning text-warning\" : \"fill-transparent text-muted-foreground\",\n              )}\n            />\n          </button>\n        );\n      })}\n    </div>\n  );\n}\n\nRating.displayName = \"Rating\";\n\nexport { Rating };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

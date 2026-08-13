@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "debrief",
+  "type": "registry:block",
+  "title": "Debrief",
+  "description": "Facilitated reflection with What/So What/Now What sections, rating, and responses.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/accordion",
+    "@gamescience/textarea",
+    "@gamescience/rating"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/debrief/debrief.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/debrief/debrief.tsx",
+      "content": "import * as React from \"react\";\nimport {\n  Accordion,\n  AccordionContent,\n  AccordionItem,\n  AccordionTrigger,\n} from \"@/components/ui/accordion\";\nimport { Textarea } from \"@/components/ui/textarea\";\nimport { Rating } from \"@/components/game/rating\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface DebriefSection {\n  id: string;\n  title: string;\n  prompt?: string;\n  response?: string;\n  onResponseChange?: (value: string) => void;\n}\n\nexport interface DebriefProps extends React.HTMLAttributes<HTMLDivElement> {\n  title?: string;\n  ratingValue?: number;\n  ratingMax?: number;\n  ratingLabel?: string;\n  onRatingChange?: (value: number) => void;\n  sections?: DebriefSection[];\n  defaultOpen?: string;\n}\n\nconst DEFAULT_SECTIONS: DebriefSection[] = [\n  { id: \"what\", title: \"What\", prompt: \"What happened during the session?\" },\n  { id: \"so-what\", title: \"So What\", prompt: \"Why does it matter?\" },\n  { id: \"now-what\", title: \"Now What\", prompt: \"What will you do differently next time?\" },\n];\n\n/**\n * Facilitated reflection using the What / So What / Now What structure.\n * Response state and submission stay application-owned.\n */\nfunction Debrief({\n  title = \"Debrief\",\n  ratingValue,\n  ratingMax,\n  ratingLabel = \"Overall reflection\",\n  onRatingChange,\n  sections = DEFAULT_SECTIONS,\n  defaultOpen = \"what\",\n  className,\n  ...props\n}: DebriefProps) {\n  return (\n    <div className={cn(\"gs-debrief w-full max-w-content space-y-4\", className)} {...props}>\n      <header className=\"space-y-1\">\n        <h2 className=\"gs-title text-foreground\">{title}</h2>\n        {ratingValue !== undefined || onRatingChange !== undefined ? (\n          <Rating\n            value={ratingValue}\n            max={ratingMax}\n            onChange={onRatingChange}\n            readOnly={!onRatingChange}\n            label={ratingLabel}\n          />\n        ) : null}\n      </header>\n\n      <Accordion type=\"single\" collapsible defaultValue={defaultOpen}>\n        {sections.map((section) => (\n          <AccordionItem key={section.id} value={section.id}>\n            <AccordionTrigger className=\"gs-title text-[length:var(--type-scale-label)]\">\n              {section.title}\n            </AccordionTrigger>\n            <AccordionContent>\n              <div className=\"space-y-3\">\n                {section.prompt ? (\n                  <p className=\"gs-body text-muted-foreground\">{section.prompt}</p>\n                ) : null}\n                <Textarea\n                  value={section.response}\n                  placeholder={section.prompt ?? \"Write your reflection\"}\n                  onChange={(event) => section.onResponseChange?.(event.target.value)}\n                  aria-label={`${section.title} reflection`}\n                />\n              </div>\n            </AccordionContent>\n          </AccordionItem>\n        ))}\n      </Accordion>\n    </div>\n  );\n}\n\nDebrief.displayName = \"Debrief\";\n\nexport { Debrief };\n"
+    },
+    {
+      "path": "src/patterns/debrief/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/debrief/index.ts",
+      "content": "export { Debrief, type DebriefProps, type DebriefSection } from \"./debrief\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

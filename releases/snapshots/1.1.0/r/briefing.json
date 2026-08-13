@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "briefing",
+  "type": "registry:block",
+  "title": "Briefing",
+  "description": "Paced slide-deck walkthrough with phase progress, panel body, and previous/next/complete controls.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/button",
+    "@gamescience/panel",
+    "@gamescience/phase-progress"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/briefing/briefing.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/briefing/briefing.tsx",
+      "content": "import * as React from \"react\";\nimport { Button } from \"@/components/ui/button\";\nimport { ButtonGroup } from \"@/components/ui/button-group\";\nimport { Panel, PanelDescription, PanelHeader, PanelTitle } from \"@/components/ui/panel\";\nimport { PhaseProgress, type PhaseProgressStep } from \"@/components/game/phase-progress\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface BriefingSlide {\n  id: string;\n  title: string;\n  body?: string;\n}\n\nexport interface BriefingProps extends React.HTMLAttributes<HTMLDivElement> {\n  slides: BriefingSlide[];\n  activeSlideId: string;\n  eyebrow?: string;\n  title?: string;\n  progressLabel?: string;\n  onPrevious?: () => void;\n  onNext?: () => void;\n  onComplete?: () => void;\n  className?: string;\n}\n\nfunction slideStatus(index: number, activeIndex: number): PhaseProgressStep[\"status\"] {\n  if (index < activeIndex) return \"complete\";\n  if (index === activeIndex) return \"active\";\n  return \"pending\";\n}\n\n/**\n * Paced briefing / walkthrough. Owns only slide presentation and navigation; the\n * application decides when a slide is complete and when the briefing ends.\n */\nfunction Briefing({\n  slides,\n  activeSlideId,\n  eyebrow = \"Briefing\",\n  title = \"Briefing\",\n  progressLabel,\n  onPrevious,\n  onNext,\n  onComplete,\n  className,\n  ...props\n}: BriefingProps) {\n  const activeIndex = Math.max(\n    0,\n    slides.findIndex((slide) => slide.id === activeSlideId),\n  );\n  const activeSlide = slides[activeIndex];\n  const isFirst = activeIndex <= 0;\n  const isLast = activeIndex >= slides.length - 1;\n\n  const steps: PhaseProgressStep[] = slides.map((slide, index) => ({\n    id: slide.id,\n    label: slide.title,\n    status: slideStatus(index, activeIndex),\n  }));\n\n  return (\n    <div\n      data-active-slide={activeSlideId}\n      className={cn(\"gs-briefing w-full max-w-content space-y-4\", className)}\n      {...props}\n    >\n      <PhaseProgress\n        steps={steps}\n        activeId={activeSlideId}\n        label={progressLabel ?? `${title} — ${activeIndex + 1} of ${slides.length}`}\n      />\n\n      {activeSlide ? (\n        <Panel elevation=\"raised\" padding=\"lg\">\n          <PanelHeader>\n            <p className=\"gs-label gs-eyebrow gs-eyebrow-dotted text-muted-foreground\">{eyebrow}</p>\n            <PanelTitle className=\"mt-2\">{activeSlide.title}</PanelTitle>\n            {activeSlide.body ? (\n              <PanelDescription className=\"gs-body\">{activeSlide.body}</PanelDescription>\n            ) : null}\n          </PanelHeader>\n        </Panel>\n      ) : null}\n\n      <div className=\"rounded-panel border border-border bg-surface p-panel-sm\">\n        <ButtonGroup className=\"justify-between\">\n          <Button type=\"button\" intent=\"outline\" disabled={isFirst} onClick={onPrevious}>\n            Previous\n          </Button>\n          {isLast ? (\n            <Button type=\"button\" intent=\"primary\" emphasis=\"strong\" onClick={onComplete}>\n              Complete briefing\n            </Button>\n          ) : (\n            <Button type=\"button\" intent=\"primary\" emphasis=\"strong\" onClick={onNext}>\n              Next\n            </Button>\n          )}\n        </ButtonGroup>\n      </div>\n    </div>\n  );\n}\n\nBriefing.displayName = \"Briefing\";\n\nexport { Briefing };\n"
+    },
+    {
+      "path": "src/patterns/briefing/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/briefing/index.ts",
+      "content": "export { Briefing, type BriefingProps, type BriefingSlide } from \"./briefing\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

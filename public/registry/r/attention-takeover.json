@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "attention-takeover",
+  "type": "registry:block",
+  "title": "Attention Takeover",
+  "description": "Full-surface 'watch the display' attention redirect with optional countdown.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/badge",
+    "@gamescience/button",
+    "@gamescience/countdown"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/attention-takeover/attention-takeover.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/attention-takeover/attention-takeover.tsx",
+      "content": "import { Monitor } from \"lucide-react\";\nimport * as React from \"react\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { Countdown } from \"@/components/game/countdown\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface AttentionTakeoverProps extends React.HTMLAttributes<HTMLDivElement> {\n  eyebrow?: string;\n  headline: string;\n  description?: string;\n  intent?: \"information\" | \"warning\" | \"critical\";\n  countdown?: { formattedTime: string; accessibleLabel?: string };\n  onAcknowledge?: () => void;\n}\n\nconst intentBadge: Record<\n  NonNullable<AttentionTakeoverProps[\"intent\"]>,\n  \"information\" | \"warning\" | \"danger\"\n> = {\n  information: \"information\",\n  warning: \"warning\",\n  critical: \"danger\",\n};\n\nconst intentText: Record<NonNullable<AttentionTakeoverProps[\"intent\"]>, string> = {\n  information: \"text-information\",\n  warning: \"text-warning\",\n  critical: \"text-danger\",\n};\n\n/**\n * Full-screen \"watch the display\" takeover that redirects participant attention from\n * their device to the shared display. The application drives when it is shown.\n */\nfunction AttentionTakeover({\n  eyebrow = \"Look up\",\n  headline,\n  description = \"Turn your attention to the shared display.\",\n  intent = \"information\",\n  countdown,\n  onAcknowledge,\n  className,\n  ...props\n}: AttentionTakeoverProps) {\n  return (\n    <div\n      role=\"status\"\n      aria-live=\"assertive\"\n      data-intent={intent}\n      className={cn(\n        \"gs-attention-takeover flex min-h-screen w-full flex-col items-center justify-center gap-6 px-6 py-12 text-center\",\n        className,\n      )}\n      {...props}\n    >\n      <Monitor className={cn(\"size-12\", intentText[intent])} aria-hidden=\"true\" />\n      <Badge intent={intentBadge[intent]} treatment=\"outlined\">\n        {eyebrow}\n      </Badge>\n      <h1 className=\"gs-display text-foreground\">{headline}</h1>\n      {description ? (\n        <p className=\"gs-body max-w-prose text-muted-foreground\">{description}</p>\n      ) : null}\n\n      {countdown ? (\n        <Countdown\n          formattedTime={countdown.formattedTime}\n          state=\"running\"\n          treatment=\"contained\"\n          size=\"lg\"\n          accessibleLabel={countdown.accessibleLabel}\n        />\n      ) : null}\n\n      {onAcknowledge ? (\n        <Button type=\"button\" intent=\"primary\" emphasis=\"strong\" size=\"lg\" onClick={onAcknowledge}>\n          I am watching\n        </Button>\n      ) : null}\n    </div>\n  );\n}\n\nAttentionTakeover.displayName = \"AttentionTakeover\";\n\nexport { AttentionTakeover };\n"
+    },
+    {
+      "path": "src/patterns/attention-takeover/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/attention-takeover/index.ts",
+      "content": "export { AttentionTakeover, type AttentionTakeoverProps } from \"./attention-takeover\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shared-display-game",
+  "type": "registry:block",
+  "title": "Shared Display Game",
+  "description": "In-game shared-display states (waiting, active, reveal, results, debrief).",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/badge",
+    "@gamescience/display-heading",
+    "@gamescience/phase-progress"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/shared-display-game/shared-display-game.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/shared-display-game/shared-display-game.tsx",
+      "content": "import type { ReactNode } from \"react\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { DisplayHeading } from \"@/components/display/display-heading\";\nimport { PhaseProgress, type PhaseProgressStep } from \"@/components/game/phase-progress\";\nimport { cn } from \"@/lib/cn\";\n\nexport type SharedDisplayGameState = \"waiting\" | \"active\" | \"reveal\" | \"results\" | \"debrief\";\n\nexport interface SharedDisplayGameProps {\n  state: SharedDisplayGameState;\n  eyebrow?: string;\n  heading: string;\n  description?: string;\n  steps?: PhaseProgressStep[];\n  activeStepId?: string;\n  progressLabel?: string;\n  children?: ReactNode;\n  className?: string;\n}\n\nconst stateLabel: Record<SharedDisplayGameState, string> = {\n  waiting: \"Waiting\",\n  active: \"Active\",\n  reveal: \"Reveal\",\n  results: \"Results\",\n  debrief: \"Debrief\",\n};\n\nconst stateIntent: Record<\n  SharedDisplayGameState,\n  \"information\" | \"primary\" | \"success\" | \"warning\"\n> = {\n  waiting: \"information\",\n  active: \"primary\",\n  reveal: \"warning\",\n  results: \"success\",\n  debrief: \"information\",\n};\n\n/**\n * In-game shared display states. Privacy-safe by contract — pass only aggregate,\n * public content. State content is injected via children.\n */\nfunction SharedDisplayGame({\n  state,\n  eyebrow = \"GameScience session\",\n  heading,\n  description,\n  steps,\n  activeStepId,\n  progressLabel,\n  children,\n  className,\n}: SharedDisplayGameProps) {\n  return (\n    <div\n      data-state={state}\n      className={cn(\n        \"gs-shared-display-game mx-auto flex min-h-[70vh] w-full max-w-content flex-col items-center justify-center gap-[var(--section-gap)] px-8\",\n        className,\n      )}\n    >\n      <DisplayHeading eyebrow={eyebrow}>{heading}</DisplayHeading>\n      {description ? (\n        <p className=\"gs-body max-w-prose text-center text-muted-foreground\">{description}</p>\n      ) : null}\n\n      {steps && steps.length > 0 ? (\n        <PhaseProgress\n          steps={steps}\n          activeId={activeStepId}\n          label={progressLabel}\n          density=\"display\"\n        />\n      ) : null}\n\n      <div className=\"flex justify-center\">\n        <Badge intent={stateIntent[state]} treatment=\"outlined\">\n          {stateLabel[state]}\n        </Badge>\n      </div>\n\n      {children ? <div className=\"w-full max-w-4xl\">{children}</div> : null}\n    </div>\n  );\n}\n\nSharedDisplayGame.displayName = \"SharedDisplayGame\";\n\nexport { SharedDisplayGame };\n"
+    },
+    {
+      "path": "src/patterns/shared-display-game/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/shared-display-game/index.ts",
+      "content": "export {\n  SharedDisplayGame,\n  type SharedDisplayGameProps,\n  type SharedDisplayGameState,\n} from \"./shared-display-game\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

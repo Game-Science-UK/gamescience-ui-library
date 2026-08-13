@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timed-round",
+  "type": "registry:block",
+  "title": "Timed Round",
+  "description": "Round/beat container wrapping injected content with countdown, phase progress, directive, and action footer.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/countdown",
+    "@gamescience/phase-header",
+    "@gamescience/phase-progress",
+    "@gamescience/phase-directive",
+    "@gamescience/sticky-action-bar"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/timed-round/timed-round.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/timed-round/timed-round.tsx",
+      "content": "import type { ReactNode } from \"react\";\nimport { Countdown, type CountdownState } from \"@/components/game/countdown\";\nimport { PhaseDirective } from \"@/components/game/phase-directive\";\nimport { PhaseHeader } from \"@/components/game/phase-header\";\nimport { PhaseProgress, type PhaseProgressStep } from \"@/components/game/phase-progress\";\nimport { StickyActionBar } from \"@/components/game/sticky-action-bar\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface TimedRoundCountdown {\n  formattedTime: string;\n  state?: CountdownState;\n  label?: string;\n  accessibleLabel?: string;\n}\n\nexport interface TimedRoundProps {\n  eyebrow?: ReactNode;\n  /** Center phase pill content, e.g. a Badge. */\n  phase: ReactNode;\n  phaseIntent?: \"neutral\" | \"information\" | \"warning\" | \"critical\";\n  countdown?: TimedRoundCountdown;\n  steps?: PhaseProgressStep[];\n  activeStepId?: string;\n  progressLabel?: string;\n  directive?: string;\n  directiveEyebrow?: string;\n  children: ReactNode;\n  /** Round-level actions rendered in the bottom action region. */\n  footer?: ReactNode;\n  footerStatus?: ReactNode;\n  className?: string;\n}\n\n/**\n * Round-lifecycle container that wraps a beat (e.g. Decision) with phase header,\n * countdown, phase progress, and directive. Every optional slot degrades cleanly so\n * a game can use only the beats it needs.\n */\nfunction TimedRound({\n  eyebrow,\n  phase,\n  phaseIntent = \"neutral\",\n  countdown,\n  steps,\n  activeStepId,\n  progressLabel,\n  directive,\n  directiveEyebrow,\n  children,\n  footer,\n  footerStatus,\n  className,\n}: TimedRoundProps) {\n  return (\n    <div className={cn(\"gs-timed-round flex min-h-full w-full flex-col\", className)}>\n      <PhaseHeader\n        sticky\n        intent={phaseIntent}\n        eyebrow={eyebrow}\n        phase={phase}\n        trailing={\n          countdown ? (\n            <Countdown\n              formattedTime={countdown.formattedTime}\n              state={countdown.state}\n              label={countdown.label}\n              accessibleLabel={countdown.accessibleLabel}\n              intent={phaseIntent === \"neutral\" ? undefined : phaseIntent}\n            />\n          ) : undefined\n        }\n      />\n\n      <main className=\"mx-auto w-full max-w-content flex-1 space-y-4 px-4 py-4\">\n        {steps && steps.length > 0 ? (\n          <PhaseProgress steps={steps} activeId={activeStepId} label={progressLabel} />\n        ) : null}\n\n        {directive ? (\n          <PhaseDirective treatment=\"panel\" eyebrow={directiveEyebrow} intent=\"information\">\n            {directive}\n          </PhaseDirective>\n        ) : null}\n\n        {children}\n      </main>\n\n      {footer ? (\n        <StickyActionBar status={footerStatus} intent={phaseIntent}>\n          {footer}\n        </StickyActionBar>\n      ) : null}\n    </div>\n  );\n}\n\nTimedRound.displayName = \"TimedRound\";\n\nexport { TimedRound };\n"
+    },
+    {
+      "path": "src/patterns/timed-round/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/timed-round/index.ts",
+      "content": "export { TimedRound, type TimedRoundCountdown, type TimedRoundProps } from \"./timed-round\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}

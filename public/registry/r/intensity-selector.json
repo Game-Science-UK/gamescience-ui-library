@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "intensity-selector",
+  "type": "registry:component",
+  "title": "Intensity Selector",
+  "description": "Discrete 0..max intensity or conviction selector for sealed commitments. Owns only value presentation.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base"
+  ],
+  "files": [
+    {
+      "path": "src/components/game/intensity-selector.tsx",
+      "type": "registry:component",
+      "target": "src/components/game/intensity-selector.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface IntensitySelectorProps extends Omit<\n  React.HTMLAttributes<HTMLDivElement>,\n  \"onChange\"\n> {\n  value: number;\n  max?: number;\n  onChange?: (value: number) => void;\n  label?: string;\n  unitLabel?: string;\n  zeroLabel?: string;\n  disabled?: boolean;\n}\n\n/**\n * Discrete 0..max intensity/conviction selector for sealed commitments.\n * Owns only the value presentation; token economy and validity stay application-owned.\n */\nfunction IntensitySelector({\n  value,\n  max = 3,\n  onChange,\n  label = \"Intensity\",\n  unitLabel = \"tokens\",\n  zeroLabel = \"None\",\n  disabled = false,\n  className,\n  ...props\n}: IntensitySelectorProps) {\n  const safeMax = Math.max(0, Math.floor(max));\n\n  return (\n    <div\n      role=\"radiogroup\"\n      aria-label={label}\n      data-value={value}\n      className={cn(\"gs-intensity-selector\", className)}\n      {...props}\n    >\n      <div className=\"mb-2 flex flex-wrap items-center justify-between gap-2\">\n        <p className=\"gs-label text-muted-foreground\">{label}</p>\n        <p className=\"gs-micro text-muted-foreground\" aria-hidden=\"true\">\n          {value} {unitLabel}\n        </p>\n      </div>\n      <div className=\"flex flex-wrap gap-2\">\n        {Array.from({ length: safeMax + 1 }, (_, step) => {\n          const selected = step === value;\n          return (\n            <button\n              key={step}\n              type=\"button\"\n              role=\"radio\"\n              aria-checked={selected}\n              aria-label={`${step === 0 ? zeroLabel : `${step} ${unitLabel}`}`}\n              disabled={disabled}\n              onClick={() => onChange?.(step)}\n              className={cn(\n                \"gs-pressable gs-touch-target inline-flex min-w-[2.5rem] items-center justify-center rounded-control border px-3 py-2 text-[length:var(--type-scale-label)] font-label focus-visible:shadow-focus focus-visible:outline-none\",\n                selected\n                  ? \"border-primary bg-primary text-primary-foreground\"\n                  : \"border-border bg-surface text-foreground hover:bg-surface-subtle\",\n                disabled && \"cursor-not-allowed opacity-50\",\n              )}\n              data-selected={selected ? \"true\" : \"false\"}\n            >\n              {step === 0 ? zeroLabel : step}\n            </button>\n          );\n        })}\n      </div>\n    </div>\n  );\n}\n\nIntensitySelector.displayName = \"IntensitySelector\";\n\nexport { IntensitySelector };\n"
+    }
+  ],
+  "meta": {
+    "category": "component",
+    "version": "1.1.0",
+    "namespace": "@gamescience"
+  }
+}
