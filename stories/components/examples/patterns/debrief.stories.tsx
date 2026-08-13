@@ -4,7 +4,7 @@ import { debriefFixture, debriefSectionsFixture } from "@/fixtures/debrief";
 import { ParticipantShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Debrief",
+  title: "Patterns/Debrief",
   parameters: {
     layout: "fullscreen",
     docs: {

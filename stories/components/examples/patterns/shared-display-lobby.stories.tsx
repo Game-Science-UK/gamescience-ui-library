@@ -4,7 +4,7 @@ import { activeLobbyFixture, emptyLobbyFixture, readyLobbyFixture } from "@/fixt
 import { SharedDisplayShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Shared Display Lobby",
+  title: "Patterns/Shared Display Lobby",
   parameters: {
     layout: "fullscreen",
     docs: {

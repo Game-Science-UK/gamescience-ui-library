@@ -318,14 +318,12 @@ function main() {
 
   for (const required of ["InvalidCode", "EnterIdentity", "Waiting", "Disconnected"]) {
     if (!joinStories || !new RegExp(`export const ${required}\\b`).test(joinStories)) {
-      failures.push(
-        `Components/Examples/Patterns/Join Flow missing required story export ${required}`,
-      );
+      failures.push(`Patterns/Join Flow missing required story export ${required}`);
     }
   }
   for (const required of ["FacilitatorEmpty", "FacilitatorReady"]) {
     if (!lobbyStories || !new RegExp(`export const ${required}\\b`).test(lobbyStories)) {
-      failures.push(`Components/Examples/Patterns/Lobby missing required story export ${required}`);
+      failures.push(`Patterns/Lobby missing required story export ${required}`);
     }
   }
   for (const required of ["SharedDisplayJoin", "SharedDisplayReady"]) {
@@ -334,7 +332,7 @@ function main() {
       !new RegExp(`export const ${required}\\b`).test(sharedDisplayLobbyStories)
     ) {
       failures.push(
-        `Components/Examples/Patterns/Shared Display Lobby missing required story export ${required}`,
+        `Patterns/Shared Display Lobby missing required story export ${required}`,
       );
     }
   }

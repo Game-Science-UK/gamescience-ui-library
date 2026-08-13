@@ -4,7 +4,7 @@ import { briefingFixture, lastBriefingSlideId } from "@/fixtures/briefing";
 import { ParticipantShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Briefing",
+  title: "Patterns/Briefing",
   parameters: {
     layout: "fullscreen",
     docs: {

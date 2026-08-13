@@ -8,7 +8,7 @@ import { roundStepsFixture, timedRoundFixture } from "@/fixtures/round";
 import { ParticipantShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Timed Round",
+  title: "Patterns/Timed Round",
   parameters: {
     layout: "fullscreen",
     docs: {

@@ -4,7 +4,7 @@ import { facilitatorConsoleFixture, pausedConsoleFixture } from "@/fixtures/faci
 import { FacilitatorShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Facilitator Console",
+  title: "Patterns/Facilitator Console",
   parameters: {
     layout: "fullscreen",
     docs: {

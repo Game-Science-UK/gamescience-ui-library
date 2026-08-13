@@ -4,7 +4,7 @@ import { resultsFixture, sharedDisplayResultsFixture } from "@/fixtures/results"
 import { FacilitatorShell, SharedDisplayShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Results",
+  title: "Patterns/Results",
   parameters: {
     layout: "fullscreen",
     docs: {

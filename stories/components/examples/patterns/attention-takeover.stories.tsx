@@ -7,7 +7,7 @@ import {
 import { ParticipantShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Attention Takeover",
+  title: "Patterns/Attention Takeover",
   parameters: {
     layout: "fullscreen",
     docs: {

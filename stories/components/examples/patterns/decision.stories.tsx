@@ -11,7 +11,7 @@ import {
 import { ParticipantShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Decision",
+  title: "Patterns/Decision",
   parameters: {
     layout: "fullscreen",
     docs: {

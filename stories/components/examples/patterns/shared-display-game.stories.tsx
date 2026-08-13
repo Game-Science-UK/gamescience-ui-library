@@ -9,7 +9,7 @@ import { sharedDisplayResultsFixture } from "@/fixtures/results";
 import { SharedDisplayShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Shared Display Game",
+  title: "Patterns/Shared Display Game",
   parameters: {
     layout: "fullscreen",
     docs: {

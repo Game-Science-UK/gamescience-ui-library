@@ -8,7 +8,7 @@ import {
 import { SharedDisplayShell } from "@/templates";
 
 const meta = {
-  title: "Components/Examples/Patterns/Scripted Reveal",
+  title: "Patterns/Scripted Reveal",
   parameters: {
     layout: "fullscreen",
     docs: {

@@ -5,7 +5,7 @@ import { FacilitatorShell, ParticipantShell } from "@/templates";
 import { ParticipantJoinFlow } from "@/patterns/join";
 
 const meta = {
-  title: "Components/Examples/Patterns/Lobby",
+  title: "Patterns/Lobby",
   parameters: {
     layout: "fullscreen",
     docs: {

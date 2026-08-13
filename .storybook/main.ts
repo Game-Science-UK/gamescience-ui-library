@@ -16,7 +16,7 @@ const config: StorybookConfig = {
     defaultName: "Docs",
   },
   // Sidebar order: parameters.options.storySort in .storybook/preview.tsx
-  // (Introduction → Foundations → Components/Examples → Components → Templates).
+  // (Introduction → Foundations → Patterns → Components/Examples → Components → Templates).
   async viteFinal(config) {
     return mergeConfig(config, {
       // Storybook's Vite builder already uses base './' so /storybook/ subpath hosting works.
