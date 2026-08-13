@@ -39,6 +39,7 @@ export const PUBLIC_PAGES_DOCS = [
   "migrations/0.5.4-to-1.0.0.md",
   "migrations/1.0.0-to-1.1.0.md",
   "migrations/1.1.0-to-1.1.1.md",
+  "migrations/1.1.1-to-1.2.0.md",
 ] as const;
 
 export type PublicPagesDoc = (typeof PUBLIC_PAGES_DOCS)[number];
@@ -75,6 +76,7 @@ export const PUBLIC_PAGES_DOC_MARKERS: Record<PublicPagesDoc, string> = {
   "migrations/0.5.4-to-1.0.0.md": "0.5.4 → 1.0.0",
   "migrations/1.0.0-to-1.1.0.md": "1.0.0 → 1.1.0",
   "migrations/1.1.0-to-1.1.1.md": "1.1.0 → 1.1.1",
+  "migrations/1.1.1-to-1.2.0.md": "1.1.1 → 1.2.0",
 };
 
 /** Companion CSS published beside the Tailwind 4 integration guide. */
@@ -117,11 +119,11 @@ export function buildReleaseManifest(options?: { version?: string; siteUrl?: str
   const siteUrl = options?.siteUrl ?? PAGES_SITE_URL;
   return {
     version,
-    previousVersion: "1.1.0",
-    releaseType: "patch" as const,
-    addedItems: [] as string[],
-    changedItems: ["base"] as string[],
+    previousVersion: "1.1.1",
+    releaseType: "minor" as const,
+    addedItems: ["create-session"] as string[],
+    changedItems: ["facilitator-console", "lobby"] as string[],
     removedItems: [] as string[],
-    migrationNotes: `${siteUrl}/docs/migrations/1.1.0-to-1.1.1.md`,
+    migrationNotes: `${siteUrl}/docs/migrations/1.1.1-to-1.2.0.md`,
   };
 }

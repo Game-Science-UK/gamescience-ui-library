@@ -1,0 +1,14 @@
+{
+  "version": "1.2.0",
+  "previousVersion": "1.1.1",
+  "releaseType": "minor",
+  "addedItems": [
+    "create-session"
+  ],
+  "changedItems": [
+    "facilitator-console",
+    "lobby"
+  ],
+  "removedItems": [],
+  "migrationNotes": "https://game-science-uk.github.io/gamescience-ui-library/docs/migrations/1.1.1-to-1.2.0.md"
+}

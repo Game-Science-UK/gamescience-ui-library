@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "create-session",
+  "type": "registry:block",
+  "title": "Create Session",
+  "description": "Facilitator create-session form with optional host/session names, an application-owned configuration slot, and a ready state showing the generated code.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@gamescience/base",
+    "@gamescience/button",
+    "@gamescience/input",
+    "@gamescience/label",
+    "@gamescience/panel",
+    "@gamescience/room-code-display"
+  ],
+  "files": [
+    {
+      "path": "src/patterns/create-session/create-session.tsx",
+      "type": "registry:block",
+      "target": "src/patterns/create-session/create-session.tsx",
+      "content": "import * as React from \"react\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { Label } from \"@/components/ui/label\";\nimport { Panel, PanelDescription, PanelHeader, PanelTitle } from \"@/components/ui/panel\";\nimport { RoomCodeDisplay } from \"@/components/display/room-code-display\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface CreateSessionProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Controlled session name. The application owns the value. */\n  sessionName: string;\n  onSessionNameChange: (value: string) => void;\n  /** Optional facilitator display name. Render the field only when this handler is provided. */\n  hostName?: string;\n  onHostNameChange?: (value: string) => void;\n  onSubmit: () => void;\n  isSubmitting?: boolean;\n  submitDisabledReason?: string;\n  /** Presence switches the form to the ready state showing the shareable code. */\n  createdCode?: string;\n  /** Application-owned game-specific configuration (duration, naming, rehearsal tools, etc.). */\n  configSlot?: React.ReactNode;\n}\n\n/**\n * Facilitator-facing create-session form. Owns presentation only — code generation,\n * persistence, and game-specific setup are application-owned and injected via props.\n */\nfunction CreateSession({\n  sessionName,\n  onSessionNameChange,\n  hostName,\n  onHostNameChange,\n  onSubmit,\n  isSubmitting = false,\n  submitDisabledReason,\n  createdCode,\n  configSlot,\n  className,\n  ...props\n}: CreateSessionProps) {\n  const ready = createdCode !== undefined && createdCode !== \"\";\n\n  return (\n    <Panel\n      elevation=\"raised\"\n      padding=\"md\"\n      data-state={ready ? \"ready\" : \"editing\"}\n      className={cn(\"gs-create-session space-y-5\", className)}\n      {...props}\n    >\n      <PanelHeader>\n        <PanelTitle>Create session</PanelTitle>\n        <PanelDescription>\n          Create a room and share the generated code. Game-specific setup stays in your application.\n        </PanelDescription>\n      </PanelHeader>\n\n      {ready ? (\n        <div className=\"space-y-4\">\n          <RoomCodeDisplay code={createdCode} label=\"Share this code to join\" />\n          <p className=\"gs-body text-center text-muted-foreground\">\n            Session ready. Share the code with participants to begin.\n          </p>\n        </div>\n      ) : (\n        <form\n          className=\"space-y-5\"\n          onSubmit={(event) => {\n            event.preventDefault();\n            if (!isSubmitting && !submitDisabledReason) onSubmit();\n          }}\n        >\n          {onHostNameChange ? (\n            <div className=\"space-y-2\">\n              <Label htmlFor=\"create-session-host-name\">Your name</Label>\n              <Input\n                id=\"create-session-host-name\"\n                placeholder=\"Facilitator name (optional)\"\n                value={hostName ?? \"\"}\n                onChange={(event) => onHostNameChange(event.target.value)}\n                disabled={isSubmitting}\n              />\n            </div>\n          ) : null}\n\n          <div className=\"space-y-2\">\n            <Label htmlFor=\"create-session-name\">Session name</Label>\n            <Input\n              id=\"create-session-name\"\n              placeholder=\"e.g. Team Alpha training\"\n              value={sessionName}\n              onChange={(event) => onSessionNameChange(event.target.value)}\n              disabled={isSubmitting}\n            />\n          </div>\n\n          {configSlot ? <div className=\"gs-create-session-config\">{configSlot}</div> : null}\n\n          <Button\n            type=\"submit\"\n            intent=\"primary\"\n            emphasis=\"strong\"\n            size=\"lg\"\n            loading={isSubmitting}\n            disabled={Boolean(submitDisabledReason)}\n            className=\"w-full\"\n          >\n            {isSubmitting ? \"Creating…\" : \"Create session\"}\n          </Button>\n\n          {submitDisabledReason ? (\n            <p className=\"gs-body text-muted-foreground\">{submitDisabledReason}</p>\n          ) : null}\n        </form>\n      )}\n    </Panel>\n  );\n}\n\nCreateSession.displayName = \"CreateSession\";\n\nexport { CreateSession };\n"
+    },
+    {
+      "path": "src/patterns/create-session/index.ts",
+      "type": "registry:lib",
+      "target": "src/patterns/create-session/index.ts",
+      "content": "export { CreateSession, type CreateSessionProps } from \"./create-session\";\n"
+    }
+  ],
+  "meta": {
+    "category": "pattern",
+    "version": "1.2.0",
+    "namespace": "@gamescience"
+  }
+}

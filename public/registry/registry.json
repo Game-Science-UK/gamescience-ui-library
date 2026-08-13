@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "gamescience",
   "homepage": "https://gamescience.ai",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "items": [
     {
       "name": "base",
@@ -686,6 +686,33 @@
           "path": "src/patterns/join/index.ts",
           "type": "registry:lib",
           "target": "src/patterns/join/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "create-session",
+      "type": "registry:block",
+      "title": "Create Session",
+      "description": "Facilitator create-session form with optional host/session names, an application-owned configuration slot, and a ready state showing the generated code.",
+      "registryDependencies": [
+        "@gamescience/base",
+        "@gamescience/button",
+        "@gamescience/input",
+        "@gamescience/label",
+        "@gamescience/panel",
+        "@gamescience/room-code-display"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/patterns/create-session/create-session.tsx",
+          "type": "registry:block",
+          "target": "src/patterns/create-session/create-session.tsx"
+        },
+        {
+          "path": "src/patterns/create-session/index.ts",
+          "type": "registry:lib",
+          "target": "src/patterns/create-session/index.ts"
         }
       ]
     },

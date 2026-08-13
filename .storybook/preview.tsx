@@ -50,6 +50,7 @@ const preview: Preview = {
           ["Colors", "Themes", "Typography", "Animations", "Across themes"],
           "Patterns",
           [
+            "Create Session",
             "Join Flow",
             "Lobby",
             "Shared Display Lobby",

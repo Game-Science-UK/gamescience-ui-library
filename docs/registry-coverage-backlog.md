@@ -43,6 +43,19 @@ game-agnostic patterns and added the missing domain components:
 Also added `timed-round`, `facilitator-console`, `scripted-reveal`, and
 `shared-display-game` container patterns to complete the loop.
 
+## Promoted in 1.2.0
+
+Two-project evidence (Citadel `CreateSessionDialog` + `CreateSession` page, and
+MS Deal Room `facilitator.sessions.new`) promoted the facilitator session-creation
+flow into a game-agnostic pattern:
+
+| Candidate          | Promoted to      | Layer   |
+| ------------------ | ---------------- | ------- |
+| CreateSession page | `create-session` | pattern |
+
+Game-specific configuration (duration modes, naming modes, rehearsal tools,
+vendor selection) stays application-owned via the pattern's `configSlot`.
+
 ## Deferred candidates
 
 | Candidate                          | Source projects  | Contexts                     | Frequency  | Likely layer            | Evidence                                   | Status   | Next audit needed                          |

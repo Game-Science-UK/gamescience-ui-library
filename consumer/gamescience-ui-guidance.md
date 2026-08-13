@@ -1,6 +1,6 @@
 # GameScience UI — consumer agent guidance
 
-Installed library version: **1.1.1**
+Installed library version: **1.2.0**
 
 ## Registry
 
@@ -8,13 +8,13 @@ Installed library version: **1.1.1**
 - Preferred (pinned) registry URL:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/1.1.1/r/{name}.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/1.2.0/r/{name}.json
 ```
 
 - Agent catalogue:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/1.1.1/agent-catalogue.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/1.2.0/agent-catalogue.json
 ```
 
 - Local installed metadata: `src/docs/gamescience-ui.json`
@@ -24,7 +24,7 @@ https://game-science-uk.github.io/gamescience-ui-library/versions/1.1.1/agent-ca
 1. Identify experience context: `participant` | `facilitator` | `shared-display`
 2. Identify the single active theme: `gamescience` | `citadel`
 3. Search the agent catalogue / installed patterns before implementing UI
-4. Prefer complete patterns over assembling primitives — join/lobby: `join-flow`, `lobby`, `shared-display-lobby`; game loop: `decision`, `timed-round`, `briefing`, `scripted-reveal`, `results`, `debrief`; session/display: `facilitator-console`, `shared-display-game`, `attention-takeover`
+4. Prefer complete patterns over assembling primitives — create/join/lobby: `create-session`, `join-flow`, `lobby`, `shared-display-lobby`; game loop: `decision`, `timed-round`, `briefing`, `scripted-reveal`, `results`, `debrief`; session/display: `facilitator-console`, `shared-display-game`, `attention-takeover`
 5. Do not recreate installed registry components
 6. Set theme only through `GameScienceProvider`
 7. Never pass theme props to individual components

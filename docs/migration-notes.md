@@ -104,6 +104,12 @@ See the dedicated note: [migrations/1.1.0-to-1.1.1.md](./migrations/1.1.0-to-1.1
 
 Patch: `base` guidance now names the full pattern suite. Reinstall `base` only.
 
+## 1.1.1 → 1.2.0 (Create-session pattern)
+
+See the dedicated note: [migrations/1.1.1-to-1.2.0.md](./migrations/1.1.1-to-1.2.0.md).
+
+Minor: adds the `create-session` facilitator pattern. Additive only.
+
 ## 0.5.3 → 0.5.4 (Migrate ledger evidence + Pages deploy)
 
 See the dedicated note: [migrations/0.5.3-to-0.5.4.md](./migrations/0.5.3-to-0.5.4.md).

@@ -200,6 +200,7 @@ const ALLOWLIST = new Set([
 const REQUIRED_STORY_ROOTS: Array<{ name: string; storyGlobHint: string }> = [
   // Patterns & shells (Examples IA)
   { name: "ParticipantJoinFlow", storyGlobHint: "stories/components/examples/patterns" },
+  { name: "CreateSession", storyGlobHint: "stories/components/examples/patterns" },
   { name: "FacilitatorLobby", storyGlobHint: "stories/components/examples/patterns" },
   { name: "SharedDisplayLobby", storyGlobHint: "stories/components/examples/patterns" },
   { name: "Decision", storyGlobHint: "stories/components/examples/patterns" },

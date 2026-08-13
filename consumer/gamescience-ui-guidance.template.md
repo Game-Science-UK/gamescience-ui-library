@@ -24,7 +24,7 @@ Installed library version: **{{VERSION}}**
 1. Identify experience context: `participant` | `facilitator` | `shared-display`
 2. Identify the single active theme: `gamescience` | `citadel`
 3. Search the agent catalogue / installed patterns before implementing UI
-4. Prefer complete patterns over assembling primitives — join/lobby: `join-flow`, `lobby`, `shared-display-lobby`; game loop: `decision`, `timed-round`, `briefing`, `scripted-reveal`, `results`, `debrief`; session/display: `facilitator-console`, `shared-display-game`, `attention-takeover`
+4. Prefer complete patterns over assembling primitives — create/join/lobby: `create-session`, `join-flow`, `lobby`, `shared-display-lobby`; game loop: `decision`, `timed-round`, `briefing`, `scripted-reveal`, `results`, `debrief`; session/display: `facilitator-console`, `shared-display-game`, `attention-takeover`
 5. Do not recreate installed registry components
 6. Set theme only through `GameScienceProvider`
 7. Never pass theme props to individual components

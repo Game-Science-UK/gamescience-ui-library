@@ -34,11 +34,13 @@ default output when absent, and not weaken room-code legibility.
 Until then: compose application-owned visuals as siblings; record visual-loss
 decisions when a pattern replaces local chrome.
 
-## Domain components before patterns (0.5.0 → 1.1.0)
+## Domain components before patterns (0.5.0 → 1.2.0)
 
 For discussion, decision, and results screens, prefer a complete registry pattern
 first:
 
+- `create-session` — facilitator session creation form (optional host/session
+  names, an app-owned config slot, and a generated-code ready state).
 - `decision` — the core sealed → declaration → negotiation → lock → resolve loop
   (a vote is the degenerate `sealed → resolved` case).
 - `timed-round` — round/beat container (countdown + phase progress + directive).

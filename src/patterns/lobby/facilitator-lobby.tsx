@@ -116,7 +116,7 @@ function FacilitatorLobby({
             Share the room code on the shared display. New joiners will appear here.
           </Alert>
         ) : (
-          <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+          <ul className="grid gap-2">
             {participants.map((participant) => (
               <li key={participant.id}>
                 <ParticipantStatus

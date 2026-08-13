@@ -121,7 +121,7 @@ function FacilitatorConsole({
         {participants.length === 0 ? (
           <p className="gs-body text-muted-foreground">No participants connected.</p>
         ) : (
-          <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+          <ul className="grid gap-2">
             {participants.map((participant) => (
               <li key={participant.id}>
                 <ParticipantStatus

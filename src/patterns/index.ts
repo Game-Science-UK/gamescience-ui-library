@@ -1,4 +1,5 @@
 export * from "./join";
+export * from "./create-session";
 export * from "./lobby";
 export * from "./decision";
 export * from "./timed-round";

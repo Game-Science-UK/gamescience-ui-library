@@ -993,6 +993,52 @@ export const registryItems: RegistryItemDefinition[] = [
     },
   },
   {
+    name: "create-session",
+    type: "registry:block",
+    title: "Create Session",
+    description:
+      "Facilitator create-session form with optional host/session names, an application-owned configuration slot, and a ready state showing the generated code.",
+    category: "pattern",
+    registryDependencies: ["base", "button", "input", "label", "panel", "room-code-display"],
+    files: [
+      {
+        path: "src/patterns/create-session/create-session.tsx",
+        type: "registry:block",
+        target: "src/patterns/create-session/create-session.tsx",
+      },
+      {
+        path: "src/patterns/create-session/index.ts",
+        type: "registry:lib",
+        target: "src/patterns/create-session/index.ts",
+      },
+    ],
+    catalogue: {
+      useWhen: [
+        "creating a new session or room as a facilitator",
+        "collecting an optional session and host name before generating a room code",
+      ],
+      avoid: [
+        "owning code generation, persistence, or networking",
+        "encoding game-specific configuration such as duration or naming modes",
+      ],
+      contexts: ["facilitator"],
+      themes: ["gamescience", "citadel"],
+      family: "patterns",
+      props: [
+        "sessionName",
+        "onSessionNameChange",
+        "hostName",
+        "onHostNameChange",
+        "onSubmit",
+        "isSubmitting",
+        "submitDisabledReason",
+        "createdCode",
+        "configSlot",
+      ],
+      related: ["lobby", "shared-display-lobby", "room-code-display", "facilitator-console"],
+    },
+  },
+  {
     name: "lobby",
     type: "registry:block",
     title: "Facilitator Lobby",
