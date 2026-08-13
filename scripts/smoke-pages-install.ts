@@ -26,7 +26,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const pagesDist = path.join(root, "pages-dist");
 const smokeRoot = path.join(root, "tmp/pages-smoke");
 
-type ThemeName = "gamescience" | "citadel";
+type ThemeName = "gamescience" | "citadel" | "sentinel";
 type PatternName = "join-flow" | "lobby" | "shared-display-lobby";
 
 interface Scenario {
@@ -42,6 +42,9 @@ const scenarios: Scenario[] = [
   { id: "citadel-lobby", theme: "citadel", pattern: "lobby" },
   { id: "gamescience-shared-display-lobby", theme: "gamescience", pattern: "shared-display-lobby" },
   { id: "citadel-shared-display-lobby", theme: "citadel", pattern: "shared-display-lobby" },
+  { id: "sentinel-join-flow", theme: "sentinel", pattern: "join-flow" },
+  { id: "sentinel-lobby", theme: "sentinel", pattern: "lobby" },
+  { id: "sentinel-shared-display-lobby", theme: "sentinel", pattern: "shared-display-lobby" },
 ];
 
 function run(command: string, args: string[], cwd: string) {

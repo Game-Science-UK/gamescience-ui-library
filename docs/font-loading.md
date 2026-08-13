@@ -12,6 +12,12 @@ filesystem and remote URLs break consumer builds).
 - Display / body: Space Grotesk, Source Sans 3 (with system fallbacks)
 - Mono: IBM Plex Mono (with `ui-monospace` fallbacks)
 
+### Sentinel
+
+- Display: Archivo
+- Body: Instrument Sans
+- Mono: IBM Plex Mono
+
 ### Citadel
 
 - Display: Hanken Grotesk
@@ -31,7 +37,7 @@ Load fonts once in the application document head (Lovable / TanStack Start
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
   rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500&family=Source+Sans+3:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
 />
 ```
 

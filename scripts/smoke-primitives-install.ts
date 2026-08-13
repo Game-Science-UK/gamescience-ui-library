@@ -1,6 +1,6 @@
 /**
  * Clean-consumer smoke for representative GameScience primitive families.
- * Tailwind 3 Vite fixtures for both themes.
+ * Tailwind 3 Vite fixtures for all supported themes.
  */
 import { spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -13,7 +13,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const smokeRoot = path.join(root, "tmp/primitives-smoke");
 const registryDir = path.join(root, "public/registry/r");
 
-type ThemeName = "gamescience" | "citadel";
+type ThemeName = "gamescience" | "citadel" | "sentinel";
 
 const bundles: Record<string, string[]> = {
   forms: ["label", "input", "textarea", "checkbox", "radio-group", "switch", "select", "form"],
@@ -233,7 +233,7 @@ async function main() {
   mkdirSync(smokeRoot, { recursive: true });
 
   const failures: string[] = [];
-  for (const theme of ["gamescience", "citadel"] as const) {
+  for (const theme of ["gamescience", "citadel", "sentinel"] as const) {
     for (const [bundleName, items] of Object.entries(bundles)) {
       const id = `${theme}-${bundleName}`;
       const dir = path.join(smokeRoot, id);

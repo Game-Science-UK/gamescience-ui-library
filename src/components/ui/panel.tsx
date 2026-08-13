@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "@/lib/cn";
 
-const panelVariants = cva("gs-panel rounded-panel border text-foreground", {
+const panelVariants = cva("gs-panel gs-panel-wash rounded-panel border text-foreground", {
   variants: {
     elevation: {
       flat: "border-border bg-surface",
@@ -65,7 +65,11 @@ PanelHeader.displayName = "PanelHeader";
 
 const PanelTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h2 ref={ref} className={cn("gs-title text-foreground", className)} {...props} />
+    <h2
+      ref={ref}
+      className={cn("gs-title gs-title-section text-foreground", className)}
+      {...props}
+    />
   ),
 );
 PanelTitle.displayName = "PanelTitle";

@@ -63,6 +63,7 @@ const FAMILY_BY_NAME: Record<string, PublicCatalogueScope> = {
   base: "foundations",
   "theme-gamescience": "themes",
   "theme-citadel": "themes",
+  "theme-sentinel": "themes",
   button: "forms",
   input: "forms",
   label: "forms",

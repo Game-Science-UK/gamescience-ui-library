@@ -10,9 +10,9 @@ const smokeRoot = path.join(root, "tmp/tailwind4-smoke");
 const registryDir = path.join(root, "public/registry/r");
 const bridgeSource = path.join(root, "consumer/tailwind-v4-bridge.css");
 
-type ThemeName = "gamescience" | "citadel";
+type ThemeName = "gamescience" | "citadel" | "sentinel";
 
-const themes: ThemeName[] = ["gamescience", "citadel"];
+const themes: ThemeName[] = ["gamescience", "citadel", "sentinel"];
 
 /** Every utility documented in docs/tailwind-v4-integration.md */
 const DOCUMENTED_UTILITIES = [
@@ -415,7 +415,7 @@ function main() {
   }
 
   console.log(
-    `[smoke:tailwind4] Gamescience + Citadel join-flow fixtures passed (${DOCUMENTED_UTILITIES.length} utilities proven)`,
+    `[smoke:tailwind4] Gamescience + Citadel + Sentinel join-flow fixtures passed (${DOCUMENTED_UTILITIES.length} utilities proven)`,
   );
 }
 

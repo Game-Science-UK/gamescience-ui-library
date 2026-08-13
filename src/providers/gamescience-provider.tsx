@@ -2,9 +2,11 @@ import { useEffect, useLayoutEffect, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import {
   SUPPORTED_CONTEXTS,
+  SUPPORTED_REGISTERS,
   SUPPORTED_THEMES,
   type ExperienceContext,
   type GameTheme,
+  type ThemeRegister,
 } from "@/themes/theme-contract";
 import { ExperienceReactContext } from "./experience-context";
 import { GameThemeContext } from "./game-theme-context";
@@ -12,11 +14,17 @@ import { GameThemeContext } from "./game-theme-context";
 export interface GameScienceProviderProps {
   theme: GameTheme;
   context: ExperienceContext;
+  /**
+   * Optional visual register within a theme. Sentinel uses `cinematic`
+   * (default) and `restrained`. Other themes ignore the attribute.
+   */
+  register?: ThemeRegister;
   children: ReactNode;
   className?: string;
   /**
-   * When true (default), syncs data-theme / data-context onto document.documentElement
-   * so Radix portals, Sonner toasts, and body/html backgrounds inherit theme tokens.
+   * When true (default), syncs data-theme / data-context / data-register onto
+   * document.documentElement so Radix portals, Sonner toasts, and body/html
+   * backgrounds inherit theme tokens.
    * Disable only in specialised test hosts that manage document attributes themselves.
    */
   syncDocumentAttributes?: boolean;
@@ -38,9 +46,30 @@ function assertContext(context: string): asserts context is ExperienceContext {
   }
 }
 
+function assertRegister(register: string): asserts register is ThemeRegister {
+  if (!(SUPPORTED_REGISTERS as readonly string[]).includes(register)) {
+    throw new Error(
+      `Unsupported GameScience register "${register}". Supported registers: ${SUPPORTED_REGISTERS.join(", ")}`,
+    );
+  }
+}
+
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-function syncDocumentTheme(theme: GameTheme, context: ExperienceContext) {
+function resolveRegister(
+  theme: GameTheme,
+  register: ThemeRegister | undefined,
+): ThemeRegister | undefined {
+  if (register) return register;
+  if (theme === "sentinel") return "cinematic";
+  return undefined;
+}
+
+function syncDocumentTheme(
+  theme: GameTheme,
+  context: ExperienceContext,
+  register: ThemeRegister | undefined,
+) {
   if (typeof document === "undefined") {
     return () => undefined;
   }
@@ -49,12 +78,18 @@ function syncDocumentTheme(theme: GameTheme, context: ExperienceContext) {
   const previous = {
     theme: root.getAttribute("data-theme"),
     context: root.getAttribute("data-context"),
+    register: root.getAttribute("data-register"),
     gamescience: root.getAttribute("data-gamescience-ui"),
   };
 
   root.setAttribute("data-theme", theme);
   root.setAttribute("data-context", context);
   root.setAttribute("data-gamescience-ui", "");
+  if (register) {
+    root.setAttribute("data-register", register);
+  } else {
+    root.removeAttribute("data-register");
+  }
 
   return () => {
     if (previous.theme == null) {
@@ -69,6 +104,12 @@ function syncDocumentTheme(theme: GameTheme, context: ExperienceContext) {
       root.setAttribute("data-context", previous.context);
     }
 
+    if (previous.register == null) {
+      root.removeAttribute("data-register");
+    } else {
+      root.setAttribute("data-register", previous.register);
+    }
+
     if (previous.gamescience == null) {
       root.removeAttribute("data-gamescience-ui");
     } else {
@@ -80,19 +121,22 @@ function syncDocumentTheme(theme: GameTheme, context: ExperienceContext) {
 export function GameScienceProvider({
   theme,
   context,
+  register: registerProp,
   children,
   className,
   syncDocumentAttributes = true,
 }: GameScienceProviderProps) {
   assertTheme(theme);
   assertContext(context);
+  if (registerProp) assertRegister(registerProp);
+  const register = resolveRegister(theme, registerProp);
 
   useIsomorphicLayoutEffect(() => {
     if (!syncDocumentAttributes) {
       return undefined;
     }
-    return syncDocumentTheme(theme, context);
-  }, [theme, context, syncDocumentAttributes]);
+    return syncDocumentTheme(theme, context, register);
+  }, [theme, context, register, syncDocumentAttributes]);
 
   return (
     <GameThemeContext.Provider value={{ theme }}>
@@ -100,6 +144,7 @@ export function GameScienceProvider({
         <div
           data-theme={theme}
           data-context={context}
+          data-register={register}
           data-gamescience-ui
           className={cn("min-h-screen bg-background font-body text-foreground", className)}
         >

@@ -87,7 +87,7 @@ Unless explicitly overridden, detect:
 | Contexts | Infer from routes and surfaces; ask if unclear         |
 | Version  | Latest stable immutable registry release               |
 
-Valid themes: `gamescience` | `citadel`
+Valid themes: `gamescience` | `citadel` | `sentinel`
 
 Valid contexts: `participant` | `facilitator` | `shared-display`
 

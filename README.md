@@ -9,7 +9,7 @@ This is not a general-purpose component showcase. It is a practical system for p
 - Reusable theme-neutral UI primitives
 - Game-domain components and lobby/join patterns
 - Interface shells for participant, facilitator, and shared display
-- Two initial themes: `gamescience` and `citadel`
+- Two initial themes plus Sentinel: `gamescience`, `citadel`, and `sentinel`
 - Storybook reference screens
 - Custom shadcn registry + machine-readable agent catalogue
 
@@ -77,8 +77,9 @@ local Pages latest stage: `npm run build-storybook`.
 
 Global toolbar controls:
 
-- **Theme:** gamescience | citadel
+- **Theme:** gamescience | citadel | sentinel
 - **Context:** participant | facilitator | shared-display
+- **Register:** cinematic | restrained (Sentinel; other themes ignore it)
 
 Reference viewports:
 

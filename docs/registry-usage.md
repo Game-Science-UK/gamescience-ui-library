@@ -83,12 +83,15 @@ Fonts are application-owned — see [font-loading.md](./font-loading.md).
 
 1. `base` + `theme-gamescience` + `join-flow`
 2. `base` + `theme-citadel` + `join-flow`
-3. `base` + `theme-gamescience` + `lobby`
-4. `base` + `theme-citadel` + `lobby`
-5. `base` + `theme-gamescience` + `shared-display-lobby`
-6. `base` + `theme-citadel` + `shared-display-lobby`
+3. `base` + `theme-sentinel` + `join-flow`
+4. `base` + `theme-gamescience` + `lobby`
+5. `base` + `theme-citadel` + `lobby`
+6. `base` + `theme-sentinel` + `lobby`
+7. `base` + `theme-gamescience` + `shared-display-lobby`
+8. `base` + `theme-citadel` + `shared-display-lobby`
+9. `base` + `theme-sentinel` + `shared-display-lobby`
 
-`npm run smoke:tailwind4` builds Tailwind 4 fixtures for Gamescience and Citadel join-flow and proves documented bridge utilities emit CSS.
+`npm run smoke:tailwind4` builds Tailwind 4 fixtures for Gamescience, Citadel, and Sentinel join-flow and proves documented bridge utilities emit CSS.
 
 Each scenario asserts that sibling pattern packages and the alternate theme are not pulled in accidentally.
 

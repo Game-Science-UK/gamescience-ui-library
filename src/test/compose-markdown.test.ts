@@ -227,7 +227,7 @@ describe("compose-markdown-core", () => {
     ] as const;
 
     for (const contexts of cases) {
-      for (const theme of ["gamescience", "citadel"] as const) {
+      for (const theme of ["gamescience", "citadel", "sentinel"] as const) {
         const md = composeStartBrief({
           modules: config.modules,
           version: "0.3.0",

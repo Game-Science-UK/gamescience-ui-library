@@ -12,7 +12,7 @@ describe("Panel", () => {
 
     const panel = container.querySelector(".gs-panel");
     expect(panel).toHaveAttribute("data-emphasis", "strong");
-    expect(panel).toHaveAttribute("data-elevation", "raised");
+    expect(panel).toHaveClass("gs-panel-wash");
     expect(panel?.querySelector(".gs-panel-content")).toBeTruthy();
     expect(screen.getByText("Session")).toBeInTheDocument();
   });

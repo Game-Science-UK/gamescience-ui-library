@@ -92,6 +92,45 @@ describe("GameScienceProvider", () => {
     document.documentElement.removeAttribute("data-context");
   });
 
+  it("defaults sentinel to the cinematic register and syncs data-register", () => {
+    const { container } = render(
+      <GameScienceProvider theme="sentinel" context="participant">
+        <Probe />
+      </GameScienceProvider>,
+    );
+    const root = container.querySelector("[data-gamescience-ui]");
+    expect(root).toHaveAttribute("data-theme", "sentinel");
+    expect(root).toHaveAttribute("data-register", "cinematic");
+    expect(document.documentElement).toHaveAttribute("data-register", "cinematic");
+  });
+
+  it("applies the restrained register for sentinel and restores it on unmount", () => {
+    document.documentElement.removeAttribute("data-register");
+    const { container, unmount } = render(
+      <GameScienceProvider theme="sentinel" context="facilitator" register="restrained">
+        <span>restrained</span>
+      </GameScienceProvider>,
+    );
+    expect(container.querySelector("[data-gamescience-ui]")).toHaveAttribute(
+      "data-register",
+      "restrained",
+    );
+    expect(document.documentElement).toHaveAttribute("data-register", "restrained");
+    unmount();
+    expect(document.documentElement.hasAttribute("data-register")).toBe(false);
+  });
+
+  it("does not set data-register for themes without an explicit register", () => {
+    document.documentElement.removeAttribute("data-register");
+    const { container } = render(
+      <GameScienceProvider theme="citadel" context="participant">
+        <span>no register</span>
+      </GameScienceProvider>,
+    );
+    expect(container.querySelector("[data-gamescience-ui]")).not.toHaveAttribute("data-register");
+    expect(document.documentElement.hasAttribute("data-register")).toBe(false);
+  });
+
   it("can skip document sync when requested", () => {
     document.documentElement.removeAttribute("data-theme");
     document.documentElement.removeAttribute("data-context");

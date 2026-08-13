@@ -1,6 +1,6 @@
 /**
  * Clean-consumer smoke for Button asChild + loading under React 18/19 and
- * Tailwind 3/4 with Gamescience + Citadel themes.
+ * Tailwind 3/4 with Gamescience, Citadel, and Sentinel themes.
  *
  * Proves: no Slot crash, spinner classes present, anchor href retained,
  * provider mounted, typecheck + vite build succeed.
@@ -17,7 +17,7 @@ const smokeRoot = path.join(root, "tmp/button-as-child-smoke");
 const registryDir = path.join(root, "public/registry/r");
 const tsxBin = path.join(root, "node_modules/.bin/tsx");
 
-type ThemeName = "gamescience" | "citadel";
+type ThemeName = "gamescience" | "citadel" | "sentinel";
 type ReactMajor = "18" | "19";
 type Stack = "tailwind3" | "tailwind4";
 
@@ -259,6 +259,8 @@ function main() {
     { theme: "gamescience", stack: "tailwind3", react: "19" },
     { theme: "citadel", stack: "tailwind4", react: "19" },
     { theme: "gamescience", stack: "tailwind4", react: "18" },
+    { theme: "sentinel", stack: "tailwind3", react: "19" },
+    { theme: "sentinel", stack: "tailwind4", react: "19" },
   ];
 
   for (const { theme, stack, react } of matrix) {

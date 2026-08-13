@@ -1,6 +1,6 @@
 /**
  * Machine-checkable semantic token contract for GameScience themes.
- * Both gamescience and citadel CSS files must declare every token.
+ * Every supported theme CSS file must declare every token.
  */
 
 export const REQUIRED_THEME_TOKENS = [
@@ -82,8 +82,12 @@ export const REQUIRED_THEME_TOKENS = [
 
 export type ThemeToken = (typeof REQUIRED_THEME_TOKENS)[number];
 
-export const SUPPORTED_THEMES = ["gamescience", "citadel"] as const;
+export const SUPPORTED_THEMES = ["gamescience", "citadel", "sentinel"] as const;
 export type GameTheme = (typeof SUPPORTED_THEMES)[number];
 
 export const SUPPORTED_CONTEXTS = ["participant", "facilitator", "shared-display"] as const;
 export type ExperienceContext = (typeof SUPPORTED_CONTEXTS)[number];
+
+/** Optional visual register. Sentinel uses cinematic (default) and restrained. */
+export const SUPPORTED_REGISTERS = ["cinematic", "restrained"] as const;
+export type ThemeRegister = (typeof SUPPORTED_REGISTERS)[number];

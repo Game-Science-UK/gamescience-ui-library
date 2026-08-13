@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Use the Storybook Theme and Context toolbar controls to preview both themes across all experience contexts.",
+          "Use the Storybook Theme, Context, and Register toolbar controls to preview every theme across all experience contexts.",
       },
     },
   },

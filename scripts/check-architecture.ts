@@ -41,6 +41,7 @@ const PROHIBITED_COMPONENT_NAMES = [
   "CitadelButton",
   "GamescienceButton",
   "GameScienceButton",
+  "SentinelButton",
   "TechButton",
   "TechInput",
   "TechPanel",
@@ -134,17 +135,17 @@ function checkThemeImports(ctx: ScanContext, file: string, content: string) {
   if (!isUnder(relative, SHARED_SCAN_DIRS) || isExemptThemeReference(relative)) return;
 
   if (
-    /from\s+["'][^"']*themes\/(?:citadel|gamescience)/.test(content) ||
-    /import\s+["'][^"']*themes\/(?:citadel|gamescience)\.css["']/.test(content)
+    /from\s+["'][^"']*themes\/(?:citadel|gamescience|sentinel)/.test(content) ||
+    /import\s+["'][^"']*themes\/(?:citadel|gamescience|sentinel)\.css["']/.test(content)
   ) {
     push(ctx, "theme-import", file, "Shared component imports a concrete theme module");
   }
 
   if (
-    /data-theme\s*===|theme\s*===\s*["'](?:citadel|gamescience)["']|["'](?:citadel|gamescience)["']\s*===/.test(
+    /data-theme\s*===|theme\s*===\s*["'](?:citadel|gamescience|sentinel)["']|["'](?:citadel|gamescience|sentinel)["']\s*===/.test(
       content,
     ) ||
-    /\[data-theme=["'](?:citadel|gamescience)["']\]/.test(content)
+    /\[data-theme=["'](?:citadel|gamescience|sentinel)["']\]/.test(content)
   ) {
     push(ctx, "theme-branch", file, "Shared component branches on a concrete theme identity");
   }
@@ -242,7 +243,7 @@ function checkLayerViolations(ctx: ScanContext, file: string, content: string) {
   }
 
   if (
-    /from\s+["'][^"']*themes\/assets\/(?:citadel|gamescience)/.test(content) &&
+    /from\s+["'][^"']*themes\/assets\/(?:citadel|gamescience|sentinel)/.test(content) &&
     isUnder(relative, ["src/components/ui"])
   ) {
     push(ctx, "theme-asset-in-ui", file, "Core UI component imports theme-specific assets");

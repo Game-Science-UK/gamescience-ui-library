@@ -13,12 +13,12 @@
       "path": "src/components/display/display-heading.tsx",
       "type": "registry:component",
       "target": "src/components/display/display-heading.tsx",
-      "content": "import type { HTMLAttributes } from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface DisplayHeadingProps extends HTMLAttributes<HTMLHeadingElement> {\n  as?: \"h1\" | \"h2\" | \"h3\";\n  eyebrow?: string;\n}\n\nfunction DisplayHeading({\n  as: Comp = \"h1\",\n  eyebrow,\n  className,\n  children,\n  ...props\n}: DisplayHeadingProps) {\n  return (\n    <div className={cn(\"space-y-2 text-center\", className)}>\n      {eyebrow ? <p className=\"gs-label gs-eyebrow text-muted-foreground\">{eyebrow}</p> : null}\n      <Comp className=\"gs-display text-foreground\" {...props}>\n        {children}\n      </Comp>\n    </div>\n  );\n}\n\nDisplayHeading.displayName = \"DisplayHeading\";\n\nexport { DisplayHeading };\n"
+      "content": "import type { HTMLAttributes } from \"react\";\nimport { cn } from \"@/lib/cn\";\n\nexport interface DisplayHeadingProps extends HTMLAttributes<HTMLHeadingElement> {\n  as?: \"h1\" | \"h2\" | \"h3\";\n  eyebrow?: string;\n}\n\nfunction DisplayHeading({\n  as: Comp = \"h1\",\n  eyebrow,\n  className,\n  children,\n  ...props\n}: DisplayHeadingProps) {\n  return (\n    <div className={cn(\"space-y-2 text-center\", className)}>\n      {eyebrow ? <p className=\"gs-label gs-eyebrow text-muted-foreground\">{eyebrow}</p> : null}\n      <Comp className=\"gs-display gs-display-hero text-foreground\" {...props}>\n        {children}\n      </Comp>\n    </div>\n  );\n}\n\nDisplayHeading.displayName = \"DisplayHeading\";\n\nexport { DisplayHeading };\n"
     }
   ],
   "meta": {
     "category": "component",
-    "version": "1.2.2",
+    "version": "1.3.0",
     "namespace": "@gamescience"
   }
 }

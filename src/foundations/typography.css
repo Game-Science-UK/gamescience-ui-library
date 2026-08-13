@@ -9,7 +9,10 @@ html {
 h1,
 h2,
 h3,
-.gs-display {
+.gs-display,
+.gs-display-hero,
+.gs-title-page,
+.gs-title-section {
   font-family: var(--font-display);
   font-weight: var(--font-weight-heading);
   letter-spacing: var(--tracking-heading);
@@ -17,13 +20,24 @@ h3,
 }
 
 h1,
-.gs-display {
+.gs-display,
+.gs-display-hero {
   font-size: var(--type-scale-display);
 }
 
 h2,
-.gs-title {
+.gs-title,
+.gs-title-page {
   font-size: var(--type-scale-title);
+}
+
+h3,
+.gs-title-section {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-heading);
+  font-size: var(--type-scale-title);
+  letter-spacing: var(--tracking-heading);
+  line-height: 1.2;
 }
 
 p,

@@ -42,7 +42,7 @@ as a new minor release (never re-cut a prior lock, and never use
 5. Register in `scripts/registry-manifest.ts` (source of truth — the generated
    JSON under `registry/**`, `public/registry/**`, and `consumer/**` is produced
    by `npm run registry:build`, never hand-edited):
-   - Widen the catalogue union type `themes: Array<"gamescience" | "citadel">`.
+   - Widen the catalogue union type `themes: Array<"gamescience" | "citadel" | "sentinel">`.
    - Add a `registryItems` entry: `type: "registry:theme"`, `category: "theme"`,
      `registryDependencies: ["base"]`, one `registry:file` pointing at the CSS,
      and a `catalogue` block with `themes: ["<name>"]`.

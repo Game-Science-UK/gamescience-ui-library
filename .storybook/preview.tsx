@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/react-vite";
 import { GameScienceProvider } from "../src/providers";
-import type { ExperienceContext, GameTheme } from "../src/themes/theme-contract";
+import type { ExperienceContext, GameTheme, ThemeRegister } from "../src/themes/theme-contract";
 import "../src/dev/tailwind3-entry.css";
 import "../src/foundations/index.css";
 import "../src/themes/index.css";
@@ -17,6 +17,7 @@ const preview: Preview = {
         items: [
           { value: "gamescience", title: "GameScience" },
           { value: "citadel", title: "Citadel" },
+          { value: "sentinel", title: "Sentinel" },
         ],
         dynamicTitle: true,
       },
@@ -34,10 +35,23 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    register: {
+      description: "Theme register (Sentinel cinematic / restrained)",
+      toolbar: {
+        title: "Register",
+        icon: "mirror",
+        items: [
+          { value: "cinematic", title: "Cinematic" },
+          { value: "restrained", title: "Restrained" },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
   initialGlobals: {
     theme: "gamescience",
     context: "participant",
+    register: "cinematic",
   },
   parameters: {
     layout: "centered",
@@ -82,7 +96,7 @@ const preview: Preview = {
       container: GameScienceDocsContainer,
       description: {
         component:
-          "Use the Theme and Context toolbar controls. Stories wrap in GameScienceProvider, which syncs data-theme/data-context onto document.documentElement so portals inherit tokens.",
+          "Use the Theme, Context, and Register toolbar controls. Stories wrap in GameScienceProvider, which syncs data-theme/data-context/data-register onto document.documentElement so portals inherit tokens.",
       },
     },
     controls: {
@@ -115,11 +129,13 @@ const preview: Preview = {
     (Story, context) => {
       const theme = (context.globals.theme as GameTheme) ?? "gamescience";
       const experience = (context.globals.context as ExperienceContext) ?? "participant";
+      const register = (context.globals.register as ThemeRegister) ?? "cinematic";
 
       return (
         <GameScienceProvider
           theme={theme}
           context={experience}
+          register={register}
           // Provider defaults include min-h-screen + bg-background for apps; docs/canvas
           // chrome owns the surface colour and must hug content height.
           className="min-h-0 bg-transparent"

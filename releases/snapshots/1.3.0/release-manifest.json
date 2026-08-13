@@ -1,0 +1,18 @@
+{
+  "version": "1.3.0",
+  "previousVersion": "1.2.2",
+  "releaseType": "minor",
+  "addedItems": [
+    "theme-sentinel"
+  ],
+  "changedItems": [
+    "base",
+    "panel",
+    "card",
+    "dialog",
+    "display-heading",
+    "facilitator-shell"
+  ],
+  "removedItems": [],
+  "migrationNotes": "https://game-science-uk.github.io/gamescience-ui-library/docs/migrations/1.2.2-to-1.3.0.md"
+}

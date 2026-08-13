@@ -1,5 +1,5 @@
 /**
- * Clean-consumer smoke for 0.5.0 game/domain components (Tailwind 3, both themes).
+ * Clean-consumer smoke for 0.5.0 game/domain components (Tailwind 3, all themes).
  */
 import { spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -12,7 +12,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const smokeRoot = path.join(root, "tmp/domain-smoke");
 const registryDir = path.join(root, "public/registry/r");
 
-type ThemeName = "gamescience" | "citadel";
+type ThemeName = "gamescience" | "citadel" | "sentinel";
 
 const domainItems = [
   "countdown",
@@ -234,7 +234,7 @@ async function main() {
   mkdirSync(smokeRoot, { recursive: true });
 
   const failures: string[] = [];
-  for (const theme of ["gamescience", "citadel"] as const) {
+  for (const theme of ["gamescience", "citadel", "sentinel"] as const) {
     const dir = path.join(smokeRoot, theme);
     try {
       writeFixture(dir, theme);

@@ -102,7 +102,7 @@ After install, wire CSS for Tailwind 4 / Lovable (see also [tailwind-v4-integrat
 /* src/styles.css */
 @import "tailwindcss";
 @import "./foundations/index.css";
-@import "./themes/gamescience.css"; /* or citadel.css — one theme only */
+@import "./themes/gamescience.css"; /* or citadel.css / sentinel.css — one theme only */
 @import "./gamescience-tw4-bridge.css"; /* copy from library consumer/tailwind-v4-bridge.css */
 ```
 

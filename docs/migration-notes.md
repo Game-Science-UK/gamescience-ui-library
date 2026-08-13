@@ -125,6 +125,13 @@ See the dedicated note: [migrations/1.2.1-to-1.2.2.md](./migrations/1.2.1-to-1.2
 Patch: the `switch` off-track in the `gamescience` theme now resolves to a
 visible surface instead of no fill. Reinstall `theme-gamescience` only.
 
+## 1.2.2 → 1.3.0 (Sentinel theme)
+
+See the dedicated note: [migrations/1.2.2-to-1.3.0.md](./migrations/1.2.2-to-1.3.0.md).
+
+Minor: adds `theme-sentinel` with cinematic and restrained registers. Reinstall
+`base` and install `theme-sentinel` to adopt. Gamescience and Citadel unchanged.
+
 ## 0.5.3 → 0.5.4 (Migrate ledger evidence + Pages deploy)
 
 See the dedicated note: [migrations/0.5.3-to-0.5.4.md](./migrations/0.5.3-to-0.5.4.md).
