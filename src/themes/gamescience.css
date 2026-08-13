@@ -126,6 +126,15 @@
   background-image: var(--action-bar-bleed);
 }
 
+/* Switch — off track resolves against the white thumb in the light theme */
+[data-theme="gamescience"] .gs-switch {
+  background: oklch(var(--border));
+}
+
+[data-theme="gamescience"] .gs-switch[data-state="checked"] {
+  background: oklch(var(--primary));
+}
+
 [data-theme="gamescience"][data-context="shared-display"] {
   --background: 0.206 0.039 265.5;
   --foreground: 0.984 0.003 247.9;

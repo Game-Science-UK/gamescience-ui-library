@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "gamescience",
   "homepage": "https://gamescience.ai",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "items": [
     {
       "name": "base",

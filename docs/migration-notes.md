@@ -118,6 +118,13 @@ Patch: `create-session` and `join-flow` panels now use a `max-w-md` wrapper; the
 `create-session` `data-state` moved to the wrapper. No API or token changes.
 Reinstall those two patterns only.
 
+## 1.2.1 → 1.2.2 (Gamescience switch off-track)
+
+See the dedicated note: [migrations/1.2.1-to-1.2.2.md](./migrations/1.2.1-to-1.2.2.md).
+
+Patch: the `switch` off-track in the `gamescience` theme now resolves to a
+visible surface instead of no fill. Reinstall `theme-gamescience` only.
+
 ## 0.5.3 → 0.5.4 (Migrate ledger evidence + Pages deploy)
 
 See the dedicated note: [migrations/0.5.3-to-0.5.4.md](./migrations/0.5.3-to-0.5.4.md).
