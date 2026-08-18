@@ -3,12 +3,13 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { registryItems } from "./registry-manifest.ts";
+import { type GameTheme } from "../src/themes/theme-contract.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const smokeRoot = path.join(root, "tmp/registry-smoke");
 const registryDir = path.join(root, "public/registry/r");
 
-type ThemeName = "gamescience" | "citadel" | "sentinel";
+type ThemeName = GameTheme;
 type PatternName = "join-flow" | "lobby" | "shared-display-lobby";
 
 interface SmokeScenario {
@@ -29,9 +30,6 @@ const scenarios: SmokeScenario[] = [
   { id: "citadel-lobby", theme: "citadel", pattern: "lobby" },
   { id: "gamescience-shared-display-lobby", theme: "gamescience", pattern: "shared-display-lobby" },
   { id: "citadel-shared-display-lobby", theme: "citadel", pattern: "shared-display-lobby" },
-  { id: "sentinel-join-flow", theme: "sentinel", pattern: "join-flow" },
-  { id: "sentinel-lobby", theme: "sentinel", pattern: "lobby" },
-  { id: "sentinel-shared-display-lobby", theme: "sentinel", pattern: "shared-display-lobby" },
 ];
 
 function run(command: string, cwd: string) {

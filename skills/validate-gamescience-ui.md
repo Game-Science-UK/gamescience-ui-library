@@ -1,9 +1,14 @@
 ---
 name: validate-gamescience-ui
 description: Use when checking an existing GameScience UI implementation for compliance without upgrading or migrating it. Verifies immutable registry pin, provider placement, theme selection, route-to-context mapping, shared-display privacy, portal theme propagation, semantic tokens, Tailwind 3 or 4 integration, Sonner usage, dependencies, accessibility, build/test health and project records. Supports coverage-reconstruction mode for post-migration ledger reconciliation (rediscover surfaces, render branches, call-site purity, payload integrity and token contract from repository/runtime). Detects theme, stack and contexts unless overridden. Does not install, overwrite or upgrade unless explicitly handed off to another skill.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: lovable-workspace
 ---
 
 # Validate GameScience UI
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Check an existing GameScience UI implementation without upgrading or migrating
 it.
@@ -78,12 +83,19 @@ Do not:
 
 Unless explicitly overridden, detect:
 
-| Input    | Default behaviour                          |
-| -------- | ------------------------------------------ |
-| Theme    | From `GameScienceProvider` and theme CSS   |
-| Stack    | From Tailwind packages, CSS entry, config  |
-| Contexts | From provider usage and route mapping      |
-| Version  | From `components.json` and local metadata  |
+| Input    | Default behaviour                         |
+| -------- | ----------------------------------------- |
+| Theme    | From `GameScienceProvider` and theme CSS  |
+| Stack    | From Tailwind packages, CSS entry, config |
+| Contexts | From provider usage and route mapping     |
+| Version  | From `components.json` and local metadata |
+
+Valid themes: `gamescience` | `citadel`
+
+Valid registers (only for themes that declare one — none currently do):
+`cinematic` (default) | `restrained`
+
+Valid contexts: `participant` | `facilitator` | `shared-display`
 
 ## 1. Establish validation scope
 
@@ -164,20 +176,24 @@ Check:
 Check:
 
 - active theme is `gamescience` or `citadel`
+- when the theme declares a visual register, the provider `register` value is
+  valid for that theme (`cinematic` or `restrained`)
+- no `register` is set for a theme that does not declare one
 - exactly one theme CSS is imported
 - foundation CSS is imported
-- no mixed Gamescience / Citadel styling on the same application screen
+- no mixed GameScience / Citadel styling on the same application screen
 - no raw generic theme forks (`CitadelButton`, `TechButton`, `GlassCard`, etc.)
 - semantic tokens are used rather than hardcoded game colours in shared UI
 
 If the theme “looks wrong”, inspect in order:
 
 1. provider theme value
-2. imported theme CSS
-3. Tailwind integration branch correctness
-4. missing foundation tokens
-5. local overrides fighting semantic tokens
-6. portal hosts rendering outside the provider tree
+2. provider register value when the theme declares one
+3. imported theme CSS
+4. Tailwind integration branch correctness
+5. missing foundation tokens
+6. local overrides fighting semantic tokens
+7. portal hosts rendering outside the provider tree
 
 ## 5. Verify route-to-context mapping
 
@@ -331,21 +347,21 @@ silently during validation.
 
 Classify each finding as:
 
-| Severity  | Meaning                                      |
-| --------- | -------------------------------------------- |
-| Blocking  | Breaks theme, context, privacy, or build     |
-| Major     | Clear compliance failure needing remediation |
-| Minor     | Drift or hygiene issue                       |
-| Info      | Currency note or optional improvement        |
+| Severity | Meaning                                      |
+| -------- | -------------------------------------------- |
+| Blocking | Breaks theme, context, privacy, or build     |
+| Major    | Clear compliance failure needing remediation |
+| Minor    | Drift or hygiene issue                       |
+| Info     | Currency note or optional improvement        |
 
 Recommended hand-offs:
 
-| Finding type                         | Hand off to                 |
-| ------------------------------------ | --------------------------- |
-| Missing initial adoption             | `adopt-gamescience-ui`      |
-| Large classification / backlog need  | `audit-gamescience-ui`      |
-| Slice-by-slice replacement work      | `migrate-gamescience-ui`    |
-| Registry pin / item upgrade needed   | `sync-gamescience-ui`       |
+| Finding type                        | Hand off to              |
+| ----------------------------------- | ------------------------ |
+| Missing initial adoption            | `adopt-gamescience-ui`   |
+| Large classification / backlog need | `audit-gamescience-ui`   |
+| Slice-by-slice replacement work     | `migrate-gamescience-ui` |
+| Registry pin / item upgrade needed  | `sync-gamescience-ui`    |
 
 ## 16. Final output
 
@@ -362,9 +378,11 @@ One of:
 
 ### Detected configuration
 
+- Skill revision: `skillUpdated` / `libraryVersion` from this skill's header
 - Registry pin:
 - Latest immutable version observed:
 - Theme:
+- Register (when the theme declares one):
 - Tailwind integration:
 - Router / framework:
 - Contexts:

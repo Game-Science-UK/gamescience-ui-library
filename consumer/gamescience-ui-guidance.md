@@ -1,6 +1,6 @@
 # GameScience UI — consumer agent guidance
 
-Installed library version: **1.3.0**
+Installed library version: **1.4.0**
 
 ## Registry
 
@@ -8,13 +8,13 @@ Installed library version: **1.3.0**
 - Preferred (pinned) registry URL:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/1.3.0/r/{name}.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/r/{name}.json
 ```
 
 - Agent catalogue:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/1.3.0/agent-catalogue.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/agent-catalogue.json
 ```
 
 - Local installed metadata: `src/docs/gamescience-ui.json`
@@ -22,14 +22,14 @@ https://game-science-uk.github.io/gamescience-ui-library/versions/1.3.0/agent-ca
 ## Rules
 
 1. Identify experience context: `participant` | `facilitator` | `shared-display`
-2. Identify the single active theme: `gamescience` | `citadel` | `sentinel`
+2. Identify the single active theme: `gamescience` | `citadel`
 3. Search the agent catalogue / installed patterns before implementing UI
 4. Prefer complete patterns over assembling primitives — create/join/lobby: `create-session`, `join-flow`, `lobby`, `shared-display-lobby`; game loop: `decision`, `timed-round`, `briefing`, `scripted-reveal`, `results`, `debrief`; session/display: `facilitator-console`, `shared-display-game`, `attention-takeover`
 5. Do not recreate installed registry components
 6. Set theme only through `GameScienceProvider`
 7. Never pass theme props to individual components
 8. Never create nested theme boundaries or mix themes
-9. Never create `CitadelButton`, `SentinelButton`, `TechButton`, `GlassCard`, or similar forks
+9. Never create `CitadelButton`, `TechButton`, `GlassCard`, or similar forks
 10. Keep application logic, networking, scoring, and auth outside installed library components
 11. Use Sonner only — never legacy toast/toaster/use-toast
 12. Upstream-managed paths: `src/components/ui|game|display`, `src/providers`, `src/foundations`, `src/themes`, `src/patterns`, `src/templates`
@@ -40,7 +40,7 @@ https://game-science-uk.github.io/gamescience-ui-library/versions/1.3.0/agent-ca
 ## CSS and fonts
 
 - Import the framework-neutral entry: `src/foundations/index.css` (tokens, typography, motion, responsive, plain base styles).
-- Import **exactly one** theme CSS file (`gamescience.css`, `citadel.css`, or `sentinel.css`).
+- Import **exactly one** theme CSS file (`gamescience.css` or `citadel.css`).
 - Fonts are application-owned. Prefer HTML `<link>` to Google Fonts, or optional `@fontsource-*` packages. See repository `docs/font-loading.md`.
 - Do not add remote `@import url("https://...")` inside theme or foundation CSS when using Tailwind 4 / Lightning CSS.
 - Tailwind 3 consumers: own a local entry with `@tailwind` directives, then import foundations + one theme.

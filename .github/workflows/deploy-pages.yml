@@ -45,6 +45,12 @@ jobs:
       - name: Theme contract
         run: npm run theme:check
 
+      - name: Doc version pins
+        run: npm run docs:check
+
+      - name: Skill contracts
+        run: npm run skills:check
+
       - name: Architecture contracts
         run: npm run architecture:check
 

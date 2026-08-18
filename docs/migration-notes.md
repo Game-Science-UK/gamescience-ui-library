@@ -2,6 +2,20 @@
 
 Guidance for teams moving existing Lovable GameScience projects onto this library.
 
+## 1.3.0 → 1.4.0 (Sentinel theme removed)
+
+1.4.0 removes the `sentinel` theme. Supported themes are `gamescience` and
+`citadel`. The register mechanism and the `gs-*` hooks introduced alongside
+Sentinel are retained and are now theme-neutral.
+
+1. **Pin** the registry to `versions/1.4.0`.
+2. Projects on `sentinel` either stay pinned to `versions/1.3.0` (immutable, still
+   serves `theme-sentinel`) or switch to `gamescience` / `citadel`.
+3. Projects on other themes need no change beyond reinstalling `base` for the
+   updated theme contract.
+
+See the dedicated note: [migrations/1.3.0-to-1.4.0.md](./migrations/1.3.0-to-1.4.0.md).
+
 ## Notifications
 
 - **Sonner replaces legacy toast**

@@ -9,7 +9,7 @@ This is not a general-purpose component showcase. It is a practical system for p
 - Reusable theme-neutral UI primitives
 - Game-domain components and lobby/join patterns
 - Interface shells for participant, facilitator, and shared display
-- Two initial themes plus Sentinel: `gamescience`, `citadel`, and `sentinel`
+- Two themes: `gamescience` and `citadel`
 - Storybook reference screens
 - Custom shadcn registry + machine-readable agent catalogue
 
@@ -52,6 +52,10 @@ npm install
 | `npm run build`                    | Library/app build                              |
 | `npm run build-storybook`          | Static Storybook                               |
 | `npm run theme:check`              | Theme token contract                           |
+| `npm run theme:new`                | Scaffold a new theme (all registration steps)  |
+| `npm run theme:oklch`              | Convert hex colours to OKLCH token channels    |
+| `npm run docs:check`               | Published docs pin the current version         |
+| `npm run skills:check`             | Skill frontmatter, vocabulary, and mirrors     |
 | `npm run architecture:check`       | Architecture contract rules                    |
 | `npm run storybook:coverage`       | Storybook coverage for public exports          |
 | `npm run registry:build`           | Build static registry                          |
@@ -77,9 +81,9 @@ local Pages latest stage: `npm run build-storybook`.
 
 Global toolbar controls:
 
-- **Theme:** gamescience | citadel | sentinel
+- **Theme:** gamescience | citadel
 - **Context:** participant | facilitator | shared-display
-- **Register:** cinematic | restrained (Sentinel; other themes ignore it)
+- **Register:** cinematic | restrained (themes that declare one; others ignore it)
 
 Reference viewports:
 
@@ -100,7 +104,7 @@ Prefer the **versioned** consumer config:
 ```json
 {
   "registries": {
-    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.4.1/r/{name}.json"
+    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/r/{name}.json"
   }
 }
 ```
@@ -129,15 +133,47 @@ npm run pages:build
 npm run pages:serve
 ```
 
+## Agent skills
+
+`skills/` is the source of truth for the agent skills that drive adoption,
+migration and extraction. Each carries a `skillUpdated` / `libraryVersion`
+stamp in its frontmatter and repeats it in the body, and every skill reports
+both values in its final output — that is how you identify which copy actually
+ran when diagnosing a consumer project.
+
+| Skill                        | Distribution      |
+| ---------------------------- | ----------------- |
+| `adopt-gamescience-ui`       | Lovable workspace |
+| `audit-gamescience-ui`       | Lovable workspace |
+| `migrate-gamescience-ui`     | Lovable workspace |
+| `sync-gamescience-ui`        | Lovable workspace |
+| `validate-gamescience-ui`    | Lovable workspace |
+| `extract-theme`              | Lovable workspace |
+| `extract-selected-component` | Lovable workspace |
+| `extract-all-components`     | Lovable workspace |
+| `release-registry`           | Repo maintainer   |
+| `update-registry`            | Repo maintainer   |
+
+**Publishing a skill change is a manual step.** After editing any
+`distribution: lovable-workspace` skill:
+
+1. Bump `skillUpdated` to today's date.
+2. Run `npm run skills:check`.
+3. Re-upload the changed file(s) to the GameScience Lovable workspace
+   (Workspace skills → the matching skill → replace contents).
+
+Maintainer skills are mirrored to `.cursor/skills/<name>/SKILL.md`; copy the
+source file across after editing and `skills:check` will confirm they match.
+
 ## Adding library pieces
 
 - Component: see [docs/contribution.md](docs/contribution.md)
 - Pattern: compose approved components, declare registry dependencies
-- Theme: implement the full token contract, then run `theme:check`
+- Theme: run `npm run theme:new`, then see [docs/adding-a-theme.md](docs/adding-a-theme.md)
 
 ## Versioning
 
-Current version: **0.4.1** (`GAMESCIENCE_UI_VERSION`). Includes the complete standard primitive layer plus Citadel HUD theme refinements.
+Current version: **1.4.0** (`GAMESCIENCE_UI_VERSION`). Includes the complete standard primitive layer and the game-agnostic pattern suite.
 
 Installed registry components are project-local source. Updates do not automatically propagate across Lovable projects. Record the installed version in each consuming app. Prefer tagged/versioned registry URLs over unversioned `main` in production.
 

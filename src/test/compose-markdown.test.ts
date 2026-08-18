@@ -8,6 +8,7 @@ import {
   composeUpgradeBrief,
 } from "../../site/scripts/compose-markdown-core.js";
 import { compileMigrationConfig } from "../../scripts/write-site-pages.ts";
+import { SUPPORTED_THEMES } from "../themes/theme-contract";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const FIXED_DATE = "2026-07-29";
@@ -227,7 +228,7 @@ describe("compose-markdown-core", () => {
     ] as const;
 
     for (const contexts of cases) {
-      for (const theme of ["gamescience", "citadel", "sentinel"] as const) {
+      for (const theme of SUPPORTED_THEMES) {
         const md = composeStartBrief({
           modules: config.modules,
           version: "0.3.0",

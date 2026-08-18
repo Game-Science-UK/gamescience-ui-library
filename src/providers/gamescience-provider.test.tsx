@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { GameScienceProvider } from "./gamescience-provider";
 import { useExperienceContext } from "./experience-context";
 import { useGameTheme } from "./game-theme-context";
+import { SUPPORTED_THEMES, THEME_DEFAULT_REGISTERS } from "@/themes/theme-contract";
 
 function Probe() {
   const { theme } = useGameTheme();
@@ -92,22 +93,31 @@ describe("GameScienceProvider", () => {
     document.documentElement.removeAttribute("data-context");
   });
 
-  it("defaults sentinel to the cinematic register and syncs data-register", () => {
-    const { container } = render(
-      <GameScienceProvider theme="sentinel" context="participant">
-        <Probe />
-      </GameScienceProvider>,
-    );
-    const root = container.querySelector("[data-gamescience-ui]");
-    expect(root).toHaveAttribute("data-theme", "sentinel");
-    expect(root).toHaveAttribute("data-register", "cinematic");
-    expect(document.documentElement).toHaveAttribute("data-register", "cinematic");
+  it("resolves a theme's default register from the contract", () => {
+    // No theme currently declares a default register. This asserts the wiring
+    // so that adding a THEME_DEFAULT_REGISTERS entry is covered by the suite.
+    for (const theme of SUPPORTED_THEMES) {
+      const expected = THEME_DEFAULT_REGISTERS[theme];
+      const { container, unmount } = render(
+        <GameScienceProvider theme={theme} context="participant">
+          <Probe />
+        </GameScienceProvider>,
+      );
+      const root = container.querySelector("[data-gamescience-ui]");
+      expect(root).toHaveAttribute("data-theme", theme);
+      if (expected) {
+        expect(root).toHaveAttribute("data-register", expected);
+      } else {
+        expect(root).not.toHaveAttribute("data-register");
+      }
+      unmount();
+    }
   });
 
-  it("applies the restrained register for sentinel and restores it on unmount", () => {
+  it("applies an explicit register and restores it on unmount", () => {
     document.documentElement.removeAttribute("data-register");
     const { container, unmount } = render(
-      <GameScienceProvider theme="sentinel" context="facilitator" register="restrained">
+      <GameScienceProvider theme="citadel" context="facilitator" register="restrained">
         <span>restrained</span>
       </GameScienceProvider>,
     );
@@ -120,7 +130,7 @@ describe("GameScienceProvider", () => {
     expect(document.documentElement.hasAttribute("data-register")).toBe(false);
   });
 
-  it("does not set data-register for themes without an explicit register", () => {
+  it("does not set data-register for a theme with no declared default", () => {
     document.documentElement.removeAttribute("data-register");
     const { container } = render(
       <GameScienceProvider theme="citadel" context="participant">

@@ -8,9 +8,14 @@ description: >-
   payload fixes that should update the current published version in place, or
   when the user asks to update-registry / re-cut the lock / publish a small
   registry fix. Not for version bumps — use release-registry for that.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: repo-maintainer
 ---
 
 # Update registry (re-cut current lock)
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Publish a **small fix** into the **already-released** version by intentionally
 re-cutting `releases/{version}.lock.json` and syncing its snapshot, then pushing
@@ -160,12 +165,12 @@ Unversioned `/r/{name}.json` also refreshes from the same cut on latest promotio
 
 ## Failure modes
 
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| CI: drifted from `releases/{version}.lock.json` | Lock not re-cut / not committed | Run this skill; commit lock + snapshot; push |
-| Local pages build fails the same drift error | Forgot `UPDATE_RELEASE_LOCK=1` | Re-run step 3 |
-| Lock updated but CI still fails validate | Snapshot/source mismatch or incomplete commit | Ensure lock + matching `releases/snapshots/{version}` are both committed |
-| Change includes new public API / items | Wrong skill | Switch to `release-registry` |
+| Symptom                                         | Cause                                         | Fix                                                                      |
+| ----------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------ |
+| CI: drifted from `releases/{version}.lock.json` | Lock not re-cut / not committed               | Run this skill; commit lock + snapshot; push                             |
+| Local pages build fails the same drift error    | Forgot `UPDATE_RELEASE_LOCK=1`                | Re-run step 3                                                            |
+| Lock updated but CI still fails validate        | Snapshot/source mismatch or incomplete commit | Ensure lock + matching `releases/snapshots/{version}` are both committed |
+| Change includes new public API / items          | Wrong skill                                   | Switch to `release-registry`                                             |
 
 ## Hard rules
 

@@ -1,9 +1,14 @@
 ---
 name: extract-selected-component
 description: Use when extracting one explicitly selected component, pattern, shell, template, or recurring UI composition from an existing Lovable or React application so the result can be copied directly to the GameScience registry build agent. Produces a read-only, evidence-backed implementation brief covering structure, layout context, styles, states, variants, behaviour, accessibility, ownership, reuse of existing registry styles, and cross-theme requirements. Not for modifying the application or implementing the registry item.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: lovable-workspace
 ---
 
 # Extract Selected Component
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Perform a comprehensive, read-only extraction of the user-selected UI component or composition.
 
@@ -114,7 +119,7 @@ Identify:
 Required table:
 
 | Consumer | Route/branch | Context | Live | Notes |
-| --- | --- | --- | --- | --- |
+| -------- | ------------ | ------- | ---- | ----- |
 
 Do not extract only the definition file if call sites materially alter structure or styling.
 
@@ -221,7 +226,7 @@ Document all actual states.
 Required table:
 
 | State | Trigger/input | Structural change | Style change | Behaviour | Accessibility |
-| --- | --- | --- | --- | --- | --- |
+| ----- | ------------- | ----------------- | ------------ | --------- | ------------- |
 
 Include where relevant:
 
@@ -260,12 +265,12 @@ Separate:
 ### Typography
 
 | Element | Current class/token | Resolved role | Existing registry role | New role required? |
-| --- | --- | --- | --- | --- |
+| ------- | ------------------- | ------------- | ---------------------- | ------------------ |
 
 ### Colour and intent
 
 | Element/state | Current value/token | Semantic meaning | Existing registry token/intent | New token required? |
-| --- | --- | --- | --- | --- |
+| ------------- | ------------------- | ---------------- | ------------------------------ | ------------------- |
 
 ### Surface and geometry
 
@@ -301,7 +306,7 @@ Separate component-semantic motion from application choreography.
 Produce this required table:
 
 | Visual requirement | Existing registry source | Reuse method | New source required? | Justification |
-| --- | --- | --- | --- | --- |
+| ------------------ | ------------------------ | ------------ | -------------------- | ------------- |
 
 Possible existing sources include:
 
@@ -508,7 +513,7 @@ Search for components or compositions performing the same responsibility.
 Required table:
 
 | Related implementation | Shared responsibility | Structural overlap | Style overlap | Difference | Consolidation recommendation |
-| --- | --- | --- | --- | --- | --- |
+| ---------------------- | --------------------- | ------------------ | ------------- | ---------- | ---------------------------- |
 
 This step is mandatory even when the user selected one file.
 

@@ -22,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Compare GameScience, Citadel, and Sentinel via the toolbar Theme control. Sentinel also uses the Register control (cinematic / restrained). Only one theme is active at the application root. Production apps should install and use a single theme.",
+          "Compare GameScience and Citadel via the toolbar Theme control. Themes that ship more than one visual register also respond to the Register control (cinematic / restrained); themes with no declared register ignore it. Only one theme is active at the application root. Production apps should install and use a single theme.",
       },
     },
   },

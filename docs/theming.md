@@ -5,25 +5,25 @@
 Every GameScience game application has exactly one active visual theme, selected once at the root:
 
 ```tsx
-<GameScienceProvider theme="sentinel" context="participant" register="cinematic">
+<GameScienceProvider theme="citadel" context="participant">
   <ParticipantApp />
 </GameScienceProvider>
 ```
 
-Sentinel also accepts `register="restrained"`. Omit `register` on Gamescience and Citadel.
+Themes that declare a visual register also accept `register="cinematic"` or `register="restrained"` — see `THEME_DEFAULT_REGISTERS` in the theme contract. No theme currently declares one, so omit `register`.
 
 Do not:
 
 - pass theme props to individual UI components
 - create nested theme boundaries
 - mix themes within one screen
-- create theme-named component forks (`CitadelButton`, `SentinelButton`, `TechInput`, `GlassCard`)
+- create theme-named component forks (`CitadelButton`, `TechInput`, `GlassCard`)
 
 ## Theme vs context
 
 | Concept | Controls                  | Examples                                       |
 | ------- | ------------------------- | ---------------------------------------------- |
-| Theme   | Visual identity           | `gamescience`, `citadel`, `sentinel`           |
+| Theme   | Visual identity           | `gamescience`, `citadel`                       |
 | Context | Behaviour, scale, density | `participant`, `facilitator`, `shared-display` |
 
 Theme controls visual identity. Context controls the interface environment.
@@ -103,7 +103,6 @@ Place decorative assets under:
 ```text
 src/themes/assets/gamescience/
 src/themes/assets/citadel/
-src/themes/assets/sentinel/
 ```
 
 Do not place client-named background components in `components/ui`.

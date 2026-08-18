@@ -14,7 +14,6 @@ GameScience UI Library is a presentation system for multiplayer learning games. 
 
 - `gamescience` — house theme
 - `citadel` — expressive tactical theme
-- `sentinel` — void field with cinematic (default) and restrained registers
 
 Themes implement a shared token contract validated by `npm run theme:check`.
 

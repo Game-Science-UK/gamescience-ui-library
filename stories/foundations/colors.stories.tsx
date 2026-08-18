@@ -8,7 +8,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "GameScience UI uses semantic OKLCH token channels. Themes (`gamescience`, `citadel`, `sentinel`) implement the same contract — switch the **Theme** toolbar to compare live. Prefer utilities like `bg-primary` and `text-muted-foreground`; never hardcode hex inside shared components.",
+          "GameScience UI uses semantic OKLCH token channels. Themes (`gamescience`, `citadel`) implement the same contract — switch the **Theme** toolbar to compare live. Prefer utilities like `bg-primary` and `text-muted-foreground`; never hardcode hex inside shared components.",
       },
     },
   },

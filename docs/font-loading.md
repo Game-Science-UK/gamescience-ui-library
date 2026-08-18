@@ -12,12 +12,6 @@ filesystem and remote URLs break consumer builds).
 - Display / body: Space Grotesk, Source Sans 3 (with system fallbacks)
 - Mono: IBM Plex Mono (with `ui-monospace` fallbacks)
 
-### Sentinel
-
-- Display: Archivo
-- Body: Instrument Sans
-- Mono: IBM Plex Mono
-
 ### Citadel
 
 - Display: Hanken Grotesk

@@ -11,7 +11,7 @@ The GameScience registry is a publicly readable static shadcn registry that dist
 - Namespace: `@gamescience`
 - Local serve URL (default): `http://localhost:4343`
 - GitHub Pages latest: `https://game-science-uk.github.io/gamescience-ui-library/r/{name}.json`
-- GitHub Pages versioned (recommended): `https://game-science-uk.github.io/gamescience-ui-library/versions/1.0.0/r/{name}.json`
+- GitHub Pages versioned (recommended): `https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/r/{name}.json`
 - Configurable local override via `GAMESCIENCE_REGISTRY_URL`
 
 ## Build and serve locally
@@ -79,19 +79,14 @@ Fonts are application-owned — see [font-loading.md](./font-loading.md).
 
 ## Installation smoke coverage
 
-`npm run smoke:registry` builds clean Tailwind 3 consumer fixtures for:
+`npm run smoke:registry` builds clean Tailwind 3 consumer fixtures for every
+supported theme crossed with `join-flow`, `lobby`, and `shared-display-lobby`.
 
-1. `base` + `theme-gamescience` + `join-flow`
-2. `base` + `theme-citadel` + `join-flow`
-3. `base` + `theme-sentinel` + `join-flow`
-4. `base` + `theme-gamescience` + `lobby`
-5. `base` + `theme-citadel` + `lobby`
-6. `base` + `theme-sentinel` + `lobby`
-7. `base` + `theme-gamescience` + `shared-display-lobby`
-8. `base` + `theme-citadel` + `shared-display-lobby`
-9. `base` + `theme-sentinel` + `shared-display-lobby`
+`npm run smoke:tailwind4` builds Tailwind 4 fixtures for every supported theme's
+join-flow and proves documented bridge utilities emit CSS.
 
-`npm run smoke:tailwind4` builds Tailwind 4 fixtures for Gamescience, Citadel, and Sentinel join-flow and proves documented bridge utilities emit CSS.
+Scenario lists derive from `SUPPORTED_THEMES`, so adding a theme extends the
+matrix automatically.
 
 Each scenario asserts that sibling pattern packages and the alternate theme are not pulled in accidentally.
 

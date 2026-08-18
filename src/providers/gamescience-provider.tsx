@@ -4,6 +4,7 @@ import {
   SUPPORTED_CONTEXTS,
   SUPPORTED_REGISTERS,
   SUPPORTED_THEMES,
+  THEME_DEFAULT_REGISTERS,
   type ExperienceContext,
   type GameTheme,
   type ThemeRegister,
@@ -15,8 +16,9 @@ export interface GameScienceProviderProps {
   theme: GameTheme;
   context: ExperienceContext;
   /**
-   * Optional visual register within a theme. Sentinel uses `cinematic`
-   * (default) and `restrained`. Other themes ignore the attribute.
+   * Optional visual register within a theme, for themes that ship more than
+   * one intensity. A theme with no declared register ignores the attribute.
+   * See THEME_DEFAULT_REGISTERS in the theme contract.
    */
   register?: ThemeRegister;
   children: ReactNode;
@@ -61,8 +63,7 @@ function resolveRegister(
   register: ThemeRegister | undefined,
 ): ThemeRegister | undefined {
   if (register) return register;
-  if (theme === "sentinel") return "cinematic";
-  return undefined;
+  return THEME_DEFAULT_REGISTERS[theme];
 }
 
 function syncDocumentTheme(

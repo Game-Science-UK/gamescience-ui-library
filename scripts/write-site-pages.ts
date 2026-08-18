@@ -2,6 +2,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeCatalogue, SCOPE_LABELS } from "./catalogue-normalize.ts";
+import { SUPPORTED_THEMES } from "../src/themes/theme-contract.ts";
 import {
   PAGES_SITE_PATH,
   PAGES_SITE_URL,
@@ -72,7 +73,6 @@ export function compileMigrationConfig(availableVersions: string[]) {
       themes: {
         gamescience: readModule("themes/gamescience.md"),
         citadel: readModule("themes/citadel.md"),
-        sentinel: readModule("themes/sentinel.md"),
       },
       stacks: {
         tailwind3: readModule("stacks/tailwind3.md"),
@@ -379,7 +379,6 @@ function writeStartPage(pagesDist: string, version: string) {
             <legend>Theme</legend>
             <label><input type="radio" name="theme" value="gamescience" checked /> Gamescience</label>
             <label><input type="radio" name="theme" value="citadel" /> Citadel</label>
-            <label><input type="radio" name="theme" value="sentinel" /> Sentinel</label>
           </fieldset>
           <fieldset>
             <legend>Contexts</legend>
@@ -424,7 +423,6 @@ function writeUpgradePage(pagesDist: string) {
             <legend>Installed theme</legend>
             <label><input type="radio" name="theme" value="gamescience" checked /> Gamescience</label>
             <label><input type="radio" name="theme" value="citadel" /> Citadel</label>
-            <label><input type="radio" name="theme" value="sentinel" /> Sentinel</label>
           </fieldset>
           <fieldset>
             <legend>Project currently has an explicit context model</legend>
@@ -473,7 +471,6 @@ function writeMigratePage(pagesDist: string, version: string) {
             <legend>Theme</legend>
             <label><input type="radio" name="theme" value="gamescience" checked /> Gamescience</label>
             <label><input type="radio" name="theme" value="citadel" /> Citadel</label>
-            <label><input type="radio" name="theme" value="sentinel" /> Sentinel</label>
           </fieldset>
           <fieldset>
             <legend>Contexts</legend>
@@ -586,7 +583,7 @@ export function writeSitePages(pagesDist: string) {
     sitePath: PAGES_SITE_PATH,
     siteUrl: PAGES_SITE_URL,
     itemCount: normalized.length,
-    themes: ["gamescience", "citadel", "sentinel"],
+    themes: [...SUPPORTED_THEMES],
     contexts: ["participant", "facilitator", "shared-display"],
     registryUrlTemplate: versionedRegistryTemplate(PAGES_VERSION, PAGES_SITE_URL),
     availableVersions,

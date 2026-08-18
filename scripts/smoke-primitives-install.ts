@@ -8,12 +8,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { GAMESCIENCE_UI_VERSION } from "../src/lib/version.ts";
 import { registryItems } from "./registry-manifest.ts";
+import { SUPPORTED_THEMES, type GameTheme } from "../src/themes/theme-contract.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const smokeRoot = path.join(root, "tmp/primitives-smoke");
 const registryDir = path.join(root, "public/registry/r");
 
-type ThemeName = "gamescience" | "citadel" | "sentinel";
+type ThemeName = GameTheme;
 
 const bundles: Record<string, string[]> = {
   forms: ["label", "input", "textarea", "checkbox", "radio-group", "switch", "select", "form"],
@@ -233,7 +234,7 @@ async function main() {
   mkdirSync(smokeRoot, { recursive: true });
 
   const failures: string[] = [];
-  for (const theme of ["gamescience", "citadel", "sentinel"] as const) {
+  for (const theme of SUPPORTED_THEMES) {
     for (const [bundleName, items] of Object.entries(bundles)) {
       const id = `${theme}-${bundleName}`;
       const dir = path.join(smokeRoot, id);

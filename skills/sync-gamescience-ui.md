@@ -1,9 +1,14 @@
 ---
 name: sync-gamescience-ui
 description: Use when checking, updating, or synchronising an existing Lovable project with the GameScience UI registry. Audits the current pin and local registry-managed files, discovers a newer immutable registry release, reviews diffs, applies safe updates, preserves application-owned changes, validates the project, and updates migration records. Supports check-only invocations such as "Check whether GameScience UI is current" that discover and diff without changing files. Distinguishes registry item currency from public or project guidance freshness. Not for initial registry adoption or redesigning application-specific game UI.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: lovable-workspace
 ---
 
 # Sync GameScience UI
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Synchronise the current project with the GameScience UI registry through a
 controlled, diff-first upgrade.
@@ -155,11 +160,11 @@ changes and report the conflicting evidence.
 
 Check these layers separately:
 
-| Layer                                | Examples                                                         | Currency question                                      |
-| ------------------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------ |
-| Registry item version                | pinned `/versions/{version}/`, `src/lib/version.ts`, item JSON   | Are installed components on the target release?        |
-| Public migration guidance revision   | published `/docs/*`, `migration-notes.md`, composers             | Has public guidance moved without a registry bump?     |
-| Project-local generated guidance     | `src/docs/gamescience-ui-guidance.md`, local migration notes     | Is project documentation stale relative to public docs?|
+| Layer                              | Examples                                                       | Currency question                                       |
+| ---------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------- |
+| Registry item version              | pinned `/versions/{version}/`, `src/lib/version.ts`, item JSON | Are installed components on the target release?         |
+| Public migration guidance revision | published `/docs/*`, `migration-notes.md`, composers           | Has public guidance moved without a registry bump?      |
+| Project-local generated guidance   | `src/docs/gamescience-ui-guidance.md`, local migration notes   | Is project documentation stale relative to public docs? |
 
 Public docs can change without a registry version change.
 
@@ -198,14 +203,14 @@ registry-managed files against the project's currently pinned immutable release.
 
 For each installed item, classify it as:
 
-| Classification         | Meaning                                      |
-| ---------------------- | -------------------------------------------- |
-| Clean                  | Matches the currently pinned registry source |
-| Intentional deviation  | Locally modified and documented              |
-| Undocumented drift     | Locally modified without a record            |
-| Obsolete               | Installed but no longer used                 |
-| Missing                | Recorded as installed but absent             |
-| Uncertain              | Ownership cannot be established safely       |
+| Classification        | Meaning                                      |
+| --------------------- | -------------------------------------------- |
+| Clean                 | Matches the currently pinned registry source |
+| Intentional deviation | Locally modified and documented              |
+| Undocumented drift    | Locally modified without a record            |
+| Obsolete              | Installed but no longer used                 |
+| Missing               | Recorded as installed but absent             |
+| Uncertain             | Ownership cannot be established safely       |
 
 Use the registry CLI's diff mode where available.
 
@@ -320,8 +325,8 @@ Before applying changes, output:
 
 ### Release path
 
-| From | To | Release type | Relevant changes | Required action |
-| ---- | -- | ------------ | ---------------- | --------------- |
+| From | To  | Release type | Relevant changes | Required action |
+| ---- | --- | ------------ | ---------------- | --------------- |
 
 ### Planned file actions
 
@@ -355,7 +360,7 @@ Example:
 ```json
 {
   "registries": {
-    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/0.3.1/r/{name}.json"
+    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/{version}/r/{name}.json"
   }
 }
 ```
@@ -627,6 +632,10 @@ Do not include secrets, tokens, host keys or credentials.
 ## 17. Final output
 
 Report:
+
+### Skill revision
+
+- `skillUpdated` / `libraryVersion` from this skill's header
 
 ### Result
 

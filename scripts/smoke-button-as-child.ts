@@ -11,13 +11,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { GAMESCIENCE_UI_VERSION } from "../src/lib/version.ts";
 import { registryItems } from "./registry-manifest.ts";
+import { type GameTheme } from "../src/themes/theme-contract.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const smokeRoot = path.join(root, "tmp/button-as-child-smoke");
 const registryDir = path.join(root, "public/registry/r");
 const tsxBin = path.join(root, "node_modules/.bin/tsx");
 
-type ThemeName = "gamescience" | "citadel" | "sentinel";
+type ThemeName = GameTheme;
 type ReactMajor = "18" | "19";
 type Stack = "tailwind3" | "tailwind4";
 
@@ -259,8 +260,6 @@ function main() {
     { theme: "gamescience", stack: "tailwind3", react: "19" },
     { theme: "citadel", stack: "tailwind4", react: "19" },
     { theme: "gamescience", stack: "tailwind4", react: "18" },
-    { theme: "sentinel", stack: "tailwind3", react: "19" },
-    { theme: "sentinel", stack: "tailwind4", react: "19" },
   ];
 
   for (const { theme, stack, react } of matrix) {

@@ -26,37 +26,40 @@
 
 ## Add a theme
 
-A valid CSS file alone does not register a theme — the slug is enforced by a
-hardcoded union in the registry source. Adding a theme is additive, so it ships
-as a new minor release (never re-cut a prior lock, and never use
-`update-registry` for a new item).
+Registration is scaffolded — do not edit the registration sites by hand. Adding
+a theme is additive, so it ships as a new minor release (never re-cut a prior
+lock, and never use `update-registry` for a new item).
 
-1. Add `src/themes/<name>.css` implementing every token in `theme-contract.ts`,
-   scoped under `[data-theme="<name>"]`, plus any theme-scoped treatment rules.
-2. Add `<name>` to `SUPPORTED_THEMES` in `src/themes/theme-contract.ts`
-   (`GameScienceProvider` asserts against this list and throws on an unknown slug).
-3. Add `@import "./<name>.css";` to `src/themes/index.css` — the single entry
-   that Storybook and consumers import; without it the theme never loads.
-4. Add a `{ value: "<name>", title: "<Name>" }` entry to the `theme` toolbar
-   `globalTypes` in `.storybook/preview.tsx`.
-5. Register in `scripts/registry-manifest.ts` (source of truth — the generated
-   JSON under `registry/**`, `public/registry/**`, and `consumer/**` is produced
-   by `npm run registry:build`, never hand-edited):
-   - Widen the catalogue union type `themes: Array<"gamescience" | "citadel" | "sentinel">`.
-   - Add a `registryItems` entry: `type: "registry:theme"`, `category: "theme"`,
-     `registryDependencies: ["base"]`, one `registry:file` pointing at the CSS,
-     and a `catalogue` block with `themes: ["<name>"]`.
-   - Add `<name>` to the `themes` array of every theme-agnostic item
-     (components, patterns, templates).
-6. Update remaining hardcoded theme lists: the `ThemeName` unions and theme
-   loops in `scripts/smoke-*.ts`, the `themes` array in
-   `scripts/write-site-pages.ts`, and the theme loop in
-   `src/test/compose-markdown.test.ts`.
-7. Regenerate with `npm run registry:build`.
-8. Run `npm run theme:check` (iterates `SUPPORTED_THEMES`, so the new theme is
-   validated once registered).
-9. Publish via the `release-registry` workflow (minor bump): version bump,
+1. Scaffold every registration site:
+
+   ```bash
+   npm run theme:new -- <name> --title "<Name>" [--registers "default,alternate"]
+   ```
+
+   This writes `src/themes/<name>.css` with all required tokens stubbed, adds
+   the `@import` to `src/themes/index.css`, extends `SUPPORTED_THEMES`, adds the
+   Storybook toolbar entry, and adds the `registry:theme` item to
+   `scripts/registry-manifest.ts`. Theme-agnostic registry items need no edits —
+   they resolve their theme list from `SUPPORTED_THEMES` at build time.
+
+2. Convert source hex values to OKLCH token channels:
+
+   ```bash
+   npm run theme:oklch -- --token --background '#02050A'
+   ```
+
+3. Author the token values and any theme-scoped `gs-*` treatment rules.
+
+4. Run `npm run theme:check` — fails on tokens that are missing **or declared
+   with no value**, so a scaffolded theme fails until authored.
+
+5. Regenerate with `npm run registry:build`.
+
+6. Publish via the `release-registry` workflow (minor bump): version bump,
    migration note, new `releases/<version>.lock.json` + snapshot, push.
+
+See [adding-a-theme.md](./adding-a-theme.md) for the full procedure, including
+the token/treatment conflict trap and removal.
 
 ## Pull requests
 

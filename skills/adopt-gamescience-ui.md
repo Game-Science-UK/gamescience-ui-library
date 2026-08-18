@@ -1,9 +1,14 @@
 ---
 name: adopt-gamescience-ui
 description: Use when setting up a new or early-stage Lovable application with the GameScience UI registry for the first time. Detects theme, Tailwind stack and experience contexts (or asks when unclear), installs base plus one theme and only required patterns, mounts GameScienceProvider, establishes route-to-context mapping, writes the project context record, and validates an initial vertical slice. Corresponds to the Start composer. Not for auditing large existing UI libraries, wholesale visual alignment, or synchronising an already-adopted registry pin.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: lovable-workspace
 ---
 
 # Adopt GameScience UI
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Adopt the GameScience UI registry in a new or early-stage project where
 migration archaeology is unnecessary.
@@ -80,14 +85,17 @@ Do not:
 
 Unless explicitly overridden, detect:
 
-| Input    | Default behaviour                                      |
-| -------- | ------------------------------------------------------ |
-| Theme    | Infer from branding / existing CSS; ask if ambiguous   |
-| Stack    | Detect Tailwind 3 vs 4 from the project                |
-| Contexts | Infer from routes and surfaces; ask if unclear         |
-| Version  | Latest stable immutable registry release               |
+| Input    | Default behaviour                                    |
+| -------- | ---------------------------------------------------- |
+| Theme    | Infer from branding / existing CSS; ask if ambiguous |
+| Stack    | Detect Tailwind 3 vs 4 from the project              |
+| Contexts | Infer from routes and surfaces; ask if unclear       |
+| Version  | Latest stable immutable registry release             |
 
-Valid themes: `gamescience` | `citadel` | `sentinel`
+Valid themes: `gamescience` | `citadel`
+
+Valid registers (only for themes that declare one — none currently do):
+`cinematic` (default) | `restrained`
 
 Valid contexts: `participant` | `facilitator` | `shared-display`
 
@@ -172,10 +180,23 @@ Choose exactly one application theme:
 - `gamescience`
 - `citadel`
 
+### Visual register
+
+A theme may expose an optional visual register. Supported registers:
+
+- `cinematic`
+- `restrained`
+
+No theme currently declares one.
+
+Set the register on the root `GameScienceProvider` alongside `theme`. Do not
+set a register for themes that do not declare one — `gamescience` and `citadel`
+ignore it. Do not create register-specific component forks.
+
 Detection order:
 
 1. Explicit user override
-2. Clear project branding / existing Citadel or GameScience identity
+2. Clear project branding / existing GameScience or Citadel identity
 3. Ask the user when evidence is ambiguous
 
 Do not mix themes. Do not create theme-specific component forks.
@@ -199,11 +220,11 @@ patterns for symmetry.
 
 Keep separate:
 
-| Concept            | Not the same as                          |
-| ------------------ | ---------------------------------------- |
-| Experience context | User role / authority                    |
-| Route              | Context (routes may imply context)       |
-| Game state         | Context                                  |
+| Concept            | Not the same as                    |
+| ------------------ | ---------------------------------- |
+| Experience context | User role / authority              |
+| Route              | Context (routes may imply context) |
+| Game state         | Context                            |
 
 When `shared-display` is selected, enforce the shared-display privacy contract
 from the published experience context model.
@@ -216,6 +237,7 @@ Before installing, output:
 
 - Registry version target:
 - Theme:
+- Register (when the theme declares one):
 - Tailwind integration:
 - Router / framework:
 - Contexts selected:
@@ -273,11 +295,11 @@ Then:
 
 Prefer high-level patterns for selected contexts, for example:
 
-| Context         | Typical shell                         | Typical pattern                    |
-| --------------- | ------------------------------------- | ---------------------------------- |
-| participant     | `@gamescience/participant-shell`      | `@gamescience/join-flow`           |
-| facilitator     | `@gamescience/facilitator-shell`      | `@gamescience/lobby`               |
-| shared-display  | `@gamescience/shared-display-shell`   | `@gamescience/shared-display-lobby`|
+| Context        | Typical shell                       | Typical pattern                     |
+| -------------- | ----------------------------------- | ----------------------------------- |
+| participant    | `@gamescience/participant-shell`    | `@gamescience/join-flow`            |
+| facilitator    | `@gamescience/facilitator-shell`    | `@gamescience/lobby`                |
+| shared-display | `@gamescience/shared-display-shell` | `@gamescience/shared-display-lobby` |
 
 Install individual primitives only when a pattern does not cover the need.
 
@@ -292,6 +314,8 @@ Search `agent-catalogue.json` / published catalogue before inventing UI.
 Establish one root `GameScienceProvider` with:
 
 - `theme` set to the selected application theme
+- `register` set only when the selected theme declares one (`cinematic` or
+  `restrained`)
 - `context` resolved from the active surface
 
 Prefer route metadata, route groups, or a project route-to-context map.
@@ -392,9 +416,11 @@ One of:
 
 ### Configuration
 
+- Skill revision: `skillUpdated` / `libraryVersion` from this skill's header
 - Registry version:
 - Registry URL:
 - Theme:
+- Register (when the theme declares one):
 - Tailwind integration:
 - Router / framework:
 - Contexts selected:

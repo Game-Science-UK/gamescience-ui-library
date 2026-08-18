@@ -82,12 +82,22 @@ export const REQUIRED_THEME_TOKENS = [
 
 export type ThemeToken = (typeof REQUIRED_THEME_TOKENS)[number];
 
-export const SUPPORTED_THEMES = ["gamescience", "citadel", "sentinel"] as const;
+export const SUPPORTED_THEMES = ["gamescience", "citadel"] as const;
 export type GameTheme = (typeof SUPPORTED_THEMES)[number];
 
 export const SUPPORTED_CONTEXTS = ["participant", "facilitator", "shared-display"] as const;
 export type ExperienceContext = (typeof SUPPORTED_CONTEXTS)[number];
 
-/** Optional visual register. Sentinel uses cinematic (default) and restrained. */
+/** Optional visual register, for themes that express more than one intensity. */
 export const SUPPORTED_REGISTERS = ["cinematic", "restrained"] as const;
 export type ThemeRegister = (typeof SUPPORTED_REGISTERS)[number];
+
+/**
+ * Themes that declare a default visual register. A theme absent from this map
+ * has no register: the provider sets no `data-register`, and any register
+ * passed for it is still applied but styles nothing unless the theme CSS
+ * defines `[data-register="..."]` rules.
+ *
+ * Add an entry when a theme ships more than one register.
+ */
+export const THEME_DEFAULT_REGISTERS: Partial<Record<GameTheme, ThemeRegister>> = {};

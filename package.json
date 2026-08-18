@@ -1,6 +1,6 @@
 {
   "name": "@gamescience/ui-library",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "type": "module",
   "description": "GameScience.ai React design library and shadcn registry for multiplayer learning games",
@@ -25,6 +25,10 @@
     "pages:validate": "tsx scripts/validate-pages.ts",
     "pages:serve": "npx --yes serve pages-dist -p 4177",
     "theme:check": "tsx scripts/check-theme-contract.ts",
+    "theme:new": "tsx scripts/new-theme.ts",
+    "theme:oklch": "tsx scripts/hex-to-oklch.ts",
+    "docs:check": "tsx scripts/check-docs-versions.ts",
+    "skills:check": "tsx scripts/check-skills.ts",
     "architecture:check": "tsx scripts/check-architecture.ts",
     "storybook:coverage": "tsx scripts/check-storybook-coverage.ts",
     "smoke:registry": "tsx scripts/smoke-registry-install.ts",
@@ -37,7 +41,7 @@
     "pages:build:versioned": "npm run registry:build && PAGES_STAGE=versioned tsx scripts/build-pages.ts",
     "pages:build:latest": "PAGES_STAGE=latest tsx scripts/build-pages.ts",
     "pages:validate:versioned": "PAGES_VALIDATE_MODE=versioned tsx scripts/validate-pages.ts",
-    "validate": "npm run typecheck && npm run lint && npm run format:check && npm run theme:check && npm run architecture:check && npm run storybook:coverage && npm run test && npm run build && npm run build-storybook && npm run registry:build && npm run registry:validate && npm run pages:build:versioned && npm run pages:validate:versioned && npm run pages:build:latest && npm run pages:validate"
+    "validate": "npm run typecheck && npm run lint && npm run format:check && npm run theme:check && npm run docs:check && npm run skills:check && npm run architecture:check && npm run storybook:coverage && npm run test && npm run build && npm run build-storybook && npm run registry:build && npm run registry:validate && npm run pages:build:versioned && npm run pages:validate:versioned && npm run pages:build:latest && npm run pages:validate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.5.7",

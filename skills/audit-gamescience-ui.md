@@ -1,9 +1,14 @@
 ---
 name: audit-gamescience-ui
 description: Use when performing a read-only audit of a Lovable or React project against the GameScience UI registry. Inspects stack, theme, routes, contexts, render branches and local UI inventory; inspects registry payloads rather than relying only on documentation; maps local primitives to registry items; produces context audit, render-path inventory, migration obligation ledger, registry coverage backlog, separate authorisation findings and a recommended first migration slice. Corresponds to Audit only in the Migrate composer. Never modifies files. This is the only GameScience UI skill permitted to claim "No files changed" as a formal outcome.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: lovable-workspace
 ---
 
 # Audit GameScience UI
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Perform a read-only analysis of the current project against the GameScience UI
 registry.
@@ -88,14 +93,21 @@ Do not:
 
 Unless explicitly overridden, detect:
 
-| Input    | Default behaviour                                    |
-| -------- | ---------------------------------------------------- |
-| Theme    | Infer from provider, theme CSS, branding             |
-| Stack    | Detect Tailwind 3 vs 4 from the project              |
-| Contexts | Infer from routes and surfaces; use unclassified     |
-| Version  | Project pin if present; else latest immutable release|
+| Input    | Default behaviour                                     |
+| -------- | ----------------------------------------------------- |
+| Theme    | Infer from provider, theme CSS, branding              |
+| Stack    | Detect Tailwind 3 vs 4 from the project               |
+| Contexts | Infer from routes and surfaces; use unclassified      |
+| Version  | Project pin if present; else latest immutable release |
 
 Router / framework detection is separate from Tailwind detection.
+
+Valid themes: `gamescience` | `citadel`
+
+Valid registers (only for themes that declare one — none currently do):
+`cinematic` (default) | `restrained`
+
+Valid contexts: `participant` | `facilitator` | `shared-display`
 
 ## 1. Establish audit scope
 
@@ -225,14 +237,14 @@ For each inventory row, choose exactly one classification:
 
 Examples of intended judgement:
 
-| Existing implementation | Registry target        | Classification              | Proposed action        | Risk   |
-| ----------------------- | ---------------------- | --------------------------- | ---------------------- | ------ |
-| TechButton              | @gamescience/button    | Existing registry target    | replace                | low    |
-| Dialog                  | @gamescience/dialog    | Existing registry target    | replace local shadcn   | low    |
-| custom join screen      | @gamescience/join-flow | Existing registry target    | incremental migration  | medium |
-| WebSocket hook          | none                   | Application-specific        | preserve               | high   |
-| Stat tile               | none                   | Registry coverage candidate | backlog                | medium |
-| radar visual            | none                   | Application-specific        | retain                 | low    |
+| Existing implementation | Registry target        | Classification              | Proposed action       | Risk   |
+| ----------------------- | ---------------------- | --------------------------- | --------------------- | ------ |
+| TechButton              | @gamescience/button    | Existing registry target    | replace               | low    |
+| Dialog                  | @gamescience/dialog    | Existing registry target    | replace local shadcn  | low    |
+| custom join screen      | @gamescience/join-flow | Existing registry target    | incremental migration | medium |
+| WebSocket hook          | none                   | Application-specific        | preserve              | high   |
+| Stat tile               | none                   | Registry coverage candidate | backlog               | medium |
+| radar visual            | none                   | Application-specific        | retain                | low    |
 
 For every missing registry target, assess:
 
@@ -249,12 +261,12 @@ For every missing registry target, assess:
 
 Distinguish:
 
-| Kind                         | Meaning                                               |
-| ---------------------------- | ----------------------------------------------------- |
-| Primitive                    | Low-level reusable control                            |
-| Primitive composition        | Local assembly that may not need a new registry item  |
-| Higher-level candidate       | Stable cross-game pattern / template candidate        |
-| Application-owned exception  | Game-specific or client-specific surface              |
+| Kind                        | Meaning                                              |
+| --------------------------- | ---------------------------------------------------- |
+| Primitive                   | Low-level reusable control                           |
+| Primitive composition       | Local assembly that may not need a new registry item |
+| Higher-level candidate      | Stable cross-game pattern / template candidate       |
+| Application-owned exception | Game-specific or client-specific surface             |
 
 Do not recommend a new registry primitive when an approved composition of
 existing items would suffice.
@@ -315,8 +327,8 @@ stateful screen, list meaningful branches and states:
 Then produce a **migration obligation ledger**. Each row is one UI
 responsibility on one render branch:
 
-| ID | Surface | Branch/state | Responsibility | Current | Target | Status |
-| -- | ------- | ------------ | -------------- | ------- | ------ | ------ |
+| ID  | Surface | Branch/state | Responsibility | Current | Target | Status |
+| --- | ------- | ------------ | -------------- | ------- | ------ | ------ |
 
 Also inventory raw HTML controls and styling overrides that would block
 call-site purity after install (`style={{}}`, arbitrary colours, identity
@@ -394,6 +406,10 @@ Do not implement the slice here.
 ## 12. Final output
 
 Report:
+
+### Skill revision
+
+- `skillUpdated` / `libraryVersion` from this skill's header
 
 ### Result
 

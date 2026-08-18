@@ -1,9 +1,14 @@
 ---
 name: migrate-gamescience-ui
 description: Use when adopting GameScience UI in an established Lovable or React project that already has substantial local UI. Detects theme, Tailwind stack and experience contexts unless overridden; runs inspect → inventory render branches → build obligation ledger → confirm identity → rollback → validate token contract → install foundations → migrate slices with A–E coverage gates → auto-continue in full alignment → escalate upstream gaps → clean up → independent coverage audit → record. Supports safe incremental and full visual alignment modes. Corresponds to the Migrate composer. Not for greenfield Start adoption, read-only audits, or syncing an already-pinned registry.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: lovable-workspace
 ---
 
 # Migrate GameScience UI
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Migrate an established project onto the GameScience UI registry.
 
@@ -136,23 +141,23 @@ conflicts with project practice — still record the path or artefact id used.
 
 Default when unspecified:
 
-| Input | Default                                      |
-| ----- | -------------------------------------------- |
-| Theme | preserve detected theme; ask if ambiguous    |
-| Mode  | interpret user intent (table below)          |
-| Stack | detect from project                          |
+| Input | Default                                   |
+| ----- | ----------------------------------------- |
+| Theme | preserve detected theme; ask if ambiguous |
+| Mode  | interpret user intent (table below)       |
+| Stack | detect from project                       |
 
 ### Mode from user intent
 
 Do not silently collapse a broad alignment request into a one-slice exercise.
 
-| User intent                                              | Mode                  |
-| -------------------------------------------------------- | --------------------- |
-| Try the registry on one screen                           | safe incremental      |
-| Migrate incrementally / migrate one slice                | safe incremental      |
-| Migrate this project (no breadth stated)                 | safe incremental      |
-| Complete migration / fully align / make registry-driven  | full visual alignment |
-| Full visual alignment                                    | full visual alignment |
+| User intent                                             | Mode                  |
+| ------------------------------------------------------- | --------------------- |
+| Try the registry on one screen                          | safe incremental      |
+| Migrate incrementally / migrate one slice               | safe incremental      |
+| Migrate this project (no breadth stated)                | safe incremental      |
+| Complete migration / fully align / make registry-driven | full visual alignment |
+| Full visual alignment                                   | full visual alignment |
 
 If intent is ambiguous between “try one screen” and “complete alignment”, ask
 once before proceeding.
@@ -179,6 +184,19 @@ stack branch.
 
 Do not pin the project to the unversioned latest URL.
 
+## Valid vocabulary
+
+Valid themes: `gamescience` | `citadel`
+
+Valid registers (only for themes that declare one — none currently do):
+`cinematic` (default) | `restrained`
+
+Valid contexts: `participant` | `facilitator` | `shared-display`
+
+Set `register` on the root `GameScienceProvider` alongside `theme`. Do not set a
+register for a theme that does not declare one. Do not create register-specific
+component forks.
+
 ## Storybook reference
 
 Use the published Storybook as the canonical **rendered** reference:
@@ -196,11 +214,11 @@ Use Storybook for:
 
 **Authority split (non-negotiable):**
 
-| Source           | Authority                                              |
-| ---------------- | ------------------------------------------------------ |
-| Registry JSON    | Installed files, dependencies, payload equality        |
-| Storybook        | Intended rendered behaviour and visual/state contracts |
-| Docs / composer  | Migration procedure                                    |
+| Source          | Authority                                              |
+| --------------- | ------------------------------------------------------ |
+| Registry JSON   | Installed files, dependencies, payload equality        |
+| Storybook       | Intended rendered behaviour and visual/state contracts |
+| Docs / composer | Migration procedure                                    |
 
 Do not compare unmatched themes, contexts, variants or states. A consumer
 Citadel `Button` with `emphasis="strong"` must be compared to that Storybook
@@ -372,12 +390,12 @@ Does the running application match the registry reference and continue to work?
 
 Every obligation must end in exactly one of:
 
-| Disposition             | Meaning                                              |
-| ----------------------- | ---------------------------------------------------- |
-| `migrated`              | Registry target adopted; A–E evidence passes         |
-| `retained-approved`     | Explicitly kept as application-owned                 |
-| `upstream-gap`          | Needs a new or extended registry item                |
-| `out-of-scope-approved` | Intentionally excluded from this engagement          |
+| Disposition             | Meaning                                      |
+| ----------------------- | -------------------------------------------- |
+| `migrated`              | Registry target adopted; A–E evidence passes |
+| `retained-approved`     | Explicitly kept as application-owned         |
+| `upstream-gap`          | Needs a new or extended registry item        |
+| `out-of-scope-approved` | Intentionally excluded from this engagement  |
 
 No `unknown`, `candidate`, or unclassified rows may remain at full-alignment
 completion. Safe incremental may leave open obligations, but must not claim
@@ -510,8 +528,8 @@ surface
 
 ### Required ledger columns
 
-| ID | Surface | Branch/state | Responsibility | Current | Target | Status |
-| -- | ------- | ------------ | -------------- | ------- | ------ | ------ |
+| ID  | Surface | Branch/state | Responsibility | Current | Target | Status |
+| --- | ------- | ------------ | -------------- | ------- | ------ | ------ |
 
 Example rows:
 
@@ -542,15 +560,15 @@ A closed ledger is only useful when discovery itself is complete. Before
 declaring full alignment — and after building the initial ledger — reconcile
 discovered in-scope UI with ledger rows:
 
-| Discovery category   | Discovered | Ledgered | Difference |
-| -------------------- | ---------: | -------: | ---------: |
-| Routes               |            |          |            |
-| Render branches      |            |          |            |
-| Local UI components  |            |          |            |
-| Raw controls         |            |          |            |
-| Semantic wrappers    |            |          |            |
-| Registry imports     |            |          |            |
-| Identity overrides   |            |          |            |
+| Discovery category  | Discovered | Ledgered | Difference |
+| ------------------- | ---------: | -------: | ---------: |
+| Routes              |            |          |            |
+| Render branches     |            |          |            |
+| Local UI components |            |          |            |
+| Raw controls        |            |          |            |
+| Semantic wrappers   |            |          |            |
+| Registry imports    |            |          |            |
+| Identity overrides  |            |          |            |
 
 **Full alignment requires zero unexplained difference** between discovered
 in-scope UI responsibilities and ledgered obligations. A missing component that
@@ -578,6 +596,7 @@ Before installing, confirm with evidence or explicit user override:
 
 - Registry version:
 - Theme: preserve detected | gamescience | citadel
+- Register (only when the theme declares one — cinematic | restrained)
 - Mode: safe incremental | full visual alignment
 - Tailwind integration: detect | Tailwind 3 | Tailwind 4
 - Contexts in scope:
@@ -620,13 +639,7 @@ Example shape:
     "active:bg-primary-active",
     "ring-focus-ring"
   ],
-  "variables": [
-    "--primary",
-    "--primary-hover",
-    "--primary-active",
-    "--focus-ring",
-    "--control-md"
-  ]
+  "variables": ["--primary", "--primary-hover", "--primary-active", "--focus-ring", "--control-md"]
 }
 ```
 
@@ -642,9 +655,9 @@ Example shape:
 
 Distinguish two failure classes — string search alone is insufficient:
 
-| Failure                | Example                                         |
-| ---------------------- | ----------------------------------------------- |
-| Utility not generated  | `.h-control-md` missing from production CSS     |
+| Failure                           | Example                                         |
+| --------------------------------- | ----------------------------------------------- |
+| Utility not generated             | `.h-control-md` missing from production CSS     |
 | Utility generated empty / invalid | `.h-control-md { height: ; }` or unresolved var |
 
 For each required utility:
@@ -737,12 +750,12 @@ visual-contract failure.
 
 ### Risk classification for automatic continuation
 
-| Risk    | Examples                                                         | Behaviour                                      |
-| ------- | ---------------------------------------------------------------- | ---------------------------------------------- |
-| Low     | Direct primitive replacement with matching API                   | Continue automatically in full mode            |
-| Medium  | Domain component adoption preserving application logic           | Continue after A–E pass in full mode           |
-| High    | Route split, visual removal, privacy, destructive cleanup        | Stop for confirmation                          |
-| Blocked | Unresolved upstream contract, security/auth change, token break  | Stop; escalate or mark `upstream-gap`          |
+| Risk    | Examples                                                        | Behaviour                             |
+| ------- | --------------------------------------------------------------- | ------------------------------------- |
+| Low     | Direct primitive replacement with matching API                  | Continue automatically in full mode   |
+| Medium  | Domain component adoption preserving application logic          | Continue after A–E pass in full mode  |
+| High    | Route split, visual removal, privacy, destructive cleanup       | Stop for confirmation                 |
+| Blocked | Unresolved upstream contract, security/auth change, token break | Stop; escalate or mark `upstream-gap` |
 
 Do not classify a complex shared-display replacement as “medium” merely to
 continue. When unsure, treat as high.
@@ -991,14 +1004,14 @@ For each migrated registry item:
 
 Record for each comparison:
 
-| Field           | Value |
-| --------------- | ----- |
-| Story           |       |
-| Theme           |       |
-| Context         |       |
-| Variant         |       |
-| Consumer route  |       |
-| Consumer state  |       |
+| Field          | Value |
+| -------------- | ----- |
+| Story          |       |
+| Theme          |       |
+| Context        |       |
+| Variant        |       |
+| Consumer route |       |
+| Consumer state |       |
 
 #### Two kinds of visual comparison
 
@@ -1364,9 +1377,11 @@ Required when any of the above is unresolved, even if the build is green.
 
 ### Configuration
 
+- Skill revision: `skillUpdated` / `libraryVersion` from this skill's header
 - Registry version:
 - Registry URL:
 - Theme:
+- Register (when the theme declares one):
 - Mode:
 - Tailwind integration:
 - Router / framework:
@@ -1374,18 +1389,18 @@ Required when any of the above is unresolved, even if the build is green.
 
 ### Obligation ledger summary
 
-| Disposition             | Count |
-| ----------------------- | ----- |
-| migrated                |       |
-| retained-approved       |       |
-| upstream-gap            |       |
-| out-of-scope-approved   |       |
-| open / unclassified     |       |
+| Disposition           | Count |
+| --------------------- | ----- |
+| migrated              |       |
+| retained-approved     |       |
+| upstream-gap          |       |
+| out-of-scope-approved |       |
+| open / unclassified   |       |
 
 ### Slices completed
 
-| Slice | Obligations closed | A | B | C | D | E | Notes |
-| ----- | ------------------ | - | - | - | - | - | ----- |
+| Slice | Obligations closed | A   | B   | C   | D   | E   | Notes |
+| ----- | ------------------ | --- | --- | --- | --- | --- | ----- |
 
 ### Deferred / retained / upstream gaps
 

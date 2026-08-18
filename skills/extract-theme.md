@@ -1,9 +1,14 @@
 ---
 name: extract-theme
-description: Use when comprehensively extracting the active visual theme from an existing Lovable or React application so the result can be copied directly to the GameScience registry build agent to implement a new registry theme. Produces a read-only, evidence-backed theme implementation brief covering semantic tokens, typography, geometry, controls, surfaces, component treatments, shells, contexts, states, motion, accessibility, cascade and source ownership. Defaults the extraction reference to gamescience when no theme is present. Not for modifying the application, migrating components, or implementing the theme in the registry.
+description: Use when comprehensively extracting the active visual theme from an existing Lovable or React application so the result can be copied directly to the GameScience registry build agent to implement a new registry theme. Produces a read-only, evidence-graded theme implementation brief covering semantic tokens, typography, geometry, controls, surfaces, component treatments, shells, contexts, states, motion, accessibility, cascade and source ownership. Expresses treatments as declarative selector/property rows rather than prose, declares its observation base, never derives unevidenced values, checks every token against the component utilities that would override it, and states negative constraints the theme must not violate. Defaults the extraction reference to gamescience when no theme is present. Not for modifying the application, migrating components, or implementing the theme in the registry.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: lovable-workspace
 ---
 
 # Extract Theme
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Perform a comprehensive, read-only extraction of the visual theme currently expressed by the live application.
 
@@ -94,6 +99,24 @@ The final handoff must state:
 
 The new theme may add theme-scoped CSS, semantic token values, extension tokens and minimal stable `gs-*` hooks where necessary. It must not add `{ThemeName}Button`, `{ThemeName}Panel`, theme props, or conditional theme branches in shared React components.
 
+### Do not template from an existing theme
+
+The final handoff must also state:
+
+> Author this stylesheet from the specification in this brief. Do not copy an
+> existing theme stylesheet and substitute values. Read an existing theme only
+> to learn the token contract and the available `gs-*` hooks — never to inherit
+> its rule structure, selector taxonomy, or treatment decisions.
+
+An existing theme's stylesheet encodes _that theme's_ design decisions. Cloning
+its rule shape and swapping token values produces a theme that carries the
+source theme's visual grammar under new colours, which reads as the wrong theme
+even when every token value is correct.
+
+Where the brief specifies a treatment that differs from how another theme
+handles the same component, the brief wins. Where the brief says nothing, the
+correct output is no rule — not the other theme's rule.
+
 ## Evidence model
 
 Use only evidence from:
@@ -121,6 +144,22 @@ Separate:
 Do not treat unused token declarations as part of the theme merely because they exist in a CSS file.
 
 Do not treat local implementation bugs as intended theme behaviour without flagging them.
+
+### Evidence grades
+
+Every value in the output carries exactly one grade:
+
+| Grade         | Meaning                                                                |
+| ------------- | ---------------------------------------------------------------------- |
+| `observed`    | Read from computed style on a rendered element. Cite route + selector. |
+| `declared`    | Read from source CSS that is provably applied, but not seen rendered.  |
+| `unevidenced` | Not seen. **No value may be supplied.** Inherits contract tokens.      |
+| `app-owned`   | Application visual, not theme contract. Do not transfer.               |
+| `defect`      | Source bug. Do not reproduce.                                          |
+
+There is no grade for inferred, derived, or extrapolated values, because no such value may appear in the output.
+
+An ungraded value is a defect in the extraction.
 
 ## Registry coverage reference
 
@@ -220,7 +259,19 @@ Where present in the registry or source application, inspect:
 
 This list is a coverage checklist, not an instruction to invent styling for components the source theme never demonstrates.
 
-When a component is not evidenced, specify how its treatment should be **derived from established theme rules** rather than claiming it was observed.
+### Never derive a treatment
+
+When a component is not evidenced, do **not** infer, derive, or extrapolate a treatment for it.
+
+Record it as:
+
+```text
+UNEVIDENCED — inherits contract tokens. Do not style. Verify against the source before theming.
+```
+
+Deriving a plausible treatment from "established theme grammar" produces styling the source application does not have, and it is indistinguishable from observed fact once it reaches the build agent. An unevidenced component is a **visible gap to be closed later**, not a blank to be filled now.
+
+Coverage is measured by how much was observed, never by how much was specified. An extraction that observes 12 components and marks 40 unevidenced is more useful than one that specifies all 52 with half of them invented.
 
 ## 1. Detect project and theme configuration
 
@@ -262,7 +313,7 @@ Inventory every meaningful route, branch and context that demonstrates the theme
 Required table:
 
 | Surface | Route/branch | Context | Viewport | Theme evidence | States inspected | Live |
-| --- | --- | --- | --- | --- | --- | --- |
+| ------- | ------------ | ------- | -------- | -------------- | ---------------- | ---- |
 
 Include:
 
@@ -276,6 +327,33 @@ Include:
 
 A theme extraction based only on the home page is incomplete.
 
+### Declare the observation base
+
+The build agent cannot tell a thin extraction from a thorough one unless you say
+so. Report, explicitly:
+
+```text
+Routes inspected:            {n}  — list them
+Components observed rendering: {n} — list them by name
+Components in the coverage checklist: {n}
+Observation rate:            {observed}/{checklist} ({percentage})
+States observed:             default / hover / focus / active / disabled / error / loading
+Contexts observed:           participant / facilitator / shared-display
+Registers observed:          {list}
+```
+
+List every checklist component you did **not** see render, by name, under
+`Components not observed`. That list is a required output, not an omission.
+
+Do not describe coverage as "high confidence" or "comprehensive" when the
+observation rate is low. State the rate and let the reader judge. If a component
+family was never rendered in any inspected route, say so plainly — a reader who
+knows the gap can close it, a reader given a derived value cannot.
+
+If the observation rate is below 50%, open the executive summary with an
+explicit warning that the brief is partial and should not be treated as a
+complete theme specification.
+
 ## 3. Extract the active token surface
 
 Identify tokens actually consumed by live UI.
@@ -283,7 +361,7 @@ Identify tokens actually consumed by live UI.
 ### Required token table
 
 | Semantic role | Source token/class | Resolved value | Consumers | Existing registry equivalent | Proposed new-theme mapping | Evidence level |
-| --- | --- | --- | --- | --- | --- | --- |
+| ------------- | ------------------ | -------------- | --------- | ---------------------------- | -------------------------- | -------------- |
 
 Evidence levels:
 
@@ -391,7 +469,7 @@ Document every live semantic type role.
 Required table:
 
 | Role | Source class/token | Font family | Size | Line height | Weight | Tracking | Transform | Live consumers | Registry role |
-| --- | --- | --- | ---: | ---: | ---: | ---: | --- | --- | --- |
+| ---- | ------------------ | ----------- | ---: | ----------: | -----: | -------: | --------- | -------------- | ------------- |
 
 Include:
 
@@ -448,7 +526,7 @@ Document the visual rules for:
 Required table:
 
 | Treatment | Structure | Fill | Border | Radius | Shadow/glow | Decoration | Existing registry primitive/variant | Theme-only or app-owned |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| --------- | --------- | ---- | ------ | ------ | ----------- | ---------- | ----------------------------------- | ----------------------- |
 
 Distinguish:
 
@@ -483,7 +561,52 @@ For every live primitive family, document:
 Required table:
 
 | Primitive | Live | Source implementation | States observed | Theme styling | Local overrides | Registry hook available | Gap |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| --------- | ---- | --------------------- | --------------- | ------------- | --------------- | ----------------------- | --- |
+
+### Declarative treatment specification
+
+Prose descriptions of component treatment are lossy and get partially applied.
+A bullet such as "square, panel surface, strong border, no shadow" invites an
+implementer to apply three of the four properties, or to apply them to some
+intents and not others.
+
+Express **every** treatment as declarative rows instead. This is the form the
+build agent implements from:
+
+| Selector     | Intent / state | Property        | Value                         | Grade       |
+| ------------ | -------------- | --------------- | ----------------------------- | ----------- |
+| `.gs-button` | all            | `border-radius` | `var(--radius-control)`       | observed    |
+| `.gs-button` | `primary`      | `background`    | `oklch(var(--surface))`       | observed    |
+| `.gs-button` | `primary`      | `border-color`  | `oklch(var(--border-strong))` | observed    |
+| `.gs-button` | `secondary`    | `background`    | —                             | unevidenced |
+
+Rules:
+
+- One row per property. Never bundle properties into a sentence.
+- Enumerate **every intent and state** the component exposes, including those
+  you did not observe. A missing row is ambiguous; an `unevidenced` row is not.
+- Never leave an intent implicit. "Primary looks like the others" must be
+  written as its own rows.
+
+### Token/treatment conflict check
+
+Shared components apply utility classes derived from tokens — `bg-primary`,
+`text-primary-foreground`, `border`, and similar. **Declaring a token is not the
+same as specifying a treatment**, and where the two disagree the component's
+utility wins unless the theme explicitly overrides it.
+
+This is the single most common source of theme infidelity: a theme declares
+`--primary` because the palette contains that colour, the design never uses it
+as a solid fill, and every primary button renders in it anyway.
+
+For every colour token in the token table, add a row:
+
+| Token       | Applied by any component as a utility? | Which                                 | Does the source design show that treatment? | Required override                                                          |
+| ----------- | -------------------------------------- | ------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------- |
+| `--primary` | yes                                    | `Button[intent=primary]` `bg-primary` | **no — buttons are panel-surfaced**         | `.gs-button[data-intent="primary"] { background: oklch(var(--surface)); }` |
+
+Any row answering "no" **must** carry an explicit override in the declarative
+specification above. State it as a required override, not as a note.
 
 Cover at least the live subset of:
 
@@ -516,7 +639,7 @@ Inspect every live reusable domain component and repeated semantic composition.
 Required table:
 
 | Component | Purpose | Structure | States | Theme treatment | Existing primitives composed | App-owned content/logic | Registry implementation implication |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| --------- | ------- | --------- | ------ | --------------- | ---------------------------- | ----------------------- | ----------------------------------- |
 
 Pay particular attention to:
 
@@ -573,7 +696,7 @@ For each context, document:
 Required table:
 
 | Context | Root selectors | Token overrides | Background layers | Density changes | Component overrides | Privacy/interaction notes |
-| --- | --- | --- | --- | --- | --- | --- |
+| ------- | -------------- | --------------- | ----------------- | --------------- | ------------------- | ------------------------- |
 
 The build-agent brief must require one shared theme applied through:
 
@@ -621,7 +744,7 @@ Flag any source implementation that relies on a local `.dark` class, body class,
 Required table:
 
 | Motion | Consumer | Trigger | Duration | Easing | Property | Essential? | Reduced-motion behaviour | Theme or app-owned |
-| --- | --- | --- | ---: | --- | --- | --- | --- | --- |
+| ------ | -------- | ------- | -------: | ------ | -------- | ---------- | ------------------------ | ------------------ |
 
 Classify motion as:
 
@@ -692,7 +815,7 @@ Identify:
 Required table:
 
 | Source | Scope | Loaded order | Live effect | Theme contract | App-owned | Conflict |
-| --- | --- | ---: | --- | --- | --- | --- |
+| ------ | ----- | -----------: | ----------- | -------------- | --------- | -------- |
 
 The final brief must tell the registry agent which values belong in:
 
@@ -736,12 +859,34 @@ Examples:
 
 The registry build agent must not reproduce defects or absorb application-owned visuals merely because they are visible.
 
+### Negative constraints
+
+Produce a fourth list: treatments the theme must **not** apply.
+
+Absence of evidence does not communicate prohibition. If the source design never
+uses a solid primary fill, never rounds a corner, or never casts a shadow, the
+brief must say so explicitly — otherwise the build agent will supply the
+component default and believe it is faithful.
+
+Required table:
+
+| Constraint                 | Applies to                | Why                                            | What would violate it                   |
+| -------------------------- | ------------------------- | ---------------------------------------------- | --------------------------------------- |
+| No solid fills on controls | all buttons, all intents  | every control is panel-surfaced with a border  | `bg-primary` reaching a rendered button |
+| No border radius           | all surfaces and controls | geometry is uniformly square                   | any non-zero `--radius-*`               |
+| No drop shadows            | panels, cards, controls   | depth comes from border and surface value only | any `box-shadow` other than focus       |
+
+Derive these from what you observed the design consistently _not_ doing across
+every inspected route. State each as a hard prohibition with the specific
+mechanism that would breach it, so the build agent can check its own output
+against the list.
+
 ## 14. Determine registry theme implementation needs
 
 Produce this matrix:
 
 | Requirement | Existing registry contract/token | Existing hook/data attribute | Theme CSS sufficient | Shared change needed | Proposed action | Evidence |
-| --- | --- | --- | --- | --- | --- | --- |
+| ----------- | -------------------------------- | ---------------------------- | -------------------- | -------------------- | --------------- | -------- |
 
 Classify each shared change as:
 
@@ -771,7 +916,7 @@ Do not add new shared contract tokens merely to preserve source token names.
 The final extraction must include a complete coverage matrix for the registry build agent.
 
 | Registry area | Item | Source evidence | Required new-theme treatment | Existing styles reused | New token/hook | Evidence status | Verification state |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| ------------- | ---- | --------------- | ---------------------------- | ---------------------- | -------------- | --------------- | ------------------ |
 
 Areas:
 
@@ -789,13 +934,16 @@ Areas:
 - reduced motion
 - accessibility
 
-Use evidence status:
+Use the evidence grades defined in the evidence model:
 
-- directly observed
-- derived from established theme grammar
-- not evidenced; use contract defaults
-- application-owned; do not theme
-- defect; do not reproduce
+- `observed` — read from computed style on a rendered element
+- `declared` — from provably applied source CSS, not seen rendered
+- `unevidenced` — not seen; no value supplied; inherits contract tokens
+- `app-owned` — application visual; do not theme
+- `defect` — source bug; do not reproduce
+
+There is deliberately no "derived" status. A treatment is either evidenced or it
+is `unevidenced` with no value.
 
 ## 16. Screenshot and computed-style evidence
 
@@ -817,7 +965,7 @@ Where runtime access is available, capture or report representative computed val
 Required evidence table:
 
 | Reference surface | Route/state | Viewport | Selector | Key computed styles | Screenshot/inspection | Confidence |
-| --- | --- | --- | --- | --- | --- | --- |
+| ----------------- | ----------- | -------- | -------- | ------------------- | --------------------- | ---------- |
 
 Do not claim pixel values when they were not measured.
 
@@ -832,6 +980,8 @@ Use this exact top-level structure.
 - Detected theme:
 - Extraction reference theme:
 - Theme confidence:
+- Observation rate: {observed}/{checklist} ({percentage})
+- Partial-brief warning (required below 50%):
 - Source architecture:
 - Contexts covered:
 - Files modified: none
@@ -845,6 +995,15 @@ Use this exact top-level structure.
 - Root provider/application:
 - Live routes inspected:
 - Storybook/tests inspected:
+
+## Observation base
+
+- Routes inspected:
+- Components observed rendering:
+- Components not observed:
+- States observed:
+- Contexts observed:
+- Registers observed:
 
 ## Live theme-consumer inventory
 
@@ -865,6 +1024,16 @@ Use this exact top-level structure.
 ## Primitive treatments
 
 [table plus state details]
+
+## Declarative treatment specification
+
+[selector / intent-state / property / value / grade rows — one row per property,
+every intent and state enumerated, unevidenced rows included with no value]
+
+## Token/treatment conflict check
+
+[token / applied-as-utility / which component / does the design show it /
+required override — every "no" carries an explicit override above]
 
 ## Domain-component treatments
 
@@ -901,6 +1070,11 @@ Use this exact top-level structure.
 ## Application-owned visuals not to absorb
 
 [list]
+
+## Negative constraints
+
+[constraint / applies-to / why / what would violate it — hard prohibitions the
+build agent can check its own output against]
 
 ## Registry implementation needs
 
@@ -946,6 +1120,16 @@ Implement a new GameScience UI registry theme named `{theme-slug}` based on the 
 - defects excluded
 - application visuals excluded
 
+### Observation base
+
+- routes inspected, listed
+- components observed rendering, listed by name
+- components **not** observed, listed by name
+- observation rate as `{observed}/{checklist} ({percentage})`
+- states, contexts and registers observed
+
+The build agent must be able to see the limits of the evidence without asking.
+
 ### Token implementation table
 
 Every proposed semantic token and resolved source value, clearly classified as:
@@ -966,14 +1150,25 @@ Every proposed semantic token and resolved source value, clearly classified as:
 
 ### Component coverage
 
-For each primitive and domain component:
+Expressed as declarative rows — `selector | intent/state | property | value | grade` —
+never as prose bullets. One row per property, every intent and state enumerated,
+`unevidenced` rows carried through with no value.
 
-- expected treatment
-- states
-- selectors/data attributes
+For each primitive and domain component also state:
+
 - existing style source to reuse
 - new hook/token only where necessary
-- evidence status
+
+### Token/treatment conflict check
+
+Every colour token, whether any component applies it as a utility class, whether
+the source design actually shows that treatment, and the explicit override
+required wherever it does not.
+
+### Negative constraints
+
+The treatments the theme must never apply, each with the mechanism that would
+violate it, so the build agent can verify its own output before reporting.
 
 ### Context coverage
 
@@ -1042,20 +1237,48 @@ It must:
 
 ### Mechanical registration checklist
 
-The brief must require the build agent to register the theme through these concrete steps. Adding a theme is additive, so it is a minor release, not an in-place re-cut of the current lock. A valid CSS file alone does not register a theme — the slug is enforced by a hardcoded union in the registry source.
+Registration is scaffolded. The brief must require the build agent to run the scaffold rather than editing registration sites by hand. Adding a theme is additive, so it is a minor release, not an in-place re-cut of the current lock.
 
-1. Create `src/themes/{theme-slug}.css` declaring every `REQUIRED_THEME_TOKENS` token from `src/themes/theme-contract.ts`, scoped under `[data-theme="{theme-slug}"]`, plus any theme-scoped treatment rules (`gs-*` selectors / context overrides).
-2. Add `"{theme-slug}"` to `SUPPORTED_THEMES` in `src/themes/theme-contract.ts`. The `GameTheme` type derives from this array and `GameScienceProvider` asserts against it, so an unregistered slug throws at runtime.
-3. Add `@import "./{theme-slug}.css";` to `src/themes/index.css` — this is the single entry Storybook and consumers import; without it the theme CSS never loads.
-4. Add a `{ value: "{theme-slug}", title: "{Theme Name}" }` item to the `theme` toolbar `globalTypes` in `.storybook/preview.tsx` so the theme is selectable in Storybook.
-5. In `scripts/registry-manifest.ts` (the source of truth — the generated JSON is produced by `registry:build`, never hand-edited):
-   - Widen the catalogue union type `themes: Array<"gamescience" | "citadel">` to include `"{theme-slug}"`.
-   - Add a `registryItems` entry with `type: "registry:theme"`, `category: "theme"`, `registryDependencies: ["base"]`, one `registry:file` pointing at the CSS, and a `catalogue` block with `themes: ["{theme-slug}"]`.
-   - Add `"{theme-slug}"` to the `themes` array of every theme-agnostic item (components, patterns, templates) so the agent catalogue reflects support.
-6. Update the remaining hardcoded theme lists where the new theme must be covered by smokes/tests: the `ThemeName` unions and theme loops in `scripts/smoke-*.ts`, the `themes` array in `scripts/write-site-pages.ts`, and the theme loop in `src/test/compose-markdown.test.ts`.
-7. Regenerate registry artifacts with `npm run registry:build` (writes `registry/**`, `public/registry/**`, and `consumer/**`).
-8. Verify the token contract with `npm run theme:check` (it iterates `SUPPORTED_THEMES`, so the new theme is validated automatically once registered).
-9. Publish as a new immutable release via the `release-registry` workflow (minor bump): version bump, migration note, new `releases/{version}.lock.json` + snapshot, push. Do not re-cut an old lock or use `update-registry` for a new item.
+1. Scaffold every registration site in one command:
+
+   ```bash
+   npm run theme:new -- {theme-slug} --title "{Theme Name}" [--registers "default,alternate"]
+   ```
+
+   This creates `src/themes/{theme-slug}.css` with all required tokens stubbed
+   and grouped, adds the `@import` to `src/themes/index.css`, extends
+   `SUPPORTED_THEMES`, adds the Storybook theme toolbar entry, and adds the
+   `registry:theme` item to `scripts/registry-manifest.ts`.
+
+   Theme-agnostic registry items need **no** edits — they resolve their theme
+   list from `SUPPORTED_THEMES` at build time.
+
+2. Convert the brief's hex values to the bare OKLCH channels the tokens use:
+
+   ```bash
+   npm run theme:oklch -- --token --background '#02050A' --primary '#B983FF'
+   ```
+
+   Emits paste-ready declarations with the source hex retained as a comment, so
+   the stylesheet stays traceable back to this brief.
+
+3. Author the token values and any theme-scoped `gs-*` treatment rules, working
+   through the declarative treatment specification row by row. Apply every
+   required override from the token/treatment conflict check.
+
+4. Verify the token contract with `npm run theme:check`. It iterates
+   `SUPPORTED_THEMES` and fails on tokens that are missing **or declared with no
+   value**, so a scaffolded theme fails until values are authored.
+
+5. Check the built theme against the negative constraints table before
+   reporting completion.
+
+6. Regenerate registry artifacts with `npm run registry:build` (writes
+   `registry/**`, `public/registry/**`, and `consumer/**`).
+
+7. Publish as a new immutable release via the `release-registry` workflow (minor bump): version bump, migration note, new `releases/{version}.lock.json` + snapshot, push. Do not re-cut an old lock or use `update-registry` for a new item.
+
+See `docs/adding-a-theme.md` in the library repository for the canonical procedure.
 
 ### Validation
 
@@ -1103,6 +1326,14 @@ The copy-ready prompt must repeatedly enforce:
 
 > The source application demonstrates one theme. The registry implementation must cover the entire current component catalogue under the new theme and preserve every existing theme.
 
+> Author the stylesheet from this brief. Do not copy an existing theme stylesheet and substitute values. Read existing themes only for the token contract and available `gs-*` hooks, never for rule structure or treatment decisions.
+
+> Implement every row of the declarative treatment specification. Where a row is graded `unevidenced`, supply no styling — leave the component on contract tokens and list it as an open gap in the final report.
+
+> Apply every required override in the token/treatment conflict check. Declaring a token does not override a component's utility class; the override must be written explicitly.
+
+> Before reporting completion, check the built theme against the negative constraints table and confirm each prohibition holds in the rendered output.
+
 ## 20. Completion criteria
 
 The extraction is complete only when:
@@ -1121,3 +1352,8 @@ The extraction is complete only when:
 12. The complete registry coverage matrix is present.
 13. The final copy-ready build-agent prompt is self-contained.
 14. No files were modified.
+15. The observation base is declared, including components not observed.
+16. Every value carries an evidence grade, and no value is inferred or derived.
+17. Component treatments are expressed as declarative rows, not prose.
+18. The token/treatment conflict check covers every colour token, with an explicit override for each mismatch.
+19. The negative constraints table is present and states what would violate each prohibition.

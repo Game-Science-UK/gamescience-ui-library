@@ -42,7 +42,7 @@ They must:
 @tailwind utilities;
 
 @import "./foundations/index.css";
-@import "./themes/gamescience.css"; /* or citadel.css / sentinel.css */
+@import "./themes/gamescience.css"; /* or citadel.css */
 ```
 
 Do not place `@tailwind` directives inside GameScience foundation files.
@@ -191,7 +191,7 @@ Notes:
 
 ```bash
 npx shadcn@latest add @gamescience/base
-npx shadcn@latest add @gamescience/theme-gamescience   # or theme-citadel / theme-sentinel
+npx shadcn@latest add @gamescience/theme-gamescience   # or theme-citadel
 ```
 
 Use the immutable versioned registry URL, for example:

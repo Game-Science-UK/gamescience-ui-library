@@ -1,9 +1,14 @@
 ---
 name: extract-all-components
 description: Use when comprehensively extracting every meaningful visible component, pattern, shell, template, and recurring UI composition from an existing Lovable or React application so the result can be copied directly to the GameScience registry build agent. Produces a read-only, evidence-backed implementation brief covering structure, layout context, styles, states, variants, behaviour, accessibility, ownership, reuse candidates, and theme evidence. Not for modifying the application, migrating it, or implementing registry items.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: lovable-workspace
 ---
 
 # Extract All Components
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Perform a comprehensive, read-only extraction of all meaningful visible UI in the current project.
 
@@ -166,7 +171,7 @@ Classify every live component into one of:
 Required table:
 
 | Component | File | Live consumers | Context | Classification | Registry equivalent | Ownership |
-| --- | --- | --- | --- | --- | --- | --- |
+| --------- | ---- | -------------- | ------- | -------------- | ------------------- | --------- |
 
 Ownership values:
 
@@ -185,7 +190,7 @@ Document:
 ### Theme tokens
 
 | Semantic role | Current token/class | Resolved value | Existing registry equivalent | Notes |
-| --- | --- | --- | --- | --- |
+| ------------- | ------------------- | -------------- | ---------------------------- | ----- |
 
 Include only live tokens.
 
@@ -351,7 +356,7 @@ Document every meaningful state:
 Use a table where relevant:
 
 | State | Structure change | Style change | Behaviour | Accessibility |
-| --- | --- | --- | --- | --- |
+| ----- | ---------------- | ------------ | --------- | ------------- |
 
 ### Variants and treatments
 
@@ -379,7 +384,7 @@ Extract:
 Map each visual requirement to:
 
 | Requirement | Current implementation | Existing registry source | New style required? |
-| --- | --- | --- | --- |
+| ----------- | ---------------------- | ------------------------ | ------------------- |
 
 Do not propose a new style when an existing registry token, primitive, variant, or theme treatment can express it.
 
@@ -481,7 +486,7 @@ For each:
 Required table:
 
 | Candidate | Occurrences | Shared structure | Divergence | Recommended layer | Confidence |
-| --- | ---: | --- | --- | --- | --- |
+| --------- | ----------: | ---------------- | ---------- | ----------------- | ---------- |
 
 ## 7. Identify call-site styling overrides
 
@@ -547,7 +552,7 @@ Safe cleanup candidate after reference verification.
 Required table:
 
 | Candidate | Layer | Evidence | Existing registry composition | New API needed | Source theme | Cross-theme requirement | Decision |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| --------- | ----- | -------- | ----------------------------- | -------------- | ------------ | ----------------------- | -------- |
 
 ## 10. Produce a registry-build-agent handoff
 

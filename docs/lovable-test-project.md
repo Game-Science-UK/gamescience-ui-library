@@ -2,12 +2,12 @@
 
 Paste-ready guide for creating a clean GameScience Lovable project that consumes the public registry.
 
-Pinned version: **1.0.0**
+Pinned version: **1.4.0**
 
 Registry base:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/1.0.0/r/{name}.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/r/{name}.json
 ```
 
 ---
@@ -70,7 +70,7 @@ Complete sample compatible with this library:
     "hooks": "@/hooks"
   },
   "registries": {
-    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/1.0.0/r/{name}.json"
+    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/r/{name}.json"
   }
 }
 ```
@@ -102,7 +102,7 @@ After install, wire CSS for Tailwind 4 / Lovable (see also [tailwind-v4-integrat
 /* src/styles.css */
 @import "tailwindcss";
 @import "./foundations/index.css";
-@import "./themes/gamescience.css"; /* or citadel.css / sentinel.css — one theme only */
+@import "./themes/gamescience.css"; /* or citadel.css — one theme only */
 @import "./gamescience-tw4-bridge.css"; /* copy from library consumer/tailwind-v4-bridge.css */
 ```
 
@@ -128,12 +128,12 @@ Add or update the consumer `AGENTS.md` with:
 
 ## Installed design system
 
-- GameScience UI version: `1.0.0`
+- GameScience UI version: `1.4.0`
 - Active test theme: `gamescience` (switch only via GameScienceProvider; do not mix themes)
 - Registry namespace: `@gamescience`
-- Versioned registry URL: https://game-science-uk.github.io/gamescience-ui-library/versions/1.0.0/r/{name}.json
+- Versioned registry URL: https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/r/{name}.json
 - Local installed source under `src/` is authoritative for implementation
-- Catalogue: https://game-science-uk.github.io/gamescience-ui-library/versions/1.0.0/agent-catalogue.json
+- Catalogue: https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/agent-catalogue.json
 - Local guidance: `src/docs/gamescience-ui-guidance.md`
 - Local metadata: `src/docs/gamescience-ui.json`
 

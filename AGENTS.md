@@ -7,7 +7,7 @@ Agents building GameScience games (including in Lovable) must follow these rules
 ## Before implementing UI
 
 1. Identify the current **experience context**: `participant` | `facilitator` | `shared-display`
-2. Identify the active **application theme**: `gamescience` | `citadel` | `sentinel`
+2. Identify the active **application theme**: `gamescience` | `citadel`
 3. Identify the current **game stage** (join, lobby, briefing, vote, etc.)
 4. Search `public/registry/agent-catalogue.json` and Storybook before writing new UI
 5. Prefer a complete **pattern** over assembling primitives

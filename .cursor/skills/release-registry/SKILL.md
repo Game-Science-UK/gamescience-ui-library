@@ -8,9 +8,14 @@ description: >-
   registry version, bump the library version, or publish a patch/minor/major
   release. Not for in-place re-cuts of the current version — use update-registry
   for that.
+skillUpdated: 2026-08-18
+libraryVersion: 1.3.0
+distribution: repo-maintainer
 ---
 
 # Release registry (version bump + new lock)
+
+`skillUpdated: 2026-08-18` · `libraryVersion: 1.3.0`. Report both values in the final output so the running copy can be identified.
 
 Cut a **new immutable registry version**: assess the change set, bump semver,
 refresh release metadata and migration notes, build + lock the new cut, then
@@ -60,11 +65,11 @@ Also inspect:
 
 Choose **one**:
 
-| Bump | Use when |
-| --- | --- |
-| **patch** `x.y.Z` | Bug fixes, visual corrections, docs/payload fixes that should be a new pin |
+| Bump              | Use when                                                                       |
+| ----------------- | ------------------------------------------------------------------------------ |
+| **patch** `x.y.Z` | Bug fixes, visual corrections, docs/payload fixes that should be a new pin     |
 | **minor** `x.Y.0` | Backward-compatible additions (new components, optional APIs, additive tokens) |
-| **major** `X.0.0` | Breaking token/API/behaviour changes that require forced consumer migration |
+| **major** `X.0.0` | Breaking token/API/behaviour changes that require forced consumer migration    |
 
 Announce the chosen bump and previous → next versions to the user before editing
 if the choice is ambiguous. If the user already named the target version, honour it.
@@ -245,13 +250,13 @@ https://game-science-uk.github.io/gamescience-ui-library/versions/{nextVersion}/
 
 ## Failure modes
 
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| `package.json` / `version.ts` mismatch | Incomplete bump | Align both, rebuild, revalidate |
-| Drift error on **new** version during CI | New lock/snapshot not committed | Commit `releases/{next}.lock.json` + snapshot; push |
-| Drift error on **old** version | Accidental rewrite of prior snapshot | Restore prior lock/snapshot from git; never re-cut old versions |
-| Missing migration page in validate | Doc not registered in `pages-config` | Add to `PUBLIC_PAGES_DOCS` + markers |
-| Wrong skill used for tiny same-version fix | No bump intended | Use `update-registry` |
+| Symptom                                    | Cause                                | Fix                                                             |
+| ------------------------------------------ | ------------------------------------ | --------------------------------------------------------------- |
+| `package.json` / `version.ts` mismatch     | Incomplete bump                      | Align both, rebuild, revalidate                                 |
+| Drift error on **new** version during CI   | New lock/snapshot not committed      | Commit `releases/{next}.lock.json` + snapshot; push             |
+| Drift error on **old** version             | Accidental rewrite of prior snapshot | Restore prior lock/snapshot from git; never re-cut old versions |
+| Missing migration page in validate         | Doc not registered in `pages-config` | Add to `PUBLIC_PAGES_DOCS` + markers                            |
+| Wrong skill used for tiny same-version fix | No bump intended                     | Use `update-registry`                                           |
 
 ## Hard rules
 

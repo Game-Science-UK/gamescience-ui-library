@@ -1,7 +1,8 @@
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  ALL_THEMES,
   REGISTRY_BASE_URL,
   REGISTRY_NAMESPACE,
   REGISTRY_VERSION,
@@ -51,6 +52,21 @@ function writeConsumerMetadata() {
 function ensureCleanOutput() {
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(path.join(outDir, "r"), { recursive: true });
+
+  // The categorised mirror under registry/ is committed for static serving, so
+  // clear its generated JSON too — otherwise a removed item leaves a stale
+  // payload behind that nothing rebuilds or deletes.
+  const mirrorRoot = path.join(root, "registry");
+  for (const entry of readdirSync(mirrorRoot, { withFileTypes: true })) {
+    const entryPath = path.join(mirrorRoot, entry.name);
+    if (entry.isDirectory()) {
+      for (const file of readdirSync(entryPath)) {
+        if (file.endsWith(".json")) rmSync(path.join(entryPath, file));
+      }
+    } else if (entry.name.endsWith(".json")) {
+      rmSync(entryPath);
+    }
+  }
 }
 
 function toRegistryDependency(name: string) {
@@ -98,7 +114,8 @@ function buildCatalogue() {
       avoid: item.catalogue.avoid,
       preferOver: item.catalogue.preferOver ?? [],
       contexts: item.catalogue.contexts,
-      themes: item.catalogue.themes,
+      // Theme-agnostic items omit `themes` and resolve to every supported theme.
+      themes: [...(item.catalogue.themes ?? ALL_THEMES)],
       related: item.catalogue.related ?? [],
       props: item.catalogue.props ?? [],
       uses: item.registryDependencies ?? [],

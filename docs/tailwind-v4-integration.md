@@ -11,7 +11,7 @@ independent of Tailwind support.
 
 ```bash
 npx shadcn@latest add @gamescience/base
-npx shadcn@latest add @gamescience/theme-gamescience   # or theme-citadel / theme-sentinel
+npx shadcn@latest add @gamescience/theme-gamescience   # or theme-citadel
 npx shadcn@latest add @gamescience/join-flow
 ```
 
@@ -25,7 +25,7 @@ Use the approved bridge from [`consumer/tailwind-v4-bridge.css`](../consumer/tai
 ```css
 @import "tailwindcss";
 @import "./foundations/index.css";
-@import "./themes/gamescience.css"; /* or citadel.css / sentinel.css */
+@import "./themes/gamescience.css"; /* or citadel.css */
 @import "./gamescience-tw4-bridge.css";
 ```
 
