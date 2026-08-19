@@ -24,6 +24,9 @@ function TopNav() {
           <NavLink to="/get-started" className={link}>
             Get started
           </NavLink>
+          <NavLink to="/manage" className={link}>
+            Manage
+          </NavLink>
           <NavLink to="/components" className={link}>
             Components
           </NavLink>
@@ -82,12 +85,14 @@ function Sidebar() {
   );
 }
 
-export function Layout({ withSidebar = false }: { withSidebar?: boolean }) {
+export function Layout() {
   return (
     <div className="bg-site-bg font-site text-site-fg min-h-screen antialiased">
       <TopNav />
       <div className="mx-auto flex max-w-[1400px]">
-        {withSidebar ? <Sidebar /> : null}
+        {/* The catalogue is the site's spine, so it stays available from every
+            page rather than only from component routes. */}
+        <Sidebar />
         <main className="min-w-0 flex-1 px-6 py-10">
           <Outlet />
         </main>
