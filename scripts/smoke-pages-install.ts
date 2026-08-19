@@ -428,12 +428,11 @@ function assertCleanInstall(dir: string, scenario: Scenario) {
 }
 
 async function assertPublicDocs(siteBase: string) {
+  // The composer site was replaced by a client-rendered documentation app, so
+  // its routes (/, /catalogue/, /start/, /upgrade/, /migrate/) carry no static
+  // marker text. The SPA shell and 404 fallback are asserted by pages:validate;
+  // here we only check the static registry and published-markdown surface.
   const checks: Array<{ path: string; marker: string; allowHtml?: boolean }> = [
-    { path: "/", marker: "What is a registry?", allowHtml: true },
-    { path: "/catalogue/", marker: "Component catalogue", allowHtml: true },
-    { path: "/start/", marker: "Start a new Lovable project", allowHtml: true },
-    { path: "/upgrade/", marker: "Upgrade a registry project", allowHtml: true },
-    { path: "/migrate/", marker: "Migrate an existing Lovable project", allowHtml: true },
     { path: "/docs/", marker: "GameScience UI documentation", allowHtml: true },
     { path: "/version.json", marker: `"version"`, allowHtml: true },
     { path: "/agent-catalogue.json", marker: "theme-citadel", allowHtml: true },

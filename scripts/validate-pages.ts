@@ -431,7 +431,12 @@ function main() {
     process.exit(1);
   }
 
-  assertRegistrySurfaceIntact();
+  // The unversioned surface (r/, registry.json, docs, storybook) is only
+  // written by the latest stage. In versioned mode those files are absent on a
+  // clean checkout, so only assert the surface once latest has been promoted.
+  if (mode === "full") {
+    assertRegistrySurfaceIntact();
+  }
 
   if (PAGES_VERSION !== GAMESCIENCE_UI_VERSION) {
     fail(`PAGES_VERSION !== GAMESCIENCE_UI_VERSION`);
