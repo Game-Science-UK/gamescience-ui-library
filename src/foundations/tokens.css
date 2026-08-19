@@ -109,4 +109,30 @@
 
   /* Numeric/data face — maps to mono; not a sans label font */
   --font-data: var(--font-mono);
+
+  /*
+   * Globe surface tokens.
+   *
+   * Optional theme extensions, not part of REQUIRED_THEME_TOKENS — most games
+   * never render a globe, and forcing every future theme to declare six of
+   * these would be the wrong trade. Defaults below derive from the semantic
+   * contract, so the component is legible under any theme; a theme that wants
+   * a distinct globe identity overrides them.
+   *
+   * Values are OKLCH channels, consumed as `oklch(var(--token))`.
+   */
+  /*
+   * Only literals here. A `--globe-atmosphere: var(--primary)` alias would be
+   * computed at :root and inherited frozen, so a theme's own --primary would
+   * never reach it. The component instead falls back token-by-token at read
+   * time — see `colorToken` in globe.tsx.
+   *
+   * A globe reads as a body in space, so the default sphere is dark whether
+   * the theme is light or dark; deriving it from --surface makes it vanish on
+   * a light theme.
+   */
+  --globe-surface: 0.2 0.02 260;
+  --globe-opacity: 0.55;
+  --globe-hex-opacity: 0.42;
+  --globe-atmosphere-altitude: 0.26;
 }

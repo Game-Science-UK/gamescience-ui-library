@@ -2,6 +2,18 @@
 
 Guidance for teams moving existing Lovable GameScience projects onto this library.
 
+## 1.5.0 → 1.6.0 (Globe display component)
+
+Additive. Adds `globe`, a theme-driven shared-display visual, plus optional
+`--globe-*` theme tokens declared in `base` and all three themes.
+
+1. **Pin** the registry to `versions/1.6.0`.
+2. Install `globe` only for displays that need it — it adds three.js,
+   react-globe.gl and a world topology.
+3. Other projects need no change beyond reinstalling `base` and their theme.
+
+See the dedicated note: [migrations/1.5.0-to-1.6.0.md](./migrations/1.5.0-to-1.6.0.md).
+
 ## 1.4.0 → 1.5.0 (Sentinel theme)
 
 Additive. Adds `theme-sentinel` with `cinematic` (default) and `restrained`

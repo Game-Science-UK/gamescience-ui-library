@@ -2,13 +2,8 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  composeMigrationBrief,
-  composeStartBrief,
-  composeUpgradeBrief,
-} from "../site/scripts/compose-markdown-core.js";
 import { GAMESCIENCE_UI_VERSION } from "../src/lib/version.ts";
-import { registryItems, REGISTRY_VERSION } from "./registry-manifest.ts";
+import { registryItems } from "./registry-manifest.ts";
 import {
   PAGES_SITE_PATH,
   PAGES_SITE_URL,
@@ -16,7 +11,6 @@ import {
   PUBLIC_PAGES_BRIDGE_CSS,
   PUBLIC_PAGES_DOC_MARKERS,
   PUBLIC_PAGES_DOCS,
-  versionedRegistryTemplate,
 } from "./pages-config.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -219,15 +213,10 @@ function validateRelativeDocLinks(fileName: string, content: string) {
 function validateSitePages() {
   const requiredPages = [
     "index.html",
-    "catalogue/index.html",
+    "404.html",
     "storybook/index.html",
-    "start/index.html",
-    "upgrade/index.html",
-    "migrate/index.html",
-    "site-data.json",
+    "docs/index.html",
     "docs/migration-config.json",
-    "assets/compose-markdown-core.js",
-    "assets/site.css",
   ];
   for (const relative of requiredPages) {
     assertExists(path.join(pagesDist, relative), relative);
@@ -245,243 +234,37 @@ function validateSitePages() {
     }
   }
 
+  // The documentation app is a single-page build; deep links depend on the 404
+  // copy being byte-identical to index.html.
   const indexHtml = readFileSync(path.join(pagesDist, "index.html"), "utf8");
-  if (!indexHtml.includes("What is a registry?") || !indexHtml.includes("Choose a workflow")) {
-    fail("homepage appears to be the old registry-only stub");
+  const notFoundHtml = readFileSync(path.join(pagesDist, "404.html"), "utf8");
+  if (indexHtml !== notFoundHtml) {
+    fail("404.html must be a copy of index.html for client-side deep links");
   }
-  if (!indexHtml.includes(PAGES_VERSION)) {
-    fail("homepage missing current PAGES_VERSION");
+  if (!/<script[^>]+type="module"[^>]+src="[^"]*assets\//.test(indexHtml)) {
+    fail("index.html does not reference a built app bundle");
   }
-  if (!indexHtml.includes("Theme controls visual identity")) {
-    fail("homepage missing theme/context/role/route mental-model copy");
-  }
-  if (!indexHtml.includes("/docs/context-model.md")) {
-    fail("homepage missing link to /docs/context-model.md");
-  }
-  if (!indexHtml.includes(`${PAGES_SITE_PATH}/storybook/`)) {
-    fail("homepage missing Storybook nav link");
-  }
-  for (const label of ["Participant", "Facilitator", "Shared display"]) {
-    if (!indexHtml.includes(label)) {
-      fail(`homepage missing context card label ${label}`);
-    }
-  }
-  if (!indexHtml.includes("Games do not need to implement every context")) {
-    fail("homepage missing optional-context note");
+  if (!indexHtml.includes(`${PAGES_SITE_PATH}/`)) {
+    fail("index.html assets are not based at the Pages project path");
   }
 
-  const siteData = assertJson(path.join(pagesDist, "site-data.json"), "site-data.json") as {
-    version?: string;
-    itemCount?: number;
-    catalogue?: Array<Record<string, unknown>>;
-  } | null;
-  if (siteData) {
-    if (siteData.version !== PAGES_VERSION) {
-      fail(`site-data.json version mismatch: ${String(siteData.version)}`);
-    }
-    if (
-      siteData.itemCount !== registryItems.length ||
-      !Array.isArray(siteData.catalogue) ||
-      siteData.catalogue.length !== registryItems.length
-    ) {
-      fail(
-        `site-data.json must contain exactly ${registryItems.length} normalized catalogue items (REGISTRY_VERSION=${REGISTRY_VERSION})`,
-      );
-    }
-    for (const item of siteData.catalogue ?? []) {
-      for (const field of [
-        "name",
-        "category",
-        "scope",
-        "description",
-        "contexts",
-        "contextLabel",
-        "family",
-        "dependencies",
-        "rawRegistryUrl",
-        "versionedRegistryUrl",
-      ]) {
-        if (item[field] === undefined || item[field] === null || item[field] === "") {
-          fail(`site-data catalogue item missing ${field}`);
-          break;
-        }
-      }
-      const rawUrl = String(item.rawRegistryUrl ?? "");
-      const versionedUrl = String(item.versionedRegistryUrl ?? "");
-      if (!rawUrl.startsWith(`${PAGES_SITE_PATH}/r/`)) {
-        fail(`rawRegistryUrl must use Pages base path, got ${rawUrl}`);
-      }
-      if (!versionedUrl.startsWith(`${PAGES_SITE_PATH}/versions/`)) {
-        fail(`versionedRegistryUrl must use Pages base path, got ${versionedUrl}`);
-      }
-      if (rawUrl.includes("..") || versionedUrl.includes("..")) {
-        fail("catalogue URLs must not use path traversal");
-      }
+  // Composer routes were replaced by the documentation app; stale copies would
+  // still be served by Pages.
+  for (const removed of ["start", "upgrade", "migrate", "catalogue", "site-data.json"]) {
+    if (existsSync(path.join(pagesDist, removed))) {
+      fail(`${removed} is a removed composer route and must not be published`);
     }
   }
 
-  const migrationConfig = assertJson(
-    path.join(pagesDist, "docs/migration-config.json"),
-    "docs/migration-config.json",
-  ) as { version?: string; modules?: Record<string, unknown> } | null;
-  if (migrationConfig) {
-    if (migrationConfig.version !== PAGES_VERSION) {
-      fail("migration-config.json version mismatch");
-    }
-    const modules = migrationConfig.modules ?? {};
-    for (const key of [
-      "core",
-      "architectureRules",
-      "contextModel",
-      "fileOwnership",
-      "modes",
-      "themes",
-      "stacks",
-      "contexts",
-      "overwritePolicy",
-      "finalReport",
-      "start",
-      "upgrade",
-    ]) {
-      if (!(key in modules)) fail(`migration-config.json missing modules.${key}`);
-    }
-    const stacks = (modules.stacks ?? {}) as Record<string, unknown>;
-    for (const key of ["tailwind3", "tailwind4", "detect"]) {
-      if (typeof stacks[key] !== "string" || !(stacks[key] as string).trim()) {
-        fail(`migration-config.json missing stacks.${key}`);
-      }
-    }
-    if ("lovable-tailwind4" in stacks || "unknown" in stacks) {
-      fail("migration-config.json must not publish legacy stack keys lovable-tailwind4/unknown");
-    }
-    const contextModel = modules.contextModel;
-    if (typeof contextModel !== "string" || !contextModel.trim()) {
-      fail("migration-config.json modules.contextModel must be a non-empty string");
-    } else {
-      const occurrences = (JSON.stringify(modules).match(/## Experience context model/g) ?? [])
-        .length;
-      if (occurrences !== 1) {
-        fail(
-          `migration-config.json must include the context-model module heading exactly once (found ${occurrences})`,
-        );
-      }
-      for (const marker of [
-        "inferred user roles",
-        "Not every application needs all three contexts",
-        "Shared-display privacy contract",
-        "Authorisation separation",
-        "src/docs/gamescience-ui-contexts.md",
-        "Required context audit table",
-      ]) {
-        if (!contextModel.includes(marker)) {
-          fail(`migration-config.json contextModel missing marker: ${marker}`);
-        }
-      }
-      if (
-        /facilitator context (grants|equals|means) facilitator (authority|permission)/i.test(
-          contextModel,
-        )
-      ) {
-        fail("contextModel must not equate facilitator context with facilitator authority");
-      }
-      if (/implement all three contexts by default/i.test(contextModel)) {
-        fail("contextModel must not require all three contexts by default");
-      }
-
-      const registryUrl = versionedRegistryTemplate();
-      const sampleBriefs = [
-        composeMigrationBrief({
-          modules: modules as never,
-          version: PAGES_VERSION,
-          registryUrl,
-          theme: "citadel",
-          mode: "audit",
-          stack: "detect",
-          contexts: ["participant"],
-          projectType: "participant-experience",
-          generatedAt: "2026-07-30",
-        }),
-        composeStartBrief({
-          modules: modules as never,
-          version: PAGES_VERSION,
-          registryUrl,
-          theme: "gamescience",
-          contexts: ["participant", "facilitator", "shared-display"],
-          generatedAt: "2026-07-30",
-        }),
-        composeUpgradeBrief({
-          modules: modules as never,
-          fromVersion: "0.2.0",
-          toVersion: PAGES_VERSION,
-          registryUrl,
-          theme: "citadel",
-          contextModelStatus: "unknown",
-          generatedAt: "2026-07-30",
-        }),
-      ];
-      for (const brief of sampleBriefs) {
-        for (const marker of [
-          "Experience context model",
-          "inferred user roles",
-          "Shared-display privacy contract",
-          "Not every application needs all three contexts",
-        ]) {
-          if (!brief.includes(marker)) {
-            fail(`generated brief missing context marker: ${marker}`);
-          }
-        }
-        if (/player mode|host mode|board mode|projection mode/i.test(brief)) {
-          fail("generated brief contains stale non-canonical context vocabulary");
-        }
-        if (
-          /facilitator context (grants|equals|means) facilitator (authority|permission)/i.test(
-            brief,
-          )
-        ) {
-          fail("generated brief equates facilitator context with facilitator authority");
-        }
-      }
-    }
-  }
-
-  // Generator scripts must not use raw innerHTML.
-  const assetsDir = path.join(pagesDist, "assets");
-  if (existsSync(assetsDir)) {
-    for (const entry of readdirSync(assetsDir)) {
-      if (!entry.endsWith(".js")) continue;
-      const source = readFileSync(path.join(assetsDir, entry), "utf8");
-      if (/\.innerHTML\s*=/.test(source) && !source.includes("escapeHtml")) {
-        fail(`assets/${entry} assigns innerHTML without approved escape helper usage`);
-      }
-    }
-  }
-
-  // First-party absolute Pages links in HTML must resolve under pages-dist.
-  // storybook/ is a third-party static app; its internal asset graph is not checked here.
-  for (const relative of [
-    "index.html",
-    "catalogue/index.html",
-    "start/index.html",
-    "upgrade/index.html",
-    "migrate/index.html",
-    "docs/index.html",
-  ]) {
-    const full = path.join(pagesDist, relative);
-    if (!existsSync(full)) continue;
-    const html = readFileSync(full, "utf8");
-    for (const match of html.matchAll(/href="(\/gamescience-ui-library\/[^"]+)"/g)) {
-      const href = match[1]!;
-      if (href.includes("..")) {
-        fail(`${relative} has traversal href ${href}`);
-        continue;
-      }
-      const mapped = href.replace(PAGES_SITE_PATH, "");
-      const target = path.join(pagesDist, mapped.replace(/^\//, ""));
-      const asFile = target.endsWith("/") ? path.join(target, "index.html") : target;
-      if (!existsSync(asFile) && !existsSync(target)) {
-        fail(`${relative} links to missing Pages path ${href}`);
-      }
-    }
+  // Skills are published as raw markdown so the site renders live source.
+  const skillsOut = path.join(pagesDist, "skills");
+  assertExists(skillsOut, "skills");
+  const publishedSkills = readdirSync(skillsOut).filter((entry) => entry.endsWith(".md"));
+  const sourceSkills = readdirSync(path.join(root, "skills")).filter((entry) =>
+    entry.endsWith(".md"),
+  );
+  if (publishedSkills.length !== sourceSkills.length) {
+    fail(`skills/: published ${publishedSkills.length} of ${sourceSkills.length} source skills`);
   }
 }
 
@@ -594,11 +377,61 @@ function validateLock(version: string) {
   }
 }
 
+/**
+ * The documentation app owns index.html, 404.html and assets/ only.
+ *
+ * Everything a consumer or the shadcn CLI resolves — item payloads, immutable
+ * version trees, published docs, skills and root metadata — is written by
+ * build-pages. This asserts the app has not shadowed any of it, so a site
+ * change can never break an install or a pinned project.
+ */
+function assertRegistrySurfaceIntact() {
+  const required = [
+    "r/base.json",
+    "registry.json",
+    "version.json",
+    "agent-catalogue.json",
+    "docs/registry-usage.md",
+    "docs/migration-config.json",
+    "storybook/index.html",
+  ];
+
+  for (const relative of required) {
+    const target = path.join(pagesDist, relative);
+    if (!existsSync(target)) {
+      throw new Error(`[pages:validate] registry surface missing ${relative}`);
+    }
+  }
+
+  // The app must never emit into a registry-owned directory.
+  const appOwned = new Set(["index.html", "404.html", "assets"]);
+  for (const reserved of ["r", "versions", "docs", "skills", "storybook"]) {
+    const dir = path.join(pagesDist, reserved);
+    if (!existsSync(dir)) continue;
+    if (appOwned.has(reserved)) {
+      throw new Error(`[pages:validate] ${reserved} collides with app-owned output`);
+    }
+  }
+
+  // Item payloads must still parse as registry items.
+  const base = JSON.parse(readFileSync(path.join(pagesDist, "r/base.json"), "utf8")) as {
+    name?: string;
+    files?: unknown[];
+  };
+  if (base.name !== "base" || !Array.isArray(base.files) || base.files.length === 0) {
+    throw new Error("[pages:validate] r/base.json is not a valid registry item");
+  }
+
+  console.log("[pages:validate] registry surface intact (payloads, versions, docs, skills)");
+}
+
 function main() {
   if (!existsSync(pagesDist)) {
     fail("pages-dist missing — run npm run pages:build");
     process.exit(1);
   }
+
+  assertRegistrySurfaceIntact();
 
   if (PAGES_VERSION !== GAMESCIENCE_UI_VERSION) {
     fail(`PAGES_VERSION !== GAMESCIENCE_UI_VERSION`);

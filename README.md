@@ -51,6 +51,8 @@ npm install
 | `npm test`                         | Vitest                                         |
 | `npm run build`                    | Library/app build                              |
 | `npm run build-storybook`          | Static Storybook                               |
+| `npm run site:dev`                 | Documentation site with hot reload             |
+| `npm run site:build`               | Build the documentation site to `site-dist`    |
 | `npm run theme:check`              | Theme token contract                           |
 | `npm run theme:new`                | Scaffold a new theme (all registration steps)  |
 | `npm run theme:oklch`              | Convert hex colours to OKLCH token channels    |
@@ -68,6 +70,36 @@ npm install
 | `npm run smoke:registry-overwrite` | Observe shadcn reinstall/overwrite behaviour   |
 | `npm run smoke:pages`              | Install from locally served Pages output       |
 | `npm run validate`                 | Full validation suite                          |
+
+## Documentation site
+
+The registry site is a React app in `site-app/`. Previews are real components
+inside a real `GameScienceProvider`, so the theme / context / register switcher
+genuinely re-themes them.
+
+```bash
+npm run site:dev
+```
+
+Serves on `http://localhost:5173/gamescience-ui-library/` — note the project
+path, which matches GitHub Pages. Skills and docs are served from `skills/` and
+`docs/` by a dev middleware, so what you see locally is what deploys.
+
+To check the real published output instead, including Storybook and every
+registry JSON endpoint:
+
+```bash
+npm run pages:build
+```
+
+```bash
+npm run pages:serve
+```
+
+That serves `pages-dist` on `http://localhost:4177`. Deep links such as
+`/components/button` rely on the `404.html` fallback, which GitHub Pages honours
+but most static servers do not — navigate from the home page when testing
+locally.
 
 ## Storybook
 
@@ -104,7 +136,7 @@ Prefer the **versioned** consumer config:
 ```json
 {
   "registries": {
-    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/1.5.0/r/{name}.json"
+    "@gamescience": "https://game-science-uk.github.io/gamescience-ui-library/versions/1.6.0/r/{name}.json"
   }
 }
 ```
@@ -173,7 +205,7 @@ source file across after editing and `skills:check` will confirm they match.
 
 ## Versioning
 
-Current version: **1.5.0** (`GAMESCIENCE_UI_VERSION`). Includes the complete standard primitive layer, the game-agnostic pattern suite, and the Sentinel theme.
+Current version: **1.6.0** (`GAMESCIENCE_UI_VERSION`). Includes the primitive layer, the game-agnostic pattern suite, three themes, and the Globe display component.
 
 Installed registry components are project-local source. Updates do not automatically propagate across Lovable projects. Record the installed version in each consuming app. Prefer tagged/versioned registry URLs over unversioned `main` in production.
 

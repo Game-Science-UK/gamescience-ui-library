@@ -208,11 +208,11 @@ if (!manifest.includes(anchor)) {
   writeFileSync(manifestPath, manifest.replace(anchor, `${item}${anchor}`));
 }
 
-// ------------------------------------------- 6. public composer theme module
+// ---------------------------------------------- 6. migration theme module
 
-// The Start/Migrate/Upgrade composers compose a per-theme validation lens.
-// `composeStartBrief` throws when a supported theme has no module, so this must
-// exist for every entry in SUPPORTED_THEMES.
+// `migration-config.json` carries a per-theme validation lens, compiled from
+// these modules and fetched by the adopt and migrate skills. The compiler
+// iterates SUPPORTED_THEMES, so a missing module fails the build.
 const moduleDir = path.join(repoRoot, "site/migration-modules/themes");
 const modulePath = path.join(moduleDir, `${slug}.md`);
 mkdirSync(moduleDir, { recursive: true });
@@ -235,38 +235,6 @@ Do **not** create \`${title.replace(/\s+/g, "")}Button\` or other ${title}-speci
 `,
 );
 
-const sitePagesPath = path.join(repoRoot, "scripts/write-site-pages.ts");
-const sitePages = readFileSync(sitePagesPath, "utf8");
-const lastModule = [...sitePages.matchAll(/^(\s*)([a-z0-9-]+): readModule\("themes\/[^"]+"\),$/gm)]
-  .filter((match) => (SUPPORTED_THEMES as readonly string[]).includes(match[2] ?? ""))
-  .pop();
-const radioPattern =
-  /^(\s*)<label><input type="radio" name="theme" value="([a-z0-9-]+)" \/> [^<]*<\/label>$/gm;
-const radios = [...sitePages.matchAll(radioPattern)].filter((match) =>
-  (SUPPORTED_THEMES as readonly string[]).includes(match[2] ?? ""),
-);
-
-if (!lastModule || radios.length === 0) {
-  console.warn(
-    "[theme:new] could not update scripts/write-site-pages.ts — add the composer " +
-      "module loader and theme radio inputs manually",
-  );
-} else {
-  let updated = sitePages.replace(
-    lastModule[0],
-    `${lastModule[0]}\n${lastModule[1]}${slug}: readModule("themes/${slug}.md"),`,
-  );
-  // One radio per composer page (start / migrate / upgrade).
-  const lastPerPage = radios.filter((match) => match[2] === radios[radios.length - 1]?.[2]);
-  for (const radio of lastPerPage) {
-    updated = updated.replace(
-      radio[0],
-      `${radio[0]}\n${radio[1]}<label><input type="radio" name="theme" value="${slug}" /> ${title}</label>`,
-    );
-  }
-  writeFileSync(sitePagesPath, updated);
-}
-
 // ------------------------------------------------------------------ summary
 
 console.log(`[theme:new] scaffolded "${slug}" (${title})
@@ -279,7 +247,6 @@ console.log(`[theme:new] scaffolded "${slug}" (${title})
   updated  .storybook/preview.tsx        theme toolbar
   updated  scripts/registry-manifest.ts  theme-${slug} item
   created  site/migration-modules/themes/${slug}.md
-  updated  scripts/write-site-pages.ts     composer module + radios
 
 Theme-agnostic registry items resolve from SUPPORTED_THEMES — no per-item edits needed.
 

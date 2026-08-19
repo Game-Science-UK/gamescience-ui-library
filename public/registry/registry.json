@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "gamescience",
   "homepage": "https://gamescience.ai",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "items": [
     {
       "name": "base",
@@ -638,6 +638,29 @@
           "path": "src/components/display/room-code-display.tsx",
           "type": "registry:component",
           "target": "src/components/display/room-code-display.tsx"
+        }
+      ]
+    },
+    {
+      "name": "globe",
+      "type": "registry:component",
+      "title": "Globe",
+      "description": "Rotating hex-tessellated globe for shared displays, with markers, rings, arcs and site points. Palette comes entirely from the --globe-* theme tokens. Heavy: installs three.js, react-globe.gl and a world topology.",
+      "registryDependencies": [
+        "@gamescience/base"
+      ],
+      "dependencies": [
+        "react-globe.gl",
+        "three",
+        "topojson-client",
+        "world-atlas",
+        "h3-js"
+      ],
+      "files": [
+        {
+          "path": "src/components/display/globe.tsx",
+          "type": "registry:component",
+          "target": "src/components/display/globe.tsx"
         }
       ]
     },

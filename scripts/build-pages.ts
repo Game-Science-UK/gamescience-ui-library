@@ -11,7 +11,10 @@ import {
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { registryItems } from "./registry-manifest.ts";
+import { publishMigrationModules } from "./publish-migration-modules.ts";
+import { buildSkillsIndex, skillFiles } from "./skills-index.ts";
 import {
+  PAGES_SITE_PATH,
   PAGES_SITE_URL,
   PAGES_VERSION,
   PUBLIC_PAGES_BRIDGE_CSS,
@@ -21,11 +24,11 @@ import {
   latestRegistryTemplate,
   versionedRegistryTemplate,
 } from "./pages-config.ts";
-import { writeSitePages } from "./write-site-pages.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const registrySource = path.join(root, "public/registry");
 const storybookSource = path.join(root, "storybook-static");
+const siteAppDist = path.join(root, "site-dist");
 const pagesDist = path.join(root, "pages-dist");
 const releasesDir = path.join(root, "releases");
 const snapshotsDir = path.join(releasesDir, "snapshots");
@@ -72,7 +75,7 @@ function copyRegistryTree(targetRoot: string) {
   }
 }
 
-function writePublicDocs(writeDocsIndex: (docsOut: string, extraDocs: string[]) => void) {
+function writePublicDocs() {
   const docsOut = path.join(pagesDist, "docs");
   mkdirSync(docsOut, { recursive: true });
 
@@ -99,7 +102,8 @@ function writePublicDocs(writeDocsIndex: (docsOut: string, extraDocs: string[]) 
     throw new Error("Missing consumer/tailwind-v4-bridge.css");
   }
   cpSync(bridgeSource, path.join(docsOut, PUBLIC_PAGES_BRIDGE_CSS));
-  writeDocsIndex(docsOut, []);
+  publishMigrationModules(docsOut, listLockedVersions());
+  writeDocsIndex(docsOut);
 
   console.log(
     `[pages:build] published ${PUBLIC_PAGES_DOCS.length} docs + ${PUBLIC_PAGES_BRIDGE_CSS}`,
@@ -231,6 +235,91 @@ function writeVersionedCandidate() {
   console.log(`[pages:build] run pages:validate:versioned then npm run pages:build:latest`);
 }
 
+/**
+ * Publishes the agent skills as raw markdown alongside the docs, so the skills
+ * pages render the current source rather than a transcribed copy.
+ */
+/**
+ * A plain index for `/docs/`. The documentation app renders these, but the raw
+ * directory is fetched directly by skills and by anyone reading the published
+ * markdown, so it keeps a static listing that needs no JavaScript.
+ */
+function writeDocsIndex(docsOut: string) {
+  const rows = PUBLIC_PAGES_DOCS.map(
+    (name) => `      <li><a href="./${name}">${name}</a></li>`,
+  ).join("\n");
+
+  writeFileSync(
+    path.join(docsOut, "index.html"),
+    `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GameScience UI documentation</title>
+    <style>
+      body { margin: 0 auto; max-width: 46rem; padding: 3rem 1.5rem;
+             background: #111114; color: #eeeef4;
+             font: 15px/1.6 system-ui, sans-serif; }
+      a { color: #a9a2ff; }
+      li { margin: 0.25rem 0; }
+      code { font-family: ui-monospace, monospace; }
+    </style>
+  </head>
+  <body>
+    <h1>GameScience UI documentation</h1>
+    <p>Raw published markdown for version <code>${PAGES_VERSION}</code>.
+       The rendered site lives at <a href="${PAGES_SITE_PATH}/docs">${PAGES_SITE_PATH}/docs</a>.</p>
+    <ul>
+${rows}
+    </ul>
+    <p><a href="./migration-config.json">migration-config.json</a> — compiled migration modules.</p>
+  </body>
+</html>
+`,
+  );
+}
+
+function publishSkills() {
+  const skillsSource = path.join(root, "skills");
+  const skillsOut = path.join(pagesDist, "skills");
+  rmSync(skillsOut, { recursive: true, force: true });
+  mkdirSync(skillsOut, { recursive: true });
+
+  const names = skillFiles();
+  for (const name of names) {
+    cpSync(path.join(skillsSource, name), path.join(skillsOut, name));
+  }
+
+  writeFileSync(
+    path.join(skillsOut, "index.json"),
+    `${JSON.stringify(buildSkillsIndex(), null, 2)}\n`,
+  );
+  console.log(`[pages:build] published ${names.length} skills + index at /skills/`);
+}
+
+/**
+ * Copies the built documentation app into the Pages root.
+ *
+ * The app owns `index.html`, `404.html` and `assets/` only. Every registry path
+ * (`/r`, `/versions`, `/docs`, `/skills`, `/storybook`, and the root metadata
+ * JSON) is written elsewhere in this file and asserted untouched by
+ * pages:validate.
+ */
+function publishSiteApp() {
+  if (!existsSync(siteAppDist)) {
+    throw new Error("site-dist is missing. Run npm run site:build before pages:build:latest.");
+  }
+
+  for (const entry of readdirSync(siteAppDist)) {
+    cpSync(path.join(siteAppDist, entry), path.join(pagesDist, entry), { recursive: true });
+  }
+
+  // GitHub Pages has no rewrite rules; a 404 copy makes client-side deep links work.
+  cpSync(path.join(pagesDist, "index.html"), path.join(pagesDist, "404.html"));
+  console.log(`[pages:build] published documentation app + 404 fallback`);
+}
+
 function publishStorybook() {
   const indexPath = path.join(storybookSource, "index.html");
   if (!existsSync(indexPath)) {
@@ -267,9 +356,11 @@ function promoteLatestFromVersioned() {
   rmSync(path.join(pagesDist, "migrate"), { recursive: true, force: true });
   rmSync(path.join(pagesDist, "storybook"), { recursive: true, force: true });
   rmSync(path.join(pagesDist, "assets"), { recursive: true, force: true });
+  rmSync(path.join(pagesDist, "site-data.json"), { force: true });
 
-  const { writeDocsIndex } = writeSitePages(pagesDist);
-  writePublicDocs(writeDocsIndex);
+  publishSiteApp();
+  writePublicDocs();
+  publishSkills();
   publishStorybook();
   writeFileSync(path.join(pagesDist, ".nojekyll"), "");
 

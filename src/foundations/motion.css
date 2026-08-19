@@ -20,3 +20,69 @@
 .gs-pressable:active:not(:disabled) {
   transform: scale(var(--press-scale));
 }
+
+/*
+ * Globe marker defaults.
+ *
+ * Base structure and motion for the `Globe` display component, so a marker is
+ * legible under any theme. Themes override the surrounding tokens rather than
+ * these rules; the glow and pulse read from custom properties the component
+ * sets per marker.
+ */
+.gs-globe-marker {
+  color: var(--gs-globe-marker-color, oklch(var(--globe-marker)));
+  height: var(--gs-globe-marker-size, 16px);
+  width: var(--gs-globe-marker-size, 16px);
+  will-change: transform;
+}
+
+.gs-globe-marker-inner {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.gs-globe-marker-glow {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, currentColor 55%, transparent) 0%,
+    transparent 68%
+  );
+  inset: -55%;
+  opacity: var(--gs-globe-marker-glow, 0.4);
+  position: absolute;
+}
+
+.gs-globe-marker-pulse {
+  animation: gs-globe-marker-pulse var(--gs-globe-marker-duration, 3s) var(--ease-standard) infinite;
+  display: block;
+  transform: scale(var(--gs-globe-marker-scale, 1));
+}
+
+/* A resolved marker stops asking for attention. */
+.gs-globe-marker.is-resolved .gs-globe-marker-pulse {
+  animation: none;
+}
+
+.gs-globe-marker.is-resolved {
+  opacity: 0.45;
+}
+
+@keyframes gs-globe-marker-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-globe-marker-pulse {
+    animation: none;
+  }
+}

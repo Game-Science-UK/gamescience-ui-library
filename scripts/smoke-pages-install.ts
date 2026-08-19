@@ -502,57 +502,30 @@ async function assertPublicDocs(siteBase: string) {
     version: string;
     modules: Record<string, unknown>;
   };
-  const { composeMigrationBrief, composeStartBrief, composeUpgradeBrief } =
-    await import("../site/scripts/compose-markdown-core.js");
-  const registryUrl = `${siteBase}/versions/${migrationConfig.version}/r/{name}.json`;
-  const migrateBrief = composeMigrationBrief({
-    modules: migrationConfig.modules as never,
-    version: migrationConfig.version,
-    registryUrl,
-    theme: "citadel",
-    mode: "incremental",
-    stack: "detect",
-    contexts: ["participant"],
-    projectType: "participant-experience",
-    generatedAt: "2026-07-30",
-  });
-  const startBrief = composeStartBrief({
-    modules: migrationConfig.modules as never,
-    version: migrationConfig.version,
-    registryUrl,
-    theme: "gamescience",
-    contexts: ["participant", "facilitator"],
-    generatedAt: "2026-07-30",
-  });
-  const upgradeBrief = composeUpgradeBrief({
-    modules: migrationConfig.modules as never,
-    fromVersion: "0.2.0",
-    toVersion: migrationConfig.version,
-    registryUrl,
-    theme: "citadel",
-    contextModelStatus: "partial",
-    generatedAt: "2026-07-30",
-  });
-  for (const [label, brief] of [
-    ["migrate", migrateBrief],
-    ["start", startBrief],
-    ["upgrade", upgradeBrief],
-  ] as const) {
-    for (const marker of [
-      "Experience context model",
-      "inferred user roles",
-      "Shared-display privacy contract",
-      "src/docs/gamescience-ui-contexts.md",
-    ]) {
-      if (!brief.includes(marker)) {
-        throw new Error(`[smoke:pages] live ${label} brief missing "${marker}"`);
-      }
+  // The composer UI is gone; migration-config.json remains a published contract
+  // because the adopt and migrate skills fetch it.
+  for (const key of ["core", "architectureRules", "themes", "stacks", "contexts"]) {
+    if (!(key in migrationConfig.modules)) {
+      throw new Error(`[smoke:pages] migration-config.json missing module "${key}"`);
     }
   }
-  if (!upgradeBrief.includes("Context-model compatibility review")) {
-    throw new Error("[smoke:pages] live upgrade brief missing context-model compatibility review");
+  console.log("[smoke:pages] docs OK /docs/migration-config.json (module corpus present)");
+
+  // Documentation app surfaces.
+  const skillsIndexResponse = await fetch(`${siteBase}/skills/index.json`);
+  if (!skillsIndexResponse.ok) {
+    throw new Error(`[smoke:pages] /skills/index.json returned HTTP ${skillsIndexResponse.status}`);
   }
-  console.log("[smoke:pages] live Start/Migrate/Upgrade briefs include context sections");
+  const skillsIndex = (await skillsIndexResponse.json()) as Array<{ slug: string }>;
+  if (skillsIndex.length === 0) {
+    throw new Error("[smoke:pages] /skills/index.json is empty");
+  }
+  const firstSkill = skillsIndex[0]?.slug;
+  const skillResponse = await fetch(`${siteBase}/skills/${firstSkill}.md`);
+  if (!skillResponse.ok) {
+    throw new Error(`[smoke:pages] /skills/${firstSkill}.md returned HTTP ${skillResponse.status}`);
+  }
+  console.log(`[smoke:pages] skills OK (${skillsIndex.length} indexed, ${firstSkill}.md fetched)`);
 
   for (const check of checks) {
     const response = await fetch(`${siteBase}${check.path}`);

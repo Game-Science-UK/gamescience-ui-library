@@ -11,3 +11,6 @@ node_modules
 coverage
 tmp
 package-lock.json
+
+# Documentation app build output (merged into pages-dist by build-pages).
+site-dist

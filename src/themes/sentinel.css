@@ -130,6 +130,17 @@
   --bloom-shadow:
     0 0 24px oklch(var(--accent-ambient) / 0.32), 0 0 60px oklch(var(--accent-ambient) / 0.16);
   --kicker-shadow: 0 0 12px oklch(var(--accent-ambient) / 0.25);
+
+  /* Globe — ice atmosphere over a deep void sphere. Ambient chrome, so it
+   * follows the ambient accent rather than the violet state accent. */
+  --globe-atmosphere: var(--accent-ambient);
+  --globe-hex: var(--accent-ambient);
+  --globe-marker: var(--accent-ambient);
+  --globe-surface: 0.178 0.034 259.9;
+  --globe-specular: 0.4 0.047 233.6;
+  --globe-opacity: 0.55;
+  --globe-hex-opacity: 0.42;
+  --globe-atmosphere-altitude: 0.26;
 }
 
 /* Register: restrained. Indigo ambience, flat, zero glow. Timings unchanged. */
@@ -164,6 +175,10 @@
   --wash-shadow: none;
   --bloom-shadow: none;
   --kicker-shadow: none;
+
+  /* Flatter globe for projector conditions. */
+  --globe-opacity: 0.75;
+  --globe-atmosphere-altitude: 0.16;
 }
 
 /* ---------------------------------------------------------------- controls */

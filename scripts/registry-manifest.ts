@@ -911,6 +911,39 @@ export const registryItems: RegistryItemDefinition[] = [
     },
   },
   {
+    name: "globe",
+    type: "registry:component",
+    title: "Globe",
+    description:
+      "Rotating hex-tessellated globe for shared displays, with markers, rings, arcs and site points. Palette comes entirely from the --globe-* theme tokens. Heavy: installs three.js, react-globe.gl and a world topology.",
+    category: "component",
+    registryDependencies: ["base"],
+    dependencies: ["react-globe.gl", "three", "topojson-client", "world-atlas", "h3-js"],
+    files: [
+      {
+        path: "src/components/display/globe.tsx",
+        type: "registry:component",
+        target: "src/components/display/globe.tsx",
+      },
+    ],
+    catalogue: {
+      useWhen: [
+        "a shared display needs a geographic ambient or incident surface",
+        "the game's identity depends on a distinctive room-scale visual",
+      ],
+      avoid: [
+        "participant mobile surfaces — the dependency weight is not justified",
+        "installing it for a game that does not render a globe",
+        "putting scoring, geography or timing inside it; supply positions as props",
+      ],
+      contexts: ["shared-display"],
+      related: ["shared-display-shell", "shared-display-game"],
+      props: ["markers", "rings", "arcs", "sites", "autoRotate", "pointOfView"],
+      family: "game-display",
+      interactive: false,
+    },
+  },
+  {
     name: "display-heading",
     type: "registry:component",
     title: "Display Heading",

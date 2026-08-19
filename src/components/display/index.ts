@@ -1,3 +1,11 @@
+export {
+  Globe,
+  type GlobeArc,
+  type GlobeMarker,
+  type GlobeProps,
+  type GlobeRing,
+  type GlobeSite,
+} from "./globe";
 export { DisplayHeading, type DisplayHeadingProps } from "./display-heading";
 export {
   ParticipantCountDisplay,

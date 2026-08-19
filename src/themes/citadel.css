@@ -180,6 +180,13 @@
     oklch(0.216 0.053 254.7 / 0.5) 70%,
     transparent
   );
+  /* Globe — HUD hologram: the body recedes into the field so the cyan rim and
+   * land dots carry the shape. */
+  --globe-surface: var(--background);
+  --globe-specular: var(--primary);
+  --globe-opacity: 0.62;
+  --globe-hex-opacity: 0.5;
+  --globe-atmosphere-altitude: 0.22;
 }
 
 /* Shared-display density must not soften Citadel geometry */

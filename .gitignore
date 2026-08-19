@@ -35,3 +35,6 @@ tmp
 # Generated registry output is committed for static serving convenience,
 # but local smoke fixtures are not.
 tmp/
+
+# Documentation app build output
+site-dist

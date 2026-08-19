@@ -1,0 +1,142 @@
+/* CSS requires @import first. Library foundations + every theme, so previews
+ * can switch theme at runtime. */
+@import "../../src/foundations/index.css";
+@import "../../src/themes/index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Foundations paint `body` for consumer apps. The docs site owns its chrome, so
+ * the provider scopes theme variables to previews and the body keeps the site
+ * palette. This rule is last, so it wins over the imported one.
+ */
+body {
+  background-color: hsl(240 6% 7%);
+  color: hsl(240 6% 96%);
+}
+
+/*
+ * Prose styling for published markdown (skills, docs). Scoped so it cannot
+ * reach component previews, which must render exactly as the theme dictates.
+ */
+.site-prose {
+  color: hsl(240 4% 64%);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.site-prose > * + * {
+  margin-top: 1rem;
+}
+.site-prose h1,
+.site-prose h2,
+.site-prose h3,
+.site-prose h4 {
+  color: hsl(240 6% 96%);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.site-prose h1 {
+  font-size: 1.75rem;
+  margin-top: 2rem;
+}
+.site-prose h2 {
+  font-size: 1.3rem;
+  margin-top: 2.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid hsl(240 5% 18%);
+}
+.site-prose h3 {
+  font-size: 1.05rem;
+  margin-top: 1.75rem;
+}
+.site-prose h4 {
+  font-size: 0.95rem;
+  margin-top: 1.5rem;
+}
+.site-prose a {
+  color: hsl(345 76% 70%);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.site-prose strong {
+  color: hsl(240 6% 96%);
+  font-weight: 600;
+}
+.site-prose ul,
+.site-prose ol {
+  padding-left: 1.25rem;
+}
+.site-prose ul {
+  list-style: disc;
+}
+.site-prose ol {
+  list-style: decimal;
+}
+.site-prose li + li {
+  margin-top: 0.35rem;
+}
+.site-prose code {
+  background: hsl(240 5% 13%);
+  border-radius: 3px;
+  color: hsl(240 6% 90%);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.86em;
+  padding: 0.12em 0.36em;
+}
+.site-prose pre {
+  background: hsl(240 6% 5%);
+  border: 1px solid hsl(240 5% 18%);
+  border-radius: 8px;
+  overflow-x: auto;
+  padding: 0.9rem 1rem;
+}
+.site-prose pre code {
+  background: none;
+  font-size: 12.5px;
+  padding: 0;
+}
+.site-prose blockquote {
+  border-left: 2px solid hsl(345 76% 55%);
+  color: hsl(240 4% 72%);
+  padding-left: 1rem;
+}
+.site-prose table {
+  border-collapse: collapse;
+  display: block;
+  font-size: 13.5px;
+  overflow-x: auto;
+  width: 100%;
+}
+.site-prose th,
+.site-prose td {
+  border: 1px solid hsl(240 5% 18%);
+  padding: 0.45rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+.site-prose th {
+  background: hsl(240 5% 10%);
+  color: hsl(240 6% 90%);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.site-prose hr {
+  border: 0;
+  border-top: 1px solid hsl(240 5% 18%);
+}
+
+/*
+ * The component sidebar is a long list that scrolls independently. Its
+ * scrollbar sits mid-page and reads as a seam, so hide the chrome while
+ * keeping the element scrollable by wheel, trackpad, touch and keyboard.
+ */
+.site-scroll-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.site-scroll-hidden::-webkit-scrollbar {
+  display: none;
+}

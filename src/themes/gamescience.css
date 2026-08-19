@@ -108,6 +108,12 @@
     oklch(var(--background) / 0.85) 70%,
     transparent
   );
+  /* Globe — a solid navy body on the light field, land picked out in primary. */
+  --globe-surface: var(--foreground);
+  --globe-specular: var(--primary);
+  --globe-opacity: 0.92;
+  --globe-hex-opacity: 0.55;
+  --globe-atmosphere-altitude: 0.18;
 }
 
 [data-theme="gamescience"] .gs-button[data-intent="secondary"] {
