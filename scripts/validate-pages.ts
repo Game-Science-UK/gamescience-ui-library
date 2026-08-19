@@ -386,43 +386,59 @@ function validateLock(version: string) {
  * change can never break an install or a pinned project.
  */
 function assertRegistrySurfaceIntact() {
-  const required = [
-    "r/base.json",
-    "registry.json",
-    "version.json",
-    "agent-catalogue.json",
-    "docs/registry-usage.md",
-    "docs/migration-config.json",
-    "storybook/index.html",
-  ];
+  // The build is staged: `versioned` writes only the immutable version tree,
+  // and `latest` promotes it to the unversioned root and adds docs, skills,
+  // Storybook and the documentation app. Asserting the root surface during the
+  // versioned stage fails on a clean checkout, where it does not exist yet.
+  const versionRoot = `versions/${PAGES_VERSION}`;
+
+  const required =
+    mode === "versioned"
+      ? [`${versionRoot}/r/base.json`, `${versionRoot}/agent-catalogue.json`]
+      : [
+          "r/base.json",
+          "registry.json",
+          "version.json",
+          "agent-catalogue.json",
+          "docs/registry-usage.md",
+          "docs/migration-config.json",
+          "skills/index.json",
+          "storybook/index.html",
+        ];
 
   for (const relative of required) {
-    const target = path.join(pagesDist, relative);
-    if (!existsSync(target)) {
-      throw new Error(`[pages:validate] registry surface missing ${relative}`);
+    if (!existsSync(path.join(pagesDist, relative))) {
+      throw new Error(`[pages:validate] registry surface missing ${relative} (mode=${mode})`);
     }
   }
 
-  // The app must never emit into a registry-owned directory.
-  const appOwned = new Set(["index.html", "404.html", "assets"]);
-  for (const reserved of ["r", "versions", "docs", "skills", "storybook"]) {
-    const dir = path.join(pagesDist, reserved);
-    if (!existsSync(dir)) continue;
-    if (appOwned.has(reserved)) {
-      throw new Error(`[pages:validate] ${reserved} collides with app-owned output`);
+  // The documentation app owns index.html, 404.html and assets/ only. It must
+  // never emit into a registry-owned directory.
+  for (const reserved of ["index.html", "404.html", "assets"]) {
+    const inVersionTree = path.join(pagesDist, versionRoot, reserved);
+    if (existsSync(inVersionTree)) {
+      throw new Error(
+        `[pages:validate] ${versionRoot}/${reserved} — the app must not write into a version tree`,
+      );
     }
   }
 
   // Item payloads must still parse as registry items.
-  const base = JSON.parse(readFileSync(path.join(pagesDist, "r/base.json"), "utf8")) as {
+  const basePath = path.join(
+    pagesDist,
+    mode === "versioned" ? `${versionRoot}/r/base.json` : "r/base.json",
+  );
+  const base = JSON.parse(readFileSync(basePath, "utf8")) as {
     name?: string;
     files?: unknown[];
   };
   if (base.name !== "base" || !Array.isArray(base.files) || base.files.length === 0) {
-    throw new Error("[pages:validate] r/base.json is not a valid registry item");
+    throw new Error(
+      `[pages:validate] ${path.relative(pagesDist, basePath)} is not a valid registry item`,
+    );
   }
 
-  console.log("[pages:validate] registry surface intact (payloads, versions, docs, skills)");
+  console.log(`[pages:validate] registry surface intact (mode=${mode})`);
 }
 
 function main() {
@@ -431,12 +447,9 @@ function main() {
     process.exit(1);
   }
 
-  // The unversioned surface (r/, registry.json, docs, storybook) is only
-  // written by the latest stage. In versioned mode those files are absent on a
-  // clean checkout, so only assert the surface once latest has been promoted.
-  if (mode === "full") {
-    assertRegistrySurfaceIntact();
-  }
+  // Runs in both stages; the assertion set is stage-aware. The versioned stage
+  // checks the immutable version tree, the latest stage the promoted root.
+  assertRegistrySurfaceIntact();
 
   if (PAGES_VERSION !== GAMESCIENCE_UI_VERSION) {
     fail(`PAGES_VERSION !== GAMESCIENCE_UI_VERSION`);
