@@ -92,9 +92,9 @@ Unless explicitly overridden, detect:
 | Contexts | Infer from routes and surfaces; ask if unclear       |
 | Version  | Latest stable immutable registry release             |
 
-Valid themes: `gamescience` | `citadel`
+Valid themes: `gamescience` | `citadel` | `sentinel`
 
-Valid registers (only for themes that declare one — none currently do):
+Valid registers (only for themes that declare one — currently Sentinel):
 `cinematic` (default) | `restrained`
 
 Valid contexts: `participant` | `facilitator` | `shared-display`
@@ -179,15 +179,14 @@ Choose exactly one application theme:
 
 - `gamescience`
 - `citadel`
+- `sentinel`
 
 ### Visual register
 
-A theme may expose an optional visual register. Supported registers:
+A theme may expose an optional visual register. Sentinel supports:
 
-- `cinematic`
+- `cinematic` (default)
 - `restrained`
-
-No theme currently declares one.
 
 Set the register on the root `GameScienceProvider` alongside `theme`. Do not
 set a register for themes that do not declare one — `gamescience` and `citadel`
@@ -196,7 +195,7 @@ ignore it. Do not create register-specific component forks.
 Detection order:
 
 1. Explicit user override
-2. Clear project branding / existing GameScience or Citadel identity
+2. Clear project branding / existing GameScience, Citadel or Sentinel identity
 3. Ask the user when evidence is ambiguous
 
 Do not mix themes. Do not create theme-specific component forks.
@@ -281,7 +280,7 @@ npx shadcn@latest add @gamescience/base
 npx shadcn@latest add @gamescience/theme-{theme}
 ```
 
-Use the selected theme name (`gamescience` or `citadel`).
+Use the selected theme name (`gamescience`, `citadel`, or `sentinel`).
 
 Then:
 
@@ -314,8 +313,8 @@ Search `agent-catalogue.json` / published catalogue before inventing UI.
 Establish one root `GameScienceProvider` with:
 
 - `theme` set to the selected application theme
-- `register` set only when the selected theme declares one (`cinematic` or
-  `restrained`)
+- `register` set only when the selected theme declares one (Sentinel:
+  `cinematic` default, or `restrained`)
 - `context` resolved from the active surface
 
 Prefer route metadata, route groups, or a project route-to-context map.

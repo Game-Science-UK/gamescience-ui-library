@@ -1,6 +1,6 @@
 ---
 name: extract-theme
-description: Use when comprehensively extracting the active visual theme from an existing Lovable or React application so the result can be copied directly to the GameScience registry build agent to implement a new registry theme. Produces a read-only, evidence-graded theme implementation brief covering semantic tokens, typography, geometry, controls, surfaces, component treatments, shells, contexts, states, motion, accessibility, cascade and source ownership. Expresses treatments as declarative selector/property rows rather than prose, declares its observation base, never derives unevidenced values, checks every token against the component utilities that would override it, and states negative constraints the theme must not violate. Defaults the extraction reference to gamescience when no theme is present. Not for modifying the application, migrating components, or implementing the theme in the registry.
+description: Use when comprehensively extracting the active visual theme from an existing Lovable or React application so the result can be copied directly to the GameScience registry build agent to implement a new registry theme. Produces a read-only, evidence-graded theme implementation brief covering semantic tokens, typography, geometry, controls, surfaces, component treatments, shells, contexts, states, motion, accessibility, cascade and source ownership. Expresses treatments as declarative selector/property rows rather than prose, declares grammar confidence and catalogue coverage separately, projects the captured grammar across the whole registry catalogue so components introduced later by migration look correct on arrival, never substitutes derivation for available evidence, checks every token against the component utilities that would override it, and states negative constraints the theme must not violate. Defaults the extraction reference to gamescience when no theme is present. Not for modifying the application, migrating components, or implementing the theme in the registry.
 skillUpdated: 2026-08-18
 libraryVersion: 1.3.0
 distribution: lovable-workspace
@@ -72,6 +72,7 @@ Possible outcomes:
 
 - `gamescience`
 - `citadel`
+- `sentinel`
 - another explicit named theme
 - multiple active themes
 - no theme detected
@@ -95,7 +96,7 @@ If the theme is ambiguous, report the conflicting evidence. Do not silently choo
 
 The final handoff must state:
 
-> The registry build agent must implement this as a new theme applied to the existing shared GameScience UI component source. It must not create theme-specific React component forks. Existing components must continue to work across every supported theme, including Gamescience, Citadel and the new theme.
+> The registry build agent must implement this as a new theme applied to the existing shared GameScience UI component source. It must not create theme-specific React component forks. Existing components must continue to work across every supported theme, existing and new.
 
 The new theme may add theme-scoped CSS, semantic token values, extension tokens and minimal stable `gs-*` hooks where necessary. It must not add `{ThemeName}Button`, `{ThemeName}Panel`, theme props, or conditional theme branches in shared React components.
 
@@ -149,17 +150,27 @@ Do not treat local implementation bugs as intended theme behaviour without flagg
 
 Every value in the output carries exactly one grade:
 
-| Grade         | Meaning                                                                |
-| ------------- | ---------------------------------------------------------------------- |
-| `observed`    | Read from computed style on a rendered element. Cite route + selector. |
-| `declared`    | Read from source CSS that is provably applied, but not seen rendered.  |
-| `unevidenced` | Not seen. **No value may be supplied.** Inherits contract tokens.      |
-| `app-owned`   | Application visual, not theme contract. Do not transfer.               |
-| `defect`      | Source bug. Do not reproduce.                                          |
-
-There is no grade for inferred, derived, or extrapolated values, because no such value may appear in the output.
+| Grade             | Meaning                                                                               |
+| ----------------- | ------------------------------------------------------------------------------------- |
+| `observed`        | Read from computed style on a rendered element. Cite route + selector.                |
+| `declared`        | Read from source CSS that provably applies, but not seen rendered.                    |
+| `grammar-derived` | No source counterpart exists. Value follows from a stated grammar rule or constraint. |
+| `unevidenced`     | No source counterpart **and** no grammar rule covers it. No value supplied.           |
+| `app-owned`       | Application visual, not theme contract. Do not transfer.                              |
+| `defect`          | Source bug. Do not reproduce.                                                         |
 
 An ungraded value is a defect in the extraction.
+
+`grammar-derived` is tightly bounded. A value may carry it only when **all** of:
+
+1. The source application has no counterpart for the component at all — not
+   unobserved, genuinely absent.
+2. The value follows from a rule in **Intended theme grammar** or a row in
+   **Negative constraints**, cited by name in the row.
+3. It contradicts no `observed` or `declared` value anywhere in the extraction.
+
+Where the source _does_ have a counterpart, evidence always wins. `grammar-derived`
+is never a shortcut for "did not look".
 
 ## Registry coverage reference
 
@@ -259,19 +270,59 @@ Where present in the registry or source application, inspect:
 
 This list is a coverage checklist, not an instruction to invent styling for components the source theme never demonstrates.
 
-### Never derive a treatment
+### Two jobs, not one
 
-When a component is not evidenced, do **not** infer, derive, or extrapolate a treatment for it.
+This skill normally runs against a project that has **not yet been migrated**.
+The source application uses its own bespoke components; it does not use the
+GameScience catalogue. That is the expected state, not a problem with the
+extraction.
 
-Record it as:
+The registry components will be introduced **later**, when `migrate-gamescience-ui`
+runs against the same project. They must look correct under the new theme the
+moment they arrive. So the extraction has two jobs:
+
+| Job            | Question                                                           | Basis                                    |
+| -------------- | ------------------------------------------------------------------ | ---------------------------------------- |
+| **1. Capture** | What does the source application look like?                        | Evidence — `observed` / `declared`       |
+| **2. Project** | What must the whole registry catalogue look like under this theme? | The captured grammar — `grammar-derived` |
+
+Job 2 cannot be evidence-based. The source has no `Select`, `Tooltip` or
+`Accordion` to observe, and it never will — migration is what introduces them.
+An extraction that does only Job 1 hands the build agent a theme that half-styles
+every migrated project.
+
+Both jobs are required. Report them separately.
+
+### Derive from grammar, never from imagination
+
+The rule is not "never derive". It is **never derive a value that contradicts,
+or substitutes for, available evidence**.
+
+Prohibited — this is what produces a treatment the source design does not have:
+
+- supplying a value for a component that _does_ have a source counterpart you
+  did not inspect
+- filling a state (hover, focus, disabled) you could have observed but did not
+- inferring from a token's existence that a component uses it — the mistake the
+  token/treatment conflict check exists to catch
+
+Required — this is what makes a migrated project look right:
+
+- projecting the theme's stated grammar onto catalogue components the source
+  genuinely lacks, graded `grammar-derived` and citing the rule applied
+
+A `Select` styled square, panel-surfaced, bordered-not-filled, with no shadow
+and a mono uppercase label is not invented. It is the only rendering consistent
+with the stated rules. Leaving it unstyled is the less faithful choice.
+
+When no grammar rule covers a component, it stays `unevidenced` with no value:
 
 ```text
-UNEVIDENCED — inherits contract tokens. Do not style. Verify against the source before theming.
+UNEVIDENCED — no source counterpart and no grammar rule applies.
+Inherits contract tokens. Resolve before relying on this component.
 ```
 
-Deriving a plausible treatment from "established theme grammar" produces styling the source application does not have, and it is indistinguishable from observed fact once it reaches the build agent. An unevidenced component is a **visible gap to be closed later**, not a blank to be filled now.
-
-Coverage is measured by how much was observed, never by how much was specified. An extraction that observes 12 components and marks 40 unevidenced is more useful than one that specifies all 52 with half of them invented.
+Coverage is therefore two numbers, never one — see **Declare the observation base**.
 
 ## 1. Detect project and theme configuration
 
@@ -332,27 +383,48 @@ A theme extraction based only on the home page is incomplete.
 The build agent cannot tell a thin extraction from a thorough one unless you say
 so. Report, explicitly:
 
+Report **two** rates. They answer different questions and one number conflating
+them is misleading in both directions.
+
 ```text
-Routes inspected:            {n}  — list them
-Components observed rendering: {n} — list them by name
-Components in the coverage checklist: {n}
-Observation rate:            {observed}/{checklist} ({percentage})
-States observed:             default / hover / focus / active / disabled / error / loading
-Contexts observed:           participant / facilitator / shared-display
-Registers observed:          {list}
+Routes inspected:              {n}  — list them
+Components observed rendering: {n}  — list them by name
+Source components not observed: {n} — list them by name
+
+Grammar confidence (Job 1 — how well the source was captured)
+  Source surfaces with a counterpart: {n}
+  Of those, observed rendering:       {n} ({percentage})
+  Of those, source-declared only:     {n} ({percentage})
+
+Catalogue coverage (Job 2 — how much of the registry is specified)
+  Registry catalogue components: {n}
+  Specified (observed/declared):  {n} ({percentage})
+  Specified (grammar-derived):    {n} ({percentage})
+  Unevidenced, no value supplied: {n} ({percentage})
+
+States observed:    default / hover / focus / active / disabled / error / loading
+Contexts observed:  participant / facilitator / shared-display
+Registers observed: {list}
 ```
 
-List every checklist component you did **not** see render, by name, under
-`Components not observed`. That list is a required output, not an omission.
+List by name, as required outputs:
 
-Do not describe coverage as "high confidence" or "comprehensive" when the
-observation rate is low. State the rate and let the reader judge. If a component
-family was never rendered in any inspected route, say so plainly — a reader who
-knows the gap can close it, a reader given a derived value cannot.
+- **Source components not observed** — had a counterpart, was not seen rendering
+- **Catalogue components left unevidenced** — no counterpart, no grammar rule
 
-If the observation rate is below 50%, open the executive summary with an
-explicit warning that the brief is partial and should not be treated as a
-complete theme specification.
+Judge the two rates independently:
+
+- **Low grammar confidence** means the captured identity may be wrong. Warn
+  loudly; the build agent should not treat the brief as settled.
+- **Low catalogue coverage** means migrated projects will have half-styled
+  components. Warn equally loudly — this is the failure the reader is least
+  likely to anticipate.
+
+A source application that does not use the GameScience catalogue is normal and
+is **not** a reason for low catalogue coverage. Project the grammar instead.
+
+Open the executive summary with an explicit warning when grammar confidence is
+below 50%, or when catalogue coverage is below 90%.
 
 ## 3. Extract the active token surface
 
@@ -938,12 +1010,14 @@ Use the evidence grades defined in the evidence model:
 
 - `observed` — read from computed style on a rendered element
 - `declared` — from provably applied source CSS, not seen rendered
-- `unevidenced` — not seen; no value supplied; inherits contract tokens
+- `grammar-derived` — no source counterpart; follows a cited grammar rule
+- `unevidenced` — no counterpart and no grammar rule; no value supplied
 - `app-owned` — application visual; do not theme
 - `defect` — source bug; do not reproduce
 
-There is deliberately no "derived" status. A treatment is either evidenced or it
-is `unevidenced` with no value.
+The matrix must cover **every** registry catalogue area, not only the areas the
+source application happens to exercise. Rows for components the source lacks are
+graded `grammar-derived` and cite the rule applied.
 
 ## 16. Screenshot and computed-style evidence
 
@@ -980,8 +1054,9 @@ Use this exact top-level structure.
 - Detected theme:
 - Extraction reference theme:
 - Theme confidence:
-- Observation rate: {observed}/{checklist} ({percentage})
-- Partial-brief warning (required below 50%):
+- Grammar confidence (Job 1): {observed+declared}/{source surfaces} ({percentage})
+- Catalogue coverage (Job 2): {specified}/{catalogue} ({percentage})
+- Warning (required below 50% grammar confidence or 90% catalogue coverage):
 - Source architecture:
 - Contexts covered:
 - Files modified: none
@@ -1000,7 +1075,10 @@ Use this exact top-level structure.
 
 - Routes inspected:
 - Components observed rendering:
-- Components not observed:
+- Source components not observed:
+- Catalogue components left unevidenced:
+- Grammar confidence (Job 1):
+- Catalogue coverage (Job 2):
 - States observed:
 - Contexts observed:
 - Registers observed:
@@ -1151,8 +1229,12 @@ Every proposed semantic token and resolved source value, clearly classified as:
 ### Component coverage
 
 Expressed as declarative rows — `selector | intent/state | property | value | grade` —
-never as prose bullets. One row per property, every intent and state enumerated,
-`unevidenced` rows carried through with no value.
+never as prose bullets. One row per property, every intent and state enumerated.
+
+Cover the **whole registry catalogue**, not only what the source application
+uses. Components the source lacks are graded `grammar-derived` with the applied
+grammar rule cited; migration will introduce them and they must look correct on
+arrival. Only components that no grammar rule reaches stay `unevidenced`.
 
 For each primitive and domain component also state:
 
@@ -1328,7 +1410,7 @@ The copy-ready prompt must repeatedly enforce:
 
 > Author the stylesheet from this brief. Do not copy an existing theme stylesheet and substitute values. Read existing themes only for the token contract and available `gs-*` hooks, never for rule structure or treatment decisions.
 
-> Implement every row of the declarative treatment specification. Where a row is graded `unevidenced`, supply no styling — leave the component on contract tokens and list it as an open gap in the final report.
+> Implement every row of the declarative treatment specification, including rows graded `grammar-derived` — those cover catalogue components the source application does not yet use, which migration will introduce. Only rows graded `unevidenced` get no styling; leave those on contract tokens and list them as open gaps in the final report.
 
 > Apply every required override in the token/treatment conflict check. Declaring a token does not override a component's utility class; the override must be written explicitly.
 
@@ -1352,8 +1434,9 @@ The extraction is complete only when:
 12. The complete registry coverage matrix is present.
 13. The final copy-ready build-agent prompt is self-contained.
 14. No files were modified.
-15. The observation base is declared, including components not observed.
-16. Every value carries an evidence grade, and no value is inferred or derived.
-17. Component treatments are expressed as declarative rows, not prose.
-18. The token/treatment conflict check covers every colour token, with an explicit override for each mismatch.
-19. The negative constraints table is present and states what would violate each prohibition.
+15. The observation base is declared, with grammar confidence and catalogue coverage reported separately.
+16. Every value carries an evidence grade; no value substitutes derivation for evidence that was available.
+17. The declarative specification covers the whole registry catalogue, with components the source lacks graded `grammar-derived` and citing the rule applied.
+18. Component treatments are expressed as declarative rows, not prose.
+19. The token/treatment conflict check covers every colour token, with an explicit override for each mismatch.
+20. The negative constraints table is present and states what would violate each prohibition.

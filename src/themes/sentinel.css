@@ -1,0 +1,404 @@
+/**
+ * Sentinel theme.
+ *
+ * Authored from the Sentinel 4.0 extraction brief — grammar confidence 67%
+ * observed / 33% declared, catalogue coverage 86% specified (41% evidenced,
+ * 45% grammar-derived).
+ *
+ * Colour tokens are bare OKLCH channels (`L C H`), consumed as `oklch(var(--token))`.
+ * Translucent source values were composited over the register's void before
+ * conversion, so each token reproduces the rendered appearance.
+ *
+ * Two registers: `cinematic` (default — ice ambience, glass wash, bloom) and
+ * `restrained` (projector fallback — indigo ambience, flat, no glow). Timings
+ * are identical in both; restrained loses decoration only.
+ *
+ * Colour roles, corrected against the live application: ice is the primary
+ * action accent (`--primary`, indigo in restrained) and violet is the secondary
+ * / committed-state accent (`--secondary`). The extraction brief inverted these,
+ * generalising the violet borders it saw on clearance tiles into a rule that
+ * ice is "ambience only, never a fill" — contradicted both by the app and by
+ * the brief's own progress row, which fills with ice.
+ *
+ * Size is never bound to intent. A promoted 66px action is `size="lg"`
+ * (`--control-height-lg`); intent controls colour only.
+ *
+ * Deliberate deviations from source, both flagged as source defects in the brief:
+ *   - a focus ring exists here; the source has none anywhere
+ *   - `--foreground-dim` is lifted #5B6376 → #6E7789 for contrast at 9–10px
+ *
+ * Components graded `unevidenced` in the brief carry no rules here — slider,
+ * accordion, breadcrumb, pagination, calendar, chart, carousel, sidebar.
+ */
+
+[data-theme="sentinel"] {
+  /* Colour — cinematic register */
+  --background: 0.113 0.017 250.8;
+  --foreground: 0.967 0.018 240;
+  --surface: 0.148 0.023 255.1;
+  --surface-subtle: 0.143 0.025 255.7;
+  --surface-raised: 0.178 0.034 259.9;
+  --surface-overlay: 0.178 0.034 259.9;
+  --border: 0.26 0.03 239.5;
+  --border-strong: 0.4 0.047 233.6;
+  --focus-ring: 0.836 0.102 230;
+  --primary: 0.836 0.102 230;
+  --primary-hover: 0.289 0.042 247;
+  --primary-active: 0.331 0.048 246.3;
+  --primary-foreground: 0.967 0.018 240;
+  --secondary: 0.715 0.18 302.2;
+  --secondary-hover: 0.264 0.055 281.9;
+  --secondary-active: 0.3 0.066 285.4;
+  --secondary-foreground: 0.967 0.018 240;
+  --accent: 0.823 0.157 156.3;
+  --accent-foreground: 0.113 0.017 250.8;
+  --muted: 0.148 0.023 255.1;
+  --muted-foreground: 0.705 0.028 266.5;
+  --success: 0.823 0.157 156.3;
+  --success-foreground: 0.113 0.017 250.8;
+  --warning: 0.795 0.158 78.9;
+  --warning-foreground: 0.113 0.017 250.8;
+  --danger: 0.676 0.115 75.1;
+  --danger-foreground: 0.113 0.017 250.8;
+  --information: 0.836 0.102 230;
+  --information-foreground: 0.113 0.017 250.8;
+
+  /* Shape — uniformly square; only the device frame is round */
+  --radius-control: 0;
+  --radius-card: 0;
+  --radius-panel: 0;
+  --radius-overlay: 0;
+  --radius-pill: 0;
+  --border-width-control: 1px;
+  --border-width-panel: 1px;
+
+  /* Typography */
+  --font-display: Archivo, system-ui, sans-serif;
+  --font-body: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-data: "IBM Plex Mono", ui-monospace, monospace;
+  --font-weight-heading: 500;
+  --font-weight-label: 400;
+  --font-weight-body: 400;
+  --tracking-heading: -0.025em;
+  --tracking-label: 0.2em;
+  --text-transform-label: uppercase;
+
+  /* Sizing — 36 / 44 / 52px, counted from the source repository:
+   * min-h-[44px] x38, min-h-[52px] x3, min-h-[36px] x4. The extraction brief's
+   * 40px and 66px do not occur anywhere in the codebase. */
+  --control-height-sm: 2.25rem;
+  --control-height-md: 2.75rem;
+  --control-height-lg: 3.25rem;
+  --control-padding-inline-sm: 0.75rem;
+  --control-padding-inline-md: 1rem;
+  --control-padding-inline-lg: 1rem;
+  --panel-padding-sm: 1rem;
+  --panel-padding-md: 1.25rem;
+  --panel-padding-lg: 1.5rem;
+  --section-gap: 1rem;
+  --content-max-width: 72rem;
+
+  /* Depth — surface step plus a 1px rule. Never a drop shadow. */
+  --shadow-control: none;
+  --shadow-card: none;
+  --shadow-overlay: none;
+  --shadow-focus: 0 0 0 2px oklch(var(--background)), 0 0 0 3px oklch(var(--focus-ring));
+
+  /* Motion — nothing bounces */
+  --duration-fast: 180ms;
+  --duration-standard: 360ms;
+  --duration-emphasis: 800ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-emphasis: cubic-bezier(0.65, 0, 0.35, 1);
+  --press-scale: 1;
+  --hover-translate: 0;
+
+  /* Theme extensions (not part of the shared contract) */
+  --accent-ambient: 0.836 0.102 230;
+  --foreground-dim: 0.568 0.03 264.3;
+  --overrun: 0.688 0.201 24.1;
+  --scrim: 0.113 0.017 250.8;
+  --radius-device: 28px;
+  --wash-image: linear-gradient(
+    180deg,
+    oklch(var(--accent-ambient) / 0.055) 0%,
+    oklch(var(--accent-ambient) / 0.012) 42%,
+    transparent 100%
+  );
+  --wash-shadow: inset 0 1px 0 oklch(var(--accent-ambient) / 0.1);
+  --bloom-shadow:
+    0 0 24px oklch(var(--accent-ambient) / 0.32), 0 0 60px oklch(var(--accent-ambient) / 0.16);
+  --kicker-shadow: 0 0 12px oklch(var(--accent-ambient) / 0.25);
+}
+
+/* Register: restrained. Indigo ambience, flat, zero glow. Timings unchanged. */
+[data-theme="sentinel"][data-register="restrained"] {
+  --background: 0.14 0.017 263.5;
+  --foreground: 0.957 0.009 258.3;
+  --surface: 0.178 0.024 265.2;
+  --surface-subtle: 0.164 0.02 265.8;
+  --surface-raised: 0.21 0.032 264.7;
+  --surface-overlay: 0.21 0.032 264.7;
+  --border: 0.235 0.014 267;
+  --border-strong: 0.309 0.013 267.1;
+  --focus-ring: 0.667 0.166 276.7;
+  --primary: 0.667 0.166 276.7;
+  --primary-hover: 0.284 0.053 270.7;
+  --primary-active: 0.312 0.064 272.5;
+  --primary-foreground: 0.957 0.009 258.3;
+  --secondary-hover: 0.29 0.054 285.6;
+  --secondary-active: 0.322 0.065 289.7;
+  --secondary-foreground: 0.957 0.009 258.3;
+  --accent-foreground: 0.14 0.017 263.5;
+  --muted: 0.178 0.024 265.2;
+  --success-foreground: 0.14 0.017 263.5;
+  --warning-foreground: 0.14 0.017 263.5;
+  --danger-foreground: 0.14 0.017 263.5;
+  --information: 0.667 0.166 276.7;
+  --information-foreground: 0.14 0.017 263.5;
+
+  --accent-ambient: 0.667 0.166 276.7;
+  --scrim: 0.12 0.015 252.5;
+  --wash-image: none;
+  --wash-shadow: none;
+  --bloom-shadow: none;
+  --kicker-shadow: none;
+}
+
+/* ---------------------------------------------------------------- controls */
+
+/* Every intent is panel-surfaced with a border. The shared Button applies
+ * `bg-primary` / `bg-secondary` / `bg-danger`; Sentinel renders no solid fill,
+ * so every intent overrides the background. */
+[data-theme="sentinel"] .gs-button {
+  border-width: var(--border-width-control);
+  border-style: solid;
+  border-color: oklch(var(--border-strong));
+  background: oklch(var(--surface-raised));
+  color: oklch(var(--foreground));
+  box-shadow: none;
+  text-transform: none;
+}
+
+[data-theme="sentinel"] .gs-button[data-intent="primary"] {
+  background: color-mix(in srgb, oklch(var(--primary)) 10%, oklch(var(--surface-raised)));
+  border-color: oklch(var(--primary));
+  color: oklch(var(--foreground));
+}
+
+[data-theme="sentinel"] .gs-button[data-intent="secondary"] {
+  background: oklch(var(--surface-raised));
+  border-color: oklch(var(--border-strong));
+}
+
+/* Danger is amber. Red is reserved for the OVERRUN stamp and never emitted here. */
+[data-theme="sentinel"] .gs-button[data-intent="danger"] {
+  background: color-mix(in srgb, oklch(var(--danger)) 10%, oklch(var(--surface-raised)));
+  border-color: oklch(var(--danger));
+  color: oklch(var(--foreground));
+}
+
+[data-theme="sentinel"] .gs-button[data-intent="ghost"] {
+  background: transparent;
+  border-color: transparent;
+  color: oklch(var(--muted-foreground));
+}
+
+[data-theme="sentinel"] .gs-button[data-intent="outline"] {
+  background: transparent;
+  border-color: oklch(var(--border-strong));
+}
+
+[data-theme="sentinel"] .gs-button:disabled,
+[data-theme="sentinel"] .gs-button[aria-disabled="true"],
+[data-theme="sentinel"] .gs-button[data-disabled] {
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+/* ------------------------------------------------------------------ inputs */
+
+[data-theme="sentinel"] .gs-input,
+[data-theme="sentinel"] .gs-textarea {
+  background: oklch(var(--surface));
+  border-color: oklch(var(--border-strong));
+  color: oklch(var(--foreground));
+  box-shadow: none;
+  /* 16px floor prevents iOS zoom on focus — observed in the source. */
+  font-size: 1rem;
+}
+
+[data-theme="sentinel"] .gs-input[aria-invalid="true"],
+[data-theme="sentinel"] .gs-textarea[aria-invalid="true"] {
+  border-color: oklch(var(--warning));
+}
+
+[data-theme="sentinel"] .gs-input:disabled,
+[data-theme="sentinel"] .gs-textarea:disabled {
+  opacity: 0.5;
+}
+
+[data-theme="sentinel"] .gs-checkbox[data-state="checked"],
+[data-theme="sentinel"] .gs-radio[data-state="checked"],
+[data-theme="sentinel"] .gs-switch[data-state="checked"] {
+  background: oklch(var(--primary));
+  border-color: oklch(var(--primary));
+}
+
+/* ---------------------------------------------------------------- surfaces */
+
+[data-theme="sentinel"] .gs-card,
+[data-theme="sentinel"] .gs-panel {
+  background: oklch(var(--surface));
+  border: var(--border-width-panel) solid oklch(var(--border-strong));
+  box-shadow: none;
+}
+
+/* Top-lit glass wash. Cinematic only — restrained sets the tokens to none. */
+[data-theme="sentinel"] .gs-panel-wash {
+  background-image: var(--wash-image);
+  box-shadow: var(--wash-shadow);
+}
+
+[data-theme="sentinel"] .gs-separator {
+  background: oklch(var(--border));
+}
+
+[data-theme="sentinel"] .gs-table thead {
+  border-bottom: 1px solid oklch(var(--border));
+}
+
+[data-theme="sentinel"] .gs-table th {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: var(--tracking-label);
+  text-transform: var(--text-transform-label);
+  color: oklch(var(--muted-foreground));
+}
+
+[data-theme="sentinel"] .gs-empty {
+  color: oklch(var(--muted-foreground));
+}
+
+/* ---------------------------------------------------------------- overlays */
+
+[data-theme="sentinel"] .gs-dialog-content,
+[data-theme="sentinel"] .gs-sheet-content,
+[data-theme="sentinel"] .gs-popover-content,
+[data-theme="sentinel"] .gs-dropdown-content,
+[data-theme="sentinel"] .gs-select-content,
+[data-theme="sentinel"] .gs-tooltip-content {
+  background: oklch(var(--surface-raised));
+  border-color: oklch(var(--border-strong));
+  box-shadow: none;
+}
+
+[data-theme="sentinel"] .gs-tooltip-content {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: var(--tracking-label);
+  text-transform: var(--text-transform-label);
+}
+
+[data-theme="sentinel"] .gs-dialog-overlay {
+  background: oklch(var(--scrim) / 0.82);
+}
+
+[data-theme="sentinel"] .gs-select-trigger {
+  background: oklch(var(--surface));
+  border-color: oklch(var(--border-strong));
+}
+
+/* ---------------------------------------------------------------- feedback */
+
+[data-theme="sentinel"] .gs-alert {
+  background: oklch(var(--surface));
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: none;
+}
+
+/* Badges carry colour as ink, never as a fill. */
+[data-theme="sentinel"] .gs-badge {
+  background: transparent;
+  border-color: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: var(--tracking-label);
+  text-transform: var(--text-transform-label);
+  color: oklch(var(--muted-foreground));
+}
+
+[data-theme="sentinel"] .gs-badge[data-intent="success"] {
+  color: oklch(var(--success));
+}
+
+[data-theme="sentinel"] .gs-badge[data-intent="warning"] {
+  color: oklch(var(--warning));
+}
+
+[data-theme="sentinel"] .gs-badge[data-intent="danger"] {
+  color: oklch(var(--danger));
+}
+
+[data-theme="sentinel"] .gs-progress {
+  background: oklch(var(--surface-raised));
+}
+
+[data-theme="sentinel"] .gs-progress-indicator {
+  background: oklch(var(--accent-ambient));
+}
+
+[data-theme="sentinel"] .gs-skeleton {
+  background: oklch(var(--surface-raised));
+  animation: sentinel-skeleton-pulse 2s linear infinite;
+}
+
+@keyframes sentinel-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+[data-theme="sentinel"] .gs-spinner {
+  border-width: 1px;
+  color: oklch(var(--accent-ambient));
+}
+
+[data-theme="sentinel"] .gs-tabs-trigger[data-state="active"] {
+  background: transparent;
+  border-bottom: 1px solid oklch(var(--accent-ambient));
+}
+
+/* -------------------------------------------------------------- typography */
+
+[data-theme="sentinel"] .gs-display-hero {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: var(--tracking-heading);
+  text-shadow: var(--bloom-shadow);
+}
+
+[data-theme="sentinel"] .gs-label,
+[data-theme="sentinel"] .gs-micro {
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-label);
+  text-transform: var(--text-transform-label);
+  color: oklch(var(--muted-foreground));
+}
+
+[data-theme="sentinel"] .gs-data,
+[data-theme="sentinel"] .gs-mono {
+  font-family: var(--font-data);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="sentinel"] .gs-skeleton {
+    animation: none;
+  }
+}

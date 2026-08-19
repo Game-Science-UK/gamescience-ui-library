@@ -8,8 +8,9 @@
  *    which copy is loaded in a workspace).
  * 2. A matching body-level revision line, so the stamp survives a host that
  *    strips or rewrites frontmatter.
- * 3. Theme and register vocabulary that matches the theme contract — the drift
- *    that previously left Sentinel unreachable through every skill.
+ * 3. Theme and register vocabulary that matches the theme contract, checked at
+ *    every selection list rather than once per file — a whole-file presence
+ *    check passes while a list elsewhere still offers only two themes.
  * 4. No hardcoded registry version pins; skills resolve the version from
  *    published metadata at run time.
  */
@@ -36,6 +37,31 @@ const THEME_AWARE = new Set([
   "migrate-gamescience-ui",
   "validate-gamescience-ui",
 ]);
+
+/**
+ * Splits markdown into blank-line-separated blocks, keeping the 1-based line
+ * number of each. A block is the unit an enumeration lives in — whether it is a
+ * bulleted list, a table, or a single pipe-separated sentence.
+ */
+function blocks(body: string): Array<{ text: string; line: number }> {
+  const lines = body.split("\n");
+  const out: Array<{ text: string; line: number }> = [];
+  let current: string[] = [];
+  let start = 1;
+
+  lines.forEach((line, index) => {
+    if (line.trim() === "") {
+      if (current.length > 0) out.push({ text: current.join("\n"), line: start });
+      current = [];
+      start = index + 2;
+    } else {
+      if (current.length === 0) start = index + 1;
+      current.push(line);
+    }
+  });
+  if (current.length > 0) out.push({ text: current.join("\n"), line: start });
+  return out;
+}
 
 const errors: string[] = [];
 
@@ -110,6 +136,39 @@ for (const file of files) {
         fail(`theme-aware skill does not mention supported register \`${register}\``);
       }
     }
+  }
+
+  // A whole-file presence check is too weak: a skill can name every theme once
+  // in a vocabulary block while a *selection list* elsewhere still offers only
+  // two. Target selection lists specifically — a bulleted list whose items are
+  // bare theme names, or a pipe-separated vocabulary line. Prose that names
+  // particular themes for a reason ("`gamescience` and `citadel` ignore the
+  // register") is deliberately not matched; adding a theme there would be wrong.
+  const bodyOffset = match[0].split("\n").length - 1;
+  const bare = (theme: string) => new RegExp(`^\\s*[-*]\\s*\`?${theme}\`?\\s*$`, "im");
+  const piped = (theme: string) => new RegExp(`(?:\\||^|:)\\s*\`?${theme}\`?\\s*(?:\\||$)`, "im");
+
+  const allBlocks = blocks(body);
+  for (const [index, block] of allBlocks.entries()) {
+    // Accept the marker inside the block or in the one directly above it, so a
+    // `<!-- theme-list-exempt -->` comment preceding a list behaves as expected.
+    const previous = index > 0 ? (allBlocks[index - 1]?.text ?? "") : "";
+    if (block.text.includes("theme-list-exempt") || previous.includes("theme-list-exempt")) {
+      continue;
+    }
+
+    const listed = SUPPORTED_THEMES.filter((theme) => bare(theme).test(block.text));
+    const pipedNames = block.text.includes("|")
+      ? SUPPORTED_THEMES.filter((theme) => piped(theme).test(block.text))
+      : [];
+    const named = listed.length >= 2 ? listed : pipedNames;
+
+    if (named.length < 2 || named.length === SUPPORTED_THEMES.length) continue;
+    const missing = SUPPORTED_THEMES.filter((theme) => !named.includes(theme));
+    fail(
+      `line ${block.line + bodyOffset}: theme selection list offers ${named.join(", ")} ` +
+        `but omits ${missing.join(", ")} — add it, or mark the block "theme-list-exempt"`,
+    );
   }
 
   // Skills resolve the version at run time; a literal pin will silently rot.

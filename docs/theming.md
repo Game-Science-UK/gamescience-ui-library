@@ -23,7 +23,7 @@ Do not:
 
 | Concept | Controls                  | Examples                                       |
 | ------- | ------------------------- | ---------------------------------------------- |
-| Theme   | Visual identity           | `gamescience`, `citadel`                       |
+| Theme   | Visual identity           | `gamescience`, `citadel`, `sentinel`           |
 | Context | Behaviour, scale, density | `participant`, `facilitator`, `shared-display` |
 
 Theme controls visual identity. Context controls the interface environment.

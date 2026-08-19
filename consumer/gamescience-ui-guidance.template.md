@@ -22,7 +22,7 @@ Installed library version: **{{VERSION}}**
 ## Rules
 
 1. Identify experience context: `participant` | `facilitator` | `shared-display`
-2. Identify the single active theme: `gamescience` | `citadel`
+2. Identify the single active theme: `gamescience` | `citadel` | `sentinel`
 3. Search the agent catalogue / installed patterns before implementing UI
 4. Prefer complete patterns over assembling primitives — create/join/lobby: `create-session`, `join-flow`, `lobby`, `shared-display-lobby`; game loop: `decision`, `timed-round`, `briefing`, `scripted-reveal`, `results`, `debrief`; session/display: `facilitator-console`, `shared-display-game`, `attention-takeover`
 5. Do not recreate installed registry components
@@ -40,7 +40,7 @@ Installed library version: **{{VERSION}}**
 ## CSS and fonts
 
 - Import the framework-neutral entry: `src/foundations/index.css` (tokens, typography, motion, responsive, plain base styles).
-- Import **exactly one** theme CSS file (`gamescience.css` or `citadel.css`).
+- Import **exactly one** theme CSS file (`gamescience.css`, `citadel.css`, or `sentinel.css`).
 - Fonts are application-owned. Prefer HTML `<link>` to Google Fonts, or optional `@fontsource-*` packages. See repository `docs/font-loading.md`.
 - Do not add remote `@import url("https://...")` inside theme or foundation CSS when using Tailwind 4 / Lightning CSS.
 - Tailwind 3 consumers: own a local entry with `@tailwind` directives, then import foundations + one theme.

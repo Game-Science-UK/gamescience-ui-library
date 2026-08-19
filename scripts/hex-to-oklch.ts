@@ -56,8 +56,7 @@ export function formatChannels({ l, c, h }: { l: number; c: number; h: number })
 
 // ------------------------------------------------------------------- CLI
 
-const isEntrypoint = process.argv[1]?.endsWith("hex-to-oklch.ts");
-if (isEntrypoint) {
+async function runCli() {
   const argv = process.argv.slice(2);
   const asToken = argv.includes("--token");
   const rest = argv.filter((arg) => arg !== "--token");
@@ -99,4 +98,8 @@ if (isEntrypoint) {
   }
 
   if (failed) process.exit(1);
+}
+
+if (process.argv[1]?.endsWith("hex-to-oklch.ts")) {
+  await runCli();
 }

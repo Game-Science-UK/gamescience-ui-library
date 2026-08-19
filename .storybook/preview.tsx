@@ -17,6 +17,7 @@ const preview: Preview = {
         items: [
           { value: "gamescience", title: "GameScience" },
           { value: "citadel", title: "Citadel" },
+          { value: "sentinel", title: "Sentinel" },
         ],
         dynamicTitle: true,
       },

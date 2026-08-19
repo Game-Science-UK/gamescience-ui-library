@@ -46,6 +46,7 @@ Possible outcomes:
 
 - `gamescience`
 - `citadel`
+- `sentinel`
 - another explicit local theme
 - no theme detected
 - ambiguous theme
@@ -461,7 +462,7 @@ Do not provide full implementation code unless the user explicitly requests it.
 
 Specify stories for:
 
-- both Gamescience and Citadel
+- every supported theme
 - every live state
 - long content
 - small/mobile width

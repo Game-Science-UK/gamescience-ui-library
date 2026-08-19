@@ -2,6 +2,16 @@
 
 Guidance for teams moving existing Lovable GameScience projects onto this library.
 
+## 1.4.0 → 1.5.0 (Sentinel theme)
+
+Additive. Adds `theme-sentinel` with `cinematic` (default) and `restrained`
+registers. No existing item changed.
+
+1. **Pin** the registry to `versions/1.5.0`.
+2. Projects on other themes need no change beyond reinstalling `base`.
+
+See the dedicated note: [migrations/1.4.0-to-1.5.0.md](./migrations/1.4.0-to-1.5.0.md).
+
 ## 1.3.0 → 1.4.0 (Sentinel theme removed)
 
 1.4.0 removes the `sentinel` theme. Supported themes are `gamescience` and

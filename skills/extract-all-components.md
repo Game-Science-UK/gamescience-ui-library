@@ -48,6 +48,7 @@ Possible outcomes:
 
 - `gamescience`
 - `citadel`
+- `sentinel`
 - another explicit local theme
 - no theme detected
 - ambiguous theme

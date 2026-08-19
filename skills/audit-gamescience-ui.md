@@ -102,9 +102,9 @@ Unless explicitly overridden, detect:
 
 Router / framework detection is separate from Tailwind detection.
 
-Valid themes: `gamescience` | `citadel`
+Valid themes: `gamescience` | `citadel` | `sentinel`
 
-Valid registers (only for themes that declare one — none currently do):
+Valid registers (only for themes that declare one — currently Sentinel):
 `cinematic` (default) | `restrained`
 
 Valid contexts: `participant` | `facilitator` | `shared-display`
@@ -184,6 +184,12 @@ Identify the likely target theme:
 - preserve / detected project identity
 - `gamescience`
 - `citadel`
+- `sentinel`
+
+Confirm the chosen theme is actually **published** at a pinnable version before
+recommending it. A theme that exists only in the library working tree cannot be
+installed, and a migration recommendation that depends on it is blocked until
+the release lands. Check `version.json` and the versioned item payload.
 
 Note whether multiple theme systems currently coexist. Do not migrate them in
 this skill.

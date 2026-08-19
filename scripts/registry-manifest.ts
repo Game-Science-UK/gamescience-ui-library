@@ -223,6 +223,28 @@ export const registryItems: RegistryItemDefinition[] = [
     },
   },
   {
+    name: "theme-sentinel",
+    type: "registry:theme",
+    title: "Sentinel Theme",
+    description:
+      "Sentinel theme CSS with semantic tokens and theme-scoped treatments — no component forks. Font stacks only; load fonts at the application level (see docs/font-loading.md).",
+    category: "theme",
+    registryDependencies: ["base"],
+    files: [
+      { path: "src/themes/sentinel.css", type: "registry:file", target: "src/themes/sentinel.css" },
+    ],
+    catalogue: {
+      useWhen: ["building Sentinel-branded game experiences"],
+      avoid: [
+        "creating SentinelButton or other theme-named forks",
+        "installing alongside another theme as concurrent nested themes",
+      ],
+      contexts: ["all"],
+      themes: ["sentinel"],
+      related: ["theme-gamescience", "theme-citadel"],
+    },
+  },
+  {
     name: "button",
     type: "registry:ui",
     title: "Button",

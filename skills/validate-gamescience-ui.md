@@ -90,9 +90,9 @@ Unless explicitly overridden, detect:
 | Contexts | From provider usage and route mapping     |
 | Version  | From `components.json` and local metadata |
 
-Valid themes: `gamescience` | `citadel`
+Valid themes: `gamescience` | `citadel` | `sentinel`
 
-Valid registers (only for themes that declare one — none currently do):
+Valid registers (only for themes that declare one — currently Sentinel):
 `cinematic` (default) | `restrained`
 
 Valid contexts: `participant` | `facilitator` | `shared-display`
@@ -175,13 +175,13 @@ Check:
 
 Check:
 
-- active theme is `gamescience` or `citadel`
+- active theme is `gamescience`, `citadel`, or `sentinel`
 - when the theme declares a visual register, the provider `register` value is
-  valid for that theme (`cinematic` or `restrained`)
+  valid for that theme (Sentinel: `cinematic` default, or `restrained`)
 - no `register` is set for a theme that does not declare one
 - exactly one theme CSS is imported
 - foundation CSS is imported
-- no mixed GameScience / Citadel styling on the same application screen
+- no mixed GameScience / Citadel / Sentinel styling on the same application screen
 - no raw generic theme forks (`CitadelButton`, `TechButton`, `GlassCard`, etc.)
 - semantic tokens are used rather than hardcoded game colours in shared UI
 

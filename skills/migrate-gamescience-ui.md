@@ -127,6 +127,7 @@ conflicts with project practice — still record the path or artefact id used.
 - preserve detected theme
 - `gamescience`
 - `citadel`
+- `sentinel`
 
 ### Mode
 
@@ -186,9 +187,9 @@ Do not pin the project to the unversioned latest URL.
 
 ## Valid vocabulary
 
-Valid themes: `gamescience` | `citadel`
+Valid themes: `gamescience` | `citadel` | `sentinel`
 
-Valid registers (only for themes that declare one — none currently do):
+Valid registers (only for themes that declare one — currently Sentinel):
 `cinematic` (default) | `restrained`
 
 Valid contexts: `participant` | `facilitator` | `shared-display`
@@ -266,7 +267,7 @@ Do not:
 - perform a broad delete-and-rebuild
 - rename routes without functional need
 - install the full catalogue
-- mix Gamescience and Citadel themes
+- mix themes within one application
 - create theme-named component forks
 - equate context with authorisation
 - treat Tailwind guidance as universal across majors
@@ -281,7 +282,7 @@ Do not:
 2. Exactly one active experience context at the rendered application root
 3. Never pass theme props to individual components
 4. Never create nested theme or context provider boundaries for ordinary routes
-5. Never mix Gamescience and Citadel themes
+5. Never mix themes within one application
 6. Never equate experience context with role, permission, or route authority
 7. Never create `CitadelButton`, `GamesciencePanel`, `GlassCard`, `TechInput`, or equivalent forks
 8. Prefer installed patterns before assembling primitives
@@ -595,8 +596,8 @@ Before installing, confirm with evidence or explicit user override:
 ### Target configuration
 
 - Registry version:
-- Theme: preserve detected | gamescience | citadel
-- Register (only when the theme declares one — cinematic | restrained)
+- Theme: preserve detected | gamescience | citadel | sentinel
+- Register (only when the theme declares one — Sentinel: cinematic | restrained)
 - Mode: safe incremental | full visual alignment
 - Tailwind integration: detect | Tailwind 3 | Tailwind 4
 - Contexts in scope:

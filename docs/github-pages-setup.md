@@ -20,7 +20,7 @@ https://game-science-uk.github.io/gamescience-ui-library/
 
 ```bash
 curl -I https://game-science-uk.github.io/gamescience-ui-library/r/base.json
-curl -s https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/r/base.json | head
+curl -s https://game-science-uk.github.io/gamescience-ui-library/versions/1.5.0/r/base.json | head
 curl -s https://game-science-uk.github.io/gamescience-ui-library/version.json
 curl -s https://game-science-uk.github.io/gamescience-ui-library/docs/tailwind-v4-integration.md | head
 curl -s https://game-science-uk.github.io/gamescience-ui-library/docs/font-loading.md | head
@@ -98,7 +98,7 @@ committed `releases/snapshots/{version}/` trees that must match `releases/{versi
 - Consumers should pin the current version:
 
 ```text
-https://game-science-uk.github.io/gamescience-ui-library/versions/1.4.0/r/{name}.json
+https://game-science-uk.github.io/gamescience-ui-library/versions/1.5.0/r/{name}.json
 ```
 
 - Published `versions/<version>/...` trees and `releases/<version>.lock.json` remain immutable.

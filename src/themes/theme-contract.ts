@@ -82,7 +82,7 @@ export const REQUIRED_THEME_TOKENS = [
 
 export type ThemeToken = (typeof REQUIRED_THEME_TOKENS)[number];
 
-export const SUPPORTED_THEMES = ["gamescience", "citadel"] as const;
+export const SUPPORTED_THEMES = ["gamescience", "citadel", "sentinel"] as const;
 export type GameTheme = (typeof SUPPORTED_THEMES)[number];
 
 export const SUPPORTED_CONTEXTS = ["participant", "facilitator", "shared-display"] as const;
@@ -100,4 +100,6 @@ export type ThemeRegister = (typeof SUPPORTED_REGISTERS)[number];
  *
  * Add an entry when a theme ships more than one register.
  */
-export const THEME_DEFAULT_REGISTERS: Partial<Record<GameTheme, ThemeRegister>> = {};
+export const THEME_DEFAULT_REGISTERS: Partial<Record<GameTheme, ThemeRegister>> = {
+  sentinel: "cinematic",
+};
